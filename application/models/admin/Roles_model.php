@@ -11,30 +11,30 @@ class Roles_model extends CI_Model {
 	function trash_role($args2){
 		if($args2 >0){
 			$this->db->where('id', $args2);
-			$this->db->delete('roles_tbl');
+			$this->db->delete('roles');
 		} 
 		return true;
 	}
 	
 	function get_all_roles(){
-	   $query = $this->db->get('roles_tbl');
+	   $query = $this->db->get('roles');
 	   return $query->result();
 	} 
 	
 	function get_role_by_id($args1){ 
-		$query = $this->db->get_where('roles_tbl',array('id'=> $args1));
+		$query = $this->db->get_where('roles',array('id'=> $args1));
 		return $query->row();
 	}
 	
 	
 	 
 	function insert_role_data($data){ 
-		return $this->db->insert('roles_tbl', $data);
+		return $this->db->insert('roles', $data) ? $this->db->insert_id() : false;
 	}  
 	
 	function update_role_data($args1,$data){ 
 		$this->db->where('id',$args1);
-		return $this->db->update('roles_tbl', $data);
+		return $this->db->update('roles', $data);
 	}
 	/* roles function ends */  
 	  

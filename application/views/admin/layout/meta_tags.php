@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,22 +20,17 @@
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3.min.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script> -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script>
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script> -->
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/dashboard.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/streamgraph.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/sparklines.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/lines.js"></script>	
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/areas.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/donuts.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/heatmaps.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/pies.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bullets.js"></script>
+	
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
 	<!-- /theme JS files -->

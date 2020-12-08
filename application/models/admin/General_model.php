@@ -108,6 +108,63 @@ class General_model extends CI_Model
 		}
 	}
 
+	function get_role_permissions($role_id)
+	{
+		if($role_id) {
+			$whrs = " WHERE role_id = '$role_id'";
+			$query = $this->db->query("SELECT * FROM role_permissions $whrs");
+			return $query->result();
+		} else {
+			return array();
+		}
+	}
+
+	function get_permission_by_name($name)
+	{
+		if ($name) {
+			$whrs = " WHERE id >'0' ";
+			// if ($per_id > 0) {
+			// 	$whrs = " WHERE id!='$per_id' ";
+			// }
+			$whrs .= " AND name='$name' ";
+			$query = $this->db->query(" SELECT * FROM permissions $whrs ");
+			$row_nums = $query->result();
+			return $row_nums;
+		} else {
+			return '0';
+		}
+	}
+
+	function get_role_by_name($name)
+	{
+		if ($name) {
+			$whrs = " WHERE id >'0' ";
+			// if ($per_id > 0) {
+			// 	$whrs = " WHERE id!='$per_id' ";
+			// }
+			$whrs .= " AND name='$name' ";
+			$query = $this->db->query(" SELECT * FROM roles $whrs ");
+			$row_nums = $query->result();
+			return $row_nums;
+		} else {
+			return '0';
+		}
+	}
+
+	function sync_role_permissions($data)
+	{
+		return $this->db->insert_batch('role_permissions', $data);
+	}
+
+	function desync_role_permissions($id)
+	{
+		if($id >0){
+			$this->db->where('id', $id);
+			$this->db->delete('role_permissions');
+		} 
+		return true;
+	}
+
 	public function check_controller_permission_access($contrlrs_name, $rol_id, $is_restrick)
 	{
 		$whrs = '';
@@ -115,7 +172,7 @@ class General_model extends CI_Model
 			$whrs = " AND m.controller_name='$contrlrs_name' AND p.role_id='$rol_id' ";
 		}
 
-		$query = $this->db->query("SELECT count(p.id) AS NUMS FROM permissions_tbl p, modules_tbl m WHERE p.module_id=m.id $whrs ");
+		$query = $this->db->query("SELECT count(p.id) AS NUMS FROM permissions p, modules_tbl m WHERE p.module_id=m.id $whrs ");
 		$row_nums = $query->row()->NUMS;
 		return $row_nums;
 	}

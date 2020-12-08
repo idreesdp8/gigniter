@@ -1,134 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<?php 
-$this->load->view('admin/widgets/meta_tags');  
-
-$add_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Roles','add',$this->dbs_role_id,'1'); 
-				
-$update_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Roles','update',$this->dbs_role_id,'1');   
-
-$trash_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Roles','trash',$this->dbs_role_id,'1');
-
-if($add_res_nums>0 && $trash_res_nums>0){ ?>
-<script type="text/javascript" src="<?= admin_asset_url(); ?>js/pages/datatables_extension_buttons_init_custom_add_del.js"></script>
-<?php 
-}else
-if($add_res_nums>0){ ?>
-<script type="text/javascript" src="<?= admin_asset_url(); ?>js/pages/datatables_extension_buttons_init_custom_add.js"></script>
-<?php  
-}else
-if($trash_res_nums>0){ ?>
-<script type="text/javascript" src="<?= admin_asset_url(); ?>js/pages/datatables_extension_buttons_init_custom_del.js"></script>
-<?php 
-}else{ ?>
-<script type="text/javascript" src="<?= admin_asset_url(); ?>js/pages/datatables_extension_buttons_init_custom.js"></script>
-<?php 
-} ?>
+    <?php $this->load->view('admin/layout/meta_tags'); ?>
+    <title>Roles</title>
 </head>
+
 <body>
-<!-- Main navbar -->
-<?php $this->load->view('admin/widgets/header'); ?>
-<!-- /main navbar -->
-<!-- Page container -->
-<div class="page-container">
-  <!-- Page content -->
-  <div class="page-content">
-    <!-- Main sidebar -->
-    <?php $this->load->view('admin/widgets/left_sidebar'); ?>
-    <!-- /main sidebar -->
-    <!-- Main content -->
-    <div class="content-wrapper">
-      <!-- Page header -->
-      <?php $this->load->view('admin/widgets/content_header'); ?>
-      <!-- /page header -->
-      <!-- Content area -->
-      <div class="content">
-        <!-- Dashboard content -->
-        <?php if($this->session->flashdata('success_msg')){ ?>
-        <div class="alert alert-success no-border">
-          <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
-          <?php echo $this->session->flashdata('success_msg'); ?> </div>
-        <?php } 
-			if($this->session->flashdata('error_msg')){ ?>
-        <div class="alert alert-danger no-border">
-          <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
-          <?php echo $this->session->flashdata('error_msg'); ?> </div>
-        <?php } ?>
-        <input type="hidden" name="add_new_link" id="add_new_link" value="<?php echo site_url('admin/roles/add'); ?>">
-        <input type="hidden" name="cstm_frm_name" id="cstm_frm_name" value="datas_list_forms">
-        <!-- Custom button -->
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title"><?php echo $page_headings; ?></h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <li><a data-action="collapse"></a></li>
-                <li><a data-action="reload"></a></li>
-                <!--<li><a data-action="close"></a></li>-->
-              </ul>
+    <?php $this->load->view('admin/layout/header'); ?>
+    <div class="page-content">
+        <?php $this->load->view('admin/layout/sidebar'); ?>
+        <div class="content-wrapper">
+            <div class="page-header page-header-light">
+                <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+                    <div class="d-flex">
+                        <div class="breadcrumb">
+                            <a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                            <span class="breadcrumb-item active">Roles</span>
+                        </div>
+
+                        <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <form name="datas_list_forms" id="datas_list_forms" action="<?php echo site_url('admin/roles/trash_multiple'); ?>" method="post">
-            <div id="dyns_list">
-              <table class="table datatable-button-init-custom">
-                <thead>
-                  <tr>
-                    <th width="8%">#</th>
-                    <th width="50%">Name</th>
-                    <th width="22%" class="text-center">Action </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php  
-				$sr=1; 
-				if(isset($records) && count($records)>0){
-					foreach($records as $record){ 
-						$operate_url = 'admin/roles/update/'.$record->id;
-						$operate_url = site_url($operate_url);
-						
-						$trash_url = 'admin/roles/trash_aj/'.$record->id;
-						$trash_url = site_url($trash_url);  ?>
-                  <tr>
-                    <td><div class="checkbox">
-                        <label for="status">
-                        <input type="checkbox" name="multi_action_check[]" id="multi_action_check_<?php echo $record->id; ?>" value="<?php echo $record->id; ?>" class="styled">
-                        <?php echo $sr; ?> </label>
-                      </div></td>
-                    <td><?= stripslashes($record->name); ?></td>
-                    <td class="text-center"><ul class="icons-list">
-                        <?php if($update_res_nums>0){ ?>
-                        <li class="text-primary-600"><a href="<?php echo $operate_url; ?>"><i class="icon-pencil7"></i></a></li>
-                        <?php } 
-                                    if($trash_res_nums>0){ ?>
-                        <li class="text-danger-600"><a href="javascript:void(0);" onClick="return operate_deletions('<?php echo $trash_url; ?>','<?php echo $record->id; ?>','dyns_list');"><i class="icon-trash"></i></a></li>
-                        <?php } ?>
-                      </ul></td>
-                  </tr>
-                  <?php 
-					$sr++;
-					}
-				}else{ ?>
-                  <tr class="gradeX">
-                    <td colspan="3" class="text-center"><strong> No Record Found! </strong></td>
-                  </tr>
-                  <?php } ?>
-                </tbody>
-              </table>
+            <div class="content">
+                <?php $this->load->view('alert/alert'); ?>
+                <!-- Striped rows -->
+                <div class="card">
+                    <div class="card-header header-elements-inline">
+                        <h5 class="card-title">Roles</h5>
+                        <div class="header-elements">
+                            <div class="list-icons">
+                                <!-- <a class="list-icons-item" data-action="collapse"></a> -->
+                                <a class="list-icons-item" data-action="reload"></a>
+                                <!-- <a class="list-icons-item" data-action="remove"></a> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="card-body">
+						Example of a table with <code>striped</code> rows. Use <code>.table-striped</code> added to the base <code>.table</code> class to add zebra-striping to any table odd row within the <code>&lt;tbody&gt;</code>. This styling doesn't work in IE8 and lower as <code>:nth-child</code> CSS selector isn't supported in these browser versions. Striped table can be combined with other table styles.
+					</div> -->
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <?php if (isset($records) && count($records) > 0) { ?>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Role Name</th>
+                                        <th>Added on</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($records as $record) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $i ?></td>
+                                            <td><?php echo $record->name ?></td>
+                                            <td><?php echo date('M d, Y H:i A', strtotime($record->created_on)) ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <a href="<?php echo admin_base_url() ?>roles/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon"><i class="icon-pencil7"></i></a>
+                                                    <form action="<?php echo admin_base_url() ?>roles/trash/<?php echo $record->id ?>">
+                                                        <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $i++;
+                                    }
+                                    ?>
+                                </tbody>
+                            <?php } else { ?>
+                                <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+                            <?php } ?>
+                        </table>
+                    </div>
+                </div>
+                <!-- /striped rows -->
+
+                <!-- Vertical form modal -->
+                <div id="editModal" class="modal fade" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Update Permission</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <form action="<?php echo admin_base_url() ?>permissions/update" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" id="edit-name" class="form-control" name="name">
+                                        <input type="hidden" id="edit-id" class="form-control" name="id">
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn bg-primary">Update</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /vertical form modal -->
+
             </div>
-          </form>
+
+            <?php $this->load->view('admin/layout/footer'); ?>
+
         </div>
-        <!-- /custom button -->
-        <!-- Footer -->
-        <?php $this->load->view('admin/widgets/footer'); ?>
-        <!-- /footer -->
-      </div>
-      <!-- /content area -->
     </div>
-    <!-- /main content -->
-  </div>
-  <!-- /page content -->
-</div>
-<!-- /page container -->
+
+    <script>
+        $(document).ready(function() {
+            $('#sidebar_role_permission').addClass('nav-item-open');
+            $('#sidebar_role_permission ul').first().css('display', 'block');
+            $('#sidebar_role').addClass('nav-item-open');
+            $('#sidebar_role ul').first().css('display', 'block');
+            $('#sidebar_role_view a').addClass('active');
+        });
+    </script>
 </body>
+
 </html>

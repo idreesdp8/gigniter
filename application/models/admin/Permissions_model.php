@@ -69,21 +69,21 @@ class Permissions_model extends CI_Model {
 		return $query->result(); 
 	}  
 	
-	function trash_permission($args2){
-		if($args2 >0){
-			$this->db->where('id', $args2);
-			$this->db->delete('permissions_tbl');
+	function trash_permission($id){
+		if($id >0){
+			$this->db->where('id', $id);
+			$this->db->delete('permissions');
 		} 
 		return true;
 	}
 	
 	function get_all_permissions(){
-	   $query = $this->db->get('permissions_tbl');
+	   $query = $this->db->get('permissions');
 	   return $query->result();
 	} 
 	
-	function get_permission_by_id($args1){ 
-		$query = $this->db->get_where('permissions_tbl',array('id'=> $args1));
+	function get_permission_by_id($id){ 
+		$query = $this->db->get_where('permissions',array('id'=> $id));
 		return $query->row();
 	}
 	
@@ -96,12 +96,12 @@ class Permissions_model extends CI_Model {
 	}  
 	 
 	function insert_permission_data($data){ 
-		return $this->db->insert('permissions_tbl', $data);
+		return $this->db->insert('permissions', $data) ? $this->db->insert_id() : false;
 	}  
 	
 	function update_permission_data($args1,$data){ 
 		$this->db->where('id',$args1);
-		return $this->db->update('permissions_tbl', $data);
+		return $this->db->update('permissions', $data);
 	} 
 	/*permission functions ends*/ 
 	

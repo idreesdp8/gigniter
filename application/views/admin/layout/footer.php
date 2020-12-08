@@ -14,11 +14,3 @@
     </div>
 </div>
 <!-- /footer -->
-
-</div>
-<!-- /main content -->
-</div>
-<!-- /page content -->
-</body>
-
-</html>

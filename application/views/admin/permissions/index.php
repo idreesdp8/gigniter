@@ -1,265 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<?php 
-	$this->load->view('admin/widgets/meta_tags');
 
-	$add_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Permissions','add',$this->dbs_role_id,'1'); 
-	
-	$update_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Permissions','update',$this->dbs_role_id,'1');   
-	
-	$trash_res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Permissions','trash',$this->dbs_role_id,'1');  ?>
+<head>
+	<?php $this->load->view('admin/layout/meta_tags'); ?>
+	<title>Permissions</title>
 </head>
-<body class="">
-<!-- Main navbar -->
-<?php $this->load->view('admin/widgets/header'); ?>
-<!-- /main navbar -->
-<!-- Page container -->
-<div class="page-container">
-  <!-- Page content -->
-  <div class="page-content">
-    <!-- Main sidebar -->
-    <?php $this->load->view('admin/widgets/left_sidebar'); ?>
-    <!-- /main sidebar -->
-    <!-- Main content -->
-    <div class="content-wrapper">
-      <!-- Page header -->
-      <?php $this->load->view('admin/widgets/content_header'); ?>
-      <!-- /page header -->
-      <!-- Content area -->
-      <div class="content">
-        <!-- Dashboard content -->
-        <?php if($this->session->flashdata('success_msg')){ ?>
-        <div class="alert alert-success no-border">
-          <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
-          <?php echo $this->session->flashdata('success_msg'); ?> </div>
-        <?php } 
-			if($this->session->flashdata('error_msg')){ ?>
-        <div class="alert alert-danger no-border">
-          <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button>
-          <?php echo $this->session->flashdata('error_msg'); ?> </div>
-        <?php } ?>
-        <script>
-        function operate_permission_list(){
-           // jQuery.noConflict()(function($){	 	  
-				$(document).ready(function(){
-				
-					var sel_per_page_val =0;  
-					var sel_module_id_val =0;
-					var sel_user_type_id_val =0; 
-					
-					var sel_per_page = document.getElementById("per_page");
-					sel_per_page_val = sel_per_page.options[sel_per_page.selectedIndex].value;
-					  
-					var sel_module_id = document.getElementById("module_id");
-					sel_module_id_val = sel_module_id.options[sel_module_id.selectedIndex].value;
-					
-					var sel_user_type_id = document.getElementById("user_type_id");
-					sel_user_type_id_val = sel_user_type_id.options[sel_user_type_id.selectedIndex].value; 
-					
-					$.ajax({
-						method: "POST",
-						url: "<?php echo site_url('/admin/permissions/index2/'); ?>",
-						data: { page: 0, sel_per_page_val:sel_per_page_val, module_id: sel_module_id_val, user_type_id: sel_user_type_id_val},
-						beforeSend: function(){
-							$('.loading').show();
-						},
-						success: function(resp_data){
-							
-							$('.loading').hide();
-							$('#dyns_list').html(resp_data);
-							
-							/*$( '[data-toggle=popover]' ).popover();
-							
-							$('.simple-ajax-modal').magnificPopup({
-								type: 'ajax',
-								modal: true
-							});*/
-						}
-					});
+
+<body>
+	<?php $this->load->view('admin/layout/header'); ?>
+	<div class="page-content">
+		<?php $this->load->view('admin/layout/sidebar'); ?>
+		<div class="content-wrapper">
+			<div class="page-header page-header-light">
+				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+					<div class="d-flex">
+						<div class="breadcrumb">
+							<a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+							<span class="breadcrumb-item active">Permissions</span>
+						</div>
+
+						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<?php $this->load->view('alert/alert'); ?>
+				<!-- Basic layout-->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Add Permission</h5>
+					</div>
+
+					<div class="card-body">
+						<form action="<?php echo admin_base_url() ?>permissions/add" method="post">
+							<div class="form-group">
+								<label>Name</label>
+								<input type="text" class="form-control" placeholder="Enter permission name" name="name">
+							</div>
+
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary"><i class="icon-add mr-2"></i> Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /basic layout -->
+				<!-- Striped rows -->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Permissions</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+								<!-- <a class="list-icons-item" data-action="collapse"></a> -->
+								<a class="list-icons-item" data-action="reload"></a>
+								<!-- <a class="list-icons-item" data-action="remove"></a> -->
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="card-body">
+						Example of a table with <code>striped</code> rows. Use <code>.table-striped</code> added to the base <code>.table</code> class to add zebra-striping to any table odd row within the <code>&lt;tbody&gt;</code>. This styling doesn't work in IE8 and lower as <code>:nth-child</code> CSS selector isn't supported in these browser versions. Striped table can be combined with other table styles.
+					</div> -->
+
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<?php if (isset($records) && count($records) > 0) { ?>
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Permission Name</th>
+										<th>Added on</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$i = 1;
+									foreach ($records as $record) {
+									?>
+										<tr>
+											<td><?php echo $i ?></td>
+											<td><?php echo $record->name ?></td>
+											<td><?php echo date('M d, Y H:i A', strtotime($record->created_on)) ?></td>
+											<td>
+												<div class="d-flex">
+													<button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-primary btn-icon editModal" data-value=<?php echo $record->id ?>><i class="icon-pencil7"></i></button>
+													<form action="<?php echo admin_base_url() ?>permissions/trash/<?php echo $record->id ?>">
+														<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+													</form>
+												</div>
+											</td>
+										</tr>
+									<?php
+										$i++;
+									}
+									?>
+								</tbody>
+							<?php } else { ?>
+								<div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+							<?php } ?>
+						</table>
+					</div>
+				</div>
+				<!-- /striped rows -->
+
+				<!-- Vertical form modal -->
+				<div id="editModal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Update Permission</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<form action="<?php echo admin_base_url() ?>permissions/update" method="post">
+								<div class="modal-body">
+									<div class="form-group">
+										<label>Name</label>
+										<input type="text" id="edit-name" class="form-control" name="name">
+										<input type="hidden" id="edit-id" class="form-control" name="id">
+									</div>
+
+								</div>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn bg-primary">Update</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- /vertical form modal -->
+
+			</div>
+
+			<?php $this->load->view('admin/layout/footer'); ?>
+
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			$('#sidebar_role_permission').addClass('nav-item-open');
+			$('#sidebar_role_permission ul').first().css('display', 'block');
+			$('#sidebar_permission a').addClass('active');
+
+			$('.editModal').click(function() {
+				var id = $(this).attr('data-value');
+				var base_url = '<?php echo admin_base_url() ?>'
+				console.log(id);
+				$.ajax({
+					url: base_url + 'permissions/edit',
+					type: 'post',
+					data: {
+						id: id
+					},
+					dataType: 'json',
+					success: function(response) {
+						$('#edit-name').val(response.name);
+						$('#edit-id').val(response.id);
+					}
 				});
-			//});
-		}
-    	</script>
-        <div class="panel panel-flat">
-          <div class="panel-heading">
-            <h5 class="panel-title"><?php echo $page_headings; ?></h5>
-            <div class="heading-elements">
-              <ul class="icons-list">
-                <li><a data-action="collapse"></a></li>
-                <li><a data-action="reload"></a></li>
-                <!--<li><a data-action="close"></a></li>-->
-              </ul>
-            </div>
-          </div>
-          <div class="panel-body">
-            <!-- <form name="datas_form" id="datas_form" action="" method="post">-->
-            <input type="hidden" name="add_new_link" id="add_new_link" value="<?php echo site_url('admin/permissions/add'); ?>">
-            <input type="hidden" name="cstm_frm_name" id="cstm_frm_name" value="datas_list_forms">
-            <form name="datas_list_forms" id="datas_list_forms" action="<?php echo site_url('admin/permissions/trash_multiple'); ?>" method="post">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group mb-md">
-                    <div class="col-md-1">
-                      <select name="per_page" id="per_page" class="form-control input-sm mb-md  select" onChange="operate_permission_list();">
-                        <option value="25"> Pages</option>
-                        <option value="25"> 25 </option>
-                        <option value="50"> 50 </option>
-                        <option value="100"> 100 </option>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
-                      <select name="module_id" id="module_id" class="form-control input-sm mb-md select" onChange="operate_permission_list();">
-                        <option value="">Select Module...</option>
-                        <?php  	
-                    $par_modules_arrs = $this->admin_model->get_all_parent_modules('0'); 			  
-                    if(isset($par_modules_arrs) && count($par_modules_arrs)>0){
-                        foreach($par_modules_arrs as $par_modules_arr){
-                            $sel_1 = ''; 
-                            if(isset($_POST['parent_id']) && $_POST['parent_id']==$par_modules_arr->id){
-                                $sel_1 = 'selected="selected"';
-                            }  ?>
-                        <option value="<?= $par_modules_arr->id; ?>" <?php echo $sel_1; ?>> &nbsp;
-                        <?= stripslashes($par_modules_arr->name); ?>
-                        </option>
-                        <?php  
-                        $chd_modules_arrs = $this->admin_model->get_all_parent_modules($par_modules_arr->id); 			  
-                        if(isset($chd_modules_arrs) && count($chd_modules_arrs)>0){
-                            foreach($chd_modules_arrs as $chd_modules_arr){ 
-                                $sel_2 = '';
-                                if(isset($_POST['parent_id']) && $_POST['parent_id']==$chd_modules_arr->id){
-                                    $sel_2 = 'selected="selected"';
-                                } ?>
-                        <option value="<?= $chd_modules_arr->id; ?>" <?php echo $sel_2; ?>> &nbsp; &nbsp; - &nbsp;
-                        <?= stripslashes($chd_modules_arr->name); ?>
-                        </option>
-                        <?php  
-                            } 
-                        }  
-                    }
-                } ?>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
-                      <select name="user_type_id" id="user_type_id" class="form-control input-sm mb-md populate select" onChange="operate_permission_list();">
-                        <option value="">Select Role Name...</option>
-                        <?php  
-                    $role_arrs = $this->admin_model->get_all_roles();
-                    if(isset($role_arrs) && count($role_arrs)>0){
-                        foreach($role_arrs as $role_arr){ ?>
-                        <option value="<?= $role_arr->id; ?>" <?php echo (isset($_POST['user_type_id']) && $_POST['user_type_id']==$role_arr->id) ? 'selected="selected"':'';; ?>>
-                        <?= stripslashes($role_arr->name); ?>
-                        </option>
-                        <?php 
-                        }
-                    } ?>
-                      </select>
-                    </div>
-                    <div class="col-md-3 pull-right">
-                      <div class="dt-buttons">
-                        <?php if($trash_res_nums>0){ ?>
-                        <a class="dt-button btn border-slate text-slate-800 btn-flat mrglft5" tabindex="0" aria-controls="DataTables_Table_1" href="javascript:void(0);" onClick="return operate_multi_deletions('datas_list_forms');"> <span><i class="glyphicon glyphicon-remove-circle position-left"></i>Delete</span></a>
-                        <?php } if($add_res_nums>0){ ?>
-                        <a class="dt-button btn border-slate text-slate-800 btn-flat mrglft5" tabindex="0" aria-controls="DataTables_Table_1" href="<?= site_url('admin/permissions/add'); ?>"><span><i class="glyphicon glyphicon-plus position-left"></i>New</span></a>
-                        <?php }
-                    
-                    if($add_res_nums==0 && $trash_res_nums==0){  ?>
-                        <a style="visibility:hidden;" class="dt-button btn border-slate text-slate-800 btn-flat mrglft5" tabindex="0" aria-controls="DataTables_Table_1"><span><i class="glyphicon glyphicon-plus position-left"></i></span></a>
-                        <?php } ?>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <style>
-			 #datatable-default_filter{
-				display:none !important;
-			 }
-		 </style>
-              <table class="table table-bordered table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th width="6%">#</th>
-                    <th width="12%">Module</th>
-                    <th width="10%">Role Name</th>
-                    <th width="13%" class="text-center">Add Permission </th>
-                    <th width="13%" class="text-center">Update Permission </th>
-                    <th width="13%" class="text-center">Delete Permission </th>
-                    <th width="13%" class="text-center">View Permission </th>
-                    <th width="10%" class="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="dyns_list">
-                  <?php    
-                    $sr=1; 
-                    if(isset($records) && count($records)>0){
-                        foreach($records as $record){ 
-                            $operate_url = 'admin/permissions/update/'.$record->id;
-                            $operate_url = site_url($operate_url); 
-							
-							$trash_url = 'admin/permissions/trash_aj/'.$record->id;
-                            $trash_url = site_url($trash_url); ?>
-                  <tr class="<?php echo ($sr%2==0)?'gradeX':'gradeC'; ?>">
-                    <td><div class="checkbox">
-                        <label for="status">
-                        <input type="checkbox" name="multi_action_check[]" id="multi_action_check_<?php echo $record->id; ?>" value="<?php echo $record->id; ?>" class="styled">
-                        <?php echo $sr; ?> </label>
-                      </div></td>
-                    <td><?= stripslashes($record->module_name); ?></td>
-                    <td><?= stripslashes($record->role_name); ?></td>
-                    <td class="text-center"><?php echo ($record->is_add_permission==1) ? 'Yes':'No'; ?></td>
-                    <td class="text-center"><?php echo ($record->is_update_permission==1) ? 'Yes':'No';  ?></td>
-                    <td class="text-center"><?php echo ($record->is_delete_permission==1) ? 'Yes':'No'; ?></td>
-                    <td class="text-center"><?php echo ($record->is_view_permission==1) ? 'Yes':'No'; ?></td>
-                    <td class="text-center"><ul class="icons-list">
-                        <?php if($update_res_nums>0){ ?>
-                        <li class="text-primary-600"><a href="<?php echo $operate_url; ?>"><i class="icon-pencil7"></i></a></li>
-                        <?php } 
-								if($trash_res_nums>0){ ?>
-                        <li class="text-danger-600"><a href="javascript:void(0);" onClick="return operate_deletions('<?php echo $trash_url; ?>','<?php echo $record->id; ?>','dyns_list');"><i class="icon-trash"></i></a></li>
-                        <?php } ?>
-                      </ul></td>
-                  </tr>
-                  <?php 
-                        $sr++;
-                        } ?>
-                  <tr>
-                    <td colspan="8"><div style="float:left;">
-                        <select name="per_page" id="per_page" data-plugin-selectTwo class="form-control input-sm mb-md populate select" onChange="operate_permission_list();">
-                          <option value="25"> Pages</option>
-                          <option value="25"> 25 </option>
-                          <option value="50"> 50 </option>
-                          <option value="100"> 100 </option>
-                        </select>
-                      </div>
-                      <div style="float:right;"> <?php echo $this->ajax_pagination->create_links(); ?> </div></td>
-                  </tr>
-                  <?php 
-                    }else{ ?>
-                  <tr>
-                    <td colspan="8" align="center"><strong> No Record Found! </strong></td>
-                  </tr>
-                  <?php } ?>
-                </tbody>
-              </table>
-            </form>
-          </div>
-          <div class="loading" style="display: none;">
-            <div class="content"><img src="<?php echo base_url().'admin_assets/images/loading.gif'; ?>"/></div>
-          </div>
-          </form>
-        </div>
-        <!-- /dashboard content -->
-        <!-- Footer -->
-        <?php $this->load->view('admin/widgets/footer'); ?>
-        <!-- /footer -->
-      </div>
-      <!-- /content area -->
-    </div>
-    <!-- /main content -->
-  </div>
-  <!-- /page content -->
-</div>
-<!-- /page container -->
+			});
+		});
+	</script>
 </body>
+
 </html>

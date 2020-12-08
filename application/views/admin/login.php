@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+  <title>Login</title>
 
   <!-- Global stylesheets -->
   <link href="<?php echo admin_asset_url(); ?>css/fonts.css" rel="stylesheet" type="text/css">
@@ -40,7 +40,7 @@
       <div class="content d-flex justify-content-center align-items-center">
 
         <!-- Login form -->
-        <form class="login-form" id="datas_form" action="<?php echo site_url('admin/login/index'); ?>" method="POST">
+        <form class="login-form" id="datas_form" action="<?php echo site_url('admin/login'); ?>" method="POST">
           <div class="card mb-0">
             <div class="card-body">
               <?php if (isset($_SESSION['success_msg'])) { ?>

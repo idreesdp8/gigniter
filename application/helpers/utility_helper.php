@@ -1,7 +1,7 @@
 <?php 
 	
 	function admin_asset_url(){
-	   return base_url().'admin_assets/';
+	   return base_url().'backend_assets/';
 	} 
 	
 	function assets_url(){
@@ -17,7 +17,7 @@
 	}  
 	
 	function admin_base_url(){
-		return base_url().'index.php/admin/dashboard/';
+		return base_url().'index.php/admin/';
 	}
 	
-	?>
+?>

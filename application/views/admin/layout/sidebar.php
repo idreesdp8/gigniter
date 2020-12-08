@@ -26,18 +26,31 @@
             <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i>
             </li>
-            <li class="nav-item">
-                <a href="<?php echo admin_base_url(); ?>" class="nav-link active">
+            <li class="nav-item" id="sidebar_dashboard">
+                <a href="<?php echo admin_base_url(); ?>dashboard" class="nav-link">
                     <i class="icon-home4"></i>
                     <span>
                         Dashboard
                     </span>
                 </a>
             </li>
+            <li class="nav-item nav-item-submenu" id="sidebar_role_permission">
+                <a href="#" class="nav-link"><i class="icon-price-tags2"></i> <span>Roles & Permissions</span></a>
+                <ul class="nav nav-group-sub" data-submenu-title="Roles & Permissions">
+                    <li class="nav-item" id="sidebar_permission"><a href="<?php echo admin_base_url(); ?>permissions" class="nav-link">Permissions</a></li>
+                    <li class="nav-item nav-item-submenu" id="sidebar_role">
+                        <a href="#" class="nav-link">Roles</a>
+                        <ul class="nav nav-group-sub">
+                            <li class="nav-item" id="sidebar_role_add"><a href="<?php echo admin_base_url(); ?>roles/add" class="nav-link">Add Role</a></li>
+                            <li class="nav-item" id="sidebar_role_view"><a href="<?php echo admin_base_url(); ?>roles" class="nav-link">All Roles</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
             <!-- /main -->
 
             <!-- Forms -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Forms</div> <i class="icon-menu" title="Forms"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -92,11 +105,11 @@
                     <li class="nav-item"><a href="form_layout_horizontal.html" class="nav-link">Horizontal form</a></li>
                     <li class="nav-item"><a href="form_layout_horizontal_styled.html" class="nav-link disabled">Custom styles <span class="badge bg-transparent align-self-center ml-auto">Coming soon</span></a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /forms -->
 
             <!-- Components -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Components</div> <i class="icon-menu" title="Components"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -199,11 +212,11 @@
                     <li class="nav-item"><a href="icons_material.html" class="nav-link">Material</a></li>
                     <li class="nav-item"><a href="icons_fontawesome.html" class="nav-link">Font awesome</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /components -->
 
             <!-- Layout -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Layout</div> <i class="icon-menu" title="Layout options"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -366,11 +379,11 @@
                     </li>
                     <li class="nav-item"><a href="#" class="nav-link"><i class="icon-chrome"></i> Second level</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /layout -->
 
             <!-- Data visualization -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Data visualization</div> <i class="icon-menu" title="Data visualization"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -435,11 +448,11 @@
                     <li class="nav-item"><a href="maps_vector.html" class="nav-link">Vector maps</a></li>
                     <li class="nav-item"><a href="maps_echarts.html" class="nav-link disabled">ECharts maps <span class="badge bg-transparent align-self-center ml-auto">Coming soon</span></a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /data visualization -->
 
             <!-- Extensions -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Extensions</div> <i class="icon-menu" title="Extensions"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -485,11 +498,11 @@
                     <li class="nav-item"><a href="internationalization_fallback.html" class="nav-link">Language fallback</a></li>
                     <li class="nav-item"><a href="internationalization_callbacks.html" class="nav-link">Callbacks</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /extensions -->
 
             <!-- Tables -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Tables</div> <i class="icon-menu" title="Tables"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -542,11 +555,11 @@
                     <li class="nav-item"><a href="table_responsive.html" class="nav-link">Responsive basic tables</a></li>
                     <li class="nav-item"><a href="datatable_responsive.html" class="nav-link">Responsive data tables</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /tables -->
 
             <!-- Page kits -->
-            <li class="nav-item-header">
+            <!-- <li class="nav-item-header">
                 <div class="text-uppercase font-size-xs line-height-xs">Page kits</div> <i class="icon-menu" title="Page kits"></i>
             </li>
             <li class="nav-item nav-item-submenu">
@@ -708,7 +721,7 @@
                     <li class="nav-item"><a href="widgets_menu.html" class="nav-link disabled">Menu widgets <span class="badge bg-transparent align-self-center ml-auto">Coming soon</span></a></li>
                     <li class="nav-item"><a href="widgets_form.html" class="nav-link disabled">Form widgets <span class="badge bg-transparent align-self-center ml-auto">Coming soon</span></a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- /page kits -->
 
         </ul>
