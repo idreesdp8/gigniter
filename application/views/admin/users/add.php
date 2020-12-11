@@ -5,9 +5,10 @@
     <?php $this->load->view('admin/layout/meta_tags'); ?>
     <title>Add User</title>
     <style>
-        .file-preview-frame{
+        .file-preview-frame {
             margin: auto !important;
         }
+
         .file-thumbnail-footer {
             display: none;
         }
@@ -40,15 +41,16 @@
                         <h5 class="card-title">Add User</h5>
                     </div>
 
-                    <form action="<?php echo admin_base_url() ?>users/add" method="post" enctype="multipart/form-data">
+                    <form action="<?php echo admin_base_url() ?>users/add" method="post" enctype="multipart/form-data" id="datas_form">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-xl-8">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>First Name</label>
-                                                <input type="text" class="form-control" placeholder="Enter first name" name="fname">
+                                                <label>First Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="Enter first name" name="fname" data-error="#name1">
+                                                <span id="name1" class="text-danger" generated="true"><?php echo form_error('name'); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -59,12 +61,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="email" class="form-control" placeholder="Enter email" name="email">
+                                        <label>Email <span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" placeholder="Enter email" name="email" data-error="#email1">
+                                        <span id="email1" class="text-danger" generated="true"><?php echo form_error('email'); ?></span>
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" class="form-control" placeholder="Enter password" name="password">
+                                        <label>Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" placeholder="Enter password" name="password" data-error="#password1">
+                                        <span id="password1" class="text-danger" generated="true"><?php echo form_error('password'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4">
@@ -124,15 +128,16 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Role</label>
-                                        <select name="role_id" class="form-control select">
+                                        <label>Role <span class="text-danger">*</span></label>
+                                        <select name="role_id" class="form-control select" data-error="#role_id1">
                                             <option value="">Select Role</option>
-                                            <?php if(isset($roles)) {
-                                                foreach($roles as $role){ ?>
+                                            <?php if (isset($roles)) {
+                                                foreach ($roles as $role) { ?>
                                                     <option value="<?php echo $role->id ?>"><?php echo $role->name ?></option>
                                             <?php  }
                                             } ?>
                                         </select>
+                                        <span id="role_id1" class="text-danger" generated="true"><?php echo form_error('role_id'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -147,7 +152,7 @@
                             </div>
 
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary"><i class="icon-add mr-2"></i> Add</button>
+                                <button type="submit" class="btn btn-primary"><i class="icon-add mr-2"></i> Save</button>
                             </div>
                         </div>
                     </form>
@@ -166,6 +171,52 @@
             $('#sidebar_user').addClass('nav-item-open');
             $('#sidebar_user ul').first().css('display', 'block');
             $('#sidebar_user_add a').addClass('active');
+
+            var validator = $('#datas_form').validate({
+                rules: {
+                    fname: {
+                        required: true
+                    },
+                    role_id: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    }
+                },
+                messages: {
+                    fname: {
+                        required: "First name is required field"
+                    },
+                    role_id: {
+                        required: "Role is required field"
+                    },
+                    email: {
+                        required: "Email is required field",
+                        email: "Please enter a valid Email address!"
+                    },
+                    password: {
+                        required: "Password is required field",
+                        minlength: "Minimum 5 characters needed!"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function() {
+                    document.forms["datas_form"].submit();
+                }
+            });
         });
     </script>
 </body>

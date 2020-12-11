@@ -21,19 +21,27 @@
 
 	<!-- Theme JS files -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script> -->
+	<!-- for switching checkboxes -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script> -->
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<!-- for profile image upload -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+	<!-- for select2 sortable function -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"></script>
+	<!-- for select2 -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<!-- for validation -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/jquery.validate.js"></script>
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
-	
+
+	<!-- initialization files -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
 	<!-- /theme JS files -->

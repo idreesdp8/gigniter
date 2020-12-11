@@ -526,6 +526,16 @@ class General_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_all_users_without_admin_with_roles()
+	{
+		$this->db->select("u.*, r.name AS role_name");
+		$this->db->from('users u, roles r');
+		$this->db->where('r.name!="Admin"');
+		$this->db->where('u.role_id=r.id');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	function get_gen_siteuser_by_id($args1)
 	{
 		if ($args1 > 0) {

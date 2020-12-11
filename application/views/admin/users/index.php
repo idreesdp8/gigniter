@@ -98,35 +98,6 @@
                 </div>
                 <!-- /striped rows -->
 
-                <!-- Vertical form modal -->
-                <div id="editModal" class="modal fade" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Update Permission</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <form action="<?php echo admin_base_url() ?>permissions/update" method="post">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input type="text" id="edit-name" class="form-control" name="name">
-                                        <input type="hidden" id="edit-id" class="form-control" name="id">
-                                    </div>
-
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn bg-primary">Update</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /vertical form modal -->
-
             </div>
 
             <?php $this->load->view('admin/layout/footer'); ?>

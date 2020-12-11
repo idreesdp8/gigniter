@@ -38,16 +38,12 @@ class Users extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
-			$users = $this->general_model->get_all_users_with_roles();
-			foreach($users as $user){
-				$role = $this->roles_model->get_role_by_id($user->role_id);
-				$user->role_name = $role->name;
-			}
-			$data['records'] = $users;
-			// echo json_encode($data);
-			// die();
-			// $data['page_headings'] = "Users List";
-			$this->load->view('admin/users/index', $data);
+		$users = $this->general_model->get_all_users_without_admin_with_roles();
+		$data['records'] = $users;
+		// echo json_encode($data);
+		// die();
+		// $data['page_headings'] = "Users List";
+		$this->load->view('admin/users/index', $data);
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -58,13 +54,13 @@ class Users extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'trash', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
-			// $data['page_headings'] = "Users List";
-			$user = $this->users_model->get_user_by_id($args2);
-			@unlink("downloads/profile_pictures/thumbs/$user->image");
-			@unlink("downloads/profile_pictures/$user->image");
-			$this->users_model->trash_user($args2);
-			$this->session->set_flashdata('deleted_msg', 'User is deleted');
-			redirect('admin/users');
+		// $data['page_headings'] = "Users List";
+		$user = $this->users_model->get_user_by_id($args2);
+		@unlink("downloads/profile_pictures/thumb/$user->image");
+		@unlink("downloads/profile_pictures/$user->image");
+		$this->users_model->trash_user($args2);
+		$this->session->set_flashdata('deleted_msg', 'User is deleted');
+		redirect('admin/users');
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -158,7 +154,7 @@ class Users extends CI_Controller
 						$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
 						echo $prf_img_error;
 					}
-					
+
 					if ($prf_img_error == '') {
 						$image_path = profile_image_relative_path();
 						$thumbnail_path = profile_thumbnail_relative_path();
@@ -224,105 +220,109 @@ class Users extends CI_Controller
 	function update($args1 = '')
 	{
 
-		$res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'update', $this->dbs_role_id, '1');
-		if ($res_nums > 0) {
+		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'update', $this->dbs_role_id, '1');
+		// if ($res_nums > 0) {
 
-			if (isset($args1) && $args1 != '') {
-				$data['args1'] = $args1;
-				$data['page_headings'] = 'Update User';
-				$update_record_arr = $data['record'] = $this->users_model->get_user_by_id($args1);
+		// if (isset($args1) && $args1 != '') {
+		// 	$data['args1'] = $args1;
+		// 	$data['page_headings'] = 'Update User';
+		// 	$update_record_arr = $data['record'] = $this->users_model->get_user_by_id($args1);
+		// } else {
+		// 	$data['page_headings'] = 'Add User';
+		// }
+		// $arrs_field = array('role_id' => '2');
+		// $data['manager_arrs'] = $this->general_model->get_gen_all_users_by_field($arrs_field);
+		// $data['role_arrs'] = $this->roles_model->get_all_roles();
+
+		if (isset($_POST) && !empty($_POST)) {
+			// get form input
+			$data = $_POST;
+			// echo json_encode($data);
+			// echo json_encode($_FILES['image']);
+			// die();
+
+			// form validation
+			$this->form_validation->set_rules("fname", "Name", "trim|required|xss_clean");
+			$this->form_validation->set_rules("role_id", "Role", "trim|required|xss_clean");
+
+			if ($this->form_validation->run() == FALSE) {
+				// validation fail
+				redirect('admin/users/update/'.$data['id']);
 			} else {
-				$data['page_headings'] = 'Add User';
-			}
-			$arrs_field = array('role_id' => '2');
-			$data['manager_arrs'] = $this->general_model->get_gen_all_users_by_field($arrs_field);
-			$data['role_arrs'] = $this->roles_model->get_all_roles();
 
-			if (isset($_POST) && !empty($_POST)) {
-				// get form input
-				$name = $this->input->post("name");
-				$role_id = $this->input->post("role_id");
-				$email = $this->input->post("email");
-				$password = $this->input->post("password");
-				$phone_no = $this->input->post("phone_no");
-				$mobile_no = $this->input->post("mobile_no");
-				$company_name = $this->input->post("company_name");
-				$address = $this->input->post("address");
-				$status = $this->input->post("status");
-
-				$parent_id = (isset($_POST['parent_id'])) ? $this->input->post("parent_id") : '0';
+				$datas = array(
+					'fname' => $data['fname'],
+					'lname' => $data['lname'],
+					'role_id' => $data['role_id'],
+					'mobile_no' => $data['mobile_no'],
+					'phone_no' => $data['phone_no'],
+					'description' => $data['description'],
+					'address' => $data['address'],
+					'city' => $data['city'],
+					'state' => $data['state'],
+					'country' => $data['country'],
+					'zip' => $data['zip'],
+					'status' => $data['status'],
+				);
 
 				$prf_img_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-				$imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
+				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
 				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+					// echo json_encode($_FILES['image']);
+					// die();
 					if (!(in_array($_FILES['image']['type'], $alw_typs))) {
 						$tmp_img_type = "'" . ($_FILES['image']['type']) . "'";
 						$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
 					}
 
 					if ($prf_img_error == '') {
-
-						@unlink("downloads/profile_pictures/thumbs/$imagename");
-						$imagename = $this->general_model->fileExists($_FILES['image']['name'], "downloads/profile_pictures/thumbs/");
-
-						$extension = $this->general_model->get_custom_file_extension($imagename);
-						$extension = strtolower($extension);
-						$uploadedfile = $_FILES['image']['tmp_name'];
-						$file_to_upload = "downloads/profile_pictures/thumbs/";
-						$this->general_model->genernate_thumbnails($imagename, $extension, $uploadedfile, $file_to_upload, 200, 200);
+						$user = $this->users_model->get_user_by_id($data['id']);
+						@unlink("downloads/profile_pictures/thumb/$user->image");
+						@unlink("downloads/profile_pictures/$user->image");
+						$image_path = profile_image_relative_path();
+						$thumbnail_path = profile_thumbnail_relative_path();
+						$imagename = time() . $this->general_model->fileExists($_FILES['image']['name'], $image_path);
+						$target_file = $image_path . $imagename;
+						@move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+						$width = 200;
+						$height = 200;
+						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+						if ($thumbnail == '1') {
+							$thumbnail_file = $thumbnail_path . $imagename;
+						}
+						// echo $thumbnail;
+						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
 					}
+					$datas['image'] = $imagename;
+				}
+				/*$password = md5($password);*/
+				//$password = $this->general_model->encrypt_data($password);
+				if (isset($data['password']) && $data['password'] != '') {
+					$password = $this->general_model->safe_ci_encoder($data['password']);
+					$datas['password'] = $password;
+				}
+				// echo json_encode($datas);
+				// die();
+				$res = $this->users_model->update_user_data($data['id'], $datas);
+				if (isset($res)) {
+					$this->session->set_flashdata('success_msg', 'User updated successfully!');
+				} else {
+					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
 				}
 
-				$is_unique_name = '|is_unique[users_tbl.name]';
-				if (isset($update_record_arr)) {
-					if ($update_record_arr->name == $name) {
-						$is_unique_name = '';
-					}
-				}
-
-				$is_unique_email = '|is_unique[users_tbl.email]';
-				if (isset($update_record_arr)) {
-					if ($update_record_arr->email == $email) {
-						$is_unique_email = '';
-					}
-				}
-
-				// form validation
-				$this->form_validation->set_rules("name", "Name", "trim|required|xss_clean{$is_unique_name}");
-				$this->form_validation->set_rules("role_id", "Role Name", "trim|required|xss_clean");
-				$this->form_validation->set_rules("email", "Email-ID", "trim|required|xss_clean|valid_email{$is_unique_email}");
-				$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
-				$this->form_validation->set_rules("address", "Address", "trim|required|xss_clean");
-				$this->form_validation->set_rules("status", "Account Status", "trim|required|xss_clean");
-
-				if ($this->form_validation->run() == FALSE) {
-					// validation fail
-					$this->load->view('admin/users/update', $data);
-				} else if (strlen($prf_img_error) > 0) {
-
-					$this->session->set_flashdata('prof_img_error', $prf_img_error);
-					$this->load->view('admin/users/update', $data);
-				} else if (isset($args1) && $args1 != '') {
-					/*$password = md5($password);*/
-					//$password = $this->general_model->encrypt_data($password);
-					$password = $this->general_model->safe_ci_encoder($password);
-					$datas = array('name' => $name, 'role_id' => $role_id, 'email' => $email, 'password' => $password, 'mobile_no' => $mobile_no, 'phone_no' => $phone_no, 'company_name' => $company_name, 'address' => $address, 'status' => $status, 'image' => $imagename, 'parent_id' => $parent_id);
-					$res = $this->users_model->update_user_data($args1, $datas);
-					if (isset($res)) {
-						$this->session->set_flashdata('success_msg', 'Record updated successfully!');
-					} else {
-						$this->session->set_flashdata('error_msg', 'Error: while updating record!');
-					}
-
-					redirect("admin/users/index");
-				}
-			} else {
-				$this->load->view('admin/users/update', $data);
+				redirect("admin/users");
 			}
 		} else {
-			$this->load->view('admin/no_permission_access');
+			$data['user'] = $this->users_model->get_user_by_id($args1);
+			$data['roles'] = $this->roles_model->get_all_roles_without_admin();
+			// echo json_encode($data);
+			// die();
+			$this->load->view('admin/users/update', $data);
 		}
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
 	}
 
 

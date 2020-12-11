@@ -27,6 +27,7 @@ var FileUpload = function() {
         //
         // Define variables
         //
+        var image = $('#old_image').val();
 
         // Modal template
         var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
@@ -84,18 +85,45 @@ var FileUpload = function() {
             browseLabel: 'Browse',
             previewFileType: 'image',
             browseIcon: '<i class="icon-image2 mr-2"></i>',
-            uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
-            removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
-            layoutTemplates: {
-                icon: '<i class="icon-file-check"></i>',
-                modal: modalTemplate
-            },
+            // uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
+            // removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
+            // layoutTemplates: {
+            //     icon: '<i class="icon-file-check"></i>',
+            //     modal: modalTemplate
+            // },
             initialCaption: "No file selected",
             // previewZoomButtonClasses: previewZoomButtonClasses,
             // previewZoomButtonIcons: previewZoomButtonIcons,
             fileActionSettings: fileActionSettings
         });
 
+
+        //
+        // Always display preview
+        //
+
+        $('.file-input-preview').fileinput({
+            browseLabel: 'Change',
+            browseIcon: '<i class="icon-file-plus mr-2"></i>',
+            // uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
+            // removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
+            // layoutTemplates: {
+            //     icon: '<i class="icon-file-check"></i>',
+            //     modal: modalTemplate
+            // },
+            initialPreview: [
+                image,
+            ],
+            // initialPreviewConfig: [
+            //     {caption: 'Jane.jpg', size: 930321, key: 1, url: '{$url}', showDrag: false},
+            // ],
+            initialPreviewAsData: true,
+            overwriteInitial: true,
+            // maxFileSize: 100,
+            // previewZoomButtonClasses: previewZoomButtonClasses,
+            // previewZoomButtonIcons: previewZoomButtonIcons,
+            fileActionSettings: fileActionSettings
+        });
 
         //
         // Custom layout
@@ -178,35 +206,6 @@ var FileUpload = function() {
             fileActionSettings: fileActionSettings
         });
 
-
-        //
-        // Always display preview
-        //
-
-        $('.file-input-preview').fileinput({
-            browseLabel: 'Browse',
-            browseIcon: '<i class="icon-file-plus mr-2"></i>',
-            uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
-            removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
-            layoutTemplates: {
-                icon: '<i class="icon-file-check"></i>',
-                modal: modalTemplate
-            },
-            initialPreview: [
-                '../../../../global_assets/images/placeholders/placeholder.jpg',
-                '../../../../global_assets/images/placeholders/placeholder.jpg',
-            ],
-            initialPreviewConfig: [
-                {caption: 'Jane.jpg', size: 930321, key: 1, url: '{$url}', showDrag: false},
-                {caption: 'Anna.jpg', size: 1218822, key: 2, url: '{$url}', showDrag: false}
-            ],
-            initialPreviewAsData: true,
-            overwriteInitial: false,
-            maxFileSize: 100,
-            previewZoomButtonClasses: previewZoomButtonClasses,
-            previewZoomButtonIcons: previewZoomButtonIcons,
-            fileActionSettings: fileActionSettings
-        });
 
 
         //
