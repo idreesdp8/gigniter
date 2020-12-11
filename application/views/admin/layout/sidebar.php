@@ -34,8 +34,15 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item nav-item-submenu" id="sidebar_user">
+                <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Users</span></a>
+                <ul class="nav nav-group-sub" data-submenu-title="Users">
+                    <li class="nav-item" id="sidebar_user_add"><a href="<?php echo admin_base_url(); ?>users/add" class="nav-link">Add User</a></li>
+                    <li class="nav-item" id="sidebar_user_view"><a href="<?php echo admin_base_url(); ?>users" class="nav-link">All Users</a></li>
+                </ul>
+            </li>
             <li class="nav-item nav-item-submenu" id="sidebar_role_permission">
-                <a href="#" class="nav-link"><i class="icon-price-tags2"></i> <span>Roles & Permissions</span></a>
+                <a href="#" class="nav-link"><i class="icon-price-tags2"></i> <span>Roles &amp; Permissions</span></a>
                 <ul class="nav nav-group-sub" data-submenu-title="Roles & Permissions">
                     <li class="nav-item" id="sidebar_permission"><a href="<?php echo admin_base_url(); ?>permissions" class="nav-link">Permissions</a></li>
                     <li class="nav-item nav-item-submenu" id="sidebar_role">

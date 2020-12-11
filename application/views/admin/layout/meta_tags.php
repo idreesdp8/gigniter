@@ -27,10 +27,13 @@
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script> -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
 	
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
 	<!-- /theme JS files -->

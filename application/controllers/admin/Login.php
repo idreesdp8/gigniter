@@ -52,7 +52,7 @@ class Login extends CI_Controller
 							'us_login' => TRUE, 
 							'us_id' => $result->id, 
 							'us_role_id' => $result->role_id, 
-							'us_name' => ucfirst($result->name), 
+							'us_name' => ($result->fname ? ucfirst($result->fname) : '').' '.($result->lname ? ucfirst($result->lname) : ''), 
 							'us_email' => $result->email,
 							'us_role_name' => $role->name,
 						);

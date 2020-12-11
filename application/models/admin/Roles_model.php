@@ -20,6 +20,12 @@ class Roles_model extends CI_Model {
 	   $query = $this->db->get('roles');
 	   return $query->result();
 	} 
+
+	function get_all_roles_without_admin(){
+		$this->db->where('name !=','Admin');
+	   $query = $this->db->get('roles');
+	   return $query->result();
+	} 
 	
 	function get_role_by_id($args1){ 
 		$query = $this->db->get_where('roles',array('id'=> $args1));
@@ -39,4 +45,4 @@ class Roles_model extends CI_Model {
 	/* roles function ends */  
 	  
 	
-}  ?>
+}

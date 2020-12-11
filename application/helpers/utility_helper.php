@@ -20,4 +20,20 @@
 		return base_url().'index.php/admin/';
 	}
 	
+	function profile_image_relative_path(){
+		return 'downloads/profile_pictures/';
+	}
+
+	function profile_thumbnail_relative_path(){
+		return 'downloads/profile_pictures/thumb/';
+	}
+
+	function profile_image_url(){
+		return base_url().profile_image_relative_path();
+	}
+
+	function profile_thumbnail_image_url(){
+		return base_url().profile_thumbnail_relative_path();
+	}
+
 ?>

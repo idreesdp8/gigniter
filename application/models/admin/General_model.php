@@ -520,7 +520,7 @@ class General_model extends CI_Model
 	function get_all_users_with_roles()
 	{
 		$this->db->select("u.*, r.name AS role_name");
-		$this->db->from('users_tbl u, roles_tbl r');
+		$this->db->from('users u, roles r');
 		$this->db->where('u.role_id=r.id');
 		$query = $this->db->get();
 		return $query->result();

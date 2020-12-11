@@ -42,6 +42,7 @@
 
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary"><i class="icon-pencil mr-2"></i> Update</button>
+                                <a type="button" class="btn bg-slate"><i class="icon-cancel-circle2 mr-2"></i> Cancel</a>
                             </div>
                         </div>
                     </div>
