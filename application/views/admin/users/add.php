@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <label for="image">Image</label>
-                                    <input type="file" name="image" class="file-input" accept=".jpg|.jpeg|.png|.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                                    <input type="file" name="image" class="file-input" accept="image/png,image/gif,image/jpeg,image/jpg" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                                     <!-- <input type="file" name="image"> -->
                                 </div>
                             </div>
