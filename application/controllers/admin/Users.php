@@ -297,7 +297,7 @@ class Users extends CI_Controller
 					}
 					if (strlen($prf_img_error) > 0) {
 						$this->session->set_flashdata('prof_img_error', $prf_img_error);
-						redirect('admin/users/add');
+						redirect('admin/users/update');
 						// $this->load->view('admin/users/add', $data);
 					}
 				}
