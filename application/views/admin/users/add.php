@@ -73,8 +73,15 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <label for="image">Image</label>
-                                    <input type="file" name="image" class="file-input" accept="image/png,image/gif,image/jpeg,image/jpg" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                                    <input type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#image1">
                                     <!-- <input type="file" name="image"> -->
+                                    <span id="image1" class="text-danger" generated="true">
+                                        <?php
+                                        echo form_error('image');
+                                        if (isset($_SESSION['prof_img_error'])) {
+                                            echo $_SESSION['prof_img_error'];
+                                        } ?>
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
@@ -187,6 +194,10 @@
                     password: {
                         required: true,
                         minlength: 5
+                    },
+                    image: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
                     }
                 },
                 messages: {
@@ -203,6 +214,10 @@
                     password: {
                         required: "Password is required field",
                         minlength: "Minimum 5 characters needed!"
+                    },
+                    image: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
                     }
                 },
                 errorPlacement: function(error, element) {

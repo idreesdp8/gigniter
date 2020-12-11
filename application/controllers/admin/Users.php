@@ -170,13 +170,13 @@ class Users extends CI_Controller
 						// echo $thumbnail;
 						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
 					}
+					if (strlen($prf_img_error) > 0) {
+						$this->session->set_flashdata('prof_img_error', $prf_img_error);
+						redirect('admin/users/add');
+						// $this->load->view('admin/users/add', $data);
+					}
 				}
 
-				if (strlen($prf_img_error) > 0) {
-					$this->session->set_flashdata('prof_img_error', $prf_img_error);
-					redirect('admin/users/add');
-					// $this->load->view('admin/users/add', $data);
-				}
 
 				$created_on = date('Y-m-d H:i:s');
 				$password = $this->general_model->safe_ci_encoder($data['password']);
@@ -293,8 +293,13 @@ class Users extends CI_Controller
 						}
 						// echo $thumbnail;
 						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
+						$datas['image'] = $imagename;
 					}
-					$datas['image'] = $imagename;
+					if (strlen($prf_img_error) > 0) {
+						$this->session->set_flashdata('prof_img_error', $prf_img_error);
+						redirect('admin/users/add');
+						// $this->load->view('admin/users/add', $data);
+					}
 				}
 				/*$password = md5($password);*/
 				//$password = $this->general_model->encrypt_data($password);
