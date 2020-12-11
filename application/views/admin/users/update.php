@@ -74,7 +74,7 @@
                                 <div class="col-xl-4">
                                     <label for="image">Image</label>
                                     <input type="hidden" id="old_image" value="<?php echo profile_image_url() . $user->image ?>">
-                                    <input type="file" name="image" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                                    <input type="file" name="image" class="file-input-preview" accept=".jpg|.jpeg|.png|.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                                     <!-- <input type="file" name="image"> -->
                                 </div>
                             </div>
