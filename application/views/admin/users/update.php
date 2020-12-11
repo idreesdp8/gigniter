@@ -184,6 +184,9 @@
                     },
                     password: {
                         minlength: 5
+                    },
+                    image: {
+                        accept: "gif|png|jpg|jpeg"
                     }
                 },
                 messages: {
@@ -195,6 +198,9 @@
                     },
                     password: {
                         minlength: "Minimum 5 characters needed!"
+                    },
+                    image: {
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
                     }
                 },
                 errorPlacement: function(error, element) {
