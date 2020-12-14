@@ -27,7 +27,7 @@
 	function profile_thumbnail_relative_path(){
 		return 'downloads/profile_pictures/thumb/';
 	}
-
+	
 	function profile_image_url(){
 		return base_url().profile_image_relative_path();
 	}
@@ -35,5 +35,21 @@
 	function profile_thumbnail_image_url(){
 		return base_url().profile_thumbnail_relative_path();
 	}
+	
+	function poster_image_relative_path(){
+		return 'downloads/posters/';
+	}
 
+	function poster_thumbnail_relative_path(){
+		return 'downloads/posters/thumb/';
+	}
+
+	function poster_image_url(){
+		return base_url().poster_image_relative_path();
+	}
+
+	function poster_thumbnail_image_url(){
+		return base_url().poster_thumbnail_relative_path();
+	}
+	
 ?>

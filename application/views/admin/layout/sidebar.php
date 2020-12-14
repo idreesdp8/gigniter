@@ -37,7 +37,8 @@
                 <li class="nav-item nav-item-submenu" id="sidebar_gig">
                     <a href="#" class="nav-link"><i class="icon-mic2"></i> <span>Gigs</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Gigs">
-                        <li class="nav-item" id="sidebar_gig_add"><a href="<?php echo admin_base_url(); ?>gigs/add" class="nav-link">Add Gig</a></li>
+                    <!-- <?php// echo admin_base_url(); ?>gigs/add -->
+                        <li class="nav-item" id="sidebar_gig_add"><a href="#" class="nav-link">Add Gig</a></li>
                         <li class="nav-item" id="sidebar_gig_view"><a href="<?php echo admin_base_url(); ?>gigs" class="nav-link">All Gigs</a></li>
                     </ul>
                 </li>

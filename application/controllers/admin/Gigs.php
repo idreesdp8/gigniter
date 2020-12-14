@@ -37,12 +37,12 @@ class Gigs extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
-		$users = $this->general_model->get_all_users_without_admin_with_roles();
-		$data['records'] = $users;
+		$gigs = $this->gigs_model->get_all_gigs();
+		$data['records'] = $gigs;
 		// echo json_encode($data);
 		// die();
 		// $data['page_headings'] = "Users List";
-		$this->load->view('admin/users/index', $data);
+		$this->load->view('admin/gigs/index', $data);
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -329,172 +329,6 @@ class Gigs extends CI_Controller
 		// 	$this->load->view('admin/no_permission_access');
 		// }
 	}
-
-
-	// function users_popup_list()
-	// {
-
-	// 	$res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'add', $this->dbs_role_id, '1');
-	// 	if ($res_nums > 0) {
-
-	// 		$data['page_headings'] = "Users Listings";
-
-	// 		$paras_arrs = array();
-
-	// 		if ($this->input->post('sel_per_page_val')) {
-	// 			$per_page_val = $this->input->post('sel_per_page_val');
-	// 			$_SESSION['tmp_per_page_val'] = $per_page_val;
-	// 		} else if (isset($_SESSION['tmp_per_page_val'])) {
-	// 			unset($_SESSION['tmp_per_page_val']);
-	// 		}
-
-	// 		if ($this->input->post('q_val')) {
-	// 			$q_val = $this->input->post('q_val');
-	// 			$_SESSION['tmp_q_val'] = $q_val;
-	// 			$paras_arrs = array_merge($paras_arrs, array("q_val" => $q_val));
-	// 		} else if (isset($_SESSION['tmp_q_val'])) {
-	// 			unset($_SESSION['tmp_q_val']);
-	// 		}
-
-
-	// 		if (isset($_SESSION['tmp_per_page_val'])) {
-	// 			$show_pers_pg = $_SESSION['tmp_per_page_val'];
-	// 		} else {
-	// 			$show_pers_pg = $this->perPage;
-	// 		}
-
-	// 		//total rows count
-	// 		$totalRec = count($this->users_model->get_all_filter_users($paras_arrs));
-
-	// 		//pagination configuration
-	// 		$config['target']      = '#fetch_dyn_list';
-	// 		$config['base_url']    = site_url('/admin/users/users_popup_list2');
-	// 		$config['total_rows']  = $totalRec;
-	// 		$config['per_page']    = $show_pers_pg;
-
-	// 		$this->ajax_pagination->initialize($config);
-
-	// 		$paras_arrs = array_merge($paras_arrs, array("limit" => $show_pers_pg));
-
-	// 		$data['records'] = $this->users_model->get_all_filter_users($paras_arrs);
-
-	// 		$this->load->view('admin/users/users_popup_list', $data);
-	// 	} else {
-	// 		$this->load->view('admin/no_permission_access');
-	// 	}
-	// }
-
-	// function users_popup_list2()
-	// {
-	// 	$res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'add', $this->dbs_role_id, '1');
-	// 	if ($res_nums > 0) {
-
-	// 		$paras_arrs = $data = array();
-	// 		$page = $this->input->post('page');
-	// 		if (!$page) {
-	// 			$offset = 0;
-	// 		} else {
-	// 			$offset = $page;
-	// 		}
-
-	// 		$data['page'] = $page;
-
-	// 		/* permission checks */
-
-	// 		if ($this->input->post('sel_per_page_val')) {
-	// 			$per_page_val = $this->input->post('sel_per_page_val');
-	// 			$_SESSION['tmp_per_page_val'] = $per_page_val;
-	// 		} else if (isset($_SESSION['tmp_per_page_val'])) {
-	// 			$show_pers_pg = $_SESSION['tmp_per_page_val'];
-	// 		}
-
-	// 		if (isset($_POST['q_val'])) {
-	// 			$q_val = $this->input->post('q_val');
-	// 			if (strlen($q_val) > 0) {
-	// 				$_SESSION['tmp_q_val'] = $q_val;
-	// 				$paras_arrs = array_merge($paras_arrs, array("q_val" => $q_val));
-	// 			} else {
-	// 				unset($_SESSION['tmp_q_val']);
-	// 			}
-	// 		} else if (isset($_SESSION['tmp_q_val'])) { ///
-	// 			$q_val = $_SESSION['tmp_q_val'];
-	// 			$paras_arrs = array_merge($paras_arrs, array("q_val" => $q_val));
-	// 		}
-
-
-	// 		if (isset($_SESSION['tmp_per_page_val'])) {
-	// 			$show_pers_pg = $_SESSION['tmp_per_page_val'];
-	// 		} else {
-	// 			$show_pers_pg = $this->perPage;
-	// 		}
-
-	// 		//total rows count
-	// 		$totalRec = count($this->users_model->get_all_filter_users($paras_arrs));
-
-	// 		//pagination configuration
-	// 		$config['target']      = '#fetch_dyn_list';
-	// 		$config['base_url']    = site_url('/admin/users/users_popup_list2');
-	// 		$config['total_rows']  = $totalRec;
-	// 		$config['per_page']    = $show_pers_pg; // $this->perPage;
-
-	// 		$this->ajax_pagination->initialize($config);
-
-	// 		$paras_arrs = array_merge($paras_arrs, array('start' => $offset, 'limit' => $show_pers_pg));
-
-	// 		$data['records'] = $this->users_model->get_all_filter_users($paras_arrs);
-
-	// 		$this->load->view('admin/users/users_popup_list2', $data);
-	// 	} else {
-	// 		$this->load->view('admin/no_permission_access');
-	// 	}
-	// }
-
-
-	// function owners_popup_add_list2222()
-	// {
-
-	// 	$res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'add', $this->dbs_role_id, '1');
-	// 	if ($res_nums > 0) {
-
-	// 		if (isset($_REQUEST['c_name']) && !empty($_REQUEST['c_name'])) {
-
-	// 			$name = $this->input->post_get("c_name");
-	// 			$email = $this->input->post_get("c_email");
-	// 			$mobile_no = $this->input->post_get("c_mobile_no");
-	// 			$created_by = $this->session->userdata('us_id');
-	// 			$created_on = date('Y-m-d H:i:s');
-
-	// 			$rec_res1 = $this->owners_model->get_owner_by_name($name);
-	// 			$rec_res2 = $this->owners_model->get_owner_by_mobile_no($mobile_no);
-
-	// 			if (isset($rec_res1) && isset($rec_res2)) {
-	// 				echo 'namesmobiles';
-	// 			} else if (isset($rec_res1)) {
-	// 				echo 'names';
-	// 			} else if (isset($rec_res2)) {
-	// 				echo 'mobiles';
-	// 			} else {
-	// 				$datas = array('name' => $name, 'email' => $email, 'mobile_no' => $mobile_no, 'created_by' => $created_by, 'created_on' => $created_on);
-	// 				$res = $this->owners_model->insert_owner_data($datas);
-
-	// 				if (isset($res)) {
-	// 					$last_insert_id = $this->db->insert_id();
-	// 					echo $data['last_insert_id'] = $last_insert_id;
-	// 				}
-	// 			}
-	// 		}
-	// 	} else {
-	// 		$this->load->view('admin/no_permission_access');
-	// 	}
-	// }
-
-
-	// function fetch_users_list($sel_usrid = '')
-	// {
-	// 	$data['sel_usrid'] = $sel_usrid;
-	// 	$this->load->view('ajax/fetch_users', $data);
-	// }
-
 
 	/* users functions ends */
 }
