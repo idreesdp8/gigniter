@@ -11,6 +11,7 @@
 	<link href="<?php echo admin_asset_url(); ?>css/layout.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo admin_asset_url(); ?>css/components.min.css" rel="stylesheet" type="text/css">
 	<link href="<?php echo admin_asset_url(); ?>css/colors.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo admin_asset_url(); ?>css/custom.css" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
@@ -20,7 +21,8 @@
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script> -->
+	<!-- for radio buttons -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script>
 	<!-- for switching checkboxes -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
@@ -36,6 +38,8 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/selects/select2.min.js"></script>
 	<!-- for validation -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/jquery.validate.js"></script>
+	<!-- for form wizard -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/wizards/steps.min.js"></script>
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
 
@@ -43,5 +47,6 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
 	<!-- /theme JS files -->

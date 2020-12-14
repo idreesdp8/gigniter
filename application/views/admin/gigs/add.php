@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('admin/layout/meta_tags'); ?>
-    <title>Add User</title>
+    <title>Add Gig</title>
     <style>
         .file-preview-frame {
             margin: auto !important;
@@ -25,8 +25,8 @@
                     <div class="d-flex">
                         <div class="breadcrumb">
                             <a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                            <a href="<?php echo admin_base_url(); ?>users" class="breadcrumb-item"> Users</a>
-                            <span class="breadcrumb-item active">Add User</span>
+                            <a href="<?php echo admin_base_url(); ?>gigs" class="breadcrumb-item"> Gigs</a>
+                            <span class="breadcrumb-item active">Add Gig</span>
                         </div>
 
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -38,7 +38,7 @@
                 <!-- Basic layout-->
                 <div class="card">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title">Add User</h5>
+                        <h5 class="card-title">Add Gig</h5>
                     </div>
 
                     <form action="<?php echo admin_base_url() ?>users/add" method="post" enctype="multipart/form-data" id="datas_form">
@@ -50,7 +50,7 @@
                                             <div class="form-group">
                                                 <label>First Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="Enter first name" name="fname" data-error="#name1">
-                                                <span id="name1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('name'); ?></span>
+                                                <span id="name1" class="text-danger" generated="true"><?php echo form_error('name'); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -63,12 +63,12 @@
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" placeholder="Enter email" name="email" data-error="#email1">
-                                        <span id="email1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('email'); ?></span>
+                                        <span id="email1" class="text-danger" generated="true"><?php echo form_error('email'); ?></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Password <span class="text-danger">*</span></label>
                                         <input type="password" class="form-control" placeholder="Enter password" name="password" data-error="#password1">
-                                        <span id="password1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('password'); ?></span>
+                                        <span id="password1" class="text-danger" generated="true"><?php echo form_error('password'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4">
@@ -144,7 +144,7 @@
                                             <?php  }
                                             } ?>
                                         </select>
-                                        <span id="role_id1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('role_id'); ?></span>
+                                        <span id="role_id1" class="text-danger" generated="true"><?php echo form_error('role_id'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

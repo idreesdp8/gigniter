@@ -148,8 +148,8 @@
 
 			$('.editModal').click(function() {
 				var id = $(this).attr('data-value');
-				var base_url = '<?php echo admin_base_url() ?>'
-				console.log(id);
+				var base_url = '<?php echo admin_base_url() ?>';
+				// console.log(id);
 				$.ajax({
 					url: base_url + 'permissions/edit',
 					type: 'post',

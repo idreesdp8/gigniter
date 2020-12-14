@@ -16,25 +16,36 @@ class Users_model extends CI_Model {
 	
 	
 	function get_all_filter_users($params = array()){
-		$whrs =''; 
+		$whrs ="AND fname != 'Admin'"; 
 		if(array_key_exists("q_val",$params)){
 			$q_val = $params['q_val']; 
 			if(strlen($q_val)>0){
-				$whrs .=" AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
+				// OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' 
+				$whrs .=" AND ( fname LIKE '%$q_val%' OR lname LIKE '%$q_val%' OR email LIKE '%$q_val%')";
 			}
 		}  
+		if(array_key_exists("role_id",$params)){
+			$role_id = $params['role_id']; 
+			if($role_id){
+				// OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' 
+				$whrs .=" AND role_id = $role_id ";
+			}
+		}  
+
+		// echo $whrs;
+		// die();
 		 
 		$limits ='';
-		if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
-			$tot_limit =   $params['limit'];
-			$str_limit =   $params['start']; 			 
-			$limits = " LIMIT $str_limit, $tot_limit ";
-        }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
-             $tot_limit =   $params['limit'];
-			$limits = " LIMIT $tot_limit ";
-		}   
+		// if(array_key_exists("start",$params) && array_key_exists("limit",$params)){ 
+		// 	$tot_limit =   $params['limit'];
+		// 	$str_limit =   $params['start']; 			 
+		// 	$limits = " LIMIT $str_limit, $tot_limit ";
+        // }elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params)){
+        //      $tot_limit =   $params['limit'];
+		// 	$limits = " LIMIT $tot_limit ";
+		// }   
 		
-		$query = $this->db->query("SELECT * FROM users WHERE id >'0' $whrs ORDER BY created_on DESC $limits "); 
+		$query = $this->db->query("SELECT * FROM users WHERE id >'0' $whrs ORDER BY id ASC $limits "); 
 		return $query->result(); 
 	}  
 	
