@@ -37,8 +37,7 @@
                 <li class="nav-item nav-item-submenu" id="sidebar_gig">
                     <a href="#" class="nav-link"><i class="icon-mic2"></i> <span>Gigs</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Gigs">
-                        <!-- <?php// echo admin_base_url(); ?>gigs/add -->
-                        <li class="nav-item" id="sidebar_gig_add"><a href="#" class="nav-link">Add Gig</a></li>
+                        <li class="nav-item" id="sidebar_gig_add"><a href="<?php echo admin_base_url(); ?>gigs/add" class="nav-link">Add Gig</a></li>
                         <li class="nav-item" id="sidebar_gig_view"><a href="<?php echo admin_base_url(); ?>gigs" class="nav-link">All Gigs</a></li>
                     </ul>
                 </li>
@@ -67,6 +66,7 @@
                     <ul class="nav nav-group-sub" data-submenu-title="Configurations">
                         <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Genres</a></li>
                         <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Categories</a></li>
+                        <li class="nav-item" id="sidebar_country"><a href="<?php echo admin_base_url(); ?>countries" class="nav-link">Countries</a></li>
                     </ul>
                 </li>
                 <!-- /main -->

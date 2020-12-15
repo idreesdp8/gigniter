@@ -66,7 +66,7 @@
                                         <input type="email" class="form-control" placeholder="Enter email" name="email" value="<?php echo $user->email ?>" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Password</label>
+                                        <label>Password <span class="text-info">Leave password field empty if you do not want to change it!</span></label>
                                         <input type="password" class="form-control" placeholder="Enter password" name="password" data-error="#password1">
                                         <span id="password1" class="text-danger" generated="true"><?php echo form_error('password'); ?></span>
                                     </div>
@@ -85,76 +85,95 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>Bio</label>
+                                <textarea name="description" cols="30" rows="3" placeholder="Enter description" class="form-control"><?php echo $user->description ?></textarea>
+                            </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea name="description" cols="30" rows="3" placeholder="Enter description" class="form-control"><?php echo $user->description ?></textarea>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <!-- <div class="col-md-12">
+                                            
+                                        </div> -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Phone #</label>
+                                                <input type="text" name="phone_no" class="form-control" placeholder="Enter phone number" value="<?php echo $user->phone_no ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Mobile #</label>
+                                                <input type="text" name="mobile_no" class="form-control" placeholder="Enter mobile number" value="<?php echo $user->mobile_no ?>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <textarea name="address" cols="30" rows="2" placeholder="Enter address" class="form-control"><?php echo $user->address ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Country</label>
+                                                <select name="country_id" id="country_id" class="form-control select">
+                                                    <option value="">Select Country</option>
+                                                    <?php
+                                                    if (isset($countries)) :
+                                                        foreach ($countries as $country) :
+                                                    ?>
+                                                            <option value="<?php echo $country->id ?>" <?php echo $user->country_id == $country->id ? 'selected' : '' ?>><?php echo $country->name ?></option>
+                                                    <?php
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select name="status" class="form-control select">
+                                                    <option value="0" <?php echo !$user->status ? 'selected' : '' ?>>Inactive</option>
+                                                    <option value="1" <?php echo $user->status ? 'selected' : '' ?>>Active</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <label>Social Links</label>
                                     <div class="form-group">
-                                        <label>Phone #</label>
-                                        <input type="text" name="phone_no" class="form-control" placeholder="Enter phone number" value="<?php echo $user->phone_no ?>">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-envelop"></i></span>
+                                            </span>
+                                            <input name="mail" type="text" class="form-control" placeholder="mail url" value=<?php echo $link[0]['mail'] ?? null ?>>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Mobile #</label>
-                                        <input type="text" name="mobile_no" class="form-control" placeholder="Enter mobile number" value="<?php echo $user->mobile_no ?>">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-facebook2"></i></span>
+                                            </span>
+                                            <input name="facebook" type="text" class="form-control" placeholder="facebook url" value=<?php echo $link[1]['facebook'] ?? null ?>>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea name="address" cols="30" rows="2" placeholder="Enter address" class="form-control"><?php echo $user->address ?></textarea>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-instagram"></i></span>
+                                            </span>
+                                            <input name="instagram" type="text" class="form-control" placeholder="instagram url" value=<?php echo $link[2]['instagram'] ?? null ?>>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>City</label>
-                                        <input type="text" name="city" class="form-control" placeholder="Enter city" value="<?php echo $user->city ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>State</label>
-                                        <input type="text" name="state" class="form-control" placeholder="Enter state" value="<?php echo $user->state ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" name="country" class="form-control" placeholder="Enter country" value="<?php echo $user->country ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Zip</label>
-                                        <input type="text" name="zip" class="form-control" placeholder="Enter zip" value="<?php echo $user->zip ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Role <span class="text-danger">*</span></label>
-                                        <select name="role_id" class="form-control select" data-error="#role_id1">
-                                            <option value="">Select Role</option>
-                                            <?php if (isset($roles)) {
-                                                foreach ($roles as $role) { ?>
-                                                    <option value="<?php echo $role->id ?>" <?php echo $role->id == $user->role_id ? 'selected' : '' ?>><?php echo $role->name ?></option>
-                                            <?php }
-                                            } ?>
-                                        </select>
-                                        <span id="role_id1" class="text-danger" generated="true"><?php echo form_error('role_id'); ?></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <select name="status" class="form-control select">
-                                            <option value="0" <?php echo !$user->status ? 'selected' : '' ?>>Inactive</option>
-                                            <option value="1" <?php echo $user->status ? 'selected' : '' ?>>Active</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-twitter"></i></span>
+                                            </span>
+                                            <input name="twitter" type="text" class="form-control" placeholder="twitter url" value=<?php echo $link[3]['twitter'] ?? null ?>>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

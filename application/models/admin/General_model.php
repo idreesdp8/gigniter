@@ -128,7 +128,7 @@ class General_model extends CI_Model
 			// }
 			$whrs .= " AND name='$name' ";
 			$query = $this->db->query(" SELECT * FROM permissions $whrs ");
-			$row_nums = $query->result();
+			$row_nums = $query->row();
 			return $row_nums;
 		} else {
 			return '0';
@@ -144,7 +144,7 @@ class General_model extends CI_Model
 			// }
 			$whrs .= " AND name='$name' ";
 			$query = $this->db->query(" SELECT * FROM roles $whrs ");
-			$row_nums = $query->result();
+			$row_nums = $query->row();
 			return $row_nums;
 		} else {
 			return '0';

@@ -25,6 +25,7 @@ class Users extends CI_Controller
 
 		$this->load->model('admin/roles_model', 'roles_model');
 		$this->load->model('admin/users_model', 'users_model');
+		$this->load->model('admin/countries_model', 'countries_model');
 		$this->load->model('admin/admin_model', 'admin_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 
@@ -117,7 +118,9 @@ class Users extends CI_Controller
 
 		// $arrs_field = array('role_id' => '2');
 		// $data['manager_arrs'] = $this->general_model->get_gen_all_users_by_field($arrs_field);
-		// $data['role_arrs'] = $this->roles_model->get_all_roles();
+		$role = $this->general_model->get_role_by_name('User');
+		// echo json_encode($role);
+		// die();
 
 		if (isset($_POST) && !empty($_POST)) {
 
@@ -127,14 +130,13 @@ class Users extends CI_Controller
 			// die();
 
 			$is_unique_email = '|is_unique[users.email]';
-			if (isset($update_record_arr)) {
-				if ($update_record_arr->email == $data['email']) {
-					$is_unique_email = '';
-				}
-			}
+			// if (isset($update_record_arr)) {
+			// 	if ($update_record_arr->email == $data['email']) {
+			// 		$is_unique_email = '';
+			// 	}
+			// }
 			// form validation
 			$this->form_validation->set_rules("fname", "Name", "trim|required|xss_clean");
-			$this->form_validation->set_rules("role_id", "Role", "trim|required|xss_clean");
 			$this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email{$is_unique_email}");
 			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
 
@@ -182,27 +184,43 @@ class Users extends CI_Controller
 
 				$created_on = date('Y-m-d H:i:s');
 				$password = $this->general_model->safe_ci_encoder($data['password']);
+				$social_links = [];
+				if(isset($data['mail']) && $data['mail'] != ''){
+					$social_links['mail'] = $data['mail'];
+				}
+				if(isset($data['facebook']) && $data['facebook'] != ''){
+					$social_links['facebook'] = $data['facebook'];
+				}
+				if(isset($data['instagram']) && $data['instagram'] != ''){
+					$social_links['instagram'] = $data['instagram'];
+				}
+				if(isset($data['twitter']) && $data['twitter'] != ''){
+					$social_links['twitter'] = $data['twitter'];
+				}
 				$datas = array(
 					'fname' => $data['fname'],
 					'lname' => $data['lname'],
-					'role_id' => $data['role_id'],
+					'role_id' => $role->id,
 					'email' => $data['email'],
 					'password' => $password,
 					'mobile_no' => $data['mobile_no'],
 					'phone_no' => $data['phone_no'],
 					'description' => $data['description'],
 					'address' => $data['address'],
-					'city' => $data['city'],
-					'state' => $data['state'],
-					'country' => $data['country'],
-					'zip' => $data['zip'],
+					'country_id' => $data['country_id'],
 					'created_on' => $created_on,
 					'status' => $data['status'],
 					'image' => $imagename
 				);
+				// echo json_encode($social_links);
+				// die();
 				$res = $this->users_model->insert_user_data($datas);
 
 				if (isset($res)) {
+					foreach($social_links as $key=>$value){
+						$temp = ['user_id'=>$res, 'platform'=>$key, 'url'=>$value, 'created_on'=>$created_on];
+						$this->users_model->insert_user_social_link($temp);
+					}
 					$this->session->set_flashdata('success_msg', 'User added successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while adding user!');
@@ -210,7 +228,7 @@ class Users extends CI_Controller
 				redirect("admin/users");
 			}
 		} else {
-			$data['roles'] = $this->roles_model->get_all_roles_without_admin();
+			$data['countries'] = $this->countries_model->get_all_countries();
 			$this->load->view('admin/users/add', $data);
 		}
 
@@ -322,7 +340,12 @@ class Users extends CI_Controller
 			}
 		} else {
 			$data['user'] = $this->users_model->get_user_by_id($args1);
-			$data['roles'] = $this->roles_model->get_all_roles_without_admin();
+			$data['countries'] = $this->countries_model->get_all_countries();
+			$links = $this->users_model->get_social_links($args1);
+			foreach($links as $key=>$val){
+				$temp[] = [$val->platform=>$val->url];
+			}
+			$data['link'] = $temp;
 			// echo json_encode($data);
 			// die();
 			$this->load->view('admin/users/update', $data);

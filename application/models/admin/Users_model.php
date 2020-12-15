@@ -75,8 +75,19 @@ class Users_model extends CI_Model {
 		return $query->row();
 	}
 	
+	function get_social_links($args1){ 
+		$query = $this->db->get_where('user_social_links',array('user_id'=> $args1));
+		return $query->result();
+	}
+
+	
 	function insert_user_data($data){ 
-		$ress = $this->db->insert('users', $data);
+		$ress = $this->db->insert('users', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}  
+	
+	function insert_user_social_link($data){ 
+		$ress = $this->db->insert('user_social_links', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}  
 	

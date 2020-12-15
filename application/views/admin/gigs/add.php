@@ -175,9 +175,9 @@
 
     <script>
         $(document).ready(function() {
-            $('#sidebar_user').addClass('nav-item-open');
-            $('#sidebar_user ul').first().css('display', 'block');
-            $('#sidebar_user_add a').addClass('active');
+            $('#sidebar_gig').addClass('nav-item-open');
+            $('#sidebar_gig ul').first().css('display', 'block');
+            $('#sidebar_gig_add a').addClass('active');
 
             var validator = $('#datas_form').validate({
                 rules: {
