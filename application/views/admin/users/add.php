@@ -50,7 +50,7 @@
                                             <div class="form-group">
                                                 <label>First Name <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="Enter first name" name="fname" data-error="#name1">
-                                                <span id="name1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('name'); ?></span>
+                                                <span id="name1" class="text-danger" generated="true"><?php echo form_error('name'); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -63,12 +63,12 @@
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span></label>
                                         <input type="email" class="form-control" placeholder="Enter email" name="email" data-error="#email1">
-                                        <span id="email1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('email'); ?></span>
+                                        <span id="email1" class="text-danger" generated="true"><?php echo form_error('email'); ?></span>
                                     </div>
                                     <div class="form-group">
                                         <label>Password <span class="text-danger">*</span></label>
                                         <input type="password" class="form-control" placeholder="Enter password" name="password" data-error="#password1">
-                                        <span id="password1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('password'); ?></span>
+                                        <span id="password1" class="text-danger" generated="true"><?php echo form_error('password'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4">
@@ -144,7 +144,7 @@
                                             <?php  }
                                             } ?>
                                         </select>
-                                        <span id="role_id1" class="text-danger validation-invalid-label" generated="true"><?php echo form_error('role_id'); ?></span>
+                                        <span id="role_id1" class="text-danger" generated="true"><?php echo form_error('role_id'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
