@@ -32,14 +32,14 @@
                         <div class="header-elements">
                             <div class="list-icons">
                                 <label class="mb-0">Filter: </label>
-                                <select name="role" id="role" class="form-control select">
+                                <!-- <select name="role" id="role" class="form-control select">
                                     <option value="">Select a role</option>
-                                    <?php if (isset($roles)) {
-                                        foreach ($roles as $role) { ?>
-                                            <option value="<?php echo $role->id ?>"><?php echo $role->name ?></option>
-                                    <?php  }
-                                    } ?>
-                                </select>
+                                    <?php /* if (isset($roles)) {
+                                        foreach ($roles as $role) { */ ?>
+                                            <option value="<?php //echo $role->id ?>"><?php //echo $role->name ?></option>
+                                    <?php  /* }
+                                    } */ ?>
+                                </select> -->
                                 <input type="text" name="search" id="search" class="form-control" placeholder="Search by name | email">
                                 <!-- <a class="list-icons-item" data-action="collapse"></a>
                                 <a class="list-icons-item" data-action="reload"></a>

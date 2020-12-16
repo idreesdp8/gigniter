@@ -7,10 +7,10 @@ class Users_model extends CI_Model {
 	}
 	
 	function trash_user($args2){
-		if($args2 >1){
+		// if($args2 >1){
 			$this->db->where('id', $args2);
 			$this->db->delete('users');
-		} 
+		// } 
 		return true;
 	}
 	
@@ -79,7 +79,12 @@ class Users_model extends CI_Model {
 		$query = $this->db->get_where('user_social_links',array('user_id'=> $args1));
 		return $query->result();
 	}
-
+	
+	function trash_social_link($args2){
+			$this->db->where('id', $args2);
+			$this->db->delete('user_social_links');
+		return true;
+	}
 	
 	function insert_user_data($data){ 
 		$ress = $this->db->insert('users', $data) ? $this->db->insert_id() : false;

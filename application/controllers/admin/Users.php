@@ -247,7 +247,7 @@ class Users extends CI_Controller
 		// 	$data['args1'] = $args1;
 		// 	$data['page_headings'] = 'Update User';
 		// 	$update_record_arr = $data['record'] = $this->users_model->get_user_by_id($args1);
-		// } else {
+		// } else {`	
 		// 	$data['page_headings'] = 'Add User';
 		// }
 		// $arrs_field = array('role_id' => '2');
@@ -263,25 +263,34 @@ class Users extends CI_Controller
 
 			// form validation
 			$this->form_validation->set_rules("fname", "Name", "trim|required|xss_clean");
-			$this->form_validation->set_rules("role_id", "Role", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				redirect('admin/users/update/' . $data['id']);
 			} else {
 
+				$social_links = [];
+				if(isset($data['mail']) && $data['mail'] != ''){
+					$social_links['mail'] = $data['mail'];
+				}
+				if(isset($data['facebook']) && $data['facebook'] != ''){
+					$social_links['facebook'] = $data['facebook'];
+				}
+				if(isset($data['instagram']) && $data['instagram'] != ''){
+					$social_links['instagram'] = $data['instagram'];
+				}
+				if(isset($data['twitter']) && $data['twitter'] != ''){
+					$social_links['twitter'] = $data['twitter'];
+				}
 				$datas = array(
 					'fname' => $data['fname'],
 					'lname' => $data['lname'],
-					'role_id' => $data['role_id'],
+					'email' => $data['email'],
 					'mobile_no' => $data['mobile_no'],
 					'phone_no' => $data['phone_no'],
 					'description' => $data['description'],
 					'address' => $data['address'],
-					'city' => $data['city'],
-					'state' => $data['state'],
-					'country' => $data['country'],
-					'zip' => $data['zip'],
+					'country_id' => $data['country_id'],
 					'status' => $data['status'],
 				);
 
@@ -331,6 +340,12 @@ class Users extends CI_Controller
 				// die();
 				$res = $this->users_model->update_user_data($data['id'], $datas);
 				if (isset($res)) {
+					$created_on = date('Y-m-d H:i:s');
+					$this->remove_social_links($data['id']);
+					foreach($social_links as $key=>$value){
+						$temp = ['user_id'=>$data['id'], 'platform'=>$key, 'url'=>$value, 'created_on'=>$created_on];
+						$this->users_model->insert_user_social_link($temp);
+					}
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
@@ -376,5 +391,14 @@ class Users extends CI_Controller
 		// echo json_encode($data);
 	}
 
+	function remove_social_links($id)
+	{
+		$links = $this->users_model->get_social_links($id);
+		if (isset($links)) {
+			foreach ($links as $key => $value) {
+				$this->users_model->trash_social_link($value->id);
+			}
+		}
+	}
 	/* users functions ends */
 }
