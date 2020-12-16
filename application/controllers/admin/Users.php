@@ -61,6 +61,7 @@ class Users extends CI_Controller
 		$user = $this->users_model->get_user_by_id($args2);
 		@unlink("downloads/profile_pictures/thumb/$user->image");
 		@unlink("downloads/profile_pictures/$user->image");
+		$this->remove_social_links($args2);
 		$this->users_model->trash_user($args2);
 		$this->session->set_flashdata('deleted_msg', 'User is deleted');
 		redirect('admin/users');
