@@ -13,6 +13,7 @@ class Gigs_model extends CI_Model {
 		} 
 		return true;
 	}
+
 	
 	
 	function get_all_filter_gigs($params = array()){
@@ -79,6 +80,12 @@ class Gigs_model extends CI_Model {
 		$query = $this->db->get_where('ticket_tiers',array('user_id'=> $param['user_id'], 'gig_id'=> $param['gig_id']));
 		return $query->result();
 	}
+	
+	function get_ticket_tiers_by_gig_id($gig_id)
+	{
+		$query = $this->db->get_where('ticket_tiers',array('gig_id'=> $gig_id));
+		return $query->result();
+	}
 
 	function add_ticket_tier_bundle($data){ 
 		$ress = $this->db->insert('ticket_bundles', $data) ? $this->db->insert_id() : false;
@@ -89,7 +96,19 @@ class Gigs_model extends CI_Model {
 		$query = $this->db->get_where('ticket_bundles',array('ticket_tier_id'=> $id));
 		return $query->result();
 	}
-	
+
+	function remove_bundle_by_id($args2){
+		$this->db->where('id', $args2);
+		$this->db->delete('ticket_bundles');
+		return true;
+	}
+
+	function remove_ticket_tiers_by_id($args2){
+		$this->db->where('id', $args2);
+		$this->db->delete('ticket_tiers');
+		return true;
+	}
+
 	function update_gig_data($args1,$data){ 
 		$this->db->where('id',$args1);
 		return $this->db->update('gigs', $data);
@@ -115,4 +134,4 @@ class Gigs_model extends CI_Model {
 		return $this->db->update('config', $data);
 	}
 	 
-}  ?>
+}

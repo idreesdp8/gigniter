@@ -144,6 +144,7 @@ class Gigs extends CI_Controller
 
 				$created_on = date('Y-m-d H:i:s');
 				$datas = array(
+					'user_id' => $this->dbs_user_id,
 					'title' => $data['title'] ?? null,
 					'subtitle' => $data['subtitle'] ?? null,
 					'category' => $data['category'] ?? null,
@@ -165,7 +166,7 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
-					$this->add_tickets($data, $res, $created_on);
+					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
 				} else {
@@ -202,10 +203,11 @@ class Gigs extends CI_Controller
 		// }   
 	}
 
-	function update_user_data($data, $files)
+	function update_user_data($data, $files, $user_id = '')
 	{
 		// echo json_encode($data);
 		// echo json_encode($files);
+		// die();
 		$social_links = [];
 		if (isset($data['mail']) && $data['mail'] != '') {
 			$social_links['mail'] = $data['mail'];
@@ -230,23 +232,23 @@ class Gigs extends CI_Controller
 		$prf_img_error = '';
 		$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 		// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
-		if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-			// echo json_encode($_FILES['image']);
+		if (isset($files['image']['tmp_name']) && $files['image']['tmp_name'] != '') {
+			// echo json_encode($files['image']);
 			// die();
-			if (!(in_array($_FILES['image']['type'], $alw_typs))) {
-				$tmp_img_type = "'" . ($_FILES['image']['type']) . "'";
+			if (!(in_array($files['image']['type'], $alw_typs))) {
+				$tmp_img_type = "'" . ($files['image']['type']) . "'";
 				$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
 			}
 
 			if ($prf_img_error == '') {
-				$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+				$user = $this->users_model->get_user_by_id(!empty($user_id) ? $user_id : $this->dbs_user_id);
 				@unlink("downloads/profile_pictures/thumb/$user->image");
 				@unlink("downloads/profile_pictures/$user->image");
 				$image_path = profile_image_relative_path();
 				$thumbnail_path = profile_thumbnail_relative_path();
-				$imagename = time() . $this->general_model->fileExists($_FILES['image']['name'], $image_path);
+				$imagename = time() . $this->general_model->fileExists($files['image']['name'], $image_path);
 				$target_file = $image_path . $imagename;
-				@move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+				@move_uploaded_file($files["image"]["tmp_name"], $target_file);
 				$width = 200;
 				$height = 200;
 				$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
@@ -254,12 +256,12 @@ class Gigs extends CI_Controller
 					$thumbnail_file = $thumbnail_path . $imagename;
 				}
 				// echo $thumbnail;
-				@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
+				@move_uploaded_file($files["image"]["tmp_name"], $thumbnail_file);
 				$datas['image'] = $imagename;
 			}
 			if (strlen($prf_img_error) > 0) {
 				$this->session->set_flashdata('prof_img_error', $prf_img_error);
-				redirect('admin/users/update');
+				redirect('admin/gigs/update');
 				// $this->load->view('admin/users/add', $data);
 			}
 		}
@@ -284,8 +286,9 @@ class Gigs extends CI_Controller
 		}
 	}
 
-	function add_tickets($data, $gig_id, $created_on)
+	function add_tickets($data, $gig_id)
 	{
+		$created_on = date('Y-m-d H:i:s');
 		$length = count($data['ticket_name']);
 		for ($i = 0; $i < $length; $i++) {
 			$j = $i + 1;
@@ -302,15 +305,16 @@ class Gigs extends CI_Controller
 			$res = $this->gigs_model->add_ticket_tier($tier);
 			if ($res) {
 				// echo $j;
-				$this->add_ticket_bundles($data, $res, $j, $created_on);
+				$this->add_ticket_bundles($data, $res, $j);
 				// die();
 			}
 		}
 	}
 
-	function add_ticket_bundles($data, $res, $tier, $created_on)
+	function add_ticket_bundles($data, $res, $tier)
 	{
 		// echo json_encode($data);
+		$created_on = date('Y-m-d H:i:s');
 		if(isset($data["bundle_name_tier$tier"])){
 			$length = count($data["bundle_name_tier$tier"]);
 			for ($i = 0; $i < $length; $i++) {
@@ -328,6 +332,23 @@ class Gigs extends CI_Controller
 		}
 	}
 
+	function remove_tickets($gig_id)
+	{
+		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+		if(isset($tickets) && !empty($tickets)){
+			foreach($tickets as $ticket)
+			{
+				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+				if(isset($bundles) && !empty($bundles)){
+					foreach($bundles as $bundle){
+						$this->gigs_model->remove_bundle_by_id($bundle->id);
+					}
+				}
+				$this->gigs_model->remove_ticket_tiers_by_id($ticket->id);
+			}
+		}
+	}
+
 	function update($args1 = '')
 	{
 
@@ -338,53 +359,56 @@ class Gigs extends CI_Controller
 			// get form input
 			$data = $_POST;
 			// echo json_encode($data);
-			// echo json_encode($_FILES['image']);
+			// echo json_encode($_FILES);
 			// die();
 
 			// form validation
-			$this->form_validation->set_rules("fname", "Name", "trim|required|xss_clean");
-			$this->form_validation->set_rules("role_id", "Role", "trim|required|xss_clean");
+			$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
+			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
+			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
+			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
+			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
+			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
-				redirect('admin/users/update/' . $data['id']);
+				redirect('admin/gigs/update/' . $data['id']);
 			} else {
 
 				$datas = array(
-					'fname' => $data['fname'],
-					'lname' => $data['lname'],
-					'role_id' => $data['role_id'],
-					'mobile_no' => $data['mobile_no'],
-					'phone_no' => $data['phone_no'],
-					'description' => $data['description'],
-					'address' => $data['address'],
-					'city' => $data['city'],
-					'state' => $data['state'],
-					'country' => $data['country'],
-					'zip' => $data['zip'],
-					'status' => $data['status'],
+					'title' => $data['title'] ?? null,
+					'subtitle' => $data['subtitle'] ?? null,
+					'category' => $data['category'] ?? null,
+					'genre' => $data['genre'] ?? null,
+					'address' => $data['address'] ?? null,
+					'goal' => $data['goal'] ?? null,
+					'is_overshoot' => $data['is_overshoot'] ?? 0,
+					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
+					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
+					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
+					'status' => $data['status'] ?? null,
 				);
 
 				$prf_img_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
-				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+				$gig = $this->gigs_model->get_gig_by_id($data['id']);
+				if (isset($_FILES['poster']['tmp_name']) && $_FILES['poster']['tmp_name'] != '') {
 					// echo json_encode($_FILES['image']);
 					// die();
-					if (!(in_array($_FILES['image']['type'], $alw_typs))) {
-						$tmp_img_type = "'" . ($_FILES['image']['type']) . "'";
-						$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
+					if (!(in_array($_FILES['poster']['type'], $alw_typs))) {
+						$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
+						$prf_img_error .= "Poster type: $tmp_img_type not allowed!<br>";
 					}
 
 					if ($prf_img_error == '') {
-						$user = $this->users_model->get_user_by_id($data['id']);
-						@unlink("downloads/profile_pictures/thumb/$user->image");
-						@unlink("downloads/profile_pictures/$user->image");
-						$image_path = profile_image_relative_path();
-						$thumbnail_path = profile_thumbnail_relative_path();
-						$imagename = time() . $this->general_model->fileExists($_FILES['image']['name'], $image_path);
+						@unlink("downloads/posters/thumb/$gig->poster");
+						@unlink("downloads/posters/$gig->poster");
+						$image_path = poster_relative_path();
+						$thumbnail_path = poster_thumbnail_relative_path();
+						$imagename = time() . $this->general_model->fileExists($_FILES['poster']['name'], $image_path);
 						$target_file = $image_path . $imagename;
-						@move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+						@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
 						$width = 200;
 						$height = 200;
 						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
@@ -392,42 +416,40 @@ class Gigs extends CI_Controller
 							$thumbnail_file = $thumbnail_path . $imagename;
 						}
 						// echo $thumbnail;
-						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
-						$datas['image'] = $imagename;
+						@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
+						$datas['poster'] = $imagename;
 					}
 					if (strlen($prf_img_error) > 0) {
 						$this->session->set_flashdata('prof_img_error', $prf_img_error);
-						redirect('admin/users/update');
+						redirect('admin/gigs/update');
 						// $this->load->view('admin/users/add', $data);
 					}
 				}
-				/*$password = md5($password);*/
-				//$password = $this->general_model->encrypt_data($password);
-				if (isset($data['password']) && $data['password'] != '') {
-					$password = $this->general_model->safe_ci_encoder($data['password']);
-					$datas['password'] = $password;
-				}
 				// echo json_encode($datas);
 				// die();
-				$res = $this->users_model->update_user_data($data['id'], $datas);
+				$user_id = $gig->user_id;
+				$this->update_user_data($data, $_FILES, $user_id);
+				$res = $this->gigs_model->update_gig_data($data['id'], $datas);
 				if (isset($res)) {
-					$this->session->set_flashdata('success_msg', 'User updated successfully!');
+					$this->remove_tickets($data['id']);
+					$this->add_tickets($data, $data['id']);
+					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
 				} else {
-					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
+					$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
 				}
 
-				redirect("admin/users");
+				redirect("admin/gigs");
 			}
 		} else {
 			$gig = $this->gigs_model->get_gig_by_id($args1);
 			$venues = explode(',',$gig->venues);
 			$gig->venues = $venues;
 			$data['gig'] = $gig;
-			$param = [
-				'user_id' => $this->dbs_user_id,
-				'gig_id' => $args1
-			];
-			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id_user_id($param);
+			// $param = [
+			// 	'user_id' => $this->dbs_user_id,
+			// 	'gig_id' => $args1
+			// ];
+			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
 			foreach($tickets as $ticket){
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
 				$ticket->bundles = $bundles;
