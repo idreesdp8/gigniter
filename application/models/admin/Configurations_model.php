@@ -31,7 +31,7 @@ class Configurations_model extends CI_Model {
 	function get_configuration_by_key_value($param)
 	{
 		$query = $this->db->get_where('configurations',array('key'=>$param['key'],'value'=>$param['value']));
-		return $query->result();
+		return $query->row();
 	}
 	
 	function get_configuration_by_id($id){ 

@@ -34,7 +34,7 @@
 					<div class="card-body">
 						<form action="<?php echo admin_base_url() ?>categories/add" method="post" id="datas_form">
 							<div class="form-group">
-								<label>Name</label>
+								<label>Name <span class="text-danger">*</span></label>
 								<input type="text" class="form-control" placeholder="Enter category name" name="label" data-error="#label1">
 								<span id="label1" class="text-danger" generated="true"><?php echo form_error('label'); ?></span>
 							</div>

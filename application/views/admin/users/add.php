@@ -86,7 +86,7 @@
                             </div>
                             <div class="form-group">
                                                 <label>Bio</label>
-                                                <textarea name="description" cols="30" rows="3" placeholder="Enter description" class="form-control"></textarea>
+                                                <textarea name="description" cols="30" rows="3" placeholder="Enter Bio" class="form-control"></textarea>
                                             </div>
                             <div class="row">
                                 <div class="col-md-8">

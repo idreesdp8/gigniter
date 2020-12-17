@@ -28,6 +28,12 @@ var FileUpload = function() {
         // Define variables
         //
         var image = $('#old_image').val();
+        var label = '';
+        if(image) {
+            label = 'Change';
+        } else {
+            label = 'Upload';
+        }
 
         // Modal template
         var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
@@ -103,7 +109,7 @@ var FileUpload = function() {
         //
 
         $('.file-input-preview').fileinput({
-            browseLabel: 'Change',
+            browseLabel: label,
             browseIcon: '<i class="icon-file-plus mr-2"></i>',
             // uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
             // removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',

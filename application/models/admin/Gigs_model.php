@@ -65,7 +65,17 @@ class Gigs_model extends CI_Model {
 	}
 	
 	function insert_gig_data($data){ 
-		$ress = $this->db->insert('gigs', $data);
+		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}  
+	
+	function add_ticket_tier($data){ 
+		$ress = $this->db->insert('ticket_tiers', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}  
+	
+	function add_ticket_tier_bundle($data){ 
+		$ress = $this->db->insert('ticket_bundles', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}  
 	

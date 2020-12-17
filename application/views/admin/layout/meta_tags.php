@@ -26,7 +26,6 @@
 	<!-- for switching checkboxes -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script> -->
@@ -40,6 +39,8 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/jquery.validate.js"></script>
 	<!-- for form wizard -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/wizards/steps.min.js"></script>
+	<!-- for notification alerts -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/notifications/pnotify.min.js"></script>
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
 

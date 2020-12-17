@@ -28,20 +28,31 @@
                     <td><?php echo $record->goal ?></td>
                     <td><?php echo date('M d, Y H:i A', strtotime($record->gig_date)) ?></td>
                     <td>
-                        <?php if ($record->is_live) : ?>
-                            <span class="badge badge-success">Live</span>
-                        <?php else : ?>
-                            <span class="badge badge-danger">Draft</span>
-                        <?php endif; ?>
+                        <?php
+                        if ($record->status == 0) :
+                            $badge_class = 'badge-danger';
+                        elseif ($record->status == 1) :
+                            $badge_class = 'badge-success';
+                        elseif ($record->status == 2) :
+                            $badge_class = 'badge-primary';
+                        elseif ($record->status == 3) :
+                            $badge_class = 'badge-secondary';
+                        endif;
+                        ?>
+                        <span class="badge <?php echo $badge_class ?>"><?php echo $record->status_label ?></span>
                     </td>
                     <td><?php echo date('M d, Y H:i A', strtotime($record->created_on)) ?></td>
                     <td>
                         <div class="d-flex">
                             <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><i class="icon-search4"></i></button>
-                            <!-- <?php //echo admin_base_url() ?>users/update/<?php //echo $record->id ?> -->
+                            <!-- <?php //echo admin_base_url() 
+                                    ?>users/update/<?php //echo $record->id 
+                                                    ?> -->
                             <a href="#" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
-                            <!-- <form action="<?php //echo admin_base_url() ?>users/trash/<?php //echo $record->id ?>"> -->
-                                <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                            <!-- <form action="<?php //echo admin_base_url() 
+                                                ?>users/trash/<?php //echo $record->id 
+                                                                ?>"> -->
+                            <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
                             <!-- </form> -->
                         </div>
                     </td>

@@ -358,10 +358,15 @@ class Users extends CI_Controller
 			$data['user'] = $this->users_model->get_user_by_id($args1);
 			$data['countries'] = $this->countries_model->get_all_countries();
 			$links = $this->users_model->get_social_links($args1);
-			foreach($links as $key=>$val){
-				$temp[] = [$val->platform=>$val->url];
+			if(isset($links) && !empty($links)){
+				foreach($links as $key=>$val){
+					$temp[] = [$val->platform=>$val->url];
+				}
+				$data['link'] = $temp;
+			} else {
+				$data['link'] = [];
 			}
-			$data['link'] = $temp;
+			// echo $temp[3]['twitter'];
 			// echo json_encode($data);
 			// die();
 			$this->load->view('admin/users/update', $data);

@@ -36,7 +36,7 @@
 		return base_url().profile_thumbnail_relative_path();
 	}
 	
-	function poster_image_relative_path(){
+	function poster_relative_path(){
 		return 'downloads/posters/';
 	}
 
@@ -44,11 +44,11 @@
 		return 'downloads/posters/thumb/';
 	}
 
-	function poster_image_url(){
-		return base_url().poster_image_relative_path();
+	function poster_url(){
+		return base_url().poster_relative_path();
 	}
 
-	function poster_thumbnail_image_url(){
+	function poster_thumbnail_url(){
 		return base_url().poster_thumbnail_relative_path();
 	}
 	

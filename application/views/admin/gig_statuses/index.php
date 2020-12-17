@@ -3,7 +3,7 @@
 
 <head>
 	<?php $this->load->view('admin/layout/meta_tags'); ?>
-	<title>Genres</title>
+	<title>Gig Statuses</title>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
 					<div class="d-flex">
 						<div class="breadcrumb">
 							<a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-							<span class="breadcrumb-item active">Genres</span>
+							<span class="breadcrumb-item active">Gig Statuses</span>
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -28,16 +28,27 @@
 				<!-- Basic layout-->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Add Genre</h5>
+						<h5 class="card-title">Add Gig Status</h5>
 					</div>
 
 					<div class="card-body">
-						<form action="<?php echo admin_base_url() ?>genres/add" method="post" id="datas_form">
-							<div class="form-group">
-								<label>Name <span class="text-danger">*</span></label>
-								<input type="text" class="form-control" placeholder="Enter genre name" name="label" data-error="#label1">
-								<span id="label1" class="text-danger" generated="true"><?php echo form_error('label'); ?></span>
+						<form action="<?php echo admin_base_url() ?>gig_statuses/add" method="post" id="datas_form">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Value <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" placeholder="Enter value" name="value" data-error="#value1">
+									<span id="value1" class="text-danger" generated="true"><?php echo form_error('value'); ?></span>
+								</div>
 							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Label <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" placeholder="Enter label" name="label" data-error="#label1">
+									<span id="label1" class="text-danger" generated="true"><?php echo form_error('label'); ?></span>
+								</div>
+							</div>
+						</div>
 
 							<div class="text-right">
 								<button type="submit" class="btn btn-primary"><i class="icon-add mr-2"></i> Add</button>
@@ -49,7 +60,7 @@
 				<!-- Striped rows -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Genres</h5>
+						<h5 class="card-title">Gig Statuses</h5>
 						<div class="header-elements">
 							<div class="list-icons">
 								<!-- <a class="list-icons-item" data-action="collapse"></a> -->
@@ -69,7 +80,8 @@
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Genre Name</th>
+										<th>Status Label</th>
+										<th>Status Value</th>
 										<th>Added on</th>
 										<th>Actions</th>
 									</tr>
@@ -82,11 +94,12 @@
 										<tr>
 											<td><?php echo $i ?></td>
 											<td><?php echo $record->label ?></td>
+											<td><?php echo $record->value ?></td>
 											<td><?php echo date('M d, Y H:i A', strtotime($record->created_on)) ?></td>
 											<td>
 												<div class="d-flex">
 													<button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-primary btn-icon editModal" data-value=<?php echo $record->id ?>><i class="icon-pencil7"></i></button>
-													<form action="<?php echo admin_base_url() ?>genres/trash/<?php echo $record->id ?>">
+													<form action="<?php echo admin_base_url() ?>gig_statuses/trash/<?php echo $record->id ?>">
 														<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
 													</form>
 												</div>
@@ -114,12 +127,16 @@
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<form action="<?php echo admin_base_url() ?>genres/update" method="post">
+							<form action="<?php echo admin_base_url() ?>gig_statuses/update" method="post">
 								<div class="modal-body">
+									<input type="hidden" id="edit-id" class="form-control" name="id">
+									<!-- <div class="form-group">
+										<label>Value</label>
+										<input type="text" id="edit-value" class="form-control" name="value" disabled>
+									</div> -->
 									<div class="form-group">
-										<label>Name</label>
+										<label>Label</label>
 										<input type="text" id="edit-label" class="form-control" name="label">
-										<input type="hidden" id="edit-id" class="form-control" name="id">
 									</div>
 
 								</div>
@@ -145,17 +162,23 @@
 		$(document).ready(function() {
 			$('#sidebar_configuration').addClass('nav-item-open');
 			$('#sidebar_configuration ul').first().css('display', 'block');
-			$('#sidebar_genre a').addClass('active');
+			$('#sidebar_gig_status a').addClass('active');
 
 			var validator = $('#datas_form').validate({
 				rules: {
 					label: {
 						required: true
+					},
+					value: {
+						required: true
 					}
 				},
 				messages: {
 					label: {
-						required: "Name is required field"
+						required: "Label is required field"
+					},
+					value: {
+						required: "Value is required field"
 					}
 				},
 				errorPlacement: function(error, element) {
@@ -176,7 +199,7 @@
 				var base_url = '<?php echo admin_base_url() ?>';
 				// console.log(id);
 				$.ajax({
-					url: base_url + 'genres/edit',
+					url: base_url + 'gig_statuses/edit',
 					type: 'post',
 					data: {
 						id: id
@@ -184,6 +207,7 @@
 					dataType: 'json',
 					success: function(response) {
 						$('#edit-label').val(response.label);
+						// $('#edit-value').val(response.value);
 						$('#edit-id').val(response.id);
 					}
 				});
