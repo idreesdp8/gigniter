@@ -31,7 +31,7 @@
                         <h5 class="card-title">Gigs</h5>
                         <div class="header-elements">
                             <div class="list-icons">
-                                <label class="mb-0">Filter: </label>
+                                <!-- <label class="mb-0">Filter: </label> -->
                                 <!-- <select name="role" id="role" class="form-control select">
                                     <option value="">Select a role</option>
                                     <?php
@@ -46,7 +46,7 @@
                                     // }
                                     ?>
                                 </select> -->
-                                <input type="text" name="search" id="search" class="form-control" placeholder="Search by title">
+                                <!-- <input type="text" name="search" id="search" class="form-control" placeholder="Search by title"> -->
                                 <!-- <a class="list-icons-item" data-action="collapse"></a> -->
                                 <!-- <a class="list-icons-item" data-action="reload"></a> -->
                                 <!-- <a class="list-icons-item" data-action="remove"></a> -->
