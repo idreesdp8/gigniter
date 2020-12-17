@@ -55,14 +55,14 @@
 
                         <div class="card-body">
                             <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-                                <li class="nav-item"><a href="#justified-right-icon-tab1" class="nav-link" data-toggle="tab">Basic Info <i class="icon-mic2 ml-2"></i></a></li>
-                                <li class="nav-item"><a href="#justified-right-icon-tab2" class="nav-link active" data-toggle="tab">Ticket Tiers <i class="icon-ticket ml-2"></i></a></li>
+                                <li class="nav-item"><a href="#justified-right-icon-tab1" class="nav-link active" data-toggle="tab">Basic Info <i class="icon-mic2 ml-2"></i></a></li>
+                                <li class="nav-item"><a href="#justified-right-icon-tab2" class="nav-link" data-toggle="tab">Ticket Tiers <i class="icon-ticket ml-2"></i></a></li>
                                 <li class="nav-item"><a href="#justified-right-icon-tab3" class="nav-link" data-toggle="tab">About You <i class="icon-user ml-2"></i></a></li>
                                 <!-- <li class="nav-item"><a href="#justified-right-icon-tab4" class="nav-link" data-toggle="tab">Inactive <i class="icon-mention ml-2"></i></a></li> -->
                             </ul>
 
                             <div class="tab-content">
-                                <div class="tab-pane fade" id="justified-right-icon-tab1">
+                                <div class="tab-pane fade show active" id="justified-right-icon-tab1">
                                     <div class="row">
                                         <input type="hidden" name="id" value="<?php echo $gig->id ?>">
                                         <div class="col-md-6">
@@ -203,7 +203,7 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade show active" id="justified-right-icon-tab2">
+                                <div class="tab-pane fade" id="justified-right-icon-tab2">
                                     <div id="ticker_tiers">
                                         <?php
                                         if (isset($tickets) && !empty($tickets)) :
