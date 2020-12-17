@@ -204,8 +204,8 @@ class Gigs extends CI_Controller
 
 	function update_user_data($data, $files)
 	{
-		echo json_encode($data);
-		echo json_encode($files);
+		// echo json_encode($data);
+		// echo json_encode($files);
 		$social_links = [];
 		if (isset($data['mail']) && $data['mail'] != '') {
 			$social_links['mail'] = $data['mail'];
@@ -311,18 +311,20 @@ class Gigs extends CI_Controller
 	function add_ticket_bundles($data, $res, $tier, $created_on)
 	{
 		// echo json_encode($data);
-		$length = count($data["bundle_name_tier$tier"]);
-		for ($i = 0; $i < $length; $i++) {
-			// $j = $i + 1;
-			$bundle = [
-				'ticket_tier_id' => $res,
-				'name' => $data["bundle_name_tier$tier"][$i],
-				'quantity' => $data["bundle_quantity_tier$tier"][$i],
-				'price' => $data["bundle_price_tier$tier"][$i],
-				'created_on' => $created_on,
-			];
-			// echo json_encode($bundle);
-			$this->gigs_model->add_ticket_tier_bundle($bundle);
+		if(isset($data["bundle_name_tier$tier"])){
+			$length = count($data["bundle_name_tier$tier"]);
+			for ($i = 0; $i < $length; $i++) {
+				// $j = $i + 1;
+				$bundle = [
+					'ticket_tier_id' => $res,
+					'name' => $data["bundle_name_tier$tier"][$i],
+					'quantity' => $data["bundle_quantity_tier$tier"][$i],
+					'price' => $data["bundle_price_tier$tier"][$i],
+					'created_on' => $created_on,
+				];
+				// echo json_encode($bundle);
+				$this->gigs_model->add_ticket_tier_bundle($bundle);
+			}
 		}
 	}
 
