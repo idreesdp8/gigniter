@@ -74,10 +74,21 @@ class Gigs_model extends CI_Model {
 		return $ress;
 	}  
 	
+	function get_ticket_tiers_by_gig_id_user_id($param)
+	{
+		$query = $this->db->get_where('ticket_tiers',array('user_id'=> $param['user_id'], 'gig_id'=> $param['gig_id']));
+		return $query->result();
+	}
+
 	function add_ticket_tier_bundle($data){ 
 		$ress = $this->db->insert('ticket_bundles', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}  
+
+	function get_ticket_bundles_by_ticket_tier_id($id){
+		$query = $this->db->get_where('ticket_bundles',array('ticket_tier_id'=> $id));
+		return $query->result();
+	}
 	
 	function update_gig_data($args1,$data){ 
 		$this->db->where('id',$args1);

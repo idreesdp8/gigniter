@@ -334,17 +334,6 @@ class Gigs extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'update', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
-		// if (isset($args1) && $args1 != '') {
-		// 	$data['args1'] = $args1;
-		// 	$data['page_headings'] = 'Update User';
-		// 	$update_record_arr = $data['record'] = $this->users_model->get_user_by_id($args1);
-		// } else {
-		// 	$data['page_headings'] = 'Add User';
-		// }
-		// $arrs_field = array('role_id' => '2');
-		// $data['manager_arrs'] = $this->general_model->get_gen_all_users_by_field($arrs_field);
-		// $data['role_arrs'] = $this->roles_model->get_all_roles();
-
 		if (isset($_POST) && !empty($_POST)) {
 			// get form input
 			$data = $_POST;
@@ -430,11 +419,37 @@ class Gigs extends CI_Controller
 				redirect("admin/users");
 			}
 		} else {
-			$data['user'] = $this->users_model->get_user_by_id($args1);
-			$data['roles'] = $this->roles_model->get_all_roles_without_admin();
+			$gig = $this->gigs_model->get_gig_by_id($args1);
+			$venues = explode(',',$gig->venues);
+			$gig->venues = $venues;
+			$data['gig'] = $gig;
+			$param = [
+				'user_id' => $this->dbs_user_id,
+				'gig_id' => $args1
+			];
+			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id_user_id($param);
+			foreach($tickets as $ticket){
+				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+				$ticket->bundles = $bundles;
+			}
+			$data['tickets'] = $tickets;
+			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
+			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
+			$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
+			$data['countries'] = $this->countries_model->get_all_countries();
+			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+			$links = $this->users_model->get_social_links($this->dbs_user_id);
+			if (isset($links) && !empty($links)) {
+				foreach ($links as $key => $val) {
+					$temp[] = [$val->platform => $val->url];
+				}
+				$data['link'] = $temp;
+			} else {
+				$data['link'] = [];
+			}
 			// echo json_encode($data);
 			// die();
-			$this->load->view('admin/users/update', $data);
+			$this->load->view('admin/gigs/update', $data);
 		}
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
