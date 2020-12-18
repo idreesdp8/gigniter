@@ -62,12 +62,15 @@ class Gigs extends CI_Controller
 		// if ($res_nums > 0) {
 
 		// $data['page_headings'] = "Users List";
-		$user = $this->users_model->get_user_by_id($args2);
-		@unlink("downloads/profile_pictures/thumb/$user->image");
-		@unlink("downloads/profile_pictures/$user->image");
-		$this->users_model->trash_user($args2);
-		$this->session->set_flashdata('deleted_msg', 'User is deleted');
-		redirect('admin/users');
+		// echo $args2;
+		// die();
+		$gig = $this->gigs_model->get_gig_by_id($args2);
+		@unlink("downloads/posters/thumb/$gig->poster");
+		@unlink("downloads/posters/$gig->poster");
+		$this->remove_tickets($args2);
+		$this->gigs_model->trash_gig($args2);
+		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
+		redirect('admin/gigs');
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -92,6 +95,11 @@ class Gigs extends CI_Controller
 			$data = $_POST;
 			// echo json_encode($data);
 			// echo json_encode($_FILES);
+			$file = [];
+			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+				$file = $_FILES['image'];
+			}
+			// echo $file['name'];
 			// die();
 
 			// form validation
@@ -161,7 +169,7 @@ class Gigs extends CI_Controller
 				);
 				// echo json_encode($datas);
 				// die();
-				$this->update_user_data($data, $_FILES);
+				$this->update_user_data($data, $file);
 				// die();
 				$res = $this->gigs_model->insert_gig_data($datas);
 
@@ -203,7 +211,7 @@ class Gigs extends CI_Controller
 		// }   
 	}
 
-	function update_user_data($data, $files, $user_id = '')
+	function update_user_data($data, $file, $user_id = '')
 	{
 		// echo json_encode($data);
 		// echo json_encode($files);
@@ -232,11 +240,11 @@ class Gigs extends CI_Controller
 		$prf_img_error = '';
 		$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 		// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
-		if (isset($files['image']['tmp_name']) && $files['image']['tmp_name'] != '') {
+		if (!empty($file) && isset($file['tmp_name']) && $file['tmp_name'] != '') {
 			// echo json_encode($files['image']);
 			// die();
-			if (!(in_array($files['image']['type'], $alw_typs))) {
-				$tmp_img_type = "'" . ($files['image']['type']) . "'";
+			if (!(in_array($file['type'], $alw_typs))) {
+				$tmp_img_type = "'" . ($file['type']) . "'";
 				$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
 			}
 
@@ -246,9 +254,9 @@ class Gigs extends CI_Controller
 				@unlink("downloads/profile_pictures/$user->image");
 				$image_path = profile_image_relative_path();
 				$thumbnail_path = profile_thumbnail_relative_path();
-				$imagename = time() . $this->general_model->fileExists($files['image']['name'], $image_path);
+				$imagename = time() . $this->general_model->fileExists($file['name'], $image_path);
 				$target_file = $image_path . $imagename;
-				@move_uploaded_file($files["image"]["tmp_name"], $target_file);
+				@move_uploaded_file($file["tmp_name"], $target_file);
 				$width = 200;
 				$height = 200;
 				$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
@@ -256,7 +264,7 @@ class Gigs extends CI_Controller
 					$thumbnail_file = $thumbnail_path . $imagename;
 				}
 				// echo $thumbnail;
-				@move_uploaded_file($files["image"]["tmp_name"], $thumbnail_file);
+				@move_uploaded_file($file["tmp_name"], $thumbnail_file);
 				$datas['image'] = $imagename;
 			}
 			if (strlen($prf_img_error) > 0) {
@@ -269,8 +277,8 @@ class Gigs extends CI_Controller
 		if (isset($res)) {
 			$created_on = date('Y-m-d H:i:s');
 			$this->remove_social_links($this->dbs_user_id);
-			foreach($social_links as $key=>$value){
-				$temp = ['user_id'=>$this->dbs_user_id, 'platform'=>$key, 'url'=>$value, 'created_on'=>$created_on];
+			foreach ($social_links as $key => $value) {
+				$temp = ['user_id' => $this->dbs_user_id, 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
 				$this->users_model->insert_user_social_link($temp);
 			}
 		}
@@ -299,7 +307,7 @@ class Gigs extends CI_Controller
 				'price' => $data['ticket_price'][$i],
 				'quantity' => $data['ticket_quantity'][$i],
 				'description' => $data['ticket_description'][$i],
-				'is_limited' => isset($data["ticket_is_limited_$j"]) ? $data["ticket_is_limited_$j"] : 0,
+				'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
 				'created_on' => $created_on,
 			];
 			$res = $this->gigs_model->add_ticket_tier($tier);
@@ -315,15 +323,30 @@ class Gigs extends CI_Controller
 	{
 		// echo json_encode($data);
 		$created_on = date('Y-m-d H:i:s');
-		if(isset($data["bundle_name_tier$tier"])){
-			$length = count($data["bundle_name_tier$tier"]);
+		if (isset($data["bundle_title_tier$tier"])) {
+			$length = count($data["bundle_title_tier$tier"]);
 			for ($i = 0; $i < $length; $i++) {
 				// $j = $i + 1;
+				$imagename = null;
+				if (isset($_FILES["bundle_image_tier$tier"]['tmp_name']) && !empty($_FILES["bundle_image_tier$tier"]['tmp_name'])) {
+					$image_path = bundle_relative_path();
+					$thumbnail_path = bundle_thumbnail_relative_path();
+					$imagename = $res . hrtime(true) . $this->general_model->fileExists($_FILES["bundle_image_tier$tier"]['name'][$i], $image_path);
+					$target_file = $image_path . $imagename;
+					@move_uploaded_file($_FILES["bundle_image_tier$tier"]["tmp_name"][$i], $target_file);
+					$width = 200;
+					$height = 200;
+					$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+					if ($thumbnail == '1') {
+						$thumbnail_file = $thumbnail_path . $imagename;
+					}
+					// echo $thumbnail;
+					@move_uploaded_file($_FILES["bundle_image_tier$tier"]["tmp_name"][$i], $thumbnail_file);
+				}
 				$bundle = [
 					'ticket_tier_id' => $res,
-					'name' => $data["bundle_name_tier$tier"][$i],
-					'quantity' => $data["bundle_quantity_tier$tier"][$i],
-					'price' => $data["bundle_price_tier$tier"][$i],
+					'title' => $data["bundle_title_tier$tier"][$i],
+					'image' => $imagename,
 					'created_on' => $created_on,
 				];
 				// echo json_encode($bundle);
@@ -335,12 +358,13 @@ class Gigs extends CI_Controller
 	function remove_tickets($gig_id)
 	{
 		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
-		if(isset($tickets) && !empty($tickets)){
-			foreach($tickets as $ticket)
-			{
+		if (isset($tickets) && !empty($tickets)) {
+			foreach ($tickets as $ticket) {
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
-				if(isset($bundles) && !empty($bundles)){
-					foreach($bundles as $bundle){
+				if (isset($bundles) && !empty($bundles)) {
+					foreach ($bundles as $bundle) {
+						@unlink("downloads/bundles/thumb/$bundle->image");
+						@unlink("downloads/bundles/$bundle->image");
 						$this->gigs_model->remove_bundle_by_id($bundle->id);
 					}
 				}
@@ -428,7 +452,11 @@ class Gigs extends CI_Controller
 				// echo json_encode($datas);
 				// die();
 				$user_id = $gig->user_id;
-				$this->update_user_data($data, $_FILES, $user_id);
+				$file = [];
+				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+					$file = $_FILES['image'];
+				}
+				$this->update_user_data($data, $file, $user_id);
 				$res = $this->gigs_model->update_gig_data($data['id'], $datas);
 				if (isset($res)) {
 					$this->remove_tickets($data['id']);
@@ -442,7 +470,7 @@ class Gigs extends CI_Controller
 			}
 		} else {
 			$gig = $this->gigs_model->get_gig_by_id($args1);
-			$venues = explode(',',$gig->venues);
+			$venues = explode(',', $gig->venues);
 			$gig->venues = $venues;
 			$data['gig'] = $gig;
 			// $param = [
@@ -450,7 +478,7 @@ class Gigs extends CI_Controller
 			// 	'gig_id' => $args1
 			// ];
 			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
-			foreach($tickets as $ticket){
+			foreach ($tickets as $ticket) {
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
 				$ticket->bundles = $bundles;
 			}

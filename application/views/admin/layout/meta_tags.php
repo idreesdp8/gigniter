@@ -49,5 +49,6 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/form_inputs.js"></script> -->
+	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
 	<!-- /theme JS files -->

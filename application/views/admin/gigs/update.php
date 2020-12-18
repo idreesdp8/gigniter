@@ -188,7 +188,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Poster</label>
-                                                <input type="hidden" id="old_image" value="<?php echo poster_url() . $gig->poster ?>">
+                                                <input type="hidden" class="old_image" value="<?php echo poster_url() . $gig->poster ?>">
                                                 <input type="file" name="poster" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#poster1">
                                                 <!-- <input type="file" name="image"> -->
                                                 <span id="poster1" class="text-danger" generated="true">
@@ -236,8 +236,8 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
-                                                                    <label>Quantity</label>
-                                                                    <input type="number" class="form-control" placeholder="Enter ticket quantity" name="ticket_quantity[]" min="0" value="<?php echo $ticket->quantity ?>">
+                                                                    <label>No. of Ticket</label>
+                                                                    <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0" value="<?php echo $ticket->quantity ?>">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
@@ -245,7 +245,7 @@
                                                                     <label>Limit</label>
                                                                     <div class="form-check form-check-switchery">
                                                                         <label class="form-check-label">
-                                                                            <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_limited_<?php echo $tier ?>" value="1" data-fouc <?php echo $ticket->is_limited ? 'checked' : '' ?>>
+                                                                            <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_<?php echo $tier ?>" value="1" data-fouc <?php echo $ticket->is_unlimited ? 'checked' : '' ?>>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -259,30 +259,40 @@
                                                         </div>
                                                         <div class="tier_bundles">
                                                             <?php
-                                                            if (isset($ticket->bundles)) :
                                                                 $i = 1;
-                                                                foreach ($ticket->bundles as $bundle) :
+                                                            if (isset($ticket->bundles) && !empty($ticket->bundles)) :
                                                             ?>
-                                                                    <label>Bundle <?php echo $i ?></label>
-                                                                    <div class="row mb-2">
+                                                                <label class="">Ticket Bundles</label>
+                                                                <div class="row mb-2">
+                                                                    <?php
+                                                                    foreach ($ticket->bundles as $bundle) :
+                                                                    ?>
                                                                         <div class="col-md-4">
-                                                                            <input type="text" name="bundle_name_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Name" value="<?php echo $bundle->name ?>">
+                                                                            <div class="form-group">
+                                                                                <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>
+                                                                                <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
+                                                                            </div>
+                                                                            <input type="hidden" class="old_image" value="<?php echo bundle_url() . $bundle->image ?>">
+                                                                            <input type="file" name="bundle_image_tier<?php echo $tier ?>[]" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                                                                         </div>
-                                                                        <div class="col-md-4">
-                                                                            <input type="number" name="bundle_quantity_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Quantity" min="0" value="<?php echo $bundle->quantity ?>">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <input type="number" name="bundle_price_tier<?php echo $tier ?>[]" class="form-control" placeholder="Ticket Price" min="0" value="<?php echo $bundle->price ?>">
-                                                                        </div>
-                                                                    </div>
+                                                                    <?php
+                                                                        $i++;
+                                                                    endforeach;
+                                                                    ?>
+                                                                </div>
                                                             <?php
-                                                                endforeach;
+                                                            else :
+                                                            ?>
+                                                            <label class="d-none">Ticket Bundles</label>
+                                                            <div class="row mb-2">
+
+                                                            </div>
+                                                            <?php
                                                             endif;
                                                             ?>
-
                                                         </div>
                                                         <div class="text-right mt-3">
-                                                            <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="<?php echo $tier ?>"><i class="icon-plus3"></i> Add Bundle</button>
+                                                            <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>"><i class="icon-plus3"></i> Add Bundle</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -317,8 +327,8 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label>Quantity</label>
-                                                                <input type="number" class="form-control" placeholder="Enter ticket quantity" name="ticket_quantity[]" min="0">
+                                                                <label>No. of Ticket</label>
+                                                                <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1">
@@ -326,7 +336,7 @@
                                                                 <label>Limit</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
-                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_limited_1" value="1" data-fouc>
+                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_1" value="1" data-fouc>
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -339,7 +349,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="tier_bundles">
+                                                        <label class="d-none">Ticket Bundles</label>
+                                                        <div class="row mb-2">
 
+                                                        </div>
                                                     </div>
                                                     <div class="text-right mt-3">
                                                         <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="1"><i class="icon-plus3"></i> Add Bundle</button>
@@ -372,8 +385,8 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label>Quantity</label>
-                                                                <input type="number" class="form-control" placeholder="Enter ticket quantity" name="ticket_quantity[]" min="0">
+                                                                <label>No. of Ticket</label>
+                                                                <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1">
@@ -381,7 +394,7 @@
                                                                 <label>Limit</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
-                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_limited_2" value="1" data-fouc>
+                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_2" value="1" data-fouc>
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -394,7 +407,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="tier_bundles">
+                                                        <label class="d-none">Ticket Bundles</label>
+                                                        <div class="row mb-2">
 
+                                                        </div>
                                                     </div>
                                                     <div class="text-right mt-3">
                                                         <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="2"><i class="icon-plus3"></i> Add Bundle</button>
@@ -427,8 +443,8 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label>Quantity</label>
-                                                                <input type="number" class="form-control" placeholder="Enter ticket quantity" name="ticket_quantity[]" min="0">
+                                                                <label>No. of Ticket</label>
+                                                                <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1">
@@ -436,7 +452,7 @@
                                                                 <label>Limit</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
-                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_limited_3" value="1" data-fouc>
+                                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_3" value="1" data-fouc>
                                                                     </label>
                                                                 </div>
                                                             </div>
@@ -449,7 +465,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="tier_bundles">
+                                                        <label class="d-none">Ticket Bundles</label>
+                                                        <div class="row mb-2">
 
+                                                        </div>
                                                     </div>
                                                     <div class="text-right mt-3">
                                                         <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="3"><i class="icon-plus3"></i> Add Bundle</button>
@@ -499,7 +518,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <label for="image">Image</label>
-                                            <input type="hidden" id="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
+                                            <input type="hidden" class="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
                                             <input type="file" name="image" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#image1">
                                             <!-- <input type="file" name="image"> -->
                                             <span id="image1" class="text-danger" generated="true">
@@ -579,6 +598,20 @@
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_gig_view a').addClass('active');
 
+            var fileActionSettings = {
+                zoomClass: '',
+                zoomIcon: '<i class="icon-zoomin3"></i>',
+                dragClass: 'p-2',
+                dragIcon: '<i class="icon-three-bars"></i>',
+                removeClass: '',
+                removeErrorClass: 'text-danger',
+                removeIcon: '<i class="icon-bin"></i>',
+                indicatorNew: '<i class="icon-file-plus text-success"></i>',
+                indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+                indicatorError: '<i class="icon-cross2 text-danger"></i>',
+                indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>'
+            };
+
             $('#campaign_date').change(function() {
                 var campaign_date = new Date($(this).val());
                 var gig_min_date = campaign_date.toISOString().substring(0, 10);
@@ -592,21 +625,34 @@
                 var i = $(this).attr('data-bundle');
                 var tier = $(this).data('tier');
                 var card = '#card' + tier;
-                var div = $(this).parents(card).find('.tier_bundles');
-                div.append('<label>Bundle ' + i + '</label>' +
-                    '<div class="row mb-2">' +
-                    '<div class="col-md-4">' +
-                    '<input type="text" name="bundle_name_tier' + tier + '[]" class="form-control" placeholder="Bundle Name">' +
+                var label = $(this).parents(card).find('.tier_bundles label');
+                label.removeClass('d-none');
+                var div = $(this).parents(card).find('.tier_bundles .row');
+                div.append('<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>' +
+                    '<input type="text" name="bundle_title_tier' + tier + '[]" class="form-control" placeholder="Bundle Title">' +
                     '</div>' +
-                    '<div class="col-md-4">' +
-                    '<input type="number" name="bundle_quantity_tier' + tier + '[]" class="form-control" placeholder="Bundle Quantity" min="0">' +
-                    '</div>' +
-                    '<div class="col-md-4">' +
-                    '<input type="number" name="bundle_price_tier' + tier + '[]" class="form-control" placeholder="Ticket Price" min="0">' +
-                    '</div>' +
+                    '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
                     '</div>');
                 i++;
                 $(this).attr('data-bundle', i);
+                $('.file-input').fileinput({
+                    browseLabel: 'Browse',
+                    previewFileType: 'image',
+                    browseIcon: '<i class="icon-image2 mr-2"></i>',
+                    initialCaption: "No file selected",
+                    fileActionSettings: fileActionSettings
+                });
+            });
+            $(document).on('click', '.remove_tier_bundle', function() {
+                var div = $(this).parents('.col-md-4');
+                div.remove();
+            });
+
+            var old_images = $('.old_image');
+            $.each(old_images, function(key, value) {
+                $(this).siblings('.file-input').find('img').attr('src', $(this).val());
             });
 
             // var validator = $('#basic_info_form').validate({

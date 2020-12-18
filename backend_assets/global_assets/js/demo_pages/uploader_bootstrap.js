@@ -27,13 +27,14 @@ var FileUpload = function() {
         //
         // Define variables
         //
-        var image = $('#old_image').val();
+        var image = $('.old_image').val();
         var label = '';
         if(image) {
             label = 'Change';
         } else {
             label = 'Upload';
         }
+
 
         // Modal template
         var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
