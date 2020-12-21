@@ -117,7 +117,7 @@
                                         <div class="form-group">
                                             <label>Poster</label>
                                             <div class="media mt-0 p-1" style="border: 2px dashed #ccc; height: 350px">
-                                                <img src="<?php echo poster_url() ?>WD_Poster_2018.jpg" alt="" class="m-auto h-100">
+                                                <!-- <img src="<?php //echo poster_url() ?>WD_Poster_2018.jpg" alt="" class="m-auto h-100"> -->
                                             </div>
                                         </div>
                                     </div>
