@@ -135,14 +135,14 @@
                                                     <div class="form-group">
                                                         <?php $curr_date = date('Y-m-d'); ?>
                                                         <label>Campaign Launch Date <span class="text-danger">*</span></label>
-                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" min="<?php echo $curr_date ?>" required>
+                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" min="<?php echo $curr_date ?>" data-error="#campaign_date1">
                                                         <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Gig Date <span class="text-danger">*</span></label>
-                                                        <input type="date" name="gig_date" id="gig_date" class="form-control" required>
+                                                        <input type="date" name="gig_date" id="gig_date" class="form-control" data-error="#gig_date1">
                                                         <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                                                     </div>
                                                 </div>
@@ -191,7 +191,7 @@
                                                 <!-- <input type="file" name="image"> -->
                                                 <span id="poster1" class="text-danger" generated="true">
                                                     <?php
-                                                    echo form_error('image');
+                                                    echo form_error('poster');
                                                     if (isset($_SESSION['prof_img_error'])) {
                                                         echo $_SESSION['prof_img_error'];
                                                     } ?>
@@ -420,7 +420,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <label for="image">Image</label>
-                                            <input type="hidden" id="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
+                                            <input type="hidden" class="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
                                             <input type="file" name="image" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#image1">
                                             <!-- <input type="file" name="image"> -->
                                             <span id="image1" class="text-danger" generated="true">
@@ -552,67 +552,79 @@
                 div.remove();
             });
 
-            // var validator = $('#basic_info_form').validate({
-            //     rules: {
-            //         title: {
-            //             required: true
-            //         },
-            //         category: {
-            //             required: true
-            //         },
-            //         genre: {
-            //             required: true,
-            //         },
-            //         goal: {
-            //             required: true,
-            //         },
-            //         // campaign_date: {
-            //         //     required: false,
-            //         // },
-            //         // gig_date: {
-            //         //     required: false,
-            //         // },
-            //         poster: {
-            //             required: false,
-            //             accept: "gif|png|jpg|jpeg"
-            //         }
-            //     },
-            //     messages: {
-            //         title: {
-            //             required: "Title is required field"
-            //         },
-            //         category: {
-            //             required: "Category is required field"
-            //         },
-            //         genre: {
-            //             required: "Genre is required field",
-            //         },
-            //         goal: {
-            //             required: "Goal is required field",
-            //         },
-            //         // campaign_date: {
-            //         //     date: "Campaign Date is required field",
-            //         // },
-            //         // gig_date: {
-            //         //     date: "Gig Date is required field",
-            //         // },
-            //         poster: {
-            //             required: "This is required field",
-            //             accept: "Accepts images having extension gif|png|jpg|jpeg"
-            //         }
-            //     },
-            //     errorPlacement: function(error, element) {
-            //         var placement = $(element).data('error');
-            //         if (placement) {
-            //             $(placement).append(error)
-            //         } else {
-            //             error.insertAfter(element);
-            //         }
-            //     },
-            //     submitHandler: function() {
-            //         document.forms["basic_info_form"].submit();
-            //     }
-            // });
+            var validator = $('#basic_info_form').validate({
+                rules: {
+                    title: {
+                        required: true
+                    },
+                    category: {
+                        required: true
+                    },
+                    genre: {
+                        required: true,
+                    },
+                    goal: {
+                        required: true,
+                    },
+                    campaign_date: {
+                        required: true,
+                        date: true
+                    },
+                    gig_date: {
+                        required: true,
+                        date: true
+                    },
+                    poster: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    image: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    }
+                },
+                messages: {
+                    title: {
+                        required: "Title is required field"
+                    },
+                    category: {
+                        required: "Category is required field"
+                    },
+                    genre: {
+                        required: "Genre is required field",
+                    },
+                    goal: {
+                        required: "Goal is required field",
+                    },
+                    campaign_date: {
+                        required: "Campaign Date is required field",
+                        date: "Please enter a valid date",
+                    },
+                    gig_date: {
+                        required: "Gig Date is required field",
+                        date: "Please enter a valid date",
+                    },
+                    poster: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    image: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function() {
+                    document.forms["basic_info_form"].submit();
+                }
+            });
         });
     </script>
 

@@ -866,7 +866,7 @@ $.extend($.validator, {
 		});
 
 		// clean number parameters
-		$.each(['minlength', 'maxlength', 'min', 'max'], function() {
+		$.each(['minlength', 'maxlength'], function() {
 			if (rules[this]) {
 				rules[this] = Number(rules[this]);
 			}

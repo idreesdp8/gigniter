@@ -655,67 +655,79 @@
                 $(this).siblings('.file-input').find('img').attr('src', $(this).val());
             });
 
-            // var validator = $('#basic_info_form').validate({
-            //     rules: {
-            //         title: {
-            //             required: true
-            //         },
-            //         category: {
-            //             required: true
-            //         },
-            //         genre: {
-            //             required: true,
-            //         },
-            //         goal: {
-            //             required: true,
-            //         },
-            //         // campaign_date: {
-            //         //     required: false,
-            //         // },
-            //         // gig_date: {
-            //         //     required: false,
-            //         // },
-            //         poster: {
-            //             required: false,
-            //             accept: "gif|png|jpg|jpeg"
-            //         }
-            //     },
-            //     messages: {
-            //         title: {
-            //             required: "Title is required field"
-            //         },
-            //         category: {
-            //             required: "Category is required field"
-            //         },
-            //         genre: {
-            //             required: "Genre is required field",
-            //         },
-            //         goal: {
-            //             required: "Goal is required field",
-            //         },
-            //         // campaign_date: {
-            //         //     date: "Campaign Date is required field",
-            //         // },
-            //         // gig_date: {
-            //         //     date: "Gig Date is required field",
-            //         // },
-            //         poster: {
-            //             required: "This is required field",
-            //             accept: "Accepts images having extension gif|png|jpg|jpeg"
-            //         }
-            //     },
-            //     errorPlacement: function(error, element) {
-            //         var placement = $(element).data('error');
-            //         if (placement) {
-            //             $(placement).append(error)
-            //         } else {
-            //             error.insertAfter(element);
-            //         }
-            //     },
-            //     submitHandler: function() {
-            //         document.forms["basic_info_form"].submit();
-            //     }
-            // });
+            var validator = $('#basic_info_form').validate({
+                rules: {
+                    title: {
+                        required: true
+                    },
+                    category: {
+                        required: true
+                    },
+                    genre: {
+                        required: true,
+                    },
+                    goal: {
+                        required: true,
+                    },
+                    campaign_date: {
+                        required: true,
+                        date: true
+                    },
+                    gig_date: {
+                        required: true,
+                        date: true
+                    },
+                    poster: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    image: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    }
+                },
+                messages: {
+                    title: {
+                        required: "Title is required field"
+                    },
+                    category: {
+                        required: "Category is required field"
+                    },
+                    genre: {
+                        required: "Genre is required field",
+                    },
+                    goal: {
+                        required: "Goal is required field",
+                    },
+                    campaign_date: {
+                        required: "Campaign Date is required field",
+                        date: "Please enter a valid date",
+                    },
+                    gig_date: {
+                        required: "Gig Date is required field",
+                        date: "Please enter a valid date",
+                    },
+                    poster: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    image: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function() {
+                    document.forms["basic_info_form"].submit();
+                }
+            });
         });
     </script>
 
