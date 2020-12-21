@@ -64,8 +64,8 @@
                 <li class="nav-item nav-item-submenu" id="sidebar_configuration">
                     <a href="#" class="nav-link"><i class="icon-cog"></i> <span>Configurations</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Configurations">
-                        <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Genres</a></li>
-                        <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Categories</a></li>
+                        <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Gig Genres</a></li>
+                        <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Gig Categories</a></li>
                         <li class="nav-item" id="sidebar_gig_status"><a href="<?php echo admin_base_url(); ?>gig_statuses" class="nav-link">Gig Statuses</a></li>
                         <li class="nav-item" id="sidebar_country"><a href="<?php echo admin_base_url(); ?>countries" class="nav-link">Countries</a></li>
                     </ul>
