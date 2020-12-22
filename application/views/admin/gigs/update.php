@@ -35,6 +35,10 @@
 
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
                     </div>
+                    <div class="text-right">
+                        <a href="<?php echo $this->agent->referrer(); ?>" type="button" class="btn bg-slate btn-xs">Cancel</a>
+                        <button type="submit" class="btn btn-success btn-xs" id="update_gig">Update Gig</button>
+                    </div>
                 </div>
             </div>
             <div class="content">
@@ -188,7 +192,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Poster</label>
-                                                <input type="hidden" class="old_image" value="<?php echo poster_url() . $gig->poster ?>">
+                                                <input type="hidden" name="old_poster" class="old_image" value="<?php echo poster_url() . $gig->poster ?>">
                                                 <input type="file" name="poster" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#poster1">
                                                 <!-- <input type="file" name="image"> -->
                                                 <span id="poster1" class="text-danger" generated="true">
@@ -242,7 +246,7 @@
                                                             </div>
                                                             <div class="col-md-1">
                                                                 <div class="form-group">
-                                                                    <label>Limit</label>
+                                                                    <label>Unlimited</label>
                                                                     <div class="form-check form-check-switchery">
                                                                         <label class="form-check-label">
                                                                             <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_<?php echo $tier ?>" value="1" data-fouc <?php echo $ticket->is_unlimited ? 'checked' : '' ?>>
@@ -259,7 +263,7 @@
                                                         </div>
                                                         <div class="tier_bundles">
                                                             <?php
-                                                                $i = 1;
+                                                            $i = 1;
                                                             if (isset($ticket->bundles) && !empty($ticket->bundles)) :
                                                             ?>
                                                                 <label class="">Ticket Bundles</label>
@@ -273,7 +277,8 @@
                                                                                 <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
                                                                             </div>
                                                                             <input type="hidden" class="old_image" value="<?php echo bundle_url() . $bundle->image ?>">
-                                                                            <input type="file" name="bundle_image_tier<?php echo $tier ?>[]" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                                                                            <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
+                                                                            <input type="file" name="bundle_image_tier<?php echo $tier ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                                                                         </div>
                                                                     <?php
                                                                         $i++;
@@ -283,10 +288,10 @@
                                                             <?php
                                                             else :
                                                             ?>
-                                                            <label class="d-none">Ticket Bundles</label>
-                                                            <div class="row mb-2">
+                                                                <label class="d-none">Ticket Bundles</label>
+                                                                <div class="row mb-2">
 
-                                                            </div>
+                                                                </div>
                                                             <?php
                                                             endif;
                                                             ?>
@@ -333,7 +338,7 @@
                                                         </div>
                                                         <div class="col-md-1">
                                                             <div class="form-group">
-                                                                <label>Limit</label>
+                                                                <label>Unlimited</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
                                                                         <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_1" value="1" data-fouc>
@@ -391,7 +396,7 @@
                                                         </div>
                                                         <div class="col-md-1">
                                                             <div class="form-group">
-                                                                <label>Limit</label>
+                                                                <label>Unlimited</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
                                                                         <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_2" value="1" data-fouc>
@@ -449,7 +454,7 @@
                                                         </div>
                                                         <div class="col-md-1">
                                                             <div class="form-group">
-                                                                <label>Limit</label>
+                                                                <label>Unlimited</label>
                                                                 <div class="form-check form-check-switchery">
                                                                     <label class="form-check-label">
                                                                         <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_3" value="1" data-fouc>
@@ -518,7 +523,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             <label for="image">Image</label>
-                                            <input type="hidden" class="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
+                                            <input type="hidden" name="old_image" class="old_image" value="<?php echo $user->image ? profile_image_url() . $user->image : '' ?>">
                                             <input type="file" name="image" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#image1">
                                             <!-- <input type="file" name="image"> -->
                                             <span id="image1" class="text-danger" generated="true">
@@ -579,6 +584,7 @@
                         </div>
                     </div>
                     <div class="text-right">
+                        <a href="<?php echo $this->agent->referrer(); ?>" type="button" class="btn bg-slate">Cancel</a>
                         <button type="submit" class="btn btn-success">Update Gig</button>
                     </div>
                 </form>
@@ -633,7 +639,7 @@
                     '<div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>' +
                     '<input type="text" name="bundle_title_tier' + tier + '[]" class="form-control" placeholder="Bundle Title">' +
                     '</div>' +
-                    '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
+                    '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
                     '</div>');
                 i++;
                 $(this).attr('data-bundle', i);
@@ -648,6 +654,10 @@
             $(document).on('click', '.remove_tier_bundle', function() {
                 var div = $(this).parents('.col-md-4');
                 div.remove();
+            });
+
+            $('#update_gig').click(function(){
+                $('#basic_info_form').submit();
             });
 
             var old_images = $('.old_image');
@@ -684,7 +694,19 @@
                     image: {
                         required: false,
                         accept: "gif|png|jpg|jpeg"
-                    }
+                    },
+                    bundle_image_tier1: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier2: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier3: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
                 },
                 messages: {
                     title: {
@@ -712,6 +734,18 @@
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
                     },
                     image: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier1: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier2: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier3: {
                         required: "This is required field",
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
                     },

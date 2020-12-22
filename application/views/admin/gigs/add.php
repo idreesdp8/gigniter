@@ -535,7 +535,7 @@
                     '<div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>' +
                     '<input type="text" name="bundle_title_tier' + tier + '[]" class="form-control" placeholder="Bundle Title">' +
                     '</div>' +
-                    '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
+                    '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
                     '</div>');
                 i++;
                 $(this).attr('data-bundle', i);
@@ -581,7 +581,19 @@
                     image: {
                         required: false,
                         accept: "gif|png|jpg|jpeg"
-                    }
+                    },
+                    bundle_image_tier1: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier2: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier3: {
+                        required: false,
+                        accept: "gif|png|jpg|jpeg"
+                    },
                 },
                 messages: {
                     title: {
@@ -609,6 +621,18 @@
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
                     },
                     image: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier1: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier2: {
+                        required: "This is required field",
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
+                    },
+                    bundle_image_tier3: {
                         required: "This is required field",
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
                     },

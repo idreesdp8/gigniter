@@ -327,8 +327,8 @@ class Gigs extends CI_Controller
 			$length = count($data["bundle_title_tier$tier"]);
 			for ($i = 0; $i < $length; $i++) {
 				// $j = $i + 1;
-				$imagename = null;
-				if (isset($_FILES["bundle_image_tier$tier"]['tmp_name']) && !empty($_FILES["bundle_image_tier$tier"]['tmp_name'])) {
+				$imagename = (isset($_POST["old_bundle_image_tier$tier"][$i]) && $_POST["old_bundle_image_tier$tier"][$i] != '') ? $_POST["old_bundle_image_tier$tier"][$i] : '';
+				if (isset($_FILES["bundle_image_tier$tier"]['tmp_name'][$i]) && $_FILES["bundle_image_tier$tier"]['tmp_name'][$i] != '') {
 					$image_path = bundle_relative_path();
 					$thumbnail_path = bundle_thumbnail_relative_path();
 					$imagename = $res . hrtime(true) . $this->general_model->fileExists($_FILES["bundle_image_tier$tier"]['name'][$i], $image_path);
@@ -363,8 +363,8 @@ class Gigs extends CI_Controller
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
 				if (isset($bundles) && !empty($bundles)) {
 					foreach ($bundles as $bundle) {
-						@unlink("downloads/bundles/thumb/$bundle->image");
-						@unlink("downloads/bundles/$bundle->image");
+						// @unlink("downloads/bundles/thumb/$bundle->image");
+						// @unlink("downloads/bundles/$bundle->image");
 						$this->gigs_model->remove_bundle_by_id($bundle->id);
 					}
 				}
