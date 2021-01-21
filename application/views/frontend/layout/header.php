@@ -26,6 +26,7 @@
                 </li>
                 <?php
                 $vs_id = $this->session->userdata('us_id');
+                $vs_fname = $this->session->userdata('us_fname');
                 if (!$vs_id) :
                 ?>
                     <li class="header-button pr-0">
@@ -40,7 +41,7 @@
                     <li>
                         <a href="#0">
                             <span class="signed-welcome">Welcome</span>
-                            <p class="user-name">Shahid <span class="name-divider">|</span> My accounts</p>
+                            <p class="user-name"><?php echo $vs_fname ?> <span class="name-divider">|</span> My accounts</p>
                         </a>
                         <ul class="submenu signed-user-menu">
                             <li>
