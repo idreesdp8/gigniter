@@ -199,7 +199,9 @@ class Roles extends CI_Controller
 				// echo 'World';
 				// $created_on = date('Y-m-d H:i:s');
 				$record = $this->general_model->get_role_by_name($name);
-				if ($record) {
+				$role = $this->roles_model->get_role_by_id($args1);
+
+				if ($record && $name != $role->name) {
 					$this->session->set_flashdata('warning_msg', 'Warning: This role is already added!');
 				} else {
 					$data = array(
@@ -250,6 +252,19 @@ class Roles extends CI_Controller
 				// die();
 				$this->load->view('admin/roles/update', $data);
 			}
+		} else {
+			$data['args1'] = $args1;
+			$data['role'] = $this->roles_model->get_role_by_id($args1);
+			$data['records'] = $this->permissions_model->get_all_permissions();
+			$role_permissions = $this->general_model->get_role_permissions($args1);
+			$temp = [];
+			if (isset($role_permissions)) {
+				foreach ($role_permissions as $key => $value) {
+					$temp[] = $value->permission_id;
+				}
+			}
+			$data['role_permissions'] = $temp;
+			$this->load->view('admin/roles/update', $data);
 		}
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');

@@ -27,15 +27,6 @@
 				<?php
 				$role_name = $this->session->userdata('us_role_name');
 				echo $role_name;
-				// echo $role_id;
-				// // die();
-				// $role = $this->roles_model->get_role_by_id($role_id);
-				// echo $role['name'];
-				// if($role_id == 1){
-				// 	echo 'Admin';
-				// } elseif ($role_id == 2) {
-				// 	echo 'Artist';
-				// }
 				?>
 			</span>
 			<ul class="navbar-nav">

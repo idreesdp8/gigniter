@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>User</th>
                 <th>Title</th>
                 <th>Category</th>
                 <th>Genre</th>
@@ -21,6 +22,7 @@
             ?>
                 <tr>
                     <td><?php echo $i ?></td>
+                    <td><?php echo $record->user_name ?></td>
                     <td><?php echo $record->title ?></td>
                     <td><?php echo $record->category ?></td>
                     <td><?php echo $record->genre ?></td>

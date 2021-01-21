@@ -11,6 +11,7 @@ class Categories extends CI_Controller
 		$this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
 		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
 		$this->load->model('admin/general_model', 'general_model');
+		$this->load->model('admin/permissions_model', 'permissions_model');
 		// if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 		// 	/* ok */ 
 		// 	$res_nums = $this->general_model->check_controller_permission_access($vs_role_id);

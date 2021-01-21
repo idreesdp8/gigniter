@@ -4,9 +4,13 @@
 	   return base_url().'backend_assets/';
 	} 
 	
-	function assets_url(){
-	   return base_url().'assets/';
-	}  
+	function user_asset_url(){
+	   return base_url().'frontend_assets/';
+	} 
+	
+	// function assets_url(){
+	//    return base_url().'assets/';
+	// }  
 
 	function product_image_url(){
 	   return base_url().'downloads/products_images/';
@@ -18,6 +22,10 @@
 	
 	function admin_base_url(){
 		return base_url().'index.php/admin/';
+	}
+	
+	function user_base_url(){
+		return base_url().'index.php/';
 	}
 	
 	function profile_image_relative_path(){

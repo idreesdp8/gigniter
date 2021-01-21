@@ -138,9 +138,10 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <?php $curr_date = date('Y-m-d'); ?>
+                                                        <?php //$curr_date = date('Y-m-d'); ?>
+                                                        <!-- min="<?php //echo $curr_date ?>" -->
                                                         <label>Campaign Launch Date <span class="text-danger">*</span></label>
-                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" min="<?php echo $curr_date ?>" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>">
+                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>">
                                                         <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                                                     </div>
                                                 </div>

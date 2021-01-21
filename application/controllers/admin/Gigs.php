@@ -11,6 +11,7 @@ class Gigs extends CI_Controller
 		$this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
 		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
 		$this->load->model('admin/general_model', 'general_model');
+		$this->load->model('admin/permissions_model', 'permissions_model');
 		// if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 
 		// 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
@@ -42,9 +43,11 @@ class Gigs extends CI_Controller
 
 		$gigs = $this->gigs_model->get_all_gigs();
 		foreach ($gigs as $gig) {
+			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$temp = ['key' => $this->key, 'value' => $gig->status];
 			$status = $this->configurations_model->get_configuration_by_key_value($temp);
 			$gig->status_label = $status->label;
+			$gig->user_name = $user->fname.' '.$user->lname;
 		}
 		$data['records'] = $gigs;
 		// echo json_encode($data);
@@ -169,7 +172,7 @@ class Gigs extends CI_Controller
 				);
 				// echo json_encode($datas);
 				// die();
-				$this->update_user_data($data, $file);
+				$this->update_user_data($data, $file, $this->dbs_user_id);
 				// die();
 				$res = $this->gigs_model->insert_gig_data($datas);
 
@@ -193,6 +196,8 @@ class Gigs extends CI_Controller
 			$data['countries'] = $this->countries_model->get_all_countries();
 			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 			$links = $this->users_model->get_social_links($this->dbs_user_id);
+			// echo json_encode($data['user']);
+			// die();
 			if (isset($links) && !empty($links)) {
 				foreach ($links as $key => $val) {
 					$temp[] = [$val->platform => $val->url];
@@ -249,7 +254,7 @@ class Gigs extends CI_Controller
 			}
 
 			if ($prf_img_error == '') {
-				$user = $this->users_model->get_user_by_id(!empty($user_id) ? $user_id : $this->dbs_user_id);
+				$user = $this->users_model->get_user_by_id($user_id);
 				@unlink("downloads/profile_pictures/thumb/$user->image");
 				@unlink("downloads/profile_pictures/$user->image");
 				$image_path = profile_image_relative_path();
@@ -273,12 +278,12 @@ class Gigs extends CI_Controller
 				// $this->load->view('admin/users/add', $data);
 			}
 		}
-		$res = $this->users_model->update_user_data($this->dbs_user_id, $datas);
+		$res = $this->users_model->update_user_data($user_id, $datas);
 		if (isset($res)) {
 			$created_on = date('Y-m-d H:i:s');
-			$this->remove_social_links($this->dbs_user_id);
+			$this->remove_social_links($user_id);
 			foreach ($social_links as $key => $value) {
-				$temp = ['user_id' => $this->dbs_user_id, 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
+				$temp = ['user_id' => $user_id, 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
 				$this->users_model->insert_user_social_link($temp);
 			}
 		}
@@ -487,8 +492,8 @@ class Gigs extends CI_Controller
 			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
 			$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
 			$data['countries'] = $this->countries_model->get_all_countries();
-			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-			$links = $this->users_model->get_social_links($this->dbs_user_id);
+			$data['user'] = $this->users_model->get_user_by_id($gig->user_id);
+			$links = $this->users_model->get_social_links($gig->user_id);
 			if (isset($links) && !empty($links)) {
 				foreach ($links as $key => $val) {
 					$temp[] = [$val->platform => $val->url];
