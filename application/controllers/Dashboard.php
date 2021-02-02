@@ -58,7 +58,7 @@ class Dashboard extends CI_Controller {
 				if($gig->is_featured && $gig->days_left <= 0){
 					$featured_gigs[] = $gig;
 				}
-				if($gig->days_left == 0 && (date('H:i:s') > date('H:i:s', strtotime($gig->start_time)) && date('H:i:s') < date('H:i:s', strtotime($gig->end_time)))) {
+				if($gig->days_left == 0 && (new DateTime(date('H:i:s')) > new DateTime(date('H:i:s', strtotime($gig->start_time))) && new DateTime(date('H:i:s')) < new DateTime(date('H:i:s', strtotime($gig->end_time))))) {
 					$now_showing[] = $gig;
 				}
 			}
