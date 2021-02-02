@@ -287,7 +287,7 @@ class Users extends CI_Controller
 				$datas = array(
 					'fname' => $data['fname'],
 					'lname' => $data['lname'],
-					'email' => $data['email'],
+					// 'email' => $data['email'],
 					'mobile_no' => $data['mobile_no'],
 					'phone_no' => $data['phone_no'],
 					'description' => $data['description'],
