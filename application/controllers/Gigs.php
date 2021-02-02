@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Gig extends CI_Controller {
+class Gigs extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -21,6 +21,17 @@ class Gig extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('frontend/gigs/index');
+	}
+
+	public function add()
+	{
+		if (isset($_POST) && !empty($_POST)) {
+			$data = $_POST;
+			return json_encode($data);
+			die();
+		} else {
+			$this->load->view('frontend/gigs/create');
+		}
 	}
 	
 	public function live()

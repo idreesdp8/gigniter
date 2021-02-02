@@ -61,7 +61,7 @@
                             <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                                 <li class="nav-item"><a href="#justified-right-icon-tab1" class="nav-link active" data-toggle="tab">Basic Info <i class="icon-mic2 ml-2"></i></a></li>
                                 <li class="nav-item"><a href="#justified-right-icon-tab2" class="nav-link" data-toggle="tab">Ticket Tiers <i class="icon-ticket ml-2"></i></a></li>
-                                <li class="nav-item"><a href="#justified-right-icon-tab3" class="nav-link" data-toggle="tab">About You <i class="icon-user ml-2"></i></a></li>
+                                <li class="nav-item"><a href="#justified-right-icon-tab3" class="nav-link" data-toggle="tab">About Artist <i class="icon-user ml-2"></i></a></li>
                                 <!-- <li class="nav-item"><a href="#justified-right-icon-tab4" class="nav-link" data-toggle="tab">Inactive <i class="icon-mention ml-2"></i></a></li> -->
                             </ul>
 
@@ -138,8 +138,10 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <?php //$curr_date = date('Y-m-d'); ?>
-                                                        <!-- min="<?php //echo $curr_date ?>" -->
+                                                        <?php //$curr_date = date('Y-m-d'); 
+                                                        ?>
+                                                        <!-- min="<?php //echo $curr_date 
+                                                                    ?>" -->
                                                         <label>Campaign Launch Date <span class="text-danger">*</span></label>
                                                         <input type="date" name="campaign_date" id="campaign_date" class="form-control" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>">
                                                         <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
@@ -152,42 +154,88 @@
                                                         <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Start Time <span class="text-danger">*</span></label>
+                                                        <input type="time" name="start_time" id="start_time" class="form-control" value="<?php echo date('H:i:s', strtotime($gig->start_time)) ?>">
+                                                        <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>End Time <span class="text-danger">*</span></label>
+                                                        <input type="time" name="end_time" id="end_time" class="form-control" value="<?php echo date('H:i:s', strtotime($gig->end_time)) ?>">
+                                                        <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Venue</label>
-                                                        <br>
-                                                        <div class="form-check form-check-switchery form-check-inline">
-                                                            <label class="form-check-label">
-                                                                Live stream
-                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="live-stream" data-fouc <?php echo in_array('live-stream', $gig->venues) ? 'checked' : '' ?>>
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check form-check-switchery form-check-inline">
-                                                            <label class="form-check-label">
-                                                                Physical
-                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="physical" data-fouc <?php echo in_array('physical', $gig->venues) ? 'checked' : '' ?>>
-                                                            </label>
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Venue</label>
+                                                <br>
+                                                <div class="form-check form-check-switchery form-check-inline">
+                                                    <label class="form-check-label">
+                                                        Live stream
+                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="live-stream" data-fouc <?php echo in_array('live-stream', $gig->venues) ? 'checked' : '' ?>>
+                                                    </label>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Status</label>
-                                                        <select name="status" class="form-control select">
-                                                            <?php
-                                                            if (isset($status)) :
-                                                                foreach ($status as $k => $v) :
-                                                            ?>
-                                                                    <option value="<?php echo $v->value ?>" <?php echo $gig->status == $v->value ? 'selected' : '' ?>><?php echo $v->label ?></option>
-                                                            <?php
-                                                                endforeach;
-                                                            endif;
-                                                            ?>
-                                                        </select>
-                                                    </div>
+                                                <div class="form-check form-check-switchery form-check-inline">
+                                                    <label class="form-check-label">
+                                                        Physical
+                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="physical" data-fouc <?php echo in_array('physical', $gig->venues) ? 'checked' : '' ?>>
+                                                    </label>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select name="status" class="form-control select">
+                                                    <?php
+                                                    if (isset($status)) :
+                                                        foreach ($status as $k => $v) :
+                                                    ?>
+                                                            <option value="<?php echo $v->value ?>" <?php echo $gig->status == $v->value ? 'selected' : '' ?>><?php echo $v->label ?></option>
+                                                    <?php
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Featured Gig</label>
+                                                <select name="is_featured" class="form-control select">
+                                                    <?php
+                                                    // if (isset($status)) :
+                                                    //     foreach ($status as $k => $v) :
+                                                    ?>
+                                                            <option value="0" <?php echo $gig->is_featured ? 'selected' : '' ?>>No</option>
+                                                            <option value="1" <?php echo $gig->is_featured ? 'selected' : '' ?>>Yes</option>
+                                                    <?php
+                                                    //     endforeach;
+                                                    // endif;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Exclusive Gig</label>
+                                                <select name="is_exclusive" class="form-control select">
+                                                    <?php
+                                                    // if (isset($status)) :
+                                                    //     foreach ($status as $k => $v) :
+                                                    ?>
+                                                            <option value="0" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>No</option>
+                                                            <option value="1" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>Yes</option>
+                                                    <?php
+                                                    //     endforeach;
+                                                    // endif;
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -657,7 +705,7 @@
                 div.remove();
             });
 
-            $('#update_gig').click(function(){
+            $('#update_gig').click(function() {
                 $('#basic_info_form').submit();
             });
 
@@ -687,6 +735,12 @@
                     gig_date: {
                         required: true,
                         date: true
+                    },
+                    start_time: {
+                        required: true,
+                    },
+                    end_time: {
+                        required: true,
                     },
                     poster: {
                         required: false,

@@ -405,15 +405,19 @@ class Gigs extends CI_Controller
 			} else {
 
 				$datas = array(
-					'title' => $data['title'] ?? null,
+					'title' => $data['title'],
 					'subtitle' => $data['subtitle'] ?? null,
-					'category' => $data['category'] ?? null,
-					'genre' => $data['genre'] ?? null,
+					'category' => $data['category'],
+					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
-					'goal' => $data['goal'] ?? null,
+					'goal' => $data['goal'],
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
+					'is_featured' => $data['is_featured'],
+					'is_exclusive' => $data['is_exclusive'],
 					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
 					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
+					'start_time' => date('H:i:s', strtotime($data['start_time'])),
+					'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 					'status' => $data['status'] ?? null,
 				);

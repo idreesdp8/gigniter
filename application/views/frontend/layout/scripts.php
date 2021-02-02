@@ -14,3 +14,4 @@
 <script src="<?php echo user_asset_url(); ?>js/viewport.jquery.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/nice-select.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/main.js"></script>
+<script src="<?php echo user_asset_url(); ?>js/jquery.validate.js"></script>
