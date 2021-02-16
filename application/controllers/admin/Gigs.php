@@ -118,7 +118,7 @@ class Gigs extends CI_Controller
 				redirect('admin/gigs/add');
 			} else {
 
-				$prf_img_error = '';
+				$prof_poster_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
 				$imagename = '';
@@ -127,11 +127,11 @@ class Gigs extends CI_Controller
 					// echo json_encode($_FILES['poster']);
 					if (!(in_array($_FILES['poster']['type'], $alw_typs))) {
 						$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
-						$prf_img_error .= "Poster type: $tmp_img_type not allowed!<br>";
-						echo $prf_img_error;
+						$prof_poster_error .= "Poster type: $tmp_img_type not allowed!<br>";
+						echo $prof_poster_error;
 					}
 
-					if ($prf_img_error == '') {
+					if ($prof_poster_error == '') {
 						$image_path = poster_relative_path();
 						$thumbnail_path = poster_thumbnail_relative_path();
 						$imagename = time() . $this->general_model->fileExists($_FILES['poster']['name'], $image_path);
@@ -146,8 +146,8 @@ class Gigs extends CI_Controller
 						// echo $thumbnail;
 						@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
 					}
-					if (strlen($prf_img_error) > 0) {
-						$this->session->set_flashdata('prof_img_error', $prf_img_error);
+					if (strlen($prof_poster_error) > 0) {
+						$this->session->set_flashdata('prof_poster_error', $prof_poster_error);
 						redirect('admin/gigs/add');
 						// $this->load->view('admin/users/add', $data);
 					}
@@ -238,7 +238,7 @@ class Gigs extends CI_Controller
 			'fname' => $data['fname'],
 			'lname' => $data['lname'],
 			'description' => $data['description'],
-			'address' => $data['address'],
+			'address' => $data['user_address'],
 			'country_id' => $data['country_id'],
 		);
 
@@ -422,7 +422,7 @@ class Gigs extends CI_Controller
 					'status' => $data['status'] ?? null,
 				);
 
-				$prf_img_error = '';
+				$prof_poster_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
 				$gig = $this->gigs_model->get_gig_by_id($data['id']);
@@ -431,10 +431,10 @@ class Gigs extends CI_Controller
 					// die();
 					if (!(in_array($_FILES['poster']['type'], $alw_typs))) {
 						$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
-						$prf_img_error .= "Poster type: $tmp_img_type not allowed!<br>";
+						$prof_poster_error .= "Poster type: $tmp_img_type not allowed!<br>";
 					}
 
-					if ($prf_img_error == '') {
+					if ($prof_poster_error == '') {
 						@unlink("downloads/posters/thumb/$gig->poster");
 						@unlink("downloads/posters/$gig->poster");
 						$image_path = poster_relative_path();
@@ -452,8 +452,8 @@ class Gigs extends CI_Controller
 						@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
 						$datas['poster'] = $imagename;
 					}
-					if (strlen($prf_img_error) > 0) {
-						$this->session->set_flashdata('prof_img_error', $prf_img_error);
+					if (strlen($prof_poster_error) > 0) {
+						$this->session->set_flashdata('prof_poster_error', $prof_poster_error);
 						redirect('admin/gigs/update');
 						// $this->load->view('admin/users/add', $data);
 					}

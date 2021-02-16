@@ -552,7 +552,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea name="address" cols="30" rows="3" class="form-control" placeholder="Address"><?php echo $user->address ?></textarea>
+                                                <textarea name="user_address" cols="30" rows="3" class="form-control" placeholder="Address"><?php echo $user->address ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Country</label>
@@ -775,6 +775,12 @@
                     },
                     goal: {
                         required: "Goal is required field",
+                    },
+                    start_time: {
+                        required: "Start Time is required field",
+                    },
+                    end_time: {
+                        required: "End Time is required field",
                     },
                     campaign_date: {
                         required: "Campaign Date is required field",

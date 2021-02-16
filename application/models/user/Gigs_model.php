@@ -50,26 +50,9 @@ class Gigs_model extends CI_Model
 
 	function get_all_active_gigs()
 	{
-		$query = $this->db->get_where('gigs', array('status' => 1));
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= ? AND status = ?";
+		$query = $this->db->query($sql, array(date('Y-m-d'), 1));
 		return $query->result();
-	}
-
-	function get_gig($email, $password)
-	{
-		$query = $this->db->get_where('gigs', array('email' => $email, 'password' => $password));
-		return $query->row();
-	}
-
-	function get_client($email, $password)
-	{
-		$query = $this->db->get_where('gigs', array('email' => $email, 'password' => $password, 'role_id' => '3'));
-		return $query->row();
-	}
-
-	function get_gig_by_email($email)
-	{
-		$query = $this->db->get_where('gigs', array('email' => $email));
-		return $query->row();
 	}
 
 	function get_gig_by_id($args1)

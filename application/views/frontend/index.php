@@ -32,7 +32,7 @@
                                         <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                         <div class="counter text-center mt-5 d-flex">
                                             <div class="spots-left stat">
-                                                <h3><span class="spot-number">3</span></h3>
+                                                <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
                                                 <p><span class="spot-text">Spot left</span></p>
                                             </div>
                                             <span class="divider">|</span>
@@ -81,11 +81,11 @@
                                             <p class="custom-badge"><?php echo $gig->genre ?></p>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                            <h3 class="mt-2">Coke <span class="custom-heading">Studio</span></h3>
+                                            <h3 class="mt-2"><?php echo $gig->title ?> <!-- <span class="custom-heading">Studio</span> --></h3>
                                             <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                             <div class="counter text-center d-flex">
                                                 <div class="spots-left stat">
-                                                    <h3><span class="spot-number">3</span></h3>
+                                                    <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
                                                     <p><span class="spot-text">Spot left</span></p>
                                                 </div>
                                                 <span class="divider">|</span>
@@ -141,6 +141,9 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" alt="speaker">
+                                            <?php if($gig->is_exclusive) : ?> 
+                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <h5 class="title">
@@ -203,18 +206,18 @@
                                                     <h5><?php echo $gig->title ?></h5>
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) ?> days left</p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="75">
+                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -258,25 +261,28 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-04/card-img03.png">
+                                            <?php if($gig->is_exclusive) : ?> 
+                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5>Afropunk</h5>
+                                                    <h5><?php echo $gig->title ?></h5>
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-3" role="progressbar" data-goal="90">
+                                                    <div class="pie_progress booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -303,7 +309,7 @@
 
     <!-- ==========Carousel-5============== -->
     <?php
-    if ($gigs) :
+    if ($just_in) :
     ?>
         <section class="section-05">
             <div class="my-5 text-center container">
@@ -316,31 +322,33 @@
                         <div class="speaker--slider text-center" id="carousel_5">
                             <div class="speaker-slider5 owl-carousel owl-theme">
                                 <?php
-                                foreach ($gigs as $gig) :
+                                foreach ($just_in as $gig) :
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-05/card-img01.png">
+                                            <?php if($gig->is_exclusive) : ?> 
                                             <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5>Afropunk</h5>
+                                                    <h5><?php echo $gig->title ?></h5>
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="75">
+                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php

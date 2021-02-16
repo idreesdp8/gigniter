@@ -21,10 +21,10 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                     <div class="custom-text">
-                        <h5 class="title">Dekmantel</h5>
-                        <h6>Tylor Swift</h6>
+                        <h5 class="title"><?php echo $gig->title; ?></h5>
+                        <h6><?php echo $gig->user_name; ?></h6>
                         <p>Music <span>|</span> Show <span>|</span> English</p>
-                        <p class="">Release Date <span>:</span> 24 Dec 2020 </p>
+                        <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-12"></div>
@@ -38,16 +38,16 @@
                     <div class="col-lg-2 col-md-2 col-sm-12"></div>
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="custom-item">
-                            <div class="pie_progress booked-color-1" role="progressbar" data-goal="75">
-                                <div class="pie_progress__number">0%</div>
+                            <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked; ?>">
+                                <div class="pie_progress__number"><?php echo $gig->booked; ?>%</div>
                                 <div class="pie_progress__label">Booked</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-12 col-12 custom-items">
                         <div class="custom-item2">
-                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
+                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left; ?> tickets left</p>
+                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left; ?> days left</p>
                         </div>
                         <div class="custom-item3">
                             <a href="#0" class="btn btn-warning btn-booking">book now</a>
@@ -93,7 +93,7 @@
                         <div class="tab-area">
                             <div class="tab-item active">
                                 <div class="item">
-                                    <h5 class="sub-title">Dekmantel Show</h5>
+                                    <h5 class="sub-title"><?php echo $gig->subtitle ?></h5>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula eros sit amet est tincidunt aliquet. Fusce laoreet ligula ac ultrices eleifend. Donec hendrerit fringilla odio, ut feugiat mi convallis nec. Fusce elit ex, blandit vitae mattis sit amet, iaculis ac elit. Ut diam mauris, viverra sit amet dictum vel, aliquam ac quam. Ut mi nisl, fringilla sit amet erat et, convallis porttitor ligula. Sed auctor, orci id luctus venenatis, dui dolor euismod risus, et pharetra orci lectus quis sapien. Duis blandit ipsum ac consectetur scelerisque. </p>
                                 </div>
                                 <div class="item slider-item">

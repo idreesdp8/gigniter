@@ -147,327 +147,78 @@
                         </div>
 
                         <div id="list_view" class="col-lg-9 col-md-9 col-sm-12 col-12">
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img01.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
+                            <?php
+                            if ($gigs) :
+                                foreach ($gigs as $gig) :
+                            ?>
+                                    <div class="card explore-card">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                                                <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img01.png">
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                                                <h5><?php echo $gig->title ?></h5>
+                                                <h6><?php echo $gig->user_name ?></h6>
+                                                <p>Music <span>|</span> Show <span>|</span> English</p>
+                                                <p class="explore-margin-bottom">Release Date <span>: </span><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
 
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
+                                                <span class="badge badge-danger booked-badge"><?php echo $gig->booked ?>% Booked</span>
+                                                <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                <div class="custom-border">
+                                                    <button class="btn btn-warning btn-booked">Book Now</button>
+                                                    <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                </div>
+
+                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
-                            </div>
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img02.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
-
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img03.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
-
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img01.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
-
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img02.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
-
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card explore-card">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                        <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img03.png">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                                        <h5>Dekmantel</h5>
-                                        <h6>Tylor Swift</h6>
-                                        <p>Music <span>|</span> Show <span>|</span> English</p>
-                                        <p class="explore-margin-bottom">Release Date <span>:</span> 24 Dec 2020 </p>
-
-                                        <span class="badge badge-danger booked-badge">50% Booked</span>
-                                        <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                        <div class="custom-border">
-                                            <button class="btn btn-warning btn-booked">Book Now</button>
-                                            <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+                            <?php
+                                endforeach;
+                            endif;
+                            ?>
                         </div>
 
                         <div id="grid_view" class="col-lg-9 col-md-9 col-sm-12 col-12">
-                            <div class="row">
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
+                            <?php
+                            if ($gigs) :
+                            ?>
+                                <div class="row">
+                                    <?php
+                                    foreach ($gigs as $gig) :
+                                    ?>
+                                        <div class="col-md-4">
+                                            <div class="card grid-card" style="background: transparent;">
+                                                <div class="card-header p-0">
+                                                    <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" class="w-100">
                                                 </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
+                                                <div class="card-footer grid-footer">
+                                                    <div class="d-flex">
+                                                        <div class="footer-text">
+                                                            <h5><?php echo $gig->title ?></h5>
+                                                            <h6><?php echo $gig->user_name ?></h6>
+                                                            <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                            <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                        </div>
+                                                        <div class="circlebar">
+                                                            <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                                <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
+                                                                <div class="pie_progress__label">Booked</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <button class="btn btn-warning btn-watch mb-4">book now</button>
+                                                    <button class="btn btn-warning btn-view mb-4">view</button>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
                                         </div>
-                                    </div>
+                                    <?php
+                                    endforeach;
+                                    ?>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img02.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress1 booked-color-1" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img03.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress2 booked-color-2" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img02.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress1 booked-color-1" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img03.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress2 booked-color-2" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5>Afropunk</h5>
-                                                    <h6>Tylor Swift</h6>
-                                                    <p>29 Dec 2020</p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span>10 tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>3 days left</p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="75">
-                                                        <div class="pie_progress__number">0%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                            <button class="btn btn-warning btn-view mb-4">view</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <?php
+                            endif;
+                            ?>
                         </div>
                     </div>
                 </div>

@@ -192,8 +192,8 @@
                                                 <span id="poster1" class="text-danger" generated="true">
                                                     <?php
                                                     echo form_error('poster');
-                                                    if (isset($_SESSION['prof_img_error'])) {
-                                                        echo $_SESSION['prof_img_error'];
+                                                    if (isset($_SESSION['prof_poster_error'])) {
+                                                        echo $_SESSION['prof_poster_error'];
                                                     } ?>
                                                 </span>
                                             </div>
@@ -378,9 +378,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-right">
+                                    <!-- <div class="text-right">
                                         <button class="btn btn-primary" type="button" id="add_tier" data-tier="2"><i class="icon-plus3"></i> Add Ticket Tier</button>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="tab-pane fade" id="justified-right-icon-tab3">
@@ -400,7 +400,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea name="address" cols="30" rows="3" class="form-control" placeholder="Address"><?php echo $user->address ?></textarea>
+                                                <textarea name="user_address" cols="30" rows="3" class="form-control" placeholder="Address"><?php echo $user->address ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Country</label>

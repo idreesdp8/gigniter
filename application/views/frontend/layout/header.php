@@ -44,6 +44,9 @@
                                 <a href="#">My Profile</a>
                             </li>
                             <li>
+                                <a href="<?php echo user_base_url() ?>gigs/add">Create Gig</a>
+                            </li>
+                            <li>
                                 <a href="#">My Gigs</a>
                             </li>
                             <li>
