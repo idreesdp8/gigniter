@@ -56,7 +56,7 @@ class Gigs extends CI_Controller
 	{
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
-			// $files = $_FILES;
+			$files = $_FILES;
 			// echo json_encode($data);
 			// echo json_encode($files);
 			// die();
@@ -143,20 +143,20 @@ class Gigs extends CI_Controller
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
-					$response = [
-						'status' => '200',
-					];
+					// $response = [
+					// 	'status' => '200',
+					// ];
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while adding gig!');
-					$response = [
-						'status' => '500',
-					];
+					// $response = [
+					// 	'status' => '500',
+					// ];
 				}
 				// echo json_encode($response);
 				// $this->load->view('admin/gigs/add');
 				// die();
-				// redirect("dashboard");
-				echo json_encode($response);
+				redirect("/");
+				// echo json_encode($response);
 			}
 		} else {
 			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
