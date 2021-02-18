@@ -123,12 +123,42 @@ $(document).ready(function () {
 
     //     }
     // });
-    $('#basic_info_form').validate({
-        submitHandler: function() {
-            for(var i=0, n=document.forms.length; i<n; i++){
-                document.forms[i].submit();
+    // $('#basic_info_form').validate({
+    //     submitHandler: function() {
+    //         // for(var i=0, n=document.forms.length; i<n; i++){
+    //         //     document.forms[i].submit();
+    //         // }
+    //         var data = $('#form_step_1').serialize() + '&' + $('#form_step_2').serialize() + '&' + $('#form_step_3').serialize();
+    //         alert(data);
+    //         return false;
+    //     }
+    // });
+    $('#basic_info_form').submit(function (e) {
+        e.preventDefault;
+        var data = $('#form_step_1').serialize() + '&' + $('#form_step_2').serialize() + '&' + $('#form_step_3').serialize();
+        // alert(data);
+        var form = $(this);
+        var base_url = 'https://gigniter.digitalpoin8.com/index.php/';
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                // $('input[name="message"]').val(null);
+                // notification(data.status, data.message);
+                // getMessages(id);
+                console.log(data);
+                console.log(base_url+'dashboard');
+                // if (data.status == 200) {
+                    window.location = base_url+'dashboard';
+                // }
+            },
+            error: function (e) {
+                alert('Error adding gig');
             }
-        }
+        });
+        return false;
     });
     $('.nextBtn').click(function () {
         var form = $(this).parents('form');
@@ -151,27 +181,27 @@ $(document).ready(function () {
 
 //     //Step Movement JQuery START   --
 
-    var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content');
+var navListItems = $('div.setup-panel div a'),
+    allWells = $('.setup-content');
 //         allNextBtn = $('.nextBtn');
 
 
-    allWells.hide();
+// allWells.hide();
 
-    navListItems.click(function (e) {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-            $item = $(this);
+navListItems.click(function (e) {
+    e.preventDefault();
+    var $target = $($(this).attr('href')),
+        $item = $(this);
 
-        if (!$item.hasClass('disabled')) {
-            navListItems.removeClass('btn-success-circle').addClass('btn-default');
-            $item.addClass('btn-success-circle');
-            allWells.hide();
-            $target.fadeIn();
+    if (!$item.hasClass('disabled')) {
+        navListItems.removeClass('btn-success-circle').addClass('btn-default');
+        $item.addClass('btn-success-circle');
+        allWells.removeClass("show active");
+        $target.addClass("show active");
 
-        }
+    }
 
-//     });
+});
 
 
 //     // allNextBtn.click(function () {

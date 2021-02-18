@@ -277,6 +277,6 @@ class Account extends CI_Controller
 	public function logoff()
 	{
 		$this->session->sess_destroy();
-		redirect('login');
+		redirect('dashboard');
 	}
 }

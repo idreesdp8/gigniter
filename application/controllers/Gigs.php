@@ -12,7 +12,7 @@ class Gigs extends CI_Controller
 		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
 		$this->load->model('user/general_model', 'general_model');
 		$this->load->model('user/permissions_model', 'permissions_model');
-		// if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
+		if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 
 		// 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
 		// 	if($res_nums>0){
@@ -20,9 +20,9 @@ class Gigs extends CI_Controller
 		// 	}else{
 		// 		redirect('/');
 		// 	} 
-		// }else{
-		// 	redirect('/');
-		// }
+		}else{
+			redirect('login');
+		}
 
 		$this->load->model('user/users_model', 'users_model');
 		$this->load->model('user/configurations_model', 'configurations_model');
@@ -56,8 +56,10 @@ class Gigs extends CI_Controller
 	{
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
-			echo json_encode($data);
-			die();
+			// $files = $_FILES;
+			// echo json_encode($data);
+			// echo json_encode($files);
+			// die();
 			$user_image = [];
 			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 				$user_image = $_FILES['image'];
@@ -141,13 +143,20 @@ class Gigs extends CI_Controller
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
+					$response = [
+						'status' => '200',
+					];
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while adding gig!');
+					$response = [
+						'status' => '500',
+					];
 				}
 				// echo json_encode($response);
 				// $this->load->view('admin/gigs/add');
 				// die();
-				redirect("dashboard");
+				// redirect("dashboard");
+				echo json_encode($response);
 			}
 		} else {
 			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);

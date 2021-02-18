@@ -81,7 +81,9 @@
                                             <p class="custom-badge"><?php echo $gig->genre ?></p>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                            <h3 class="mt-2"><?php echo $gig->title ?> <!-- <span class="custom-heading">Studio</span> --></h3>
+                                            <h3 class="mt-2"><?php echo $gig->title ?>
+                                                <!-- <span class="custom-heading">Studio</span> -->
+                                            </h3>
                                             <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                             <div class="counter text-center d-flex">
                                                 <div class="spots-left stat">
@@ -122,17 +124,19 @@
     </section>
     <!-- ==========Banner-Section========== -->
     <!-- ==========Carousel-2============== -->
-    <?php
-    if ($now_showing) :
-    ?>
-        <section class="section-02 banner-bg2 bg_img" data-background="<?php echo user_asset_url(); ?>images/home/home-bg-2.png">
-            <div class="my-5 text-center container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="carousel-02-text text-left">
-                            <h2>Now showing</h2>
-                            <p>Be sure not to miss these events today. <a href="javascript:void(0)" class="float-right more-btn">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a></p>
-                        </div>
+    <section class="section-02 banner-bg2 bg_img" data-background="<?php echo user_asset_url(); ?>images/home/home-bg-2.png">
+        <div class="my-5 text-center container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="carousel-02-text text-left">
+                        <h2>Now Showing</h2>
+                        <p>Be sure not to miss these events today.
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($now_showing) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                        </p>
+                    </div>
+                    <?php
+                    if ($now_showing) :
+                    ?>
                         <div class="speaker--slider text-center" id="carousel_2">
                             <div class="speaker-slider2 owl-carousel owl-theme">
                                 <?php
@@ -141,8 +145,8 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" alt="speaker">
-                                            <?php if($gig->is_exclusive) : ?> 
-                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php if ($gig->is_exclusive) : ?>
+                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
@@ -164,30 +168,38 @@
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="divider-bar text-left mt-4">
-                    <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
+                    <?php
+                    else :
+                    ?>
+                        <h6>
+                            No Record Found
+                        </h6>
+                    <?php
+                    endif;
+                    ?>
                 </div>
             </div>
-        </section>
-    <?php
-    endif;
-    ?>
+            <div class="divider-bar text-left mt-4">
+                <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
+            </div>
+        </div>
+    </section>
     <!-- ==========Carousel-2============== -->
 
     <!-- ==========Carousel-3============== -->
-    <?php
-    if ($gigs) :
-    ?>
-        <section class="section-03">
-            <div class="mb-1  text-center container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="carousel-02-text text-left">
-                            <h2>Most Popular</h2>
-                            <p>Be sure not to miss these events today. <a href="#" class="float-right more-btn">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a></p>
-                        </div>
+    <section class="section-03">
+        <div class="mb-1  text-center container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="carousel-02-text text-left">
+                        <h2>Most Popular</h2>
+                        <p>Be sure not to miss these events today.
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($gigs) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                        </p>
+                    </div>
+                    <?php
+                    if ($gigs) :
+                    ?>
                         <div class="speaker--slider text-center" id="carousel_3">
                             <div class="speaker-slider3 owl-carousel owl-theme">
                                 <?php
@@ -196,8 +208,8 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-03/card-img01.png">
-                                            <?php if($gig->is_exclusive) : ?> 
-                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php if ($gig->is_exclusive) : ?>
+                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
@@ -207,7 +219,7 @@
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
                                                     <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
@@ -231,28 +243,36 @@
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
-                        <div class="divider-bar text-left mt-4">
-                            <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
-                        </div>
+                    <?php
+                    else :
+                    ?>
+                        <h6>
+                            No Record Found
+                        </h6>
+                    <?php
+                    endif;
+                    ?>
+                    <div class="divider-bar text-left mt-4">
+                        <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
                     </div>
-        </section>
-    <?php
-    endif;
-    ?>
+                </div>
+    </section>
     <!-- ==========Carousel-3============== -->
 
     <!-- ==========Carousel-4============== -->
-    <?php
-    if ($gigs) :
-    ?>
-        <section class="section-04">
-            <div class="my-5 text-center container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="carousel-02-text text-left">
-                            <h2>Closing Soon</h2>
-                            <p>Be sure not to miss these events today. <a href="javascript:void(0)" class="float-right more-btn">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a></p>
-                        </div>
+    <section class="section-04">
+        <div class="my-5 text-center container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="carousel-02-text text-left">
+                        <h2>Closing Soon</h2>
+                        <p>Be sure not to miss these events today.
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($gigs) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                        </p>
+                    </div>
+                    <?php
+                    if ($gigs) :
+                    ?>
                         <div class="speaker--slider text-center" id="carousel_4">
                             <div class="speaker-slider4 owl-carousel owl-theme">
                                 <?php
@@ -261,8 +281,8 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-04/card-img03.png">
-                                            <?php if($gig->is_exclusive) : ?> 
-                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php if ($gig->is_exclusive) : ?>
+                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
@@ -272,7 +292,7 @@
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
                                                     <div class="pie_progress booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
@@ -296,29 +316,37 @@
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
-                        <div class="divider-bar text-left mt-4">
-                            <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
+                    <?php
+                    else :
+                    ?>
+                        <h6>
+                            No Record Found
+                        </h6>
+                    <?php
+                    endif;
+                    ?>
+                    <div class="divider-bar text-left mt-4">
+                        <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
 
-                        </div>
                     </div>
-        </section>
-    <?php
-    endif;
-    ?>
+                </div>
+    </section>
     <!-- ==========Carousel-4============== -->
 
     <!-- ==========Carousel-5============== -->
-    <?php
-    if ($just_in) :
-    ?>
-        <section class="section-05">
-            <div class="my-5 text-center container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="carousel-02-text text-left">
-                            <h2>Just In</h2>
-                            <p>Be sure not to miss these events today. <a href="#" class="float-right more-btn">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a></p>
-                        </div>
+    <section class="section-05">
+        <div class="my-5 text-center container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="carousel-02-text text-left">
+                        <h2>Just In</h2>
+                        <p>Be sure not to miss these events today.
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($just_in) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                        </p>
+                    </div>
+                    <?php
+                    if ($just_in) :
+                    ?>
                         <div class="speaker--slider text-center" id="carousel_5">
                             <div class="speaker-slider5 owl-carousel owl-theme">
                                 <?php
@@ -327,8 +355,8 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo user_asset_url(); ?>images/home/slider-05/card-img01.png">
-                                            <?php if($gig->is_exclusive) : ?> 
-                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            <?php if ($gig->is_exclusive) : ?>
+                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
@@ -338,7 +366,7 @@
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left).' days left' : 'Today'?></p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
                                                     <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
@@ -362,14 +390,20 @@
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
-                        <div class="divider-bar text-left mt-4">
-                            <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
-                        </div>
+                    <?php
+                    else :
+                    ?>
+                        <h6>
+                            No Record Found
+                        </h6>
+                    <?php
+                    endif;
+                    ?>
+                    <div class="divider-bar text-left mt-4">
+                        <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
                     </div>
-        </section>
-    <?php
-    endif;
-    ?>
+                </div>
+    </section>
     <!-- ==========Carousel-5============== -->
     <!-- /page content -->
 
@@ -379,7 +413,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#start_gig_menu').addClass('active');
+            // $('#start_gig_menu').addClass('active');
             $('.carousel-inner').children().first().addClass('active');
         });
     </script>

@@ -68,7 +68,7 @@
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="panel">
               <div class="panel-primary setup-content fade show active" id="step-1">
-                <form id="form_step_1">
+                <form id="form_step_1" enctype="multipart/form-data">
                   <div class="step-form-heading">
                     <h6>Enter Gig Details</h6>
                   </div>
@@ -218,7 +218,7 @@
                   </div>
                   <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                      <a type="button" href="#step-2" class="btn btn-primary btn-step-continue nextBtn" data-step="1">save & Continue</a>
+                      <button type="button" class="btn btn-primary btn-step-continue nextBtn" data-step="1">save & Continue</button>
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                   </div>
@@ -226,7 +226,7 @@
               </div>
 
               <div class="panel-primary setup-content fade" id="step-2">
-                <form id="form_step_2">
+                <form id="form_step_2" enctype="multipart/form-data">
                   <!-- <div class="step-form-heading">
                     <h6>Enter Gig Tiers</h6>
                   </div> -->
@@ -389,7 +389,7 @@
               </div>
 
               <div class="panel-primary setup-content fade" id="step-3">
-                <form id="form_step_3">
+                <form id="form_step_3" enctype="multipart/form-data">
                   <div class="step-form-heading">
                     <h6>Build Your Profile</h6>
                   </div>
@@ -571,8 +571,8 @@
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
-                      <form role="form" method="post" action="<?php echo user_base_url() ?>gigs/add" id="basic_info_form" enctype="multipart/form-data">
-                        <button type="submit" class="btn btn-success">Add Gig</button>
+                      <form role="form" method="post" action="<?php echo user_base_url() ?>gigs/add" id="basic_info_form">
+                        <button type="submit" class="btn btn-success" id="submit_button">Add Gig</button>
                       </form>
                     </div>
                   </div>
@@ -593,7 +593,7 @@
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
     $(document).ready(function() {
-      //     $('#explore_menu').addClass('active');
+          $('#start_gig_menu').addClass('active');
 
 
       $('.add_tier_bundle').click(function() {

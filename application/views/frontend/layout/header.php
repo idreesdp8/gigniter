@@ -9,7 +9,7 @@
             </div>
             <ul class="menu">
                 <li>
-                    <a href="<?php echo user_base_url() ?>dashboard" id="start_gig_menu">Start a gig</a>
+                    <a href="<?php echo user_base_url() ?>gigs/add" id="start_gig_menu">Start a gig</a>
                 </li>
                 <li>
                     <a href="<?php echo user_base_url() ?>gigs/explore" id="explore_menu">Explore</a>
@@ -37,7 +37,7 @@
                     <li>
                         <a href="#0">
                             <span class="signed-welcome">Welcome</span>
-                            <p class="user-name"><?php echo $vs_fname !== '' ? $vs_fname : 'User' ?> <span class="name-divider">|</span> My accounts</p>
+                            <p class="user-name"><?php echo $vs_fname !== '' ? $vs_fname : 'User' ?> <span class="name-divider">|</span> My account</p>
                         </a>
                         <ul class="submenu signed-user-menu">
                             <li>
