@@ -39,10 +39,13 @@ class Dashboard extends CI_Controller
 
 	public function index()
 	{
+		// echo date_default_timezone_get();
+		// die();
 		$gigs = $this->gigs_model->get_all_active_gigs();
+		$just_in = $this->gigs_model->get_just_in_gigs();
 		$featured_gigs = array();
-		$now_showing = array();
-		$just_in = array();
+		$now_showing = $this->gigs_model->get_now_showing_gigs();
+		// $just_in = array();
 		if ($gigs) {
 			// $today = strtotime('Today');
 			$now = new DateTime();
@@ -59,20 +62,45 @@ class Dashboard extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$created_on = new DateTime($gig->created_on);
-				$interval1 = $created_on->diff($now);
-				$gig_created_diff = $interval1->format('%a');
 				$gig->booked = 0;
 				$gig->ticket_left = $gig->goal - 0;
 				if ($gig->is_featured) {
 					$featured_gigs[] = $gig;
 				}
-				if ($gig->days_left == 0 && (new DateTime(date('H:i:s')) > new DateTime(date('H:i:s', strtotime($gig->start_time))) && new DateTime(date('H:i:s')) < new DateTime(date('H:i:s', strtotime($gig->end_time))))) {
-					$now_showing[] = $gig;
-				}
-				if ($gig_created_diff <= 1) {
-					$just_in[] = $gig;
-				}
+			}
+		}
+		if ($just_in) {
+			foreach ($just_in as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args);
+				$gig->genre_name = $genre->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$gig->booked = 0;
+				$gig->ticket_left = $gig->goal - 0;
+			}
+		}
+		if ($now_showing) {
+			foreach ($now_showing as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args);
+				$gig->genre_name = $genre->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$gig->booked = 0;
+				$gig->ticket_left = $gig->goal - 0;
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -83,7 +111,7 @@ class Dashboard extends CI_Controller
 		// echo json_encode(new DateTime(date('H:i:s')));
 		// echo json_encode($data['now_showing']);
 		// echo json_encode($time_spanned);
-		// echo json_encode($time_spanned1);
+		// echo json_encode($data['now_showing']);
 		// die();
 		$this->load->view('frontend/index', $data);
 	}

@@ -161,10 +161,10 @@
                                 endforeach;
                                 ?>
                             </div>
-                            <div class="speaker-prev2">
+                            <div class="speaker-prev2 speaker-prev">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
                             </div>
-                            <div class="speaker-next2">
+                            <div class="speaker-next2 speaker-next">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
@@ -236,10 +236,10 @@
                                 endforeach;
                                 ?>
                             </div>
-                            <div class="speaker-prev3">
+                            <div class="speaker-prev3 speaker-prev">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
                             </div>
-                            <div class="speaker-next3">
+                            <div class="speaker-next3 speaker-next">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
@@ -309,10 +309,10 @@
                                 endforeach;
                                 ?>
                             </div>
-                            <div class="speaker-prev4">
+                            <div class="speaker-prev4 speaker-prev">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
                             </div>
-                            <div class="speaker-next4">
+                            <div class="speaker-next4 speaker-next">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
@@ -383,10 +383,10 @@
                                 endforeach;
                                 ?>
                             </div>
-                            <div class="speaker-prev5">
+                            <div class="speaker-prev5 speaker-prev">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
                             </div>
-                            <div class="speaker-next5">
+                            <div class="speaker-next5 speaker-next">
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
@@ -415,6 +415,20 @@
         $(document).ready(function() {
             // $('#start_gig_menu').addClass('active');
             $('.carousel-inner').children().first().addClass('active');
+            $('.owl-carousel').each(function() {
+                if($(this).find('.owl-item').length < 3) {
+                    $(this).parent().find('.speaker-prev').addClass('d-none');
+                    $(this).parent().find('.speaker-next').addClass('d-none');
+                }
+                // console.log($(this).find('.owl-item').length < 3);
+            });
+        });
+        $('.owl-carousel').owlCarousel({
+            loop: $(this).find('.owl-item').length > 2,
+            rewind: true,
+            autoplay: true,
+            dots: false,
+            autoplayTimeout: 3000,
         });
     </script>
 </body>

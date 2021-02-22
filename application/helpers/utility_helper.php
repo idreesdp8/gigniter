@@ -21,11 +21,11 @@
 	}  
 	
 	function admin_base_url(){
-		return base_url().'index.php/admin/';
+		return base_url().'admin/';
 	}
 	
 	function user_base_url(){
-		return base_url().'index.php/';
+		return base_url().'';
 	}
 	
 	function profile_image_relative_path(){
