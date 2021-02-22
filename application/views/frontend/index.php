@@ -56,7 +56,7 @@
 
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png" class="w-100">
+                                        <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png"  class="w-100">
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" alt="speaker">
+                                            <img src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 360px; height: 354px;" alt="speaker">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -207,7 +207,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-03/card-img01.png">
+                                            <img src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 360px; height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -280,7 +280,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-04/card-img03.png">
+                                            <img src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 360px; height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -354,7 +354,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-05/card-img01.png">
+                                            <img src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 360px; height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -429,6 +429,7 @@
             autoplay: true,
             dots: false,
             autoplayTimeout: 3000,
+            margin: 30,
         });
     </script>
 </body>

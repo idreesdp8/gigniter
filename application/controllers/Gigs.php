@@ -12,24 +12,26 @@ class Gigs extends CI_Controller
 		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
 		$this->load->model('user/general_model', 'general_model');
 		$this->load->model('user/permissions_model', 'permissions_model');
-		if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
+		// if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 
-		// 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
-		// 	if($res_nums>0){
+		// // 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
+		// // 	if($res_nums>0){
 
-		// 	}else{
-		// 		redirect('/');
-		// 	} 
-		}else{
-			redirect('login');
-		}
+		// // 	}else{
+		// // 		redirect('/');
+		// // 	} 
+		// }else{
+		// 	redirect('login');
+		// }
 
 		$this->load->model('user/users_model', 'users_model');
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/countries_model', 'countries_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
-		$this->key = 'gig-status';
+		$this->gig_status_key = 'gig-status';
+		$this->genre_key = 'genre';
+		$this->category_key = 'category';
 
 		$this->load->library('Ajax_pagination');
 		$this->perPage = 25;
@@ -41,6 +43,18 @@ class Gigs extends CI_Controller
 		$gig = $this->gigs_model->get_gig_by_id($id);
 		$user = $this->users_model->get_user_by_id($gig->user_id);
 		$gig->user_name = $user->fname . ' ' . $user->lname;
+		$args1 = [
+			'key' => $this->genre_key,
+			'value' => $gig->genre
+		];
+		$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+		$gig->genre_name = $genre->label;
+		$args2 = [
+			'key' => $this->category_key,
+			'value' => $gig->category
+		];
+		$category = $this->configurations_model->get_configuration_by_key_value($args2);
+		$gig->category_name = $category->label;
 		$gig->booked = 0;
 		$now = new DateTime();
 		$gig_date = new DateTime($gig->gig_date);
@@ -159,22 +173,28 @@ class Gigs extends CI_Controller
 				// echo json_encode($response);
 			}
 		} else {
-			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-			$data['countries'] = $this->countries_model->get_all_countries();
-			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
-			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
-			$links = $this->users_model->get_social_links($this->dbs_user_id);
-			if (isset($links) && !empty($links)) {
-				foreach ($links as $key => $val) {
-					$temp[] = [$val->platform => $val->url];
+			if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
+				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+				$data['countries'] = $this->countries_model->get_all_countries();
+				$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
+				$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
+				$links = $this->users_model->get_social_links($this->dbs_user_id);
+				if (isset($links) && !empty($links)) {
+					foreach ($links as $key => $val) {
+						$temp[] = [$val->platform => $val->url];
+					}
+					$data['link'] = $temp;
+				} else {
+					$data['link'] = [];
 				}
-				$data['link'] = $temp;
+				// echo json_encode($data['link']);
+				// die();
+				$this->load->view('frontend/gigs/create', $data);
 			} else {
-				$data['link'] = [];
+				$uri = uri_string();
+				$this->session->set_userdata('redirect', $uri);
+				redirect('login');
 			}
-			// echo json_encode($data['link']);
-			// die();
-			$this->load->view('frontend/gigs/create', $data);
 		}
 	}
 
@@ -335,32 +355,30 @@ class Gigs extends CI_Controller
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
 				$gig->user_name = $user->fname . ' ' . $user->lname;
-				// $args = [
-				// 	'key' => $this->genre_key,
-				// 	'value' => $gig->genre
-				// ];
-				// $genre = $this->configurations_model->get_configuration_by_key_value($args);
-				// $gig->genre_name = $genre->label;
+				$args1 = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+				$gig->genre_name = $genre->label;
+				$args2 = [
+					'key' => $this->category_key,
+					'value' => $gig->category
+				];
+				$category = $this->configurations_model->get_configuration_by_key_value($args2);
+				$gig->category_name = $category->label;
 				$gig_date = new DateTime($gig->gig_date);
-				// $created_on = new DateTime($gig->created_on);
 				$interval = $gig_date->diff($now);
-				// $interval1 = $created_on->diff($now);
 				$gig->days_left = $interval->format('%a');
-				// $gig_created_diff = $interval1->format('%a');
 				$gig->booked = 0;
 				$gig->ticket_left = $gig->goal - 0;
-				// if ($gig->is_featured) {
-				// 	$featured_gigs[] = $gig;
-				// }
-				// if ($gig->days_left == 0 && (new DateTime(date('H:i:s')) > new DateTime(date('H:i:s', strtotime($gig->start_time))) && new DateTime(date('H:i:s')) < new DateTime(date('H:i:s', strtotime($gig->end_time))))) {
-				// 	$now_showing[] = $gig;
-				// }
-				// if ($gig_created_diff <= 1) {
-				// 	$just_in[] = $gig;
-				// }
 			}
 		}
 		$data['gigs'] = $gigs;
-		$this->load->view('frontend/gigs/explore' , $data);
+		$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
+		$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
+		// echo json_encode($data);
+		// die();
+		$this->load->view('frontend/gigs/explore', $data);
 	}
 }

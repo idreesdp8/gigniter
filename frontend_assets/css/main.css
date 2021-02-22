@@ -9616,6 +9616,19 @@ input:focus.search_input {
 .content-bar p {
   margin: 7px 20px;
 }
+
+.category-genre-select {
+  background: url(../images/icons/arrow-down.png) #1C3863 no-repeat 98.5% !important;
+  background: url(../images/icons/arrow-down.png) #1C3863 no-repeat calc(100% - 10px) !important; 
+  background-color: #1C3863;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 20px;
+}
 .content-bar select {
     margin: 0 15px;
     border-radius: 50px;

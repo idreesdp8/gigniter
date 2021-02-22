@@ -18,7 +18,7 @@ class Dashboard extends CI_Controller
 			// if ($res_nums > 0) {
 			// 	/* ok */
 			// } else {
-			// 	redirect('/');
+				// redirect('/');
 			// }
 		} else {
 			redirect('admin/login');

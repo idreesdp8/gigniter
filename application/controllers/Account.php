@@ -58,7 +58,12 @@ class Account extends CI_Controller
 							'us_email' => $result->email
 						);
 						$this->session->set_userdata($cstm_sess_data);
-						redirect("dashboard");
+						if ($this->session->has_userdata('redirect')) {
+							redirect($this->session->redirect);
+						} else {
+							redirect('/');
+						}
+						// redirect("dashboard");
 					} else {
 						$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
 						$this->load->view('frontend/signin');
@@ -277,6 +282,6 @@ class Account extends CI_Controller
 	public function logoff()
 	{
 		$this->session->sess_destroy();
-		redirect('dashboard');
+		redirect('/');
 	}
 }

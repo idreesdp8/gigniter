@@ -48,105 +48,129 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                            <div class="language-box">
-                                <h3>language</h3>
-                                <div class="grid">
-                                    <div class="custom-form bg">
-                                        <div class="checkbox-contain">
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox" type="checkbox" checked>
-                                                <label for="myCheckbox">Tamil</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox2" type="checkbox">
-                                                <label for="myCheckbox2">telegu</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox3" type="checkbox">
-                                                <label for="myCheckbox3">hindi</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox4" type="checkbox">
-                                                <label for="myCheckbox4">enlish</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox5" type="checkbox">
-                                                <label for="myCheckbox5">multiple languages</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox6" type="checkbox">
-                                                <label for="myCheckbox6">gujrati</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox7" type="checkbox">
-                                                <label for="myCheckbox7">bangali</label>
-                                                <span></span>
-                                            </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="language-box">
+                                        <h3>Category</h3>
+                                        <!-- class="select-bar" -->
+                                        <select class="category-genre-select">
+                                            <option value="">Select Category</option>
+                                            <?php
+                                            foreach ($categories as $category) :
+                                            ?>
+                                                <option value="<?php echo $category->value ?>"><?php echo $category->label ?></option>
+                                            <?php
+                                            endforeach;
+                                            ?>
+                                        </select>
+                                        <!-- <div class="grid">
+                                            <div class="custom-form bg">
+                                                <div class="checkbox-contain">
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox" type="checkbox" checked>
+                                                        <label for="myCheckbox">Tamil</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox2" type="checkbox">
+                                                        <label for="myCheckbox2">telegu</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox3" type="checkbox">
+                                                        <label for="myCheckbox3">hindi</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox4" type="checkbox">
+                                                        <label for="myCheckbox4">enlish</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox5" type="checkbox">
+                                                        <label for="myCheckbox5">multiple languages</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox6" type="checkbox">
+                                                        <label for="myCheckbox6">gujrati</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox7" type="checkbox">
+                                                        <label for="myCheckbox7">bangali</label>
+                                                        <span></span>
+                                                    </div>
 
-                                        </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
+                                        </div> -->
                                     </div>
-                                    <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="experience-box">
+                                        <h3>Genre</h3>
+                                        <select class="category-genre-select">
+                                            <option value="">Select Genre</option>
+                                            <?php
+                                            foreach ($genres as $genre) :
+                                            ?>
+                                                <option value="<?php echo $genre->value ?>"><?php echo $genre->label ?></option>
+                                            <?php
+                                            endforeach;
+                                            ?>
+                                        </select>
+                                        <!-- <div class="grid">
+                                            <div class="custom-form bg">
+                                                <div class="checkbox-contain">
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox8" type="checkbox" checked>
+                                                        <label for="myCheckbox8">thriller</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox9" type="checkbox">
+                                                        <label for="myCheckbox9">horror</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox10" type="checkbox">
+                                                        <label for="myCheckbox10">drama</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox11" type="checkbox">
+                                                        <label for="myCheckbox11">romance</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox12" type="checkbox">
+                                                        <label for="myCheckbox12">action</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox13" type="checkbox">
+                                                        <label for="myCheckbox13">comedy</label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="chiller_cb">
+                                                        <input id="myCheckbox14" type="checkbox">
+                                                        <label for="myCheckbox14">romantic</label>
+                                                        <span></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
+                                        </div> -->
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="experience-box">
-                                <h3>Experience</h3>
-                                <div class="grid">
-                                    <div class="custom-form bg">
-                                        <div class="checkbox-contain">
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox8" type="checkbox" checked>
-                                                <label for="myCheckbox8">thriller</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox9" type="checkbox">
-                                                <label for="myCheckbox9">horror</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox10" type="checkbox">
-                                                <label for="myCheckbox10">drama</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox11" type="checkbox">
-                                                <label for="myCheckbox11">romance</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox12" type="checkbox">
-                                                <label for="myCheckbox12">action</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox13" type="checkbox">
-                                                <label for="myCheckbox13">comedy</label>
-                                                <span></span>
-                                            </div>
-                                            <div class="chiller_cb">
-                                                <input id="myCheckbox14" type="checkbox">
-                                                <label for="myCheckbox14">romantic</label>
-                                                <span></span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
-                                </div>
-                            </div>
-
-
                         </div>
 
-                        <div id="list_view" class="col-lg-9 col-md-9 col-sm-12 col-12">
+                        <div id="list_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php
                             if ($gigs) :
                                 foreach ($gigs as $gig) :
@@ -154,12 +178,15 @@
                                     <div class="card explore-card">
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                                                <img class="explore-img" src="<?php echo user_asset_url(); ?>images/explore/card-img01.png">
+                                                <img class="explore-img" src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 343px; height: 577px;">
                                             </div>
                                             <div class="col-lg-8 col-md-8 col-sm-12 col-12">
                                                 <h5><?php echo $gig->title ?></h5>
                                                 <h6><?php echo $gig->user_name ?></h6>
-                                                <p>Music <span>|</span> Show <span>|</span> English</p>
+                                                <p>
+                                                    <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
+                                                </p>
+                                                <!-- <p>Music <span>|</span> Show <span>|</span> English</p> -->
                                                 <p class="explore-margin-bottom">Release Date <span>: </span><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
 
                                                 <span class="badge badge-danger booked-badge"><?php echo $gig->booked ?>% Booked</span>
@@ -178,7 +205,7 @@
                             ?>
                         </div>
 
-                        <div id="grid_view" class="col-lg-9 col-md-9 col-sm-12 col-12">
+                        <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php
                             if ($gigs) :
                             ?>
@@ -189,7 +216,7 @@
                                         <div class="col-md-4">
                                             <div class="card grid-card" style="background: transparent;">
                                                 <div class="card-header p-0">
-                                                    <img src="<?php echo user_asset_url(); ?>images/home/slider-02/card-img01.png" class="w-100">
+                                                    <img src="<?php echo $gig->poster ? poster_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
                                                 </div>
                                                 <div class="card-footer grid-footer">
                                                     <div class="d-flex">
@@ -208,7 +235,7 @@
                                                         </div>
                                                     </div>
                                                     <button class="btn btn-warning btn-watch mb-4">book now</button>
-                                                    <button class="btn btn-warning btn-view mb-4">view</button>
+                                                    <a href="<?php echo user_base_url() ?>gigs/detail?gig=<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
                                                 </div>
                                             </div>
                                         </div>
