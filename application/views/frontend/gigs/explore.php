@@ -4,6 +4,23 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <style>
+        .poster_image {
+            max-width: 343px;
+            max-height: 435px;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: #000;
+            border: 1px solid #fff;
+            border-radius: 0;
+            width: auto;
+            height: auto;
+            padding: 7px 25px;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 
 <body>
@@ -173,7 +190,7 @@
                         <div id="list_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php $this->load->view('frontend/gigs/partial_explore_list'); ?>
                         </div>
-                        
+
                         <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php $this->load->view('frontend/gigs/partial_explore_grid'); ?>
                         </div>
@@ -229,7 +246,7 @@
                 },
                 dataType: 'json',
                 success: function(result) {
-                    if(result.grid && result.list) {
+                    if (result.grid && result.list) {
                         $('#list_view').empty();
                         $('#grid_view').empty();
                         $('#list_view').html(result.list);

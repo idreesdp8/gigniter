@@ -5,7 +5,7 @@ if ($gigs) :
         <div class="card explore-card">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                    <img class="explore-img" src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 343px; height: 577px;">
+                    <img class="explore-img poster_image" src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>">
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-12">
                     <h5><?php echo $gig->title ?></h5>
@@ -19,7 +19,10 @@ if ($gigs) :
                     <span class="badge badge-danger booked-badge"><?php echo $gig->booked ?>% Booked</span>
                     <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
                     <div class="custom-border">
-                        <button class="btn btn-warning btn-booked">Book Now</button>
+                        <div>
+                            <button class="btn btn-warning btn-booked">Book Now</button>
+                            <a href="<?php echo user_base_url() ?>gigs/detail?gig=<?php echo $gig->id ?>" class="btn btn-warning btn-white">view</a>
+                        </div>
                         <p class="remaining-days"><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                     </div>
 
