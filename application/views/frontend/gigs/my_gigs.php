@@ -33,6 +33,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
+                    <?php if ($this->session->flashdata('success_msg')) { ?>
+                        <div class="alert alert-success no-border">
+                            <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
+                            <?php echo $this->session->flashdata('success_msg'); ?>
+                        </div>
+                    <?php }
+                    if ($this->session->flashdata('error_msg')) { ?>
+                        <div class="alert alert-danger no-border">
+                            <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
+                            <?php echo $this->session->flashdata('error_msg'); ?>
+                        </div>
+                    <?php } ?>
                     <?php
                     if ($gigs) :
                     ?>
