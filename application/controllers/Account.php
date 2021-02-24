@@ -289,19 +289,136 @@ class Account extends CI_Controller
 
 	public function profile()
 	{
-		$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-		$data['countries'] = $this->countries_model->get_all_countries();
-		$links = $this->users_model->get_social_links($this->dbs_user_id);
-		if (isset($links) && !empty($links)) {
-			foreach ($links as $link) {
-				$platform = $link->platform;
-				$user->$platform = $link->url;
+		if (isset($_POST) && !empty($_POST)) {
+			// echo json_encode($_POST);
+			// echo json_encode($_FILES);
+			// die();
+			$data = $_POST;
+
+			// form validation 
+			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
+
+			if ($this->form_validation->run() == FALSE) {
+				// validation fail
+				if (isset($_SESSION['error_msg'])) {
+					unset($_SESSION['error_msg']);
+				}
+				// $this->load->view('frontend/profile');
+				redirect('admin/users/update/' . $data['id']);
+			} else {
+
+				$social_links = [];
+				if (isset($data['mail']) && $data['mail'] != '') {
+					$social_links['mail'] = $data['mail'];
+				}
+				if (isset($data['facebook']) && $data['facebook'] != '') {
+					$social_links['facebook'] = $data['facebook'];
+				}
+				if (isset($data['instagram']) && $data['instagram'] != '') {
+					$social_links['instagram'] = $data['instagram'];
+				}
+				if (isset($data['twitter']) && $data['twitter'] != '') {
+					$social_links['twitter'] = $data['twitter'];
+				}
+				$datas = array(
+					'fname' => $data['fname'],
+					'lname' => $data['lname'],
+					// 'email' => $data['email'],
+					// 'mobile_no' => $data['mobile_no'],
+					// 'phone_no' => $data['phone_no'],
+					'description' => $data['description'],
+					'address' => $data['address'],
+					'country_id' => $data['country_id'],
+				);
+				if (isset($data['password']) && $data['password'] != '') {
+					$password = $this->general_model->safe_ci_encoder($data['password']);
+					$datas['password'] = $password;
+				}
+				// echo json_encode($datas);
+				// die();
+
+				$prf_img_error = '';
+				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
+				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+					// echo json_encode($_FILES['image']);
+					// die();
+					if (!(in_array($_FILES['image']['type'], $alw_typs))) {
+						$tmp_img_type = "'" . ($_FILES['image']['type']) . "'";
+						$prf_img_error .= "Profile image type: $tmp_img_type not allowed!<br>";
+					}
+
+					if ($prf_img_error == '') {
+						$user = $this->users_model->get_user_by_id($data['id']);
+						@unlink("downloads/profile_pictures/thumb/$user->image");
+						@unlink("downloads/profile_pictures/$user->image");
+						$image_path = profile_image_relative_path();
+						$thumbnail_path = profile_thumbnail_relative_path();
+						$imagename = time() . $this->general_model->fileExists($_FILES['image']['name'], $image_path);
+						$target_file = $image_path . $imagename;
+						@move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+						$width = 200;
+						$height = 200;
+						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+						if ($thumbnail == '1') {
+							$thumbnail_file = $thumbnail_path . $imagename;
+						}
+						// echo $thumbnail;
+						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
+						$datas['image'] = $imagename;
+					}
+					if (strlen($prf_img_error) > 0) {
+						$this->session->set_flashdata('prof_img_error', $prf_img_error);
+						redirect('account/profile');
+						// $this->load->view('admin/users/add', $data);
+					}
+				}
+				$res = $this->users_model->update_user_data($data['id'], $datas);
+				if (isset($res)) {
+					$created_on = date('Y-m-d H:i:s');
+					$this->remove_social_links($data['id']);
+					foreach ($social_links as $key => $value) {
+						$temp = ['user_id' => $data['id'], 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
+						$this->users_model->insert_user_social_link($temp);
+					}
+					$cstm_sess_data = array(
+						// 'us_username' => ($res->username ? ucfirst($res->username) : ''),
+						'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
+						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
+					);
+					$this->session->set_userdata($cstm_sess_data);
+					$this->session->set_flashdata('success_msg', 'User updated successfully!');
+				} else {
+					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
+				}
+
+				redirect("account/profile");
 			}
-			// $data['link'] = $temp;
-		} /* else {
-			$data['link'] = [];
-		} */
-		$data['user'] = $user;
-		$this->load->view('frontend/profile', $data);
+		} else {
+			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+			$data['countries'] = $this->countries_model->get_all_countries();
+			$links = $this->users_model->get_social_links($this->dbs_user_id);
+			if (isset($links) && !empty($links)) {
+				foreach ($links as $link) {
+					$platform = $link->platform;
+					$user->$platform = $link->url;
+				}
+				// $data['link'] = $temp;
+			} /* else {
+				$data['link'] = [];
+			} */
+			$data['user'] = $user;
+			$this->load->view('frontend/profile', $data);
+		}
+	}
+
+	function remove_social_links($id)
+	{
+		$links = $this->users_model->get_social_links($id);
+		if (isset($links)) {
+			foreach ($links as $key => $value) {
+				$this->users_model->trash_social_link($value->id);
+			}
+		}
 	}
 }

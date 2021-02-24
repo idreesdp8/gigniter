@@ -264,7 +264,7 @@ class Users extends CI_Controller
 			// die();
 
 			// form validation
-			$this->form_validation->set_rules("fname", "Name", "trim|required|xss_clean");
+			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail

@@ -5,14 +5,21 @@
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
     <style>
-    .image_div {
-        padding: 10px;
-        border: 1px dashed #ccc;
-        text-align: center;
-        width: 100%;
-        height: 270px;
-        margin-bottom: 20px;
-    }
+        .image_div {
+            padding: 10px;
+            border: 1px dashed #ccc;
+            text-align: center;
+            width: 100%;
+            height: 270px;
+            margin-bottom: 20px;
+        }
+
+        .image_div img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
     </style>
 </head>
 
@@ -41,27 +48,28 @@
                         <span class="cate">profile</span>
                         <!-- <h2 class="title">to Gigniter </h2> -->
                     </div>
-                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/signup'); ?>" method="post">
+                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/profile'); ?>" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xl-6">
+                                <input type="hidden" name="id" value="<?php echo $user->id ?>">
                                 <div class="form-group">
                                     <label for="fname">First Name<span>*</span></label>
                                     <input type="text" value="<?php echo $user->fname ?>" name="fname" id="fname" data-error="#fname1" required>
                                     <span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lname">lname<span>*</span></label>
-                                    <input type="text" value="<?php echo $user->lname ?>" name="lname" id="lname" data-error="#lname1" required>
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" value="<?php echo $user->lname ?>" name="lname" id="lname" data-error="#lname1">
                                     <span id="lname1" class="text-danger"><?php echo form_error('lname'); ?></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email<span>*</span></label>
-                                    <input type="text" value="<?php echo $user->email ?>" name="email" id="email" data-error="#email1" required>
+                                    <label for="email">Email</label>
+                                    <input type="text" value="<?php echo $user->email ?>" name="email" id="email" data-error="#email1" disabled>
                                     <span id="email1" class="text-danger"><?php echo form_error('email'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password <small class="text-warning">Leave field empty if you do not want to change password</small></label>
-                                    <input type="password" placeholder="Password" name="password" id="password" data-error="#password1" required>
+                                    <input type="password" placeholder="Password" name="password" id="password" data-error="#password1">
                                     <span id="password1" class="text-danger"><?php echo form_error('password'); ?></span>
                                 </div>
                             </div>
@@ -70,9 +78,16 @@
                                     <label>Profile Image</label>
                                 </div>
                                 <div class="image_div">
-                                    <img id="img2" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
+                                    <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                                 </div>
-                                <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" />
+                                <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" data-error="#image1" />
+                                <span id="image1" class="text-danger" generated="true">
+                                    <?php
+                                    echo form_error('image');
+                                    if (isset($_SESSION['prof_img_error'])) {
+                                        echo $_SESSION['prof_img_error'];
+                                    } ?>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -134,9 +149,10 @@
                                     <span id="twitter1" class="text-danger"><?php echo form_error('twitter'); ?></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group text-right">
-                            <input class="sub_btn" type="submit" value="Update">
+                            <div class="col-xl-9"></div>
+                            <div class="col-xl-3">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i> Update</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -150,32 +166,37 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
 
     <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.image_div img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
         $(document).ready(function() {
             var validator = $('#datas_form').validate({
                 rules: {
-                    password: {
+                    fname: {
                         required: true
                     },
-                    email: {
-                        required: true,
-                        email: true
+                    password: {
+                        minlength: 5
                     },
-                    confirm_password: {
-                        required: true,
-                        equalTo: "#password"
+                    image: {
+                        accept: "gif|png|jpg|jpeg"
                     }
                 },
                 messages: {
+                    fname: {
+                        required: "First name is required field"
+                    },
                     password: {
-                        required: "Password is required field"
+                        minlength: "Minimum 5 characters needed!"
                     },
-                    email: {
-                        required: "Email is required field",
-                        email: "Please enter a valid Email address!"
-                    },
-                    confirm_password: {
-                        required: "Confirm Password is required field",
-                        equalTo: "Both passwords should match"
+                    image: {
+                        accept: "Accepts images having extension gif|png|jpg|jpeg"
                     }
                 },
                 errorPlacement: function(error, element) {

@@ -205,9 +205,6 @@
                     fname: {
                         required: true
                     },
-                    role_id: {
-                        required: true
-                    },
                     password: {
                         minlength: 5
                     },
@@ -218,9 +215,6 @@
                 messages: {
                     fname: {
                         required: "First name is required field"
-                    },
-                    role_id: {
-                        required: "Role is required field"
                     },
                     password: {
                         minlength: "Minimum 5 characters needed!"
