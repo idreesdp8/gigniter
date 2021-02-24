@@ -381,4 +381,86 @@ class Gigs extends CI_Controller
 		// die();
 		$this->load->view('frontend/gigs/explore', $data);
 	}
+
+	function filter_gig() 
+	{
+		$cat = $this->input->post("category");
+		$gen = $this->input->post("genre");
+		$param = array();
+		if($cat) {
+			$param['category'] = $cat;
+		}
+		if($gen) {
+			$param['genre'] = $gen;
+		}
+		$gigs = $this->gigs_model->get_all_filter_gigs($param);
+		if ($gigs) {
+			$now = new DateTime();
+			foreach ($gigs as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args1 = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+				$gig->genre_name = $genre->label;
+				$args2 = [
+					'key' => $this->category_key,
+					'value' => $gig->category
+				];
+				$category = $this->configurations_model->get_configuration_by_key_value($args2);
+				$gig->category_name = $category->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$gig->booked = 0;
+				$gig->ticket_left = $gig->goal - 0;
+			}
+		}
+		$data['gigs'] = $gigs;
+		
+		$response = array();
+
+		if($data['gigs']) {
+			$response = [
+				'grid' => $this->load->view('frontend/gigs/partial_explore_grid', $data, TRUE),
+				'list' => $this->load->view('frontend/gigs/partial_explore_list', $data, TRUE)
+			];
+		}
+		echo json_encode($response);
+	}
+
+	function my_gigs()
+	{
+		$gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
+		if ($gigs) {
+			// $now = new DateTime();
+			foreach ($gigs as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args1 = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+				$gig->genre_name = $genre->label;
+				$args2 = [
+					'key' => $this->category_key,
+					'value' => $gig->category
+				];
+				$category = $this->configurations_model->get_configuration_by_key_value($args2);
+				$gig->category_name = $category->label;
+				// $gig_date = new DateTime($gig->gig_date);
+				// $interval = $gig_date->diff($now);
+				// $gig->days_left = $interval->format('%a');
+				// $gig->booked = 0;
+				// $gig->ticket_left = $gig->goal - 0;
+			}
+		}
+		$data['gigs'] = $gigs;
+		// echo json_encode($data);
+		// die();
+		$this->load->view('frontend/gigs/my_gigs', $data);
+	}
 }

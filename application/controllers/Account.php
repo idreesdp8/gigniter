@@ -6,7 +6,8 @@ class Account extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		// $vs_user_role_id = $this->session->userdata('us_role_id');
+		$this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
+		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
 		// $vs_user_role_name = $this->session->userdata('us_role_name');
 		// // $role = $this->roles_model->get_role_by_id($vs_user_role_id);
 		// if(isset($vs_user_role_name)){
@@ -20,6 +21,7 @@ class Account extends CI_Controller
 		$this->load->model('user/general_model', 'general_model');
 		$this->load->model('user/roles_model', 'roles_model');
 		$this->load->model('user/users_model', 'users_model');
+		$this->load->model('user/countries_model', 'countries_model');
 	}
 
 	function signin()
@@ -283,5 +285,23 @@ class Account extends CI_Controller
 	{
 		$this->session->sess_destroy();
 		redirect('/');
+	}
+
+	public function profile()
+	{
+		$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+		$data['countries'] = $this->countries_model->get_all_countries();
+		$links = $this->users_model->get_social_links($this->dbs_user_id);
+		if (isset($links) && !empty($links)) {
+			foreach ($links as $link) {
+				$platform = $link->platform;
+				$user->$platform = $link->url;
+			}
+			// $data['link'] = $temp;
+		} /* else {
+			$data['link'] = [];
+		} */
+		$data['user'] = $user;
+		$this->load->view('frontend/profile', $data);
 	}
 }

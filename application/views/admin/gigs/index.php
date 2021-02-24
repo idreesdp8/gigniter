@@ -67,7 +67,7 @@
                 <!-- /striped rows -->
 
                 <!-- Vertical form modal -->
-                <div id="showModal" class="modal fade" tabindex="-1">
+                <!-- <div id="showModal" class="modal fade" tabindex="-1">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -75,8 +75,8 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
-                            <!-- <form action="<?php //echo admin_base_url() 
-                                                ?>permissions/update" method="post"> -->
+                            <form action="<?php //echo admin_base_url() 
+                                                ?>permissions/update" method="post">
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Title</label>
@@ -117,7 +117,7 @@
                                         <div class="form-group">
                                             <label>Poster</label>
                                             <div class="media mt-0 p-1" style="border: 2px dashed #ccc; height: 350px">
-                                                <!-- <img src="<?php //echo poster_url() ?>WD_Poster_2018.jpg" alt="" class="m-auto h-100"> -->
+                                                <img src="<?php //echo poster_url() ?>WD_Poster_2018.jpg" alt="" class="m-auto h-100">
                                             </div>
                                         </div>
                                     </div>
@@ -158,10 +158,10 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                             </div>
-                            <!-- </form> -->
+                            </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /vertical form modal -->
 
             </div>

@@ -41,13 +41,13 @@
                         </a>
                         <ul class="submenu signed-user-menu">
                             <li>
-                                <a href="#">My Profile</a>
+                                <a href="<?php echo user_base_url() ?>profile">My Profile</a>
                             </li>
                             <li>
                                 <a href="<?php echo user_base_url() ?>gigs/add">Create Gig</a>
                             </li>
                             <li>
-                                <a href="#">My Gigs</a>
+                                <a href="<?php echo user_base_url() ?>my_gigs">My Gigs</a>
                             </li>
                             <li>
                                 <a href="#">Payment Histroy</a>

@@ -46,11 +46,12 @@
                     <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                     <td>
                         <div class="d-flex">
-                            <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id ?>><i class="icon-search4"></i></button> -->
+                            <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
+                                                                                                                                                        ?>><i class="icon-search4"></i></button> -->
                             <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
                             <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
-                            <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
-                            <!-- </form> -->
+                                <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
