@@ -5,7 +5,7 @@ if ($gigs) :
         <div class="card explore-card">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                    <img class="explore-img" src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 343px; height: 577px;">
+                    <img class="explore-img" src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 343px; height: 577px;">
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-12">
                     <h5><?php echo $gig->title ?></h5>

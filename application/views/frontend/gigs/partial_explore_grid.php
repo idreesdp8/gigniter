@@ -8,7 +8,7 @@ if ($gigs) :
             <div class="col-md-4">
                 <div class="card grid-card" style="background: transparent;">
                     <div class="card-header p-0">
-                        <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
+                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
                     </div>
                     <div class="card-footer grid-footer">
                         <div class="d-flex">

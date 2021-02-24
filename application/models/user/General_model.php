@@ -73,9 +73,9 @@ class General_model extends CI_Model {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $source_paths.$fileName;       
         $config['create_thumb'] = TRUE;
-        $config['maintain_ratio'] = TRUE;
+        $config['maintain_raio'] = TRUE;
         $config['width'] = $width;
-        // $config['height'] = $height;
+        $config['height'] = $height;
         $config['new_image'] = $target_paths.$fileName;               
         $this->image_lib->initialize($config);
         if(!$this->image_lib->resize()){ 
