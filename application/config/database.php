@@ -96,5 +96,3 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-
-// ALTER TABLE `gigs` ADD `stream_platform` VARCHAR(255) NOT NULL AFTER `venues`, ADD `stream_url` VARCHAR(255) NOT NULL AFTER `stream_platform`;

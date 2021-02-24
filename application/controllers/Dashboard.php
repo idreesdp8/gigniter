@@ -46,9 +46,9 @@ class Dashboard extends CI_Controller
 		$featured_gigs = array();
 		$now_showing = $this->gigs_model->get_now_showing_gigs();
 		// $just_in = array();
+		$now = new DateTime();
 		if ($gigs) {
 			// $today = strtotime('Today');
-			$now = new DateTime();
 			// echo $now;die();
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
