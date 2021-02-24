@@ -16,7 +16,7 @@
             <div class="row custom-row">
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12">
                     <div>
-                        <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" class="w-100" alt="image">
+                        <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 165px; height: 296px;" class="w-100" alt="image">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
