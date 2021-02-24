@@ -75,7 +75,7 @@ class General_model extends CI_Model {
         $config['create_thumb'] = TRUE;
         $config['maintain_ratio'] = TRUE;
         $config['width'] = $width;
-        $config['height'] = $height;
+        // $config['height'] = $height;
         $config['new_image'] = $target_paths.$fileName;               
         $this->image_lib->initialize($config);
         if(!$this->image_lib->resize()){ 
