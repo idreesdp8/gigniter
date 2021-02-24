@@ -16,6 +16,27 @@
     .text-danger .error {
       border: none !important;
     }
+
+    .image_div {
+      padding: 10px;
+      border: 1px dashed #ccc;
+      text-align: center;
+      width: 100%;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+
+    .image_div img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .remove_tier_bundle {
+      width: 20px;
+      float: right;
+    }
   </style>
 </head>
 
@@ -633,13 +654,13 @@
           '<label class="d-none">Products<div class="row mb-2"></div></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-4 col-sm-12 col-12">' +
-          '<button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="'+tier+'">Add Product</button>' +
+          '<button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +
           '<div class="allow-overshoot">' +
-          '<input id="myCheckbox-ticket_is_unlimited_'+tier+'" type="checkbox" name="ticket_is_unlimited_'+tier+'" value="1">' +
-          '<label for="myCheckbox-ticket_is_unlimited_'+tier+'">No Limit</label><span></span>' +
+          '<input id="myCheckbox-ticket_is_unlimited_' + tier + '" type="checkbox" name="ticket_is_unlimited_' + tier + '" value="1">' +
+          '<label for="myCheckbox-ticket_is_unlimited_' + tier + '">No Limit</label><span></span>' +
           '</div>' +
           '</div>' +
           '</div>' +
@@ -658,11 +679,14 @@
         label.removeClass('d-none');
         var div = $(this).parents(div).find('.tier_bundles .row');
         div.append('<div class="col-md-4">' +
+          '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle">x</div>' +
           '<div class="form-group">' +
-          '<div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>' +
           '<input type="text" name="bundle_title_tier' + tier + '[]" class="form-control" placeholder="Bundle Title">' +
           '</div>' +
-          '<input type="file" name="bundle_image_tier' + tier + '[]" class="file-input" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>' +
+          '<div class="image_div">' +
+          '<img alt="your image" />' +
+          '</div>' +
+          '<input type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
