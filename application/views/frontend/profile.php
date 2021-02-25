@@ -20,6 +20,10 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+        .account-area .account-form .form-group input {
+            color: black !important;
+        }
     </style>
 </head>
 
@@ -128,24 +132,24 @@
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="mail">Mail</label>
-                                    <input type="text" value="<?php echo $user->mail ?>" name="mail" id="mail" data-error="#mail1" required>
+                                    <input type="text" value="<?php echo $user->mail ?? '' ?>" name="mail" id="mail" data-error="#mail1" required>
                                     <span id="mail1" class="text-danger"><?php echo form_error('mail'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="facebook">Facebook</label>
-                                    <input type="text" value="<?php echo $user->facebook ?>" name="facebook" id="facebook" data-error="#facebook1" required>
+                                    <input type="text" value="<?php echo $user->facebook ?? '' ?>" name="facebook" id="facebook" data-error="#facebook1" required>
                                     <span id="facebook1" class="text-danger"><?php echo form_error('facebook'); ?></span>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="instagram">Instagram</label>
-                                    <input type="text" value="<?php echo $user->instagram ?>" name="instagram" id="instagram" data-error="#instagram1" required>
+                                    <input type="text" value="<?php echo $user->instagram ?? '' ?>" name="instagram" id="instagram" data-error="#instagram1" required>
                                     <span id="instagram1" class="text-danger"><?php echo form_error('instagram'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="twitter">Twitter</label>
-                                    <input type="text" value="<?php echo $user->twitter ?>" name="twitter" id="twitter" data-error="#twitter1" required>
+                                    <input type="text" value="<?php echo $user->twitter ?? '' ?>" name="twitter" id="twitter" data-error="#twitter1" required>
                                     <span id="twitter1" class="text-danger"><?php echo form_error('twitter'); ?></span>
                                 </div>
                             </div>

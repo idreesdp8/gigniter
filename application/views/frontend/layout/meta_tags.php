@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="<?php echo user_asset_url(); ?>css/nice-select.css">
 <link rel="stylesheet" href="<?php echo user_asset_url(); ?>css/jquery.animatedheadline.css">
 <link rel="stylesheet" href="<?php echo user_asset_url(); ?>css/main.css">
+<link rel="stylesheet" href="<?php echo user_asset_url(); ?>css/custom.css">
 <script src="<?php echo user_asset_url(); ?>js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="<?php echo user_asset_url(); ?>js/jquery-asPieProgress.js"></script>
 <link rel="shortcut icon" href="<?php echo user_asset_url(); ?>images/favicon.png" type="image/x-icon">

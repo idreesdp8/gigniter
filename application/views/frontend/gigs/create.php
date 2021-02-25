@@ -201,28 +201,28 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Campaign Launch Date
-                      <input type="text" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date
-                      <input type="text" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time
-                      <input type="text" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time
-                      <input type="text" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -307,106 +307,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <hr>
-                <div id="tier2">
-                  <h5>Tier 2</h5>
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Tier Name
-                        <input type="text" name="ticket_name[]" placeholder="">
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Tier Price
-                        <input type="text" name="ticket_price[]" placeholder="USD $">
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Number of tickets in Tier
-                        <input type="text" name="ticket_quantity[]" placeholder="">
-                      </label>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                      <label>
-                        Description
-                        <textarea name="ticket_description[]" cols="30" rows="2"></textarea>
-                      </label>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
-                      <label class="d-none">
-                        Bundling Details
-                        <div class="row mb-2">
-                        </div>
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <div class="mycheckbox-contain">
-                        <div class="allow-overshoot">
-                          <input id="myCheckbox-ticket_is_unlimited_2" type="checkbox" name="ticket_is_unlimited_2" value="1">
-                          <label for="myCheckbox-ticket_is_unlimited_2">No Limit</label>
-                          <span></span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="2">Add Bundle</button>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <div id="tier3">
-                  <h5>Tier 3</h5>
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Tier Name
-                        <input type="text" name="ticket_name[]" placeholder="">
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Tier Price
-                        <input type="text" name="ticket_price[]" placeholder="USD $">
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <label>
-                        Number of tickets in Tier
-                        <input type="text" name="ticket_quantity[]" placeholder="">
-                      </label>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                      <label>
-                        Description
-                        <textarea name="ticket_description[]" cols="30" rows="2"></textarea>
-                      </label>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
-                      <label class="d-none">
-                        Bundling Details
-                        <div class="row mb-2">
-                        </div>
-                      </label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <div class="mycheckbox-contain">
-                        <div class="allow-overshoot">
-                          <input id="myCheckbox-ticket_is_unlimited_3" type="checkbox" name="ticket_is_unlimited_3" value="1">
-                          <label for="myCheckbox-ticket_is_unlimited_3">No Limit</label>
-                          <span></span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12"></div>
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                      <button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="3">Add Bundle</button>
-                    </div>
-                  </div>
-                </div> -->
                 <div class="row">
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
@@ -461,7 +361,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Address
-                      <input type="text" name="user_address" value="<?php echo $user->address ?>">
+                      <input type="text" id="user_address" name="user_address" value="<?php echo $user->address ?>">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -486,22 +386,22 @@
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="mail" value=<?php echo $link[0]['mail'] ?? null ?>>
+                            <input type="text" class="social_url" name="mail" id="mail" value=<?php echo $link[0]['mail'] ?? null ?>>
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="facebook" value=<?php echo $link[1]['facebook'] ?? null ?>>
+                            <input type="text" class="social_url" name="facebook" id="facebook" value=<?php echo $link[1]['facebook'] ?? null ?>>
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="instagram" value=<?php echo $link[2]['instagram'] ?? null ?>>
+                            <input type="text" class="social_url" name="instagram" id="instagram" value=<?php echo $link[2]['instagram'] ?? null ?>>
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="twitter" value=<?php echo $link[3]['twitter'] ?? null ?>>
+                            <input type="text" class="social_url" name="twitter" id="twitter" value=<?php echo $link[3]['twitter'] ?? null ?>>
                           </label>
                         </div>
                       </div>
@@ -536,9 +436,9 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Select the meeting platform
-                      <select id="meeting_platform" class="select">
-                        <option>Google Meeting</option>
-                        <option>Zoom Meeting</option>
+                      <select id="meeting_platform" name="meeting_platform" class="select">
+                        <option value="google">Google Meeting</option>
+                        <option value="zoom">Zoom Meeting</option>
                       </select>
                     </label>
                   </div>
@@ -631,12 +531,15 @@
 
 
       $('#add_tier_button').click(function() {
-        var tier = $(this).data('tier');
+        var tier = $(this).attr('data-tier');
         var div = $('#ticket_tiers');
         div.append(
-          '<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">' +
+          '<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 ticket_tier">' +
           '<div id="tier' + tier + '">' +
+          '<div class="d-flex justify-content-between">' +
           '<h5>Tier ' + tier + '</h5>' +
+          '<span class="text-danger cursor-pointer remove_tier"><i class="fas fa-times"></i></span>' + 
+          '</div>' +
           '<div class="row">' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<label>Tier Name<input type="text" name="ticket_name[]" placeholder=""></label>' +
@@ -669,7 +572,8 @@
           '</div>' +
           '</div>'
         );
-        $(this).data('tier', tier + 1);
+        tier = tier - -1;
+        $(this).attr('data-tier', tier);
       });
       $(document).on('click', '.add_tier_bundle', function() {
         var i = $(this).attr('data-bundle');
@@ -679,12 +583,12 @@
         label.removeClass('d-none');
         var div = $(this).parents(div).find('.tier_bundles .row');
         div.append('<div class="col-md-4">' +
-          '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle">x</div>' +
+          '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="fas fa-times"></i></div>' +
           '<div class="form-group">' +
-          '<input type="text" name="bundle_title_tier' + tier + '[]" class="form-control" placeholder="Bundle Title">' +
+          '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
           '</div>' +
           '<div class="image_div">' +
-          '<img alt="your image" />' +
+          '<img alt="your image" class="d-none" />' +
           '</div>' +
           '<input type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
@@ -701,6 +605,11 @@
       $(document).on('click', '.remove_tier_bundle', function() {
         var div = $(this).parents('.col-md-4');
         div.remove();
+      });
+      $(document).on('click', '.remove_tier', function() {
+        var div = $(this).parents('.ticket_tier');
+        div.remove();
+        // $('#add_tier_button').data('tier', tier);
       });
       $('#basic_info_form').submit(function(e) {
         e.preventDefault;

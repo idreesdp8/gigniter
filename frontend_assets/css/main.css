@@ -793,8 +793,8 @@ textarea {
 input,
 button,
 select {
-  height: 50px;
-  color: #dbe2fb;
+  height: 50px !important;
+  color: #dbe2fb !important;
 }
 
 label,

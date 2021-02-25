@@ -169,7 +169,7 @@ class Gigs extends CI_Controller
 				// echo json_encode($response);
 				// $this->load->view('admin/gigs/add');
 				// die();
-				redirect("/");
+				redirect("my_gigs");
 				// echo json_encode($response);
 			}
 		} else {
@@ -471,7 +471,7 @@ class Gigs extends CI_Controller
 		}
 	}
 	
-	function remove_tickets($gig_id)
+	function remove_tickets($gig_id, $delete_bundle_img = '')
 	{
 		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
 		if (isset($tickets) && !empty($tickets)) {
@@ -479,8 +479,10 @@ class Gigs extends CI_Controller
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
 				if (isset($bundles) && !empty($bundles)) {
 					foreach ($bundles as $bundle) {
-						// @unlink("downloads/bundles/thumb/$bundle->image");
-						// @unlink("downloads/bundles/$bundle->image");
+						if($delete_bundle_img) {
+							@unlink("downloads/bundles/thumb/$bundle->image");
+							@unlink("downloads/bundles/$bundle->image");
+						}
 						$this->gigs_model->remove_bundle_by_id($bundle->id);
 					}
 				}
@@ -609,5 +611,25 @@ class Gigs extends CI_Controller
 		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
+	}
+
+	function trash($args2 = '')
+	{
+		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'trash', $this->dbs_role_id, '1');
+		// if ($res_nums > 0) {
+
+		// $data['page_headings'] = "Users List";
+		// echo $args2;
+		// die();
+		$gig = $this->gigs_model->get_gig_by_id($args2);
+		@unlink("downloads/posters/thumb/$gig->poster");
+		@unlink("downloads/posters/$gig->poster");
+		$this->remove_tickets($args2, 1);
+		$this->gigs_model->trash_gig($args2);
+		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
+		redirect('my_gigs');
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
 	}
 }

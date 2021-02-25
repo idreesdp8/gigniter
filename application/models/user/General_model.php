@@ -400,7 +400,7 @@ class General_model extends CI_Model {
 	
 		function random_string($length){
 			$str ='';
-			$chars = "abcdefghijklmnopqrstuvwxyz0123456789";	
+			$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";	
 			$size = strlen( $chars );
 			for( $i = 0; $i < $length; $i++ ) {
 				$str .= $chars[ rand( 0, $size - 1 ) ];

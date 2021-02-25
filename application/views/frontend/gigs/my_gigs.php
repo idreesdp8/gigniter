@@ -44,6 +44,12 @@
                             <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
                             <?php echo $this->session->flashdata('error_msg'); ?>
                         </div>
+                    <?php }
+                    if ($this->session->flashdata('deleted_msg')) { ?>
+                        <div class="alert alert-warning no-border">
+                            <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
+                            <?php echo $this->session->flashdata('deleted_msg'); ?>
+                        </div>
                     <?php } ?>
                     <?php
                     if ($gigs) :

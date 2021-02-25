@@ -86,6 +86,8 @@ class Account extends CI_Controller
 			$email = $this->input->post("email");
 			$password = $this->input->post("password");
 
+			// $this->send_email($email);
+
 			// echo $email.' '.$password;
 			// die();
 			// form validation 
@@ -102,7 +104,7 @@ class Account extends CI_Controller
 				$password = $this->general_model->safe_ci_encoder($password);
 				$role = $this->roles_model->get_role_by_name('User');
 				$created_on = date('Y-m-d H:i:s');
-				$status = 1;
+				$status = 0;
 				$datas = array(
 					'email' => $email,
 					'password' => $password,
@@ -115,23 +117,7 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
-
-					// set session	
-					$cstm_sess_data = array(
-						'us_login' => TRUE,
-						'us_id' => $result->id,
-						'us_role_id' => $result->role_id,
-						'us_username' => ($result->username ? ucfirst($result->username) : ''),
-						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
-						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-						'us_email' => $result->email
-					);
-
-					$this->session->set_userdata($cstm_sess_data);
-
-					redirect("dashboard");
-					// $this->session->set_flashdata('success_msg', 'Your account has been created successfully, please login to access your account!');
-					// redirect("login");
+					$this->send_email($result->email);
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('register');
@@ -142,6 +128,60 @@ class Account extends CI_Controller
 		}
 	}
 
+	function send_email($to_email)
+	{
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		$code = $this->general_model->random_string(6);
+		$this->session->set_userdata(['verification_code' => $code]);
+		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+
+		$msg = $this->load->view('email/verification_code', $data, TRUE);
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject('Verification Code');
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+		} else {
+			$this->session->set_flashdata("error_msg", "You have encountered an error");
+		}
+		$this->load->view('frontend/verfication_page');
+	}
+
+	function verify_email()
+	{
+		$email = $this->general_model->safe_ci_decoder($this->input->get('email'));
+		$code = $this->general_model->safe_ci_decoder($this->input->get('code'));
+		$user = $this->users_model->get_user_by_email($email);
+		$sess_code = $this->session->userdata('verification_code');
+		if ($user && ($sess_code == $code)) {
+			$data_arr = [
+				'status' => 1
+			];
+			$this->users_model->update_user_data($user->id, $data_arr);
+			$this->session->unset_userdata('verification_code');
+			$result = $this->users_model->get_user_by_id($user->id);
+			// set session	
+			$cstm_sess_data = array(
+				'us_login' => TRUE,
+				'us_id' => $result->id,
+				'us_role_id' => $result->role_id,
+				'us_username' => ($result->username ? ucfirst($result->username) : ''),
+				'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+				'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
+				'us_email' => $result->email
+			);
+
+			$this->session->set_userdata($cstm_sess_data);
+
+			$this->load->view('frontend/account_verified');
+			// redirect("dashboard");
+		}
+	}
 
 	function forgot_password()
 	{

@@ -274,11 +274,12 @@ $(document).ready(function () {
         check_goal();
     });
     function check_goal() {
+        var pattern = /^[0-9]*$/;
         var goal = $("#goal").val();
-        if (goal == '') {
-            $("#goal").removeClass("good").addClass("error");
-        } if (goal !== '') {
+        if (pattern.test(goal) && goal !== '') {
             $("#goal").removeClass("error").addClass("good");
+        } else {
+            $("#goal").removeClass("good").addClass("error");
             error_goal = true;
         }
     }
@@ -376,129 +377,181 @@ $(document).ready(function () {
     // step 1 Functions END...
 
     // step 2 Functions START...
-    var error_tier_price = false;
-    var error_number_tickets = false;
-    var error_bundling = false;
+    // var error_tier_price = false;
+    // var error_number_tickets = false;
+    // var error_bundling = false;
 
-    $("#tier_price").focusout(function () {
-        check_tier_price();
-    });
-    function check_tier_price() {
-        var tier_price = $("#tier_price").val();
-        if (tier_price == '') {
-            $("#tier_price").addClass("error").removeClass("good");
-        } if (tier_price !== '') {
-            $("#tier_price").removeClass("error").addClass("good");
-            error_tier_price = true;
-        }
-    }
+    // $("#tier_price").focusout(function () {
+    //     check_tier_price();
+    // });
+    // function check_tier_price() {
+    //     var tier_price = $("#tier_price").val();
+    //     if (tier_price == '') {
+    //         $("#tier_price").addClass("error").removeClass("good");
+    //     } if (tier_price !== '') {
+    //         $("#tier_price").removeClass("error").addClass("good");
+    //         error_tier_price = true;
+    //     }
+    // }
 
-    $("#number_tickets").focusout(function () {
-        check_number_tickets();
-    });
-    function check_number_tickets() {
-        var number_tickets = $("#number_tickets").val();
-        if (number_tickets == '') {
-            $("#number_tickets").addClass("error").removeClass("good");
-        } if (number_tickets !== '') {
-            $("#gig-address").removeClass("error").addClass("good");
-            error_number_tickets = true;
-        }
-    }
-    $("#bundling").focusout(function () {
-        check_bundling();
-    });
-    function check_bundling() {
-        var bundling = $("#bundling").val();
-        if (bundling == '') {
-            $("#bundling").addClass("error").removeClass("good");
-        } if (bundling !== '') {
-            $("#gig-address").removeClass("error").addClass("good");
-            error_bundling = true;
-        }
-    }
+    // $("#number_tickets").focusout(function () {
+    //     check_number_tickets();
+    // });
+    // function check_number_tickets() {
+    //     var number_tickets = $("#number_tickets").val();
+    //     if (number_tickets == '') {
+    //         $("#number_tickets").addClass("error").removeClass("good");
+    //     } if (number_tickets !== '') {
+    //         $("#gig-address").removeClass("error").addClass("good");
+    //         error_number_tickets = true;
+    //     }
+    // }
+    // $("#bundling").focusout(function () {
+    //     check_bundling();
+    // });
+    // function check_bundling() {
+    //     var bundling = $("#bundling").val();
+    //     if (bundling == '') {
+    //         $("#bundling").addClass("error").removeClass("good");
+    //     } if (bundling !== '') {
+    //         $("#gig-address").removeClass("error").addClass("good");
+    //         error_bundling = true;
+    //     }
+    // }
     // step 2 Functions END...
 
 
     // step 3 Functions START...
-    var error_gig_poster = false;
-    var error_full_name = false;
-    var error_bio = false;
-    var error_website = false;
-    var error_location = false;
-    var error_social_url = false;
+    // var error_gig_poster = false;
+    var error_fname = false;
+    var error_lname = false;
+    var error_user_address = false;
+    var error_description = false;
+    var error_country_id = false;
+    var error_mail = false;
+    var error_facebook = false;
+    var error_instagram = false;
+    var error_twitter = false;
     var error_stripe_integration = false;
 
-    $("#my-file2").focusout(function () {
-        check_my_file2();
+    // $("#my-file2").focusout(function () {
+    //     check_my_file2();
+    // });
+    // function check_my_file2() {
+    //     var gig_poster = $("#my-file2").val();
+    //     if (gig_poster == '') {
+    //         $("#my-file2").addClass("error").removeClass("good");
+    //     } if (gig_poster !== '') {
+    //         $("#my-file2").removeClass("error").addClass("good");
+    //         error_gig_poster = true;
+    //     }
+    // }
+    $("#error_fname").focusout(function () {
+        check_fname();
     });
-    function check_my_file2() {
-        var gig_poster = $("#my-file2").val();
-        if (gig_poster == '') {
-            $("#my-file2").addClass("error").removeClass("good");
-        } if (gig_poster !== '') {
-            $("#my-file2").removeClass("error").addClass("good");
-            error_gig_poster = true;
+    function check_fname() {
+        var fname = $("#fname").val();
+        if (fname == '') {
+            $("#fname").addClass("error").removeClass("good");
+        } if (fname !== '') {
+            $("#fname").removeClass("error").addClass("good");
+            error_fname = true;
         }
     }
-    $("#full_name").focusout(function () {
-        check_full_name();
+    $("#error_lname").focusout(function () {
+        check_lname();
     });
-    function check_full_name() {
-        var full_name = $("#full_name").val();
-        if (full_name == '') {
-            $("#full_name").addClass("error").removeClass("good");
-        } if (full_name !== '') {
-            $("#full_name").removeClass("error").addClass("good");
-            error_full_name = true;
+    function check_lname() {
+        var lname = $("#lname").val();
+        if (lname == '') {
+            $("#lname").addClass("error").removeClass("good");
+        } if (lname !== '') {
+            $("#lname").removeClass("error").addClass("good");
+            error_lname = true;
         }
     }
-    $("#bio").focusout(function () {
-        check_bio();
+    $("#error_user_address").focusout(function () {
+        check_user_address();
     });
-    function check_bio() {
-        var bio = $("#bio").val();
-        if (bio == '') {
-            $("#bio").addClass("error").removeClass("good");
-        } if (bio !== '') {
-            $("#bio").removeClass("error").addClass("good");
-            error_bio = true;
+    function check_user_address() {
+        var user_address = $("#user_address").val();
+        if (user_address == '') {
+            $("#user_address").addClass("error").removeClass("good");
+        } if (user_address !== '') {
+            $("#user_address").removeClass("error").addClass("good");
+            error_user_address = true;
         }
     }
-    $("#website").focusout(function () {
-        check_website();
+    $("#description").focusout(function () {
+        check_description();
     });
-    function check_website() {
-        var website = $("#website").val();
-        if (website == '') {
-            $("#website").addClass("error").removeClass("good");
-        } if (website !== '') {
-            $("#website").removeClass("error").addClass("good");
-            error_website = true;
+    function check_description() {
+        var description = $("#description").val();
+        if (description == '') {
+            $("#description").addClass("error").removeClass("good");
+        } if (description !== '') {
+            $("#description").removeClass("error").addClass("good");
+            error_description = true;
         }
     }
-    $("#location").focusout(function () {
-        check_location();
+    $("#mail").focusout(function () {
+        check_mail();
     });
-    function check_location() {
-        var location = $("#location").val();
-        if (location == '') {
-            $("#location").addClass("error").removeClass("good");
-        } if (location !== '') {
-            $("#location").removeClass("error").addClass("good");
-            error_location = true;
+    function check_mail() {
+        var mail = $("#mail").val();
+        if (mail == '') {
+            $("#mail").addClass("error").removeClass("good");
+        } if (mail !== '') {
+            $("#mail").removeClass("error").addClass("good");
+            error_mail = true;
         }
     }
-    $(".social_url").focusout(function () {
-        check_social_url();
+    $("#facebook").focusout(function () {
+        check_facebook();
     });
-    function check_social_url() {
-        var social_url = $(".social_url").val();
-        if (social_url == '') {
-            $(".social_url").addClass("error").removeClass("good");
-        } if (social_url !== '') {
-            $(".social_url").removeClass("error").addClass("good");
-            error_social_url = true;
+    function check_facebook() {
+        var facebook = $("#facebook").val();
+        if (facebook == '') {
+            $("#facebook").addClass("error").removeClass("good");
+        } if (facebook !== '') {
+            $("#facebook").removeClass("error").addClass("good");
+            error_facebook = true;
+        }
+    }
+    $("#instagram").focusout(function () {
+        check_instagram();
+    });
+    function check_instagram() {
+        var instagram = $("#instagram").val();
+        if (instagram == '') {
+            $("#instagram").addClass("error").removeClass("good");
+        } if (instagram !== '') {
+            $("#instagram").removeClass("error").addClass("good");
+            error_instagram = true;
+        }
+    }
+    $("#twitter").focusout(function () {
+        check_twitter();
+    });
+    function check_twitter() {
+        var twitter = $("#twitter").val();
+        if (twitter == '') {
+            $("#twitter").addClass("error").removeClass("good");
+        } if (twitter !== '') {
+            $("#twitter").removeClass("error").addClass("good");
+            error_twitter = true;
+        }
+    }
+    $("#country_id").focusout(function () {
+        check_country_id();
+    });
+    function check_country_id() {
+        var country_id = $("#country_id").val();
+        if (country_id == '') {
+            $("#country_id").addClass("error").removeClass("good");
+        } if (country_id !== '') {
+            $("#country_id").removeClass("error").addClass("good");
+            error_country_id = true;
         }
     }
     $("#stripe_integration").focusout(function () {
