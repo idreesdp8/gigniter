@@ -86,7 +86,7 @@ class Account extends CI_Controller
 			$email = $this->input->post("email");
 			$password = $this->input->post("password");
 
-			// $this->send_email($email);
+			$this->send_email($email);
 
 			// echo $email.' '.$password;
 			// die();
@@ -133,6 +133,9 @@ class Account extends CI_Controller
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
 
+		$this->load->helper('string');
+		$code = random_string('alnum', 6);
+		echo $code;die();
 		$code = $this->general_model->random_string(6);
 		$this->session->set_userdata(['verification_code' => $code]);
 		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
@@ -436,19 +439,25 @@ class Account extends CI_Controller
 			}
 		} else {
 			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-			$data['countries'] = $this->countries_model->get_all_countries();
-			$links = $this->users_model->get_social_links($this->dbs_user_id);
-			if (isset($links) && !empty($links)) {
-				foreach ($links as $link) {
-					$platform = $link->platform;
-					$user->$platform = $link->url;
-				}
-				// $data['link'] = $temp;
-			} /* else {
-				$data['link'] = [];
-			} */
-			$data['user'] = $user;
-			$this->load->view('frontend/profile', $data);
+			if($user) {
+				$data['countries'] = $this->countries_model->get_all_countries();
+				$links = $this->users_model->get_social_links($this->dbs_user_id);
+				if (isset($links) && !empty($links)) {
+					foreach ($links as $link) {
+						$platform = $link->platform;
+						$user->$platform = $link->url;
+					}
+					// $data['link'] = $temp;
+				} /* else {
+					$data['link'] = [];
+				} */
+				$data['user'] = $user;
+				// echo json_encode($user);
+				// die();
+				$this->load->view('frontend/profile', $data);
+			} else {
+				redirect('account/logoff');
+			}
 		}
 	}
 

@@ -25,7 +25,7 @@
 	}
 	
 	function user_base_url(){
-		return base_url().'';
+		return base_url().'index.php/';
 	}
 	
 	function profile_image_relative_path(){

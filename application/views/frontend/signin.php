@@ -16,18 +16,7 @@
         <div class="container">
             <div class="padding-top padding-bottom">
                 <div class="account-area">
-                    <?php if ($this->session->flashdata('success_msg')) { ?>
-                        <div class="alert alert-success no-border">
-                            <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
-                            <?php echo $this->session->flashdata('success_msg'); ?>
-                        </div>
-                    <?php }
-                    if ($this->session->flashdata('error_msg')) { ?>
-                        <div class="alert alert-danger no-border">
-                            <!-- <button data-dismiss="alert" class="close" type="button"><span>×</span><span class="sr-only">Close</span></button> -->
-                            <?php echo $this->session->flashdata('error_msg'); ?>
-                        </div>
-                    <?php } ?>
+                    <?php $this->load->view('alert/alert'); ?>
                     <div class="section-header-3">
                         <span class="cate">hello</span>
                         <h2 class="title">welcome back</h2>
@@ -49,7 +38,7 @@
                                 <label for="remember_box" class="remember_label">remember password</label>
                                 <span></span>
                             </div>
-                            <a href="#0" class="forget-pass">Forget Password</a>
+                            <a href="<?php echo user_base_url() ?>recover_password" class="forget-pass">Forget Password</a>
                         </div>
                         <div class="form-group text-center">
                             <input class="sub_btn" type="submit" value="log in">

@@ -56,5 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'Account/signin';
 $route['register'] = 'Account/signup';
 $route['profile'] = 'Account/profile';
+$route['recover_password'] = 'Account/forgot_password';
 
 $route['my_gigs'] = 'Gigs/my_gigs';

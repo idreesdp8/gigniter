@@ -13,30 +13,6 @@
       display: block;
     }
 
-    .text-danger .error {
-      border: none !important;
-    }
-
-    .image_div {
-      padding: 10px;
-      border: 1px dashed #ccc;
-      text-align: center;
-      width: 100%;
-      height: 200px;
-      margin-bottom: 20px;
-    }
-
-    .image_div img {
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    .remove_tier_bundle {
-      width: 20px;
-      float: right;
-    }
   </style>
 </head>
 
