@@ -431,42 +431,6 @@
                     <button class="btn btn-primary btn-step-test">test</button>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-heading">
-                      <h6>Ticket Sold</h6>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      First Name
-                      <input type="text" id="first_name" name="first_name">
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Last Name
-                      <input type="text" id="last_name" name="last_name">
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Ticket Tier
-                      <input type="text" id="ticket_tier" name="ticket_tier">
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Sold Price
-                      <input type="text" id="sold_price" placeholder="USD $">
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Purchase dates
-                      <input type="text" id="purchase_date" class="date" name="gig-date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'">
-                    </label>
-                  </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">

@@ -41,7 +41,7 @@ class Account extends CI_Controller
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
 				}
-				$this->load->view('frontend/signin');
+				$this->load->view('frontend/account/signin');
 				// redirect('login');
 			} else {
 				// check for user credentials
@@ -68,7 +68,7 @@ class Account extends CI_Controller
 						// redirect("dashboard");
 					} else {
 						$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
-						$this->load->view('frontend/signin');
+						$this->load->view('frontend/account/signin');
 					}
 				} else {
 					$this->session->set_flashdata('error_msg', 'Email or Password is incorrect!');
@@ -76,7 +76,7 @@ class Account extends CI_Controller
 				}
 			}
 		} else {
-			$this->load->view('frontend/signin');
+			$this->load->view('frontend/account/signin');
 		}
 	}
 	function signup()
@@ -86,7 +86,7 @@ class Account extends CI_Controller
 			$email = $this->input->post("email");
 			$password = $this->input->post("password");
 
-			$this->send_email($email);
+			// $this->send_email($email);
 
 			// echo $email.' '.$password;
 			// die();
@@ -99,7 +99,7 @@ class Account extends CI_Controller
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
 				}
-				$this->load->view('frontend/signup');
+				$this->load->view('frontend/account/signup');
 			} else {
 				$password = $this->general_model->safe_ci_encoder($password);
 				$role = $this->roles_model->get_role_by_name('User');
@@ -117,42 +117,51 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
-					$this->send_email($result->email);
+					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					if ($is_sent) {
+						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					} else {
+						$this->session->set_flashdata("error_msg", "You have encountered an error");
+					}
+					$this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('register');
 				}
 			}
 		} else {
-			$this->load->view('frontend/signup');
+			$this->load->view('frontend/account/signup');
 		}
 	}
 
-	function send_email($to_email)
+	function send_email($to_email, $subject, $email_for)
 	{
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
 
-		$this->load->helper('string');
-		$code = random_string('alnum', 6);
-		echo $code;die();
-		$code = $this->general_model->random_string(6);
-		$this->session->set_userdata(['verification_code' => $code]);
-		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+		if ($email_for == 'verification') {
+			$this->load->helper('string');
+			$code = random_string('alnum', 6);
+			$this->session->set_userdata(['verification_code' => $code]);
+			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+			$msg = $this->load->view('email/verification_code', $data, TRUE);
+		}
+		if ($email_for == 'forgot_password') {
+			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
 
-		$msg = $this->load->view('email/verification_code', $data, TRUE);
 
 		$this->email->from($from_email, $from_name);
 		$this->email->to($to_email);
-		$this->email->subject('Verification Code');
+		$this->email->subject($subject);
 		$this->email->message($msg);
 		//Send mail
 		if ($this->email->send()) {
-			$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+			return true;
 		} else {
-			$this->session->set_flashdata("error_msg", "You have encountered an error");
+			return false;
 		}
-		$this->load->view('frontend/verfication_page');
 	}
 
 	function verify_email()
@@ -181,146 +190,122 @@ class Account extends CI_Controller
 
 			$this->session->set_userdata($cstm_sess_data);
 
-			$this->load->view('frontend/account_verified');
+			$this->load->view('frontend/account/account_verified');
 			// redirect("dashboard");
 		}
 	}
 
 	function forgot_password()
 	{
+		if (isset($_SESSION['error_msg'])) {
+			unset($_SESSION['error_msg']);
+		}
 
+		if (isset($_SESSION['success_msg'])) {
+			unset($_SESSION['success_msg']);
+		}
 		if (isset($_POST) && !empty($_POST)) {
 			$email = $this->input->post("email");
+			// echo $email;
+			// die();
 
 			// form validation
-			$this->form_validation->set_rules("email", "Email-ID", 'required|trim|xss_clean|valid_email');
+			$this->form_validation->set_rules("email", "Email", 'required|trim|xss_clean|valid_email');
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
 				}
-				$this->load->view('admin/forgot_password');
+				$this->load->view('frontend/account/forgot_password');
 			} else {
 				// check for user credentials
 				$result = $this->users_model->get_user_by_email($email);
-				if (isset($result)) {
-					//Load email library 
-					$this->load->library('email');
-					$db_vs_id = $result->id;
-					//$vs_id = base64_encode($db_vs_id);
-					$vs_id = $db_vs_id;
+				if ($result) {
+					if (!$result->status) {
+						$this->session->set_flashdata('error_msg', 'Your Email is not verified yet!');
+						$this->load->view('frontend/account/forgot_password');
+						return 0;
+					}
+					// echo json_encode($result);
+					// die();
 
-					$vs_name = $result->name;
-					$vs_email = $result->email;
-					//$vs_password = $result->password;  
+					$is_sent = $this->send_email($result->email, 'Password Reset Link', 'forgot_password');
 
-					$this->load->helper('string');
-					$random_password = random_string('alnum', 20);
-					$update_array = array('random_password' => $random_password);
-					$result = $this->users_model->update_user_data($db_vs_id, $update_array);
-					$reset_link = "admin/login/reset_password/{$vs_id}/{$random_password}/";
-					$reset_link = site_url($reset_link);
-
-					$site_name = $this->config->item('custom_site_name');
-
-					$mailtext = "<table width='90%' border='0' align='center' cellpadding='7' cellspacing='7' style='color:#000000; font-size:12px; font-family:tahoma;'> <tbody> <tr> <td> <h4> " . $site_name . ": Reset your " . $site_name . " Password</h4> </td> </tr>";
-
-					$mailtext .= "<tr> <td> Dear " . $vs_name . ", <br> <br> Someone recently requested a password change for your " . $site_name . " account. If this was you, you can set a new password by clicking the link below: <br> <br> <a href=\"$reset_link\" target=\"_blank\" title=\"Click here to Reset Your " . $site_name . " Password\"><strong><u>Reset Your " . $site_name . " Password</u></strong></a> <br> <br> If you don't want to change your password or didn't request this, just ignore and delete this message. <br> <br> To keep your account secure, please don't forward this email to anyone. <br> <br> The " . $site_name . " Team </td> </tr> </tbody> </table>";
-
-					$configs_arr = $this->general_model->get_configuration();
-					$from_email = $configs_arr->email;
-
-					$config['mailtype'] = 'html';
-					$this->email->initialize($config);
-					$this->email->to($vs_email);
-					$this->email->from($from_email);
-					$this->email->subject("Reset your " . $site_name . " Account Password");
-					$this->email->message($mailtext);
-
-					if ($this->email->send()) {
-						$this->session->set_flashdata('success_msg', 'Please check your Email-ID, We have sent your account info!');
+					if ($is_sent) {
+						$this->session->set_flashdata('success_msg', 'Please check your Email, We have sent you password reset link!');
 					} else {
-						$this->session->set_flashdata('error_msg', 'Unable to sent mail, please check configuration!');
+						$this->session->set_flashdata('error_msg', 'You have encountered an error');
 					}
-					$this->load->view('admin/forgot_password');
+					$this->load->view('frontend/account/forgot_password');
 				} else {
-					if (isset($_SESSION['success_msg'])) {
-						unset($_SESSION['success_msg']);
-					}
-					$this->session->set_flashdata('error_msg', 'This Email-ID doesn\'t exists in our record!');
-					$this->load->view('admin/forgot_password');
+					$this->session->set_flashdata('error_msg', 'This Email doesn\'t exists in our record!');
+					$this->load->view('frontend/account/forgot_password');
 				}
 			}
 		} else {
-			if (isset($_SESSION['error_msg'])) {
-				unset($_SESSION['error_msg']);
-			}
 
-			if (isset($_SESSION['success_msg'])) {
-				unset($_SESSION['success_msg']);
-			}
-
-			$this->load->view('admin/forgot_password');
+			$this->load->view('frontend/account/forgot_password');
 		}
 	}
 
-	function reset_password($vs_id, $rand_numbs)
+	function reset_password($email = '')
 	{
+		if (isset($_SESSION['error_msg'])) {
+			unset($_SESSION['error_msg']);
+		}
 
-		//$vs_id = base64_decode($vs_id);
-		$vs_id = $vs_id;
-		$rand_numbs = $rand_numbs;
-		$this->session->set_flashdata('temp_vs_id', $vs_id);
-		$data['vs_id'] = $vs_id;
-		$data['rand_numbs'] = $rand_numbs;
+		if (isset($_SESSION['success_msg'])) {
+			unset($_SESSION['success_msg']);
+		}
 
-		$data_arr = array('id' => $vs_id, 'random_password' => $rand_numbs);
-		$result = $this->users_model->get_user_custom_data($data_arr);
-		if (isset($result)) {
+		if (isset($_POST) && !empty($_POST)) {
 
-			if (isset($_POST) && !empty($_POST)) {
+			$new_password = $this->input->post("password");
+			$email = $this->input->post("email");
+			$email = $this->general_model->safe_ci_decoder($email);
 
-				$new_password = $this->input->post("new_password");
-				$conf_password = $this->input->post("conf_password");
-
-				// form validation
-				$this->form_validation->set_rules("new_password", "New Password", 'required|trim|xss_clean|matches[conf_password]');
-				$this->form_validation->set_rules("conf_password", "Confirm Password", 'required|trim|xss_clean');
-				if ($this->form_validation->run() == FALSE) {
-					$this->load->view('admin/reset_password', $data);
-				} else {
-					$tmp_vs_id = $this->session->flashdata('temp_vs_id');
-					$this->load->helper('string');
-					$random_password = random_string('alnum', 20);
-					/*$new_password = md5($new_password);*/
-					//$new_password = $this->general_model->encrypt_data($new_password);
-					$new_passwor = $this->general_model->safe_ci_encoder($new_password);
-
-					$update_array = array('password' => $new_password, 'random_password' => $random_password);
-					$result = $this->users_model->update_user_data($tmp_vs_id, $update_array);
-
-					if (isset($result)) {
-						$this->session->set_flashdata('success_msg', 'Your Account Password has been changed successfully!');
-						redirect('admin/login/index');
-					} else {
-						$this->session->set_flashdata('error_msg', 'Unable to change your Account, please try again!');
-					}
-				}
-			} else {
+			// echo $email.' '.$new_password;
+			// die();
+			// form validation
+			$this->form_validation->set_rules("password", "New Password", 'required|trim|xss_clean');
+			
+			if ($this->form_validation->run() == FALSE) {
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
 				}
+				$this->load->view('frontend/account/reset_password');
+			} else {
+				$user = $this->users_model->get_user_by_email($email);
+				$new_password = $this->general_model->safe_ci_encoder($new_password);
 
-				if (isset($_SESSION['success_msg'])) {
-					unset($_SESSION['success_msg']);
+				$update_array = array('password' => $new_password);
+				$res = $this->users_model->update_user_data($user->id, $update_array);
+
+				if ($res) {
+					$result = $this->users_model->get_user_by_id($user->id);
+					// set session	
+					$cstm_sess_data = array(
+						'us_login' => TRUE,
+						'us_id' => $result->id,
+						'us_role_id' => $result->role_id,
+						'us_username' => ($result->username ? ucfirst($result->username) : ''),
+						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
+						'us_email' => $result->email
+					);
+					$this->session->set_userdata($cstm_sess_data);
+					$this->session->set_flashdata('success_msg', 'Your Account Password has been changed successfully!');
+					$this->load->view('frontend/account/reset_password');
+					// redirect('/');
+				} else {
+					$this->session->set_flashdata('error_msg', 'Unable to change your Account, please try again!');
+					$this->load->view('frontend/account/reset_password');
 				}
 			}
-
-			$this->load->view('admin/reset_password', $data);
 		} else {
-			$this->session->set_flashdata('error_msg', 'Unable to reset your account password, please try again!');
-			$this->load->view('admin/forgot_password', $data);
+			$data['email'] = $email;
+			$this->load->view('frontend/account/reset_password', $data);
 		}
 	}
 
@@ -346,7 +331,7 @@ class Account extends CI_Controller
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
 				}
-				// $this->load->view('frontend/profile');
+				// $this->load->view('frontend/account/profile');
 				redirect('admin/users/update/' . $data['id']);
 			} else {
 
@@ -439,7 +424,7 @@ class Account extends CI_Controller
 			}
 		} else {
 			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-			if($user) {
+			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);
 				if (isset($links) && !empty($links)) {
@@ -454,7 +439,7 @@ class Account extends CI_Controller
 				$data['user'] = $user;
 				// echo json_encode($user);
 				// die();
-				$this->load->view('frontend/profile', $data);
+				$this->load->view('frontend/account/profile', $data);
 			} else {
 				redirect('account/logoff');
 			}

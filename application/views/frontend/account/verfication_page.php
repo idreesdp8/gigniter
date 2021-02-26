@@ -20,7 +20,7 @@
     <section class="account-section">
         <div class="container">
             <div class="padding-top padding-bottom">
-                <div class="account-area">
+                <div class="account-area" style="max-width: 650px;">
                     <div class="section-header-3">
                         <h6>
                             <?php if ($this->session->flashdata('success_msg')) { ?>
