@@ -138,6 +138,8 @@ class Gigs extends CI_Controller
 					'address' => $data['address'] ?? null,
 					'poster' => $imagename,
 					'goal' => $data['goal'] ?? null,
+					'meeting_platform' => $data['meeting_platform'] ?? null,
+					'meeting_url' => $data['meeting_url'] ?? null,
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
 					'campaign_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['campaign_date'])) : $created_on,
 					'gig_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['gig_date'])) : $created_on,
@@ -373,6 +375,8 @@ class Gigs extends CI_Controller
 					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
 					'goal' => $data['goal'],
+					'meeting_platform' => $data['meeting_platform'] ?? null,
+					'meeting_url' => $data['meeting_url'] ?? null,
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
 					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
 					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
@@ -584,7 +588,7 @@ class Gigs extends CI_Controller
 	{
 		$gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
 		if ($gigs) {
-			// $now = new DateTime();
+			$now = new DateTime();
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
 				$gig->user_name = $user->fname . ' ' . $user->lname;
@@ -600,11 +604,11 @@ class Gigs extends CI_Controller
 				];
 				$category = $this->configurations_model->get_configuration_by_key_value($args2);
 				$gig->category_name = $category->label;
-				// $gig_date = new DateTime($gig->gig_date);
-				// $interval = $gig_date->diff($now);
-				// $gig->days_left = $interval->format('%a');
-				// $gig->booked = 0;
-				// $gig->ticket_left = $gig->goal - 0;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$gig->booked = 0;
+				$gig->ticket_left = $gig->goal - 0;
 			}
 		}
 		$data['gigs'] = $gigs;

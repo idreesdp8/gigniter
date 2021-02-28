@@ -24,12 +24,17 @@ textarea {
 	width: 20px;
 	float: right;
 }
+
 .text-danger .error {
 	border: none !important;
-    color: red !important;
+	color: red !important;
 }
 
 .step-form-heading {
 	width: 30%;
 	margin: auto;
+}
+
+.font-weight-bold p {
+	font-weight: 500 !important;
 }

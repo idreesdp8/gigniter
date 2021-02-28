@@ -12,7 +12,6 @@
     .panel>.active {
       display: block;
     }
-
   </style>
 </head>
 
@@ -74,21 +73,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig Title
-                      <input type="text" id="title" name="title" required="required">
+                      <input type="text" id="title" name="title" required="required" onchange="preview(this)">
                       <span id="title1" class="text-danger" generated="true"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig subtitle
-                      <input type="text" id="subtitle" name="subtitle" required="required">
+                      <input type="text" id="subtitle" name="subtitle" required="required" onchange="preview(this)">
                       <span id="subtitle1" class="text-danger" generated="true"><?php echo form_error('subtitle'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Category
-                      <select id="category" name="category" class="select" required="required">
+                      <select id="category" name="category" class="select" required="required" onchange="preview(this)">
                         <option value="">Select Category</option>
                         <?php
                         if (isset($categories)) :
@@ -106,7 +105,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Genre
-                      <select id="genre" name="genre" class="select" required="required">
+                      <select id="genre" name="genre" class="select" required="required" onchange="preview(this)">
                         <option value="">Select Genre</option>
                         <?php
                         if (isset($genres)) :
@@ -126,14 +125,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-live_stream" name="venues[]" value="live-stream" type="checkbox">
+                            <input id="myCheckbox-live_stream" name="venues[]" value="live-stream" type="checkbox" onchange="preview(this)">
                             <label for="myCheckbox-live_stream">Live stream</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-physical" name="venues[]" value="physical" type="checkbox">
+                            <input id="myCheckbox-physical" name="venues[]" value="physical" type="checkbox" onchange="preview(this)">
                             <label for="myCheckbox-physical">Physical</label>
                             <span></span>
                           </div>
@@ -156,7 +155,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Enter Address
-                      <input type="text" id="address" name="address" required="required">
+                      <input type="text" id="address" name="address" required="required" onchange="preview(this)">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
@@ -169,7 +168,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Goal
-                      <input type="text" id="goal" name="goal" required="required">
+                      <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
@@ -177,35 +176,35 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Campaign Launch Date
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date
-                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time
-                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time
-                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="mycheckbox-contain">
                       <div class="allow-overshoot">
-                        <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1">
+                        <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1" onchange="preview(this)">
                         <label for="myCheckbox-allow_overshoot">Allow overshoot</label>
                         <span></span>
                       </div>
@@ -236,25 +235,25 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Name
-                            <input type="text" name="ticket_name[]" placeholder="">
+                            <input type="text" name="ticket_name[]" placeholder="" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Price
-                            <input type="text" name="ticket_price[]" placeholder="USD $">
+                            <input type="text" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Number of tickets in Tier
-                            <input type="text" name="ticket_quantity[]" placeholder="">
+                            <input type="text" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                           <label>
                             Description
-                            <textarea name="ticket_description[]" cols="30" rows="2"></textarea>
+                            <textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea>
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
@@ -270,7 +269,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <div class="mycheckbox-contain">
                             <div class="allow-overshoot">
-                              <input id="myCheckbox-ticket_is_unlimited_1" type="checkbox" name="ticket_is_unlimited_1" value="1">
+                              <input id="myCheckbox-ticket_is_unlimited_1" type="checkbox" name="ticket_is_unlimited_1" value="1" onchange="ticket_preview(this)">
                               <label for="myCheckbox-ticket_is_unlimited_1">No Limit</label>
                               <span></span>
                             </div>
@@ -362,22 +361,22 @@
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="mail" id="mail" value=<?php echo $link[0]['mail'] ?? null ?>>
+                            <input type="text" class="social_url" name="mail" id="mail" value="<?php echo $link[0]['mail'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="facebook" id="facebook" value=<?php echo $link[1]['facebook'] ?? null ?>>
+                            <input type="text" class="social_url" name="facebook" id="facebook" value="<?php echo $link[1]['facebook'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="instagram" id="instagram" value=<?php echo $link[2]['instagram'] ?? null ?>>
+                            <input type="text" class="social_url" name="instagram" id="instagram" value="<?php echo $link[2]['instagram'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
-                            <input type="text" class="social_url" name="twitter" id="twitter" value=<?php echo $link[3]['twitter'] ?? null ?>>
+                            <input type="text" class="social_url" name="twitter" id="twitter" value="<?php echo $link[3]['twitter'] ?? null ?>">
                           </label>
                         </div>
                       </div>
@@ -443,6 +442,109 @@
 
               <div class="panel panel-primary setup-content" id="step-5">
                 <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                    <h5 class="mb-3">Gig Details</h5>
+                    <label class="m-0 font-weight-bold">Gig Title
+                      <p id="gig_title"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Subtitle
+                      <p id="gig_subtitle"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Category
+                      <p id="gig_category"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Genre
+                      <p id="gig_genre"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Venue(s)
+                      <p id="gig_venues"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Address
+                      <p id="gig_address"></p>
+                      </p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Goal
+                      <p id="gig_goal"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Campaign Date
+                      <p id="gig_campaign_date"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Date
+                      <p id="gig_gig_date"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Start Time
+                      <p id="gig_start_time"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig End Time
+                      <p id="gig_end_time"></p>
+                    </label>
+                    <label class="m-0 font-weight-bold">Gig Poster
+                      <img id="gig_poster" src="" width="100%">
+                    </label>
+                    <label class="m-0 font-weight-bold">
+                      <p id="gig_is_overshoot" class="d-none">
+                        *Overshoot allowed
+                      </p>
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h5 class="mb-3">Gig Ticket Tiers</h5>
+                        <div class="row" id="gig_ticket_tiers">
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                            <div id="gig_tier1">
+                              <label class="m-0 font-weight-bold">Tier Name
+                                <p class="ticket_name"></p>
+                              </label>
+                              <label class="m-0 font-weight-bold">Tier Price
+                                <p class="ticket_price"></p>
+                              </label>
+                              <label class="m-0 font-weight-bold">Number of tickets
+                                <p class="ticket_quantity"></p>
+                              </label>
+                              <label class="m-0 font-weight-bold">Tier Description
+                                <p class="ticket_description"></p>
+                              </label>
+                              <label class="m-0 font-weight-bold">
+                                <p class="ticket_is_unlimited d-none">*Unlimited</p>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h5 class="mb-3">User details</h5>
+                        <div class="row">
+                          <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                            <label class="m-0 font-weight-bold">User Name
+                              <p id="gig_user_name"><?php echo $user->fname.' '.$user->lname ?></p>
+                            </label>
+                            <label class="m-0 font-weight-bold">User Bio
+                              <p id="gig_user_bio"><?php echo $user->description ?></p>
+                            </label>
+                            <label class="m-0 font-weight-bold">User Address
+                              <p id="gig_user_address"><?php echo $user->address ?></p>
+                            </label>
+                            <label class="m-0 font-weight-bold">User Social Links
+                              <p id="gig_mail"><?php echo $link[0]['mail'] ?? null ?></p>
+                              <p id="gig_facebook"><?php echo $link[1]['facebook'] ?? null ?></p>
+                              <p id="gig_instagram"><?php echo $link[2]['instagram'] ?? null ?></p>
+                              <p id="gig_twitter"><?php echo $link[3]['twitter'] ?? null ?></p>
+                            </label>
+                            <!-- <label class="m-0 font-weight-bold">User Stripe
+                              <p id="gig_user_name"></p>
+                            </label> -->
+                          </div>
+                          <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+                            <label class="m-0 font-weight-bold">Profile Image
+                              <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" width="100%">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
                       <button type="submit" class="btn btn-success" id="submit_button">Add Gig</button>
@@ -478,20 +580,20 @@
           '<div id="tier' + tier + '">' +
           '<div class="d-flex justify-content-between">' +
           '<h5>Tier ' + tier + '</h5>' +
-          '<span class="text-danger cursor-pointer remove_tier"><i class="fas fa-times"></i></span>' + 
+          '<div class="text-danger cursor-pointer remove_tier"><i class="fas fa-times"></i></div>' +
           '</div>' +
           '<div class="row">' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Name<input type="text" name="ticket_name[]" placeholder=""></label>' +
+          '<label>Tier Name<input type="text" name="ticket_name[]" placeholder="" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Price<input type="text" name="ticket_price[]" placeholder="USD $"></label>' +
+          '<label>Tier Price<input type="text" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Number of tickets in Tier<input type="text" name="ticket_quantity[]" placeholder=""></label>' +
+          '<label>Number of tickets in Tier<input type="text" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12">' +
-          '<label>Description<textarea name="ticket_description[]" cols="30" rows="2"></textarea></label>' +
+          '<label>Description<textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">' +
           '<label class="d-none">Products<div class="row mb-2"></div></label>' +
@@ -502,13 +604,24 @@
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +
           '<div class="allow-overshoot">' +
-          '<input id="myCheckbox-ticket_is_unlimited_' + tier + '" type="checkbox" name="ticket_is_unlimited_' + tier + '" value="1">' +
+          '<input id="myCheckbox-ticket_is_unlimited_' + tier + '" type="checkbox" name="ticket_is_unlimited_' + tier + '" value="1" onchange="ticket_preview(this)">' +
           '<label for="myCheckbox-ticket_is_unlimited_' + tier + '">No Limit</label><span></span>' +
           '</div>' +
           '</div>' +
           '</div>' +
           '<div class="col-lg-8 col-md-8 col-sm-12 col-12"></div>' +
           '</div>' +
+          '</div>' +
+          '</div>'
+        );
+        $('#gig_ticket_tiers').append(
+          '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
+          '<div id="gig_tier' + tier + '">' +
+          '<label class="m-0 font-weight-bold">Tier Name<p class="ticket_name"></p></label>' +
+          '<label class="m-0 font-weight-bold">Tier Price<p class="ticket_price"></p></label>' +
+          '<label class="m-0 font-weight-bold">Number of tickets<p class="ticket_quantity"></p></label>' +
+          '<label class="m-0 font-weight-bold">Tier Description<p class="ticket_description"></p></label>' +
+          '<label class="m-0 font-weight-bold"><p class="ticket_is_unlimited d-none">*Unlimited</p></label>' +
           '</div>' +
           '</div>'
         );
@@ -548,43 +661,65 @@
       });
       $(document).on('click', '.remove_tier', function() {
         var div = $(this).parents('.ticket_tier');
+        var tier = div.children().first().attr('id');
+        $('#gig_' + tier).parent().remove();
         div.remove();
-        // $('#add_tier_button').data('tier', tier);
-      });
-      $('#basic_info_form').submit(function(e) {
-        e.preventDefault;
-        let formData1 = new FormData($("#form_step_1")[0]);
-        let formData2 = new FormData($("#form_step_2")[0]);
-        let formData3 = new FormData($("#form_step_3")[0]);
-        for (var pair of formData2.entries()) {
-          formData1.append(pair[0], pair[1]);
-        }
-        for (var pair of formData3.entries()) {
-          formData1.append(pair[0], pair[1]);
-        }
-        // console.log(formData1);
-        // return false;
-        // var data = $('#form_step_1').serialize() + '&' + $('#form_step_2').serialize() + '&' + $('#form_step_3').serialize();
-        // alert(data);
-        var form = $(this);
-        // var base_url = 'https://gigniter.digitalpoin8.com/index.php/';
-        $.ajax({
-          url: form.attr('action'),
-          type: form.attr('method'),
-          data: formData1,
-          dataType: 'json',
-          success: function(data) {
-            // if (data.status == '200') {
-            //   window.location = base_url;
-            // }
-          },
-          error: function(e) {
-            alert('Error adding gig');
-          }
-        });
-        return false;
       });
     });
+
+    function preview(input) {
+      var e_val = input.value;
+      var e_name = input.getAttribute("name");
+      var e_type = input.type;
+      if (e_name == 'venues[]') {
+        if (e_name == 'venues[]' && input.checked) {
+          $('#gig_venues').append('<div id="gig_' + e_val + '">' + e_val + '</div>');
+        } else {
+          // console.log(e_val);
+          $('#gig_' + e_val).remove();
+        }
+      }
+      if (e_name == 'is_overshoot') {
+        // console.log(input.checked);
+        if (input.checked) {
+          $('#gig_' + e_name).removeClass('d-none');
+        } else {
+          $('#gig_' + e_name).addClass('d-none');
+        }
+      }
+      if (e_type == 'text') {
+        $('#gig_' + e_name).html(e_val);
+      }
+    }
+
+    function ticket_preview(input) {
+      var t_val = input.value;
+      var t_name = input.getAttribute("name").slice(0, -2);
+      var t_type = input.type;
+      if (t_type == 'text' || t_type == 'textarea') {
+        var tier = input.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+        $('#gig_' + tier).find('.' + t_name).html(t_val);
+      }
+      if (t_type == 'checkbox') {
+        var tier = input.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+        if (input.checked) {
+          $('#gig_' + tier).find('.' + t_name).removeClass('d-none');
+        } else {
+          $('#gig_' + tier).find('.' + t_name).addClass('d-none');
+        }
+      }
+    }
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#img').attr('src', e.target.result);
+          $('#gig_poster').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
   </script>
 </body>
 

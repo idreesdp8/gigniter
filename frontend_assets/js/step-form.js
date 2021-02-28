@@ -246,6 +246,7 @@ $(document).ready(function () {
 
     $("#subtitle").focusout(function () {
         check_sub_title();
+        $('#gig_subtitle').html($(this).val());
     });
     function check_sub_title() {
         var subtitle = $("#subtitle").val();
@@ -259,6 +260,7 @@ $(document).ready(function () {
 
     $("#address").focusout(function () {
         check_gig_address();
+        $('#gig_address').html($(this).val());
     });
     function check_gig_address() {
         var gig_address = $("#address").val();
@@ -272,6 +274,7 @@ $(document).ready(function () {
 
     $("#goal").focusout(function () {
         check_goal();
+        $('#gig_goal').html($(this).val());
     });
     function check_goal() {
         var pattern = /^[0-9]*$/;
@@ -286,6 +289,7 @@ $(document).ready(function () {
 
     $("#category").change(function () {
         check_category();
+        $('#gig_category').html($(this).val());
     });
     function check_category() {
         var category = $("#category").val();
@@ -299,6 +303,7 @@ $(document).ready(function () {
 
     $("#genre").change(function () {
         check_genre();
+        $('#gig_genre').html($(this).val());
     });
     function check_genre() {
         var genre = $("#genre").val();
@@ -312,6 +317,7 @@ $(document).ready(function () {
 
     $("#gig_date").focusout(function () {
         check_gig_date();
+        $('#gig_gig_date').html($(this).val());
     });
     function check_gig_date() {
         var gig_date = $("#gig_date").val();
@@ -325,6 +331,7 @@ $(document).ready(function () {
 
     $("#campaign_date").focusout(function () {
         check_campaign_date();
+        $('#gig_campaign_date').html($(this).val());
     });
     function check_campaign_date() {
         var campaign_date = $("#campaign_date").val();
@@ -338,6 +345,7 @@ $(document).ready(function () {
 
     $("#start_time").focusout(function () {
         check_start_time();
+        $('#gig_start_time').html($(this).val());
     });
     function check_start_time() {
         var start_time = $("#start_time").val();
@@ -350,6 +358,7 @@ $(document).ready(function () {
     }
     $("#end_time").focusout(function () {
         check_end_time();
+        $('#gig_end_time').html($(this).val());
     });
     function check_end_time() {
         var end_time = $("#end_time").val();

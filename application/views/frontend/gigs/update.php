@@ -542,16 +542,16 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Select the meeting platform
-                      <select id="meeting_platform" class="select">
-                        <option>Google Meeting</option>
-                        <option>Zoom Meeting</option>
+                      <select id="meeting_platform" name="meeting_platform" class="select">
+                        <option value="google" <?php echo $gig->meeting_platform == 'google' ? 'selected' : '' ?>>Google Meeting</option>
+                        <option value="zoom" <?php echo $gig->meeting_platform == 'zoom' ? 'selected' : '' ?>>Zoom Meeting</option>
                       </select>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter url
-                      <input type="text" id="meeting_url" name="meeting_url">
+                      <input type="text" id="meeting_url" name="meeting_url" value="<?php echo $gig->meeting_url ?>">
                     </label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
@@ -597,23 +597,6 @@
   <script>
     const base_url = '<?php echo user_base_url() ?>';
     $(document).ready(function() {
-      // $('#start_gig_menu').addClass('active');
-      // $("input[type=file]").change(function() {
-      //   console.log($(this));
-      //   console.log($(this).parent().find('.image_div img'));
-      //   var file = $(this).get(0).files[0];
-
-      //   console.log(file);
-      //   if(file){
-      //       var reader = new FileReader();
-      //       reader.onload = function(e){
-      //           $(this).parent().find('.image_div img').attr("src", e.target.result);
-      //       }
-
-      //       reader.readAsDataURL(file);
-      //   }
-      // });
-
 
       $('#add_tier_button').click(function() {
         var tier = $(this).data('tier');
@@ -686,39 +669,6 @@
       $(document).on('click', '.remove_tier_bundle', function() {
         var div = $(this).parents('.col-md-4');
         div.remove();
-      });
-      $('#basic_info_form').submit(function(e) {
-        e.preventDefault;
-        let formData1 = new FormData($("#form_step_1")[0]);
-        let formData2 = new FormData($("#form_step_2")[0]);
-        let formData3 = new FormData($("#form_step_3")[0]);
-        for (var pair of formData2.entries()) {
-          formData1.append(pair[0], pair[1]);
-        }
-        for (var pair of formData3.entries()) {
-          formData1.append(pair[0], pair[1]);
-        }
-        // console.log(formData1);
-        // return false;
-        // var data = $('#form_step_1').serialize() + '&' + $('#form_step_2').serialize() + '&' + $('#form_step_3').serialize();
-        // alert(data);
-        var form = $(this);
-        // var base_url = 'https://gigniter.digitalpoin8.com/index.php/';
-        $.ajax({
-          url: form.attr('action'),
-          type: form.attr('method'),
-          data: formData1,
-          dataType: 'json',
-          success: function(data) {
-            // if (data.status == '200') {
-            //   window.location = base_url;
-            // }
-          },
-          error: function(e) {
-            alert('Error adding gig');
-          }
-        });
-        return false;
       });
     });
   </script>

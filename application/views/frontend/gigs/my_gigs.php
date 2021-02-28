@@ -5,9 +5,8 @@
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
     <style>
-        td,
-        th {
-            color: #fff;
+        #grid_view {
+            margin-top: 3rem;
         }
     </style>
 </head>
@@ -31,73 +30,52 @@
     <!-- ==========Explore-content-Section========== -->
     <section class="Explore-content">
         <div class="container">
+            <?php $this->load->view('alert/alert'); ?>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
-                    <?php $this->load->view('alert/alert'); ?>
+                <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <?php
                     if ($gigs) :
                     ?>
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Genre</th>
-                                    <th>Goal</th>
-                                    <th>Featured</th>
-                                    <th>Campaign Date</th>
-                                    <th>Gig Date</th>
-                                    <th>Start Time</th>
-                                    <th>End Time</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($gigs as $gig) :
-                                ?>
-                                    <tr>
-                                        <td><?php echo $gig->title ?></td>
-                                        <td><?php echo $gig->category_name ?></td>
-                                        <td><?php echo $gig->genre_name ?></td>
-                                        <td><?php echo $gig->goal ?></td>
-                                        <td><?php echo $gig->is_featured ? 'Yes' : 'No' ?></td>
-                                        <td><?php echo date('M d Y', strtotime($gig->campaign_date)) ?></td>
-                                        <td><?php echo date('M d Y', strtotime($gig->gig_date)) ?></td>
-                                        <td><?php echo date('h:i a', strtotime($gig->start_time)) ?></td>
-                                        <td><?php echo date('h:i a', strtotime($gig->end_time)) ?></td>
-                                        <td>
-                                            <?php
-                                            if ($gig->status == 0) {
-                                                echo 'Inactive';
-                                            } else if ($gig->status == 1) {
-                                                echo 'Active';
-                                            } else if ($gig->status == 2) {
-                                                echo 'Live';
-                                            } else {
-                                                echo 'Completed';
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
+                        <div class="row">
+                            <?php
+                            foreach ($gigs as $gig) :
+                            ?>
+                                <div class="col-md-4">
+                                    <div class="card grid-card" style="background: transparent;">
+                                        <div class="card-header p-0">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
+                                        </div>
+                                        <div class="card-footer grid-footer">
                                             <div class="d-flex">
-                                                <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" type="button" class="btn btn-primary ml-2"><i class="fas fa-pen"></i></a>
-                                                <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                                    <button type="submit" class="btn btn-danger ml-2"><i class="fas fa-trash"></i></button>
-                                                </form>
+                                                <div class="footer-text">
+                                                    <h5><?php echo $gig->title ?></h5>
+                                                    <h6><?php echo $gig->user_name ?></h6>
+                                                    <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                </div>
+                                                <div class="circlebar">
+                                                    <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                        <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
+                                                        <div class="pie_progress__label">Booked</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                <?php
-                                endforeach;
-                                ?>
-                            </tbody>
-                        </table>
+                                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
+                                            <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
+                                                <button type="submit" class="btn btn-warning btn-watch mb-4">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            endforeach;
+                            ?>
+                        </div>
                     <?php
                     else :
                     ?>
-                        No Record Found
+                        <div>No record found</div>
                     <?php
                     endif;
                     ?>
