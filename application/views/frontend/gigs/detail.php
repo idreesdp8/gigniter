@@ -342,9 +342,10 @@
                     method: 'POST',
                     dataType: 'json',
                     success: function(response) {
-                        $('#book_now_tier').append('<option value="">Choose Tier</option>')
+                        $('#gig_id').val(id);
+                        $('#book_now_tier').append('<option value="">Choose Tier</option>');
                         $(response).each(function(index, value) {
-                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>')
+                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
                 });

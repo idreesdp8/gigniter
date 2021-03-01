@@ -79,6 +79,11 @@ class Users_model extends CI_Model {
 		$query = $this->db->get_where('user_social_links',array('user_id'=> $args1));
 		return $query->result();
 	}
+
+	function get_specific_social_link($args1, $platform) {
+		$query = $this->db->get_where('user_social_links',array('user_id'=> $args1, 'platform'=>$platform));
+		return $query->row();
+	}
 	
 	function trash_social_link($args2){
 			$this->db->where('id', $args2);

@@ -252,6 +252,7 @@
                     method: 'POST',
                     dataType: 'json',
                     success: function(response) {
+                        $('#gig_id').val(id);
                         $('#book_now_tier').empty();
                         $('#book_now_tier').append('<option value="">Choose Tier</option>')
                         $(response).each(function(index, value) {

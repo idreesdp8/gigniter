@@ -30,8 +30,8 @@
     <!-- ==========Explore-content-Section========== -->
     <section class="Explore-content">
         <div class="container">
-            <?php $this->load->view('alert/alert'); ?>
             <div class="row">
+                <?php $this->load->view('alert/alert'); ?>
                 <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <?php
                     if ($gigs) :

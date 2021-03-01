@@ -648,6 +648,89 @@ class Gigs extends CI_Controller
 	{
 		$tier = $this->input->post('tier');
 		$quantity = $this->input->post('quantity');
-		echo json_encode('Tier: '.$tier.' Quantity: '.$quantity);
+		$gig_id = $this->input->post('gig_id');
+		$param = [
+			'ticket_tier' => $tier,
+			'quantity' => $quantity,
+			'gig_id' => $gig_id
+		];
+		$this->session->set_userdata($param);
+		redirect('gigs/checkout');
+		// echo json_encode('Tier: '.$tier.' Quantity: '.$quantity.' Gig_id: '.$gig_id);
+	}
+
+	function checkout()
+	{
+		if(isset($_POST) && !empty($_POST)) {
+			// echo json_encode($_POST);
+			// die();
+			$email_to = $this->input->post("user_email");
+
+			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
+			if($is_sent) {
+				redirect('/');
+			} else {
+				redirect('gigs/checkout');
+			}
+		} else {
+			
+			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+			$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
+			$data['mail_link'] = $link->url;
+			
+			$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
+			$venues = explode(',', $gig->venues);
+			foreach ($venues as $venue) {
+				$temp[] = str_replace('-', ' ', $venue);
+			}
+			$gig->venues = $temp;
+			$data['gig'] = $gig;
+			// $tier =  $this->session->userdata('ticket_tier');
+			// echo $tier;
+			// die();
+			$data['quantity'] = $this->session->userdata('quantity');
+			$tier = $this->gigs_model->get_ticket_tier_by_id($this->session->userdata('ticket_tier'));
+			$data['tier'] = $tier;
+			$price = $data['quantity'] * $tier->price;
+			$data['total_price'] = $price;
+			// echo json_encode($data);
+			// die();
+			$this->load->view('frontend/gigs/checkout', $data);
+		}
+	}
+	
+	function send_email($to_email, $subject, $email_for)
+	{
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		if ($email_for == 'verification') {
+			$this->load->helper('string');
+			$code = random_string('alnum', 6);
+			$this->session->set_userdata(['verification_code' => $code]);
+			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+			$msg = $this->load->view('email/verification_code', $data, TRUE);
+		}
+		if ($email_for == 'forgot_password') {
+			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
+
+		if ($email_for == 'ticket_purchase') {
+			// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/ticket_purchase', '', TRUE);
+		}
+
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -10,6 +10,7 @@
             <form method="post" action="<?php echo user_base_url() ?>gigs/select_tier" id="basic_info_form">
                 <div class="modal-body">
                     <div class="row">
+                    <input type="hidden" name="gig_id" id="gig_id">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Tier</label>
