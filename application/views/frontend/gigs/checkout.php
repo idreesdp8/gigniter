@@ -101,7 +101,7 @@
                                     ?>
                                 </li>
                                 <li>
-                                    <h6 class="subtitle"><span><?php echo $tier->name ?></span><span><?php echo $tier->quantity ?></span></h6>
+                                    <h6 class="subtitle"><span><?php echo $tier->name ?></span><span><?php echo $quantity ?></span></h6>
                                     <div class="info"><span><?php echo date('d M D', strtotime($gig->gig_date)) ?>, <?php echo date('H:i A', strtotime($gig->start_time)) ?></span> <span>Tickets</span></div>
                                 </li>
                                 <li>
