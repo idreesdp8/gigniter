@@ -41,7 +41,7 @@
                                                 <p><span class="days-text">Days left</span></p>
                                             </div>
                                             <div class="book-btn ml-5">
-                                                <button class="btn btn-primary btn-booknow">Book Now</button>
+                                                <button type="button" class="btn btn-primary btn-booknow show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">Book Now</button>
                                             </div>
                                         </div>
                                         <div class="d-flex responsive-class">
@@ -56,7 +56,7 @@
 
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png"  class="w-100">
+                                        <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png" class="w-100">
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
                                             <div class="book-btn m-auto">
-                                                <button class="btn btn-primary btn-booknow">Book Now</button>
+                                                <button type="button" class="btn btn-primary btn-booknow show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">Book Now</button>
                                             </div>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;" alt="speaker">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;" alt="speaker">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -207,7 +207,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -228,7 +228,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
+                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                                             <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -301,7 +301,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
+                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                                             <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -354,7 +354,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
                                             <?php if ($gig->is_exclusive) : ?>
                                                 <span class="badge badge-danger exclusive-badge">exclusive</span>
                                             <?php endif; ?>
@@ -375,7 +375,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-warning btn-watch mb-4">book now</button>
+                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                                             <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -407,16 +407,39 @@
     <!-- ==========Carousel-5============== -->
     <!-- /page content -->
 
+    <?php $this->load->view('frontend/gigs/book_now'); ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
 
 
     <script>
+        const base_url = '<?php echo user_base_url() ?>';
         $(document).ready(function() {
-            // $('#start_gig_menu').addClass('active');
             $('.carousel-inner').children().first().addClass('active');
+
+            function get_gig_book_now_data(id) {
+                $.ajax({
+                    url: base_url + 'gigs/get_gig_book_now_data',
+                    data: {
+                        id: id
+                    },
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#book_now_tier').empty();
+                        $('#book_now_tier').append('<option value="">Choose Tier</option>')
+                        $(response).each(function(index, value) {
+                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>')
+                        });
+                    }
+                });
+            }
+            $('.show_modal').click(function() {
+                var id = $(this).attr('data-id');
+                get_gig_book_now_data(id);
+            });
             $('.owl-carousel').each(function() {
-                if($(this).find('.owl-item').length < 3) {
+                if ($(this).find('.owl-item').length < 3) {
                     $(this).parent().find('.speaker-prev').addClass('d-none');
                     $(this).parent().find('.speaker-next').addClass('d-none');
                 }

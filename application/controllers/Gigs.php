@@ -636,4 +636,18 @@ class Gigs extends CI_Controller
 		// 	$this->load->view('admin/no_permission_access');
 		// }
 	}
+
+	function get_gig_book_now_data()
+	{
+		$id = $this->input->post('id');
+		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
+		echo json_encode($tiers);
+	}
+
+	function select_tier()
+	{
+		$tier = $this->input->post('tier');
+		$quantity = $this->input->post('quantity');
+		echo json_encode('Tier: '.$tier.' Quantity: '.$quantity);
+	}
 }

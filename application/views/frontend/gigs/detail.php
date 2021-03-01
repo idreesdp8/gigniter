@@ -4,6 +4,18 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <style>
+        .detail_image_holder {
+            overflow: hidden;
+            height: 296px;
+            width: auto;
+        }
+
+        .detail_image_holder img {
+            margin: 0 -50%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,9 +26,10 @@
     <section class="detail-page-banner-section bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-3.png">
         <div class="container">
             <div class="row custom-row">
-                <div class="col-lg-2 col-md-2 col-sm-6 col-12">
-                    <div>
-                        <img src="<?php echo $gig->poster ? poster_thumbnail_url().$gig->poster : user_asset_url().'images/home/slider-02/card-img01.png' ?>" style="width: 165px; height: 296px;" class="w-100" alt="image">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                    <div class="detail_image_holder">
+                        <!-- style="width: 165px; height: 296px;" -->
+                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="image">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
@@ -30,7 +43,7 @@
                         <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p>
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7 col-12"></div>
+                <div class="col-lg-6 col-md-6 col-12"></div>
             </div>
 
 
@@ -38,7 +51,7 @@
         <div class="width_fl">
             <div class="container">
                 <div class="row custom-bottom">
-                    <div class="col-lg-2 col-md-2 col-sm-12"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-12"></div>
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="custom-item">
                             <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked; ?>">
@@ -47,13 +60,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-7 col-md-7 col-sm-12 col-12 custom-items">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12 custom-items">
                         <div class="custom-item2">
                             <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left; ?> tickets left</p>
                             <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left; ?> days left</p>
                         </div>
                         <div class="custom-item3">
-                            <a href="#0" class="btn btn-warning btn-booking">book now</a>
+                            <button type="button" class="btn btn-warning btn-booking show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                         </div>
                     </div>
                 </div>
@@ -313,8 +326,35 @@
     <!-- ==========photo-Section========== -->
     <!-- /page content -->
 
+    <?php $this->load->view('frontend/gigs/book_now'); ?>
+
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script>
+        const base_url = '<?php echo user_base_url() ?>';
+        $(document).ready(function() {
+            function get_gig_book_now_data(id) {
+                $.ajax({
+                    url: base_url + 'gigs/get_gig_book_now_data',
+                    data: {
+                        id: id
+                    },
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#book_now_tier').append('<option value="">Choose Tier</option>')
+                        $(response).each(function(index, value) {
+                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>')
+                        });
+                    }
+                });
+            }
+            $('.show_modal').click(function() {
+                var id = $(this).attr('data-id');
+                get_gig_book_now_data(id);
+            });
+        });
+    </script>
 </body>
 
 </html>

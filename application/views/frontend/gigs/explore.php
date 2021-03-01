@@ -10,6 +10,15 @@
             max-height: 435px;
         }
 
+        .explore_image_holder {
+            overflow: hidden;
+        }
+
+        .explore_image_holder img {
+            height: 100%;
+            margin: 0 -50%;
+        }
+
         .btn-white {
             background: #fff;
             color: #000;
@@ -203,6 +212,7 @@
     <!-- ==========Explore-content-Section========== -->
     <!-- /page content -->
 
+    <?php $this->load->view('frontend/gigs/book_now'); ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
@@ -231,6 +241,28 @@
             });
             $('#genre').change(function() {
                 filter_gigs();
+            });
+
+            function get_gig_book_now_data(id) {
+                $.ajax({
+                    url: base_url + 'gigs/get_gig_book_now_data',
+                    data: {
+                        id: id
+                    },
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#book_now_tier').empty();
+                        $('#book_now_tier').append('<option value="">Choose Tier</option>')
+                        $(response).each(function(index, value) {
+                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>')
+                        });
+                    }
+                });
+            }
+            $('.show_modal').click(function() {
+                var id = $(this).attr('data-id');
+                get_gig_book_now_data(id);
             });
         });
 

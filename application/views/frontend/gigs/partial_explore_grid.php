@@ -7,8 +7,8 @@ if ($gigs) :
         ?>
             <div class="col-md-4">
                 <div class="card grid-card" style="background: transparent;">
-                    <div class="card-header p-0">
-                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
+                    <div class="card-header p-0 explore_image_holder" style="width: 358px; height: 352px;" >
+                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>">
                     </div>
                     <div class="card-footer grid-footer">
                         <div class="d-flex">
@@ -26,7 +26,7 @@ if ($gigs) :
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-warning btn-watch mb-4">book now</button>
+                        <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                         <a href="<?php echo user_base_url() ?>gigs/detail?gig=<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
                     </div>
                 </div>
