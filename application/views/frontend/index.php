@@ -430,7 +430,7 @@
                         $('#book_now_tier').empty();
                         $('#book_now_tier').append('<option value="">Choose Tier</option>')
                         $(response).each(function(index, value) {
-                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name + '</option>')
+                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name +' ($' + value.price +')</option>')
                         });
                     }
                 });

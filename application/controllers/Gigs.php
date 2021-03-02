@@ -673,10 +673,14 @@ class Gigs extends CI_Controller
 				redirect('gigs/checkout');
 			}
 		} else {
-			
-			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-			$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-			$data['mail_link'] = $link->url;
+			if($this->dbs_user_id) {
+				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+				$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
+				$data['mail_link'] = $link->url;
+			} else {
+				$data['user'] = [];
+				$data['mail_link'] = '';
+			}
 			
 			$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
 			$venues = explode(',', $gig->venues);

@@ -40,7 +40,10 @@
                     <div class="col-lg-8">
                         <?php
                         if (!$user) :
+                            $uri = uri_string();
+                            $this->session->set_userdata('redirect', $uri);
                         ?>
+                        <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
                             <div class="checkout-widget d-flex flex-wrap align-items-center justify-cotent-between">
                                 <div class="title-area">
                                     <h5 class="title">Already a Gigniter Member?</h5>
@@ -53,18 +56,18 @@
                         <?php
                         endif;
                         ?>
-                        <div class="checkout-widget checkout-contact">
-                            <h5 class="title">Share your Contact Details </h5>
-                            <form class="checkout-contact-form">
+                        <form class="checkout-contact-form">
+                            <div class="checkout-widget checkout-contact">
+                                <h5 class="title">Share your Contact Details </h5>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?>">
+                                            <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="user_lname" placeholder="Last Name" value="<?php echo $user->lname ?>">
+                                            <input type="text" name="user_lname" placeholder="Last Name" value="<?php echo $user->lname ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -74,15 +77,21 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Enter your Phone Number" name="phone_no" value="<?php echo $user->phone_no ?>">
+                                            <input type="text" placeholder="Enter your Phone Number" name="phone_no" value="<?php echo $user->phone_no ?? '' ?>">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Continue" class="custom-button">
-                                </div>
-                            </form>
-                        </div>
+                                <?php
+                                if ($user) :
+                                ?>
+                                    <div class="form-group">
+                                        <input type="submit" value="Continue" class="custom-button">
+                                    </div>
+                                <?php
+                                endif;
+                                ?>
+                            </div>
+                        </form>
                     </div>
                     <div class="col-lg-4">
                         <div class="booking-summery bg-one">
@@ -115,10 +124,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="proceed-area  text-center">
-                            <h6 class="subtitle"><span>Amount Payable</span><span>$<?php echo $total_price; ?></span></h6>
-                            <button type="submit" class="custom-button back-button">proceed</button>
-                        </div>
+                        <?php
+                        if ($user) :
+                        ?>
+                            <div class="proceed-area  text-center">
+                                <h6 class="subtitle"><span>Amount Payable</span><span>$<?php echo $total_price; ?></span></h6>
+                                <button type="submit" class="custom-button back-button">proceed</button>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
                     </div>
                 </div>
             </div>
