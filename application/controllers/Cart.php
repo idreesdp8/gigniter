@@ -292,13 +292,11 @@ class Cart extends CI_Controller
 			$email_to = $this->input->post("user_email");
 			$this->cart->destroy();
 			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
-			// echo json_encode($is_sent);
-			// die();
 			if ($is_sent) {
-				// echo json_encode($this->session->userdata());
-				// die();
-
-				redirect('/');
+				$is_sent = $this->send_email($email_to, 'Account Registration', 'account_password');
+				if($is_sent) {
+					redirect('cart/thankyou');
+				}
 			} else {
 				redirect('cart/checkout');
 			}
@@ -362,6 +360,24 @@ class Cart extends CI_Controller
 			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
 		}
+		if ($email_for == 'account_password') {
+			$this->load->helper('string');
+			$password = random_string('alnum', 8);
+			$data['password'] = $password;
+			$password = $this->general_model->safe_ci_encoder($password);
+			$role = $this->roles_model->get_role_by_name('User');
+			$created_on = date('Y-m-d H:i:s');
+			$status = 0;
+			$datas = array(
+				'email' => $to_email,
+				'password' => $password,
+				'role_id' => $role->id,
+				'status' => $status,
+				'created_on' => $created_on
+			);
+			$insert_data = $this->users_model->insert_user_data($datas);
+			$msg = $this->load->view('email/account_password', $data, TRUE);
+		}
 		if ($email_for == 'forgot_password') {
 			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
 			$msg = $this->load->view('email/forgot_password', $data, TRUE);
@@ -381,5 +397,10 @@ class Cart extends CI_Controller
 		} else {
 			return false;
 		}
+	}
+
+	function thankyou()
+	{
+		$this->load->view('frontend/cart/thankyou');
 	}
 }
