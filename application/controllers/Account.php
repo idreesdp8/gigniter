@@ -60,6 +60,8 @@ class Account extends CI_Controller
 							'us_email' => $result->email
 						);
 						$this->session->set_userdata($cstm_sess_data);
+						// echo json_encode($this->session->userdata());
+						// die();
 						if ($this->session->has_userdata('redirect')) {
 							redirect($this->session->redirect);
 						} else {

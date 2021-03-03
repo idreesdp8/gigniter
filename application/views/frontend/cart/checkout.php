@@ -40,8 +40,6 @@
                     <div class="col-lg-8">
                         <?php
                         if (!$user) :
-                            $uri = uri_string();
-                            $this->session->set_userdata('redirect', $uri);
                         ?>
                             <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
                             <div class="checkout-widget d-flex flex-wrap align-items-center justify-cotent-between">
@@ -62,7 +60,8 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?? '' ?>">
+                                            <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?? '' ?>" data-error="#user_fname1" required>
+                                            <span id="user_fname1" class="text-danger"><?php echo form_error('user_fname'); ?></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -72,7 +71,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" placeholder="Enter your Mail" name="user_email" value="<?php echo $mail_link ?>">
+                                            <input type="text" placeholder="Enter your Mail" name="user_email" value="<?php echo $mail_link ?>" data-error="#user_email1" required>
+                                            <span id="user_email1" class="text-danger">
+                                                <?php
+                                                echo form_error('user_email');
+                                                echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
+                                                ?>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -82,13 +87,13 @@
                                     </div>
                                 </div>
                                 <?php
-                                if ($user) :
+                                // if ($user) :
                                 ?>
-                                    <div class="form-group">
+                                <!-- <div class="form-group">
                                         <input type="submit" value="Continue" class="custom-button">
-                                    </div>
+                                    </div> -->
                                 <?php
-                                endif;
+                                // endif;
                                 ?>
                             </div>
                         </form>

@@ -40,7 +40,7 @@
                     <div class="col-lg-12">
                         <div class="checkout-widget checkout-contact">
                             <h5 class="title">Thank you </h5>
-                            <a href="<?php user_base_url() ?>" type="button" class="btn btn-primary">Back to Home</a>
+                            <a href="<?php echo user_base_url() ?>" type="button" class="btn btn-primary">Back to Home</a>
                         </div>
                     </div>
                 </div>

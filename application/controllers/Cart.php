@@ -119,188 +119,212 @@ class Cart extends CI_Controller
 		$res = $this->cart->insert($param);
 
 		if ($res) {
-			$response = [
-				'status' => '200',
-				'message' => 'Added to Cart'
-			];
-		} else {
-			$response = [
-				'status' => '500',
-				'message' => 'Problem occured!'
-			];
-		}
-		echo json_encode($response);
-	}
-
-	function update($args1 = '')
-	{
-
-		if (isset($_POST) && !empty($_POST)) {
-			// get form input
-			$data = $_POST;
-			// echo json_encode($data);
-			// echo json_encode($_FILES);
-			// die();
-
-			// form validation
-			$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
-			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
-			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
-			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
-			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
-			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
-
-			if ($this->form_validation->run() == FALSE) {
-				// validation fail
-				redirect('gigs/update/' . $data['id']);
-			} else {
-
-				$datas = array(
-					'title' => $data['title'],
-					'subtitle' => $data['subtitle'] ?? null,
-					'category' => $data['category'],
-					'genre' => $data['genre'],
-					'address' => $data['address'] ?? null,
-					'goal' => $data['goal'],
-					'meeting_platform' => $data['meeting_platform'] ?? null,
-					'meeting_url' => $data['meeting_url'] ?? null,
-					'is_overshoot' => $data['is_overshoot'] ?? 0,
-					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
-					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
-					'start_time' => date('H:i:s', strtotime($data['start_time'])),
-					'end_time' => date('H:i:s', strtotime($data['end_time'])),
-					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
-				);
-
-				$prof_poster_error = '';
-				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
-				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
-				$gig = $this->gigs_model->get_gig_by_id($data['id']);
-				if (isset($_FILES['poster']['tmp_name']) && $_FILES['poster']['tmp_name'] != '') {
-					// echo json_encode($_FILES['image']);
-					// die();
-					if (!(in_array($_FILES['poster']['type'], $alw_typs))) {
-						$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
-						$prof_poster_error .= "Poster type: $tmp_img_type not allowed!<br>";
-					}
-
-					if ($prof_poster_error == '') {
-						@unlink("downloads/posters/thumb/$gig->poster");
-						@unlink("downloads/posters/$gig->poster");
-						$image_path = poster_relative_path();
-						$thumbnail_path = poster_thumbnail_relative_path();
-						$imagename = time() . $this->general_model->fileExists($_FILES['poster']['name'], $image_path);
-						$target_file = $image_path . $imagename;
-						@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
-						$width = 360;
-						$height = 354;
-						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
-						if ($thumbnail == '1') {
-							$thumbnail_file = $thumbnail_path . $imagename;
-						}
-						// echo $thumbnail;
-						@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
-						$datas['poster'] = $imagename;
-					}
-					if (strlen($prof_poster_error) > 0) {
-						$this->session->set_flashdata('prof_poster_error', $prof_poster_error);
-						redirect('admin/gigs/update');
-						// $this->load->view('admin/users/add', $data);
-					}
-				}
-				// echo json_encode($datas);
-				// die();
-				$user_id = $gig->user_id;
-				$file = [];
-				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-					$file = $_FILES['image'];
-				}
-				$this->update_user_data($data, $file, $user_id);
-				$res = $this->gigs_model->update_gig_data($data['id'], $datas);
-				if (isset($res)) {
-					$this->remove_tickets($data['id']);
-					$this->add_tickets($data, $data['id']);
-					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
-				} else {
-					$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
-				}
-
-				redirect("my_gigs");
-			}
-		} else {
-			$gig = $this->gigs_model->get_gig_by_id($args1);
-			$venues = explode(',', $gig->venues);
-			$gig->venues = $venues;
-			$data['gig'] = $gig;
-			// $param = [
-			// 	'user_id' => $this->dbs_user_id,
-			// 	'gig_id' => $args1
+			redirect('cart/checkout');
+			// $response = [
+			// 	'status' => '200',
+			// 	'message' => 'Added to Cart'
 			// ];
-			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
-			foreach ($tickets as $ticket) {
-				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
-				$ticket->bundles = $bundles;
-			}
-			$data['tickets'] = $tickets;
-			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
-			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
-			$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
-			$data['countries'] = $this->countries_model->get_all_countries();
-			$data['user'] = $this->users_model->get_user_by_id($gig->user_id);
-			$links = $this->users_model->get_social_links($gig->user_id);
-			if (isset($links) && !empty($links)) {
-				foreach ($links as $key => $val) {
-					$temp[] = [$val->platform => $val->url];
-				}
-				$data['link'] = $temp;
-			} else {
-				$data['link'] = [];
-			}
-			// echo json_encode($data);
-			// die();
-			$this->load->view('frontend/gigs/update', $data);
+		} else {
+			// $response = [
+			// 	'status' => '500',
+			// 	'message' => 'Problem occured!'
+			// ];
 		}
+		// echo json_encode($response);
 	}
 
-	function trash($args2 = '')
-	{
-		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'trash', $this->dbs_role_id, '1');
-		// if ($res_nums > 0) {
+	// function update($args1 = '')
+	// {
 
-		// $data['page_headings'] = "Users List";
-		// echo $args2;
-		// die();
-		$gig = $this->gigs_model->get_gig_by_id($args2);
-		@unlink("downloads/posters/thumb/$gig->poster");
-		@unlink("downloads/posters/$gig->poster");
-		$this->remove_tickets($args2, 1);
-		$this->gigs_model->trash_gig($args2);
-		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
-		redirect('my_gigs');
-		// } else {
-		// 	$this->load->view('admin/no_permission_access');
-		// }
-	}
+	// 	if (isset($_POST) && !empty($_POST)) {
+	// 		// get form input
+	// 		$data = $_POST;
+	// 		// echo json_encode($data);
+	// 		// echo json_encode($_FILES);
+	// 		// die();
+
+	// 		// form validation
+	// 		$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
+	// 		$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
+	// 		$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
+	// 		$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
+	// 		$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
+	// 		$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
+
+	// 		if ($this->form_validation->run() == FALSE) {
+	// 			// validation fail
+	// 			redirect('gigs/update/' . $data['id']);
+	// 		} else {
+
+	// 			$datas = array(
+	// 				'title' => $data['title'],
+	// 				'subtitle' => $data['subtitle'] ?? null,
+	// 				'category' => $data['category'],
+	// 				'genre' => $data['genre'],
+	// 				'address' => $data['address'] ?? null,
+	// 				'goal' => $data['goal'],
+	// 				'meeting_platform' => $data['meeting_platform'] ?? null,
+	// 				'meeting_url' => $data['meeting_url'] ?? null,
+	// 				'is_overshoot' => $data['is_overshoot'] ?? 0,
+	// 				'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
+	// 				'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
+	// 				'start_time' => date('H:i:s', strtotime($data['start_time'])),
+	// 				'end_time' => date('H:i:s', strtotime($data['end_time'])),
+	// 				'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
+	// 			);
+
+	// 			$prof_poster_error = '';
+	// 			$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+	// 			// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
+	// 			$gig = $this->gigs_model->get_gig_by_id($data['id']);
+	// 			if (isset($_FILES['poster']['tmp_name']) && $_FILES['poster']['tmp_name'] != '') {
+	// 				// echo json_encode($_FILES['image']);
+	// 				// die();
+	// 				if (!(in_array($_FILES['poster']['type'], $alw_typs))) {
+	// 					$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
+	// 					$prof_poster_error .= "Poster type: $tmp_img_type not allowed!<br>";
+	// 				}
+
+	// 				if ($prof_poster_error == '') {
+	// 					@unlink("downloads/posters/thumb/$gig->poster");
+	// 					@unlink("downloads/posters/$gig->poster");
+	// 					$image_path = poster_relative_path();
+	// 					$thumbnail_path = poster_thumbnail_relative_path();
+	// 					$imagename = time() . $this->general_model->fileExists($_FILES['poster']['name'], $image_path);
+	// 					$target_file = $image_path . $imagename;
+	// 					@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
+	// 					$width = 360;
+	// 					$height = 354;
+	// 					$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+	// 					if ($thumbnail == '1') {
+	// 						$thumbnail_file = $thumbnail_path . $imagename;
+	// 					}
+	// 					// echo $thumbnail;
+	// 					@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
+	// 					$datas['poster'] = $imagename;
+	// 				}
+	// 				if (strlen($prof_poster_error) > 0) {
+	// 					$this->session->set_flashdata('prof_poster_error', $prof_poster_error);
+	// 					redirect('admin/gigs/update');
+	// 					// $this->load->view('admin/users/add', $data);
+	// 				}
+	// 			}
+	// 			// echo json_encode($datas);
+	// 			// die();
+	// 			$user_id = $gig->user_id;
+	// 			$file = [];
+	// 			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+	// 				$file = $_FILES['image'];
+	// 			}
+	// 			$this->update_user_data($data, $file, $user_id);
+	// 			$res = $this->gigs_model->update_gig_data($data['id'], $datas);
+	// 			if (isset($res)) {
+	// 				$this->remove_tickets($data['id']);
+	// 				$this->add_tickets($data, $data['id']);
+	// 				$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
+	// 			} else {
+	// 				$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
+	// 			}
+
+	// 			redirect("my_gigs");
+	// 		}
+	// 	} else {
+	// 		$gig = $this->gigs_model->get_gig_by_id($args1);
+	// 		$venues = explode(',', $gig->venues);
+	// 		$gig->venues = $venues;
+	// 		$data['gig'] = $gig;
+	// 		// $param = [
+	// 		// 	'user_id' => $this->dbs_user_id,
+	// 		// 	'gig_id' => $args1
+	// 		// ];
+	// 		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
+	// 		foreach ($tickets as $ticket) {
+	// 			$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+	// 			$ticket->bundles = $bundles;
+	// 		}
+	// 		$data['tickets'] = $tickets;
+	// 		$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
+	// 		$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
+	// 		$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
+	// 		$data['countries'] = $this->countries_model->get_all_countries();
+	// 		$data['user'] = $this->users_model->get_user_by_id($gig->user_id);
+	// 		$links = $this->users_model->get_social_links($gig->user_id);
+	// 		if (isset($links) && !empty($links)) {
+	// 			foreach ($links as $key => $val) {
+	// 				$temp[] = [$val->platform => $val->url];
+	// 			}
+	// 			$data['link'] = $temp;
+	// 		} else {
+	// 			$data['link'] = [];
+	// 		}
+	// 		// echo json_encode($data);
+	// 		// die();
+	// 		$this->load->view('frontend/gigs/update', $data);
+	// 	}
+	// }
+
+	// function trash($args2 = '')
+	// {
+	// 	// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'trash', $this->dbs_role_id, '1');
+	// 	// if ($res_nums > 0) {
+
+	// 	// $data['page_headings'] = "Users List";
+	// 	// echo $args2;
+	// 	// die();
+	// 	$gig = $this->gigs_model->get_gig_by_id($args2);
+	// 	@unlink("downloads/posters/thumb/$gig->poster");
+	// 	@unlink("downloads/posters/$gig->poster");
+	// 	$this->remove_tickets($args2, 1);
+	// 	$this->gigs_model->trash_gig($args2);
+	// 	$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
+	// 	redirect('my_gigs');
+	// 	// } else {
+	// 	// 	$this->load->view('admin/no_permission_access');
+	// 	// }
+	// }
 
 	function checkout()
 	{
-		// $this->cart->destroy();
-		// echo json_encode($this->cart->contents());
+		// // $this->cart->destroy();
+		// echo json_encode($this->session->userdata());
+		// die();
 		if (isset($_POST) && !empty($_POST)) {
 			// echo json_encode($_POST);
 			// die();
 			$email_to = $this->input->post("user_email");
+			$fname = $this->input->post("user_fname");
+			$lname = $this->input->post("user_lname");
 			$this->cart->destroy();
 			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
 			if ($is_sent) {
-				$is_sent = $this->send_email($email_to, 'Account Registration', 'account_password');
-				if($is_sent) {
-					redirect('cart/thankyou');
+				$user = $this->users_model->get_user_by_email($email_to);
+				if (!$user) { 
+					$this->load->helper('string');
+					$password = random_string('alnum', 8);
+					$this->session->set_userdata(['password' => $password]);
+					$password = $this->general_model->safe_ci_encoder($password);
+					$role = $this->roles_model->get_role_by_name('User');
+					$created_on = date('Y-m-d H:i:s');
+					$status = 0;
+					$datas = array(
+						'email' => $email_to,
+						'fname' => $fname,
+						'lname' => $lname ?? '',
+						'password' => $password,
+						'role_id' => $role->id,
+						'status' => $status,
+						'created_on' => $created_on
+					);
+					$insert_data = $this->users_model->insert_user_data($datas);
+					$is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
+					$is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
 				}
+				redirect('cart/thankyou');
 			} else {
 				redirect('cart/checkout');
 			}
 		} else {
+			// $this->session->unset_userdata('redirect');
 			// if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
 			// $data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 			// $link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
@@ -309,10 +333,10 @@ class Cart extends CI_Controller
 			if ($this->dbs_user_id) {
 				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 				$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-				$data['mail_link'] = $link->url;
+				$data['mail_link'] = $link->url ?? '';
 			} else {
 				$uri = uri_string();
-				$this->session->set_userdata('redirect', $uri);
+				// $this->session->set_userdata('redirect', $uri);
 				$data['user'] = [];
 				$data['mail_link'] = '';
 			}
@@ -361,22 +385,9 @@ class Cart extends CI_Controller
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
 		}
 		if ($email_for == 'account_password') {
-			$this->load->helper('string');
-			$password = random_string('alnum', 8);
-			$data['password'] = $password;
-			$password = $this->general_model->safe_ci_encoder($password);
-			$role = $this->roles_model->get_role_by_name('User');
-			$created_on = date('Y-m-d H:i:s');
-			$status = 0;
-			$datas = array(
-				'email' => $to_email,
-				'password' => $password,
-				'role_id' => $role->id,
-				'status' => $status,
-				'created_on' => $created_on
-			);
-			$insert_data = $this->users_model->insert_user_data($datas);
+			$data['password'] = $this->session->userdata('password');
 			$msg = $this->load->view('email/account_password', $data, TRUE);
+			$this->session->unset_userdata('password');
 		}
 		if ($email_for == 'forgot_password') {
 			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
