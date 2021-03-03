@@ -294,9 +294,9 @@ class Cart extends CI_Controller
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
 			$lname = $this->input->post("user_lname");
-			$this->cart->destroy();
 			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
 			if ($is_sent) {
+				$this->cart->destroy();
 				$user = $this->users_model->get_user_by_email($email_to);
 				if (!$user) { 
 					$this->load->helper('string');
