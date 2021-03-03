@@ -432,7 +432,7 @@
             loop: $(this).find('.owl-item').length > 2,
             autoplay: true,
             dots: false,
-            autoplayTimeout: 1000,
+            autoplayTimeout: 2000,
             margin: 30,
             autoplayHoverPause: true
         });
