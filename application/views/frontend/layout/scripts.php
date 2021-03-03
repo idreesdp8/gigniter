@@ -1,3 +1,6 @@
+<script>
+    const base_url = '<?php echo user_base_url() ?>';
+</script>
 <script type="text/javascript" src="<?php echo user_asset_url(); ?>js/jquery-asPieProgress.js"></script>
 <script type="text/javascript" src="<?php echo user_asset_url(); ?>js/circlebar.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/jquery-3.3.1.min.js"></script>

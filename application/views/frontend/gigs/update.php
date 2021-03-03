@@ -595,7 +595,6 @@
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
-    const base_url = '<?php echo user_base_url() ?>';
     $(document).ready(function() {
 
       $('#add_tier_button').click(function() {

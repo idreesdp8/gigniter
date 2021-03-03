@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="<?php echo user_base_url() ?>gigs/select_tier" id="basic_info_form">
+            <form method="post" id="basic_info_form">
                 <div class="modal-body">
                     <div class="row">
                     <input type="hidden" name="gig_id" id="gig_id">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Proceed</button>
+                    <button type="button" id="add_to_cart" class="btn btn-primary">Add to Cart</button>
                 </div>
             </form>
         </div>

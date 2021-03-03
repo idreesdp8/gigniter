@@ -215,8 +215,8 @@
     <?php $this->load->view('frontend/gigs/book_now'); ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
-        const base_url = '<?php echo user_base_url(); ?>';
         $(document).ready(function() {
             $('#explore_menu').addClass('active');
             $('.list-view').addClass("active");
@@ -241,29 +241,6 @@
             });
             $('#genre').change(function() {
                 filter_gigs();
-            });
-
-            function get_gig_book_now_data(id) {
-                $.ajax({
-                    url: base_url + 'gigs/get_gig_book_now_data',
-                    data: {
-                        id: id
-                    },
-                    method: 'POST',
-                    dataType: 'json',
-                    success: function(response) {
-                        $('#gig_id').val(id);
-                        $('#book_now_tier').empty();
-                        $('#book_now_tier').append('<option value="">Choose Tier</option>')
-                        $(response).each(function(index, value) {
-                            $('#book_now_tier').append('<option value="' + value.id + '">' + value.name +' ($' + value.price +')</option>')
-                        });
-                    }
-                });
-            }
-            $('.show_modal').click(function() {
-                var id = $(this).attr('data-id');
-                get_gig_book_now_data(id);
             });
         });
 

@@ -25,15 +25,15 @@
     <section class="explore-banner-section bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-3.png">
         <div class="container">
             <div class="text-box text-center">
-                <h2 class="exlpore-title"><?php echo $gig->title ?></h2>
-                <h5 class="explore-subtitle"><?php echo $gig->address ?></h5>
+                <h2 class="exlpore-title">Check Out</h2>
+                <!-- <h5 class="explore-subtitle"><?php echo $gig->address ?? 'Test Address' ?></h5> -->
             </div>
         </div>
     </section>
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========Explore-content-Section========== -->
-    <form method="post" action="<?php echo user_base_url() ?>gigs/checkout" id="basic_info_form">
+    <form method="post" action="<?php echo user_base_url() ?>cart/checkout" id="datas_form">
         <div class="event-facility padding-bottom padding-top">
             <div class="container">
                 <div class="row">
@@ -43,7 +43,7 @@
                             $uri = uri_string();
                             $this->session->set_userdata('redirect', $uri);
                         ?>
-                        <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
+                            <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
                             <div class="checkout-widget d-flex flex-wrap align-items-center justify-cotent-between">
                                 <div class="title-area">
                                     <h5 class="title">Already a Gigniter Member?</h5>
@@ -95,12 +95,12 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="booking-summery bg-one">
-                            <h4 class="title">booking summery</h4>
+                            <h4 class="title">booking summary</h4>
                             <ul>
-                                <li>
+                                <!-- <li>
                                     <h6 class="subtitle">Venues</h6>
                                     <?php
-                                    if ($gig->venues) :
+                                    if ($gig && $gig->venues) :
                                         foreach ($gig->venues as $venue) :
                                     ?>
                                             <span class="info"><?php echo $venue ?></span>
@@ -108,31 +108,38 @@
                                         endforeach;
                                     endif;
                                     ?>
-                                </li>
-                                <li>
-                                    <h6 class="subtitle"><span><?php echo $tier->name ?></span><span><?php echo $quantity ?></span></h6>
-                                    <div class="info"><span><?php echo date('d M D', strtotime($gig->gig_date)) ?>, <?php echo date('H:i A', strtotime($gig->start_time)) ?></span> <span>Tickets</span></div>
-                                </li>
-                                <li>
-                                    <h6 class="subtitle mb-0"><span>Tickets Price</span><span>$<?php echo $total_price; ?></span></h6>
-                                </li>
+                                </li> -->
+                                <?php
+                                foreach ($cart_items as $item) :
+                                ?>
+                                    <li>
+                                        <h6 class="subtitle"><span><?php echo $item['name'] ?></span><span><?php echo $item['qty'] ?></span></h6>
+                                        <div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
+                                        <div class="info"><span>Tickets Price</span> <span>$<?php echo $item['subtotal']; ?></span></div>
+                                    </li>
+                                    <!-- <li>
+                                    <h6 class="subtitle mb-0"><span>Tickets Price</span><span>$<?php echo $item['subtotal']; ?></span></h6>
+                                </li> -->
+                                <?php
+                                endforeach;
+                                ?>
                             </ul>
                             <ul class="side-shape">
                                 <li>
-                                    <span class="info"><span>price</span><span>$<?php echo $total_price; ?></span></span>
+                                    <span class="info"><span>total price</span><span>$<?php echo $this->cart->total(); ?></span></span>
                                     <span class="info"><span>vat</span><span>$0</span></span>
                                 </li>
                             </ul>
                         </div>
                         <?php
-                        if ($user) :
+                        // if ($user) :
                         ?>
-                            <div class="proceed-area  text-center">
-                                <h6 class="subtitle"><span>Amount Payable</span><span>$<?php echo $total_price; ?></span></h6>
-                                <button type="submit" class="custom-button back-button">proceed</button>
-                            </div>
+                        <div class="proceed-area  text-center">
+                            <h6 class="subtitle"><span>Amount Payable</span><span>$<?php echo $this->cart->total(); ?></span></h6>
+                            <button type="submit" class="custom-button back-button">proceed</button>
+                        </div>
                         <?php
-                        endif;
+                        // endif;
                         ?>
                     </div>
                 </div>
@@ -145,6 +152,41 @@
 
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script>
+        $(document).ready(function() {
+            var validator = $('#datas_form').validate({
+                rules: {
+                    user_fname: {
+                        required: true
+                    },
+                    user_email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    user_fname: {
+                        required: "First name is required field"
+                    },
+                    user_email: {
+                        required: "Email is required field",
+                        email: "Please enter a valid Email address!"
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function() {
+                    document.forms["datas_form"].submit();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

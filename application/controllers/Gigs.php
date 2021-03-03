@@ -659,49 +659,49 @@ class Gigs extends CI_Controller
 		// echo json_encode('Tier: '.$tier.' Quantity: '.$quantity.' Gig_id: '.$gig_id);
 	}
 
-	function checkout()
-	{
-		if(isset($_POST) && !empty($_POST)) {
-			// echo json_encode($_POST);
-			// die();
-			$email_to = $this->input->post("user_email");
+	// function checkout()
+	// {
+	// 	if(isset($_POST) && !empty($_POST)) {
+	// 		// echo json_encode($_POST);
+	// 		// die();
+	// 		$email_to = $this->input->post("user_email");
 
-			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
-			if($is_sent) {
-				redirect('/');
-			} else {
-				redirect('gigs/checkout');
-			}
-		} else {
-			if($this->dbs_user_id) {
-				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-				$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-				$data['mail_link'] = $link->url;
-			} else {
-				$data['user'] = [];
-				$data['mail_link'] = '';
-			}
+	// 		$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
+	// 		if($is_sent) {
+	// 			redirect('/');
+	// 		} else {
+	// 			redirect('gigs/checkout');
+	// 		}
+	// 	} else {
+	// 		if($this->dbs_user_id) {
+	// 			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+	// 			$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
+	// 			$data['mail_link'] = $link->url;
+	// 		} else {
+	// 			$data['user'] = [];
+	// 			$data['mail_link'] = '';
+	// 		}
 			
-			$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
-			$venues = explode(',', $gig->venues);
-			foreach ($venues as $venue) {
-				$temp[] = str_replace('-', ' ', $venue);
-			}
-			$gig->venues = $temp;
-			$data['gig'] = $gig;
-			// $tier =  $this->session->userdata('ticket_tier');
-			// echo $tier;
-			// die();
-			$data['quantity'] = $this->session->userdata('quantity');
-			$tier = $this->gigs_model->get_ticket_tier_by_id($this->session->userdata('ticket_tier'));
-			$data['tier'] = $tier;
-			$price = $data['quantity'] * $tier->price;
-			$data['total_price'] = $price;
-			// echo json_encode($data);
-			// die();
-			$this->load->view('frontend/gigs/checkout', $data);
-		}
-	}
+	// 		$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
+	// 		$venues = explode(',', $gig->venues);
+	// 		foreach ($venues as $venue) {
+	// 			$temp[] = str_replace('-', ' ', $venue);
+	// 		}
+	// 		$gig->venues = $temp;
+	// 		$data['gig'] = $gig;
+	// 		// $tier =  $this->session->userdata('ticket_tier');
+	// 		// echo $tier;
+	// 		// die();
+	// 		$data['quantity'] = $this->session->userdata('quantity');
+	// 		$tier = $this->gigs_model->get_ticket_tier_by_id($this->session->userdata('ticket_tier'));
+	// 		$data['tier'] = $tier;
+	// 		$price = $data['quantity'] * $tier->price;
+	// 		$data['total_price'] = $price;
+	// 		// echo json_encode($data);
+	// 		// die();
+	// 		$this->load->view('frontend/gigs/checkout', $data);
+	// 	}
+	// }
 	
 	function send_email($to_email, $subject, $email_for)
 	{
