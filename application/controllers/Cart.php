@@ -290,13 +290,14 @@ class Cart extends CI_Controller
 			// echo json_encode($_POST);
 			// die();
 			$email_to = $this->input->post("user_email");
-
+			$this->cart->destroy();
 			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
 			// echo json_encode($is_sent);
 			// die();
 			if ($is_sent) {
 				// echo json_encode($this->session->userdata());
 				// die();
+
 				redirect('/');
 			} else {
 				redirect('cart/checkout');
