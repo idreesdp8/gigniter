@@ -2,8 +2,12 @@
 $to = "hamza0952454@gmail.com";
 $subject = "My subject";
 $txt = "Hello world!";
-$headers = "From: webmaster@example.com" . "\r\n" .
+$headers = "From: info@gigniter.com" . "\r\n" .
 "CC: somebodyelse@example.com";
 
-mail($to,$subject,$txt,$headers);
+if(mail($to,$subject,$txt,$headers)) {
+    echo 'Mail sent';
+} else {
+    echo 'Erro';
+}
 ?>
