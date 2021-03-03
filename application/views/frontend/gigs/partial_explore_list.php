@@ -6,7 +6,7 @@ if ($gigs) :
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 col-12 explore_image_holder">
                     <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
-                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>">
+                        <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>">
                     </a>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-12">

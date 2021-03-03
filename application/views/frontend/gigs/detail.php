@@ -12,7 +12,6 @@
         }
 
         .detail_image_holder img {
-            margin: 0 -50%;
             height: 100%;
         }
     </style>
@@ -29,7 +28,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                     <div class="detail_image_holder">
                         <!-- style="width: 165px; height: 296px;" -->
-                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="image">
+                        <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="image">
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
