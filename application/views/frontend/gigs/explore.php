@@ -16,7 +16,7 @@
 
         .explore_image_holder img {
             height: 100%;
-            margin: 0 -50%;
+            /* margin: 0 -50%; */
         }
 
         .btn-white {

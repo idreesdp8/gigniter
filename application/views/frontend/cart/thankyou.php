@@ -33,20 +33,31 @@
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========Explore-content-Section========== -->
-    <form method="post" action="<?php echo user_base_url() ?>cart/checkout" id="basic_info_form">
-        <div class="event-facility padding-bottom padding-top">
-            <div class="container">
+    <section class="speaker-banner bg_img" data-background="./assets/images/banner/banner07.jpg">
+        <div class="container">
+            <div class="speaker-banner-content">
+                <h2 class="title">Thank You!</h2>
+            </div>
+        </div>
+    </section>
+    <!-- ==========Banner-Section========== -->
+    
+    <!-- ==========Speaker-Single========== -->
+    <section class="apps-seciton padding-top pt-lg-0 mb-5">
+        <div class="container">
+            <div class="apps-wrapper bg-six padding-top padding-bottom">
+                <div class="bg_img apps-bg" data-background="<?php echo user_asset_url() ?>images/apps/apps01.png"></div>
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="checkout-widget checkout-contact">
-                            <h5 class="title">Thank you </h5>
-                            <a href="<?php echo user_base_url() ?>" type="button" class="btn btn-primary">Back to Home</a>
-                        </div>
+                    <div class="col-lg-7 offset-lg-5">
+                        <div class="content">
+                            <p>
+                                Thank you for submitting your details. We appreciate your time. One of our representative will be in touch with you shortly.
+                            </p>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </section>
 
     <!-- ==========Explore-content-Section========== -->
     <!-- /page content -->

@@ -72,21 +72,21 @@
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Enter Gig Title
+                      Enter Gig Title <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Title"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="title" name="title" required="required" onchange="preview(this)">
                       <span id="title1" class="text-danger" generated="true"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Enter Gig subtitle
+                      Enter Gig subtitle <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig subtitle"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="subtitle" name="subtitle" required="required" onchange="preview(this)">
                       <span id="subtitle1" class="text-danger" generated="true"><?php echo form_error('subtitle'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Enter Gig Category
+                      Enter Gig Category <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Category"><i class="fas fa-question-circle"></i></span>
                       <select id="category" name="category" class="select" required="required" onchange="preview(this)">
                         <option value="">Select Category</option>
                         <?php
@@ -104,7 +104,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Enter Gig Genre
+                      Enter Gig Genre <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Genre"><i class="fas fa-question-circle"></i></span>
                       <select id="genre" name="genre" class="select" required="required" onchange="preview(this)">
                         <option value="">Select Genre</option>
                         <?php
@@ -121,7 +121,7 @@
                     </label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                    <label>Venue
+                    <label>Venue <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Venues"><i class="fas fa-question-circle"></i></span>
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
@@ -142,7 +142,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Upload Gig Poster
+                      Upload Gig Poster <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
                       <div>
                         <img id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
@@ -154,7 +154,7 @@
                   <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
-                      Enter Address
+                      Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="address" name="address" required="required" onchange="preview(this)">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
@@ -167,7 +167,7 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Enter Goal
+                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Goal"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
@@ -175,28 +175,29 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Campaign Launch Date
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
+                      <?php $curr_date = date('Y-m-d'); ?>
+                      Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Gig Date
+                      Gig Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Date"><i class="fas fa-question-circle"></i></span>
                       <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Start Time
+                      Start Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Start Time"><i class="fas fa-question-circle"></i></span>
                       <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      End Time
+                      End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
                       <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
@@ -241,13 +242,13 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Price
-                            <input type="text" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)">
+                            <input type="number" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Number of tickets in Tier
-                            <input type="text" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)">
+                            <input type="number" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -518,7 +519,7 @@
                         <div class="row">
                           <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <label class="m-0 font-weight-bold">User Name
-                              <p id="gig_user_name"><?php echo $user->fname.' '.$user->lname ?></p>
+                              <p id="gig_user_name"><?php echo $user->fname . ' ' . $user->lname ?></p>
                             </label>
                             <label class="m-0 font-weight-bold">User Bio
                               <p id="gig_user_bio"><?php echo $user->description ?></p>
@@ -567,10 +568,17 @@
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
-    const base_url = '<?php echo user_base_url() ?>';
     $(document).ready(function() {
       $('#start_gig_menu').addClass('active');
 
+      $('#campaign_date').change(function() {
+        var campaign_date = new Date($(this).val());
+        var gig_min_date = campaign_date.toISOString().substring(0, 10);
+        var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
+        gig_max_date = gig_max_date.toISOString().substring(0, 10);
+        $('#gig_date').attr('min', gig_min_date);
+        $('#gig_date').attr('max', gig_max_date);
+      });
 
       $('#add_tier_button').click(function() {
         var tier = $(this).attr('data-tier');
@@ -587,10 +595,10 @@
           '<label>Tier Name<input type="text" name="ticket_name[]" placeholder="" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Price<input type="text" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)"></label>' +
+          '<label>Tier Price<input type="number" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Number of tickets in Tier<input type="text" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)"></label>' +
+          '<label>Number of tickets in Tier<input type="number" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)"></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12">' +
           '<label>Description<textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea></label>' +

@@ -207,10 +207,12 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
-                                            <?php if ($gig->is_exclusive) : ?>
-                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                                            <?php endif; ?>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <div class="d-flex">
@@ -280,10 +282,12 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
-                                            <?php if ($gig->is_exclusive) : ?>
-                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                                            <?php endif; ?>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <div class="d-flex">
@@ -354,10 +358,12 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
-                                            <?php if ($gig->is_exclusive) : ?>
-                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                                            <?php endif; ?>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <div class="d-flex">
@@ -424,11 +430,11 @@
         });
         $('.owl-carousel').owlCarousel({
             loop: $(this).find('.owl-item').length > 2,
-            rewind: true,
             autoplay: true,
             dots: false,
-            autoplayTimeout: 3000,
+            autoplayTimeout: 1000,
             margin: 30,
+            autoplayHoverPause: true
         });
     </script>
 </body>
