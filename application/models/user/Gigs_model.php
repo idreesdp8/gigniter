@@ -92,6 +92,12 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
+	function check_gig_by_user_id($args1)
+	{
+		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'is_draft' => 1));
+		return $query->row();
+	}
+
 	function insert_gig_data($data)
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;

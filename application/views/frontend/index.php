@@ -145,9 +145,9 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;" alt="speaker">
-                                            <?php if ($gig->is_exclusive) : ?>
-                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                                            <?php endif; ?>
+                                            <?php //if ($gig->is_exclusive) : ?>
+                                                <span class="badge badge-danger exclusive-badge">Live</span>
+                                            <?php //endif; ?>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <h5 class="title">

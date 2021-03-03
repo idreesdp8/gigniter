@@ -160,11 +160,11 @@
                     </label>
                   </div>
                   <!-- <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
                       <h6>Enter Gig Details</h6>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Goal"><i class="fas fa-question-circle"></i></span>
@@ -173,7 +173,7 @@
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
@@ -201,7 +201,7 @@
                       <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
-                  </div>
+                  </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="mycheckbox-contain">
                       <div class="allow-overshoot">
@@ -443,6 +443,153 @@
 
               <div class="panel panel-primary setup-content" id="step-5">
                 <div class="row">
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="step-form-heading">
+                      <div class="gig-details">
+                        <h2>Gig Details</h2>
+                        <ul>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Subtitle
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Category
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Genre
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Venue(s)
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Address
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Goal
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Campaign Date
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Date
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Date
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Date
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Start Time
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig End Time
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Gig Poster
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div class="gig-details">
+                        <h2>Gig Ticket Tiers</h2>
+                        <ul>
+                          <li>
+                            <label class="m-0 font-weight-bold">Tier Name
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Tier Price
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Number of tickets
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">Tier Description
+                              <p id="gig_subtitle">adadf</p>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div class="gig-details">
+                        <h2>User details</h2>
+                        <ul>
+                          <li>
+                            <label class="m-0 font-weight-bold">User Name
+                              <p id="gig_subtitle">John Doe</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User Bio
+                              <p id="gig_subtitle">Bio of John Doe</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User Address
+                              <p id="gig_subtitle">Abcd Street</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User Mail Links
+                              <p id="gig_mail">mail</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User Facebook Links
+                              <p id="gig_facebook">facebook</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User instagram Links
+                              <p id="gig_instagram">instagram</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 font-weight-bold">User twitter Links
+                              <p id="gig_twitter">twitter</p>
+                            </label>
+                          </li>
+                          <li>
+                            <label class="m-0 profile-img font-weight-bold">Profile Image
+                              <img src="https://gigniter.digitalpoin8.com/downloads/profile_pictures/1614150520jpg.png"
+                                width="100%">
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div> -->
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <h5 class="mb-3">Gig Details</h5>
                     <label class="m-0 font-weight-bold">Gig Title
@@ -467,7 +614,7 @@
                     <label class="m-0 font-weight-bold">Gig Goal
                       <p id="gig_goal"></p>
                     </label>
-                    <label class="m-0 font-weight-bold">Gig Campaign Date
+                    <!-- <label class="m-0 font-weight-bold">Gig Campaign Date
                       <p id="gig_campaign_date"></p>
                     </label>
                     <label class="m-0 font-weight-bold">Gig Date
@@ -478,7 +625,7 @@
                     </label>
                     <label class="m-0 font-weight-bold">Gig End Time
                       <p id="gig_end_time"></p>
-                    </label>
+                    </label> -->
                     <label class="m-0 font-weight-bold">Gig Poster
                       <img id="gig_poster" src="" width="100%">
                     </label>
@@ -548,7 +695,9 @@
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
-                      <button type="submit" class="btn btn-success" id="submit_button">Add Gig</button>
+                      <input type="hidden" name="is_draft" id="is_draft">
+                      <button type="submit" class="btn btn-secondary" onclick="submit_form(1)">Save as Draft</button>
+                      <button type="submit" class="btn btn-success ml-3" onclick="submit_form(0)">Submit for Approval</button>
                     </div>
                   </div>
                 </div>
@@ -568,6 +717,9 @@
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
+    function submit_form(val) {
+      $('#is_draft').val(val);
+    }
     $(document).ready(function() {
       $('#start_gig_menu').addClass('active');
 
@@ -704,7 +856,7 @@
       var t_val = input.value;
       var t_name = input.getAttribute("name").slice(0, -2);
       var t_type = input.type;
-      if (t_type == 'text' || t_type == 'textarea') {
+      if (t_type == 'text' || t_type == 'textarea' || t_type == 'number') {
         var tier = input.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
         $('#gig_' + tier).find('.' + t_name).html(t_val);
       }

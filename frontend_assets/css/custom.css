@@ -30,8 +30,9 @@ textarea {
 	color: red !important;
 }
 
-.step-form-heading {
-	width: 30%;
+#step-5 .step-form-heading {
+	width: 40%;
+	display: flex;
 	margin: auto;
 }
 

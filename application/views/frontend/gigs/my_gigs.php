@@ -31,8 +31,8 @@
     <section class="Explore-content">
         <div class="container">
             <div class="row">
-                <?php $this->load->view('alert/alert'); ?>
                 <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <?php $this->load->view('alert/alert'); ?>
                     <?php
                     if ($gigs) :
                     ?>

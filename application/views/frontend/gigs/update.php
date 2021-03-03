@@ -33,7 +33,7 @@
       max-height: 100%;
     }
 
-    .remove_tier_bundle{
+    .remove_tier_bundle {
       width: 20px;
       float: right;
     }
@@ -209,7 +209,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date
-                      <input type="date" id="gig_date" class="date" name="gig_date" value="<?php echo date('Y-m-d', strtotime($gig->gig_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" value="<?php echo date('Y-m-d', strtotime($gig->gig_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>" required="required">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
@@ -597,6 +597,14 @@
   <script>
     $(document).ready(function() {
 
+      $('#campaign_date').change(function() {
+        var campaign_date = new Date($(this).val());
+        var gig_min_date = campaign_date.toISOString().substring(0, 10);
+        var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
+        gig_max_date = gig_max_date.toISOString().substring(0, 10);
+        $('#gig_date').attr('min', gig_min_date);
+        $('#gig_date').attr('max', gig_max_date);
+      });
       $('#add_tier_button').click(function() {
         var tier = $(this).data('tier');
         var div = $('#ticket_tiers');

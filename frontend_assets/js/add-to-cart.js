@@ -35,3 +35,6 @@ $('#add_to_cart').click(function () {
 $('#book_now_modal').on('hide.bs.modal', function () {
     $('#quantity').val('');
 });
+
+
+

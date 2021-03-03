@@ -83,8 +83,8 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
-			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
-			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
+			// $this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
+			// $this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				// $this->load->view('frontend/gigs/add', $data);
@@ -128,7 +128,7 @@ class Gigs extends CI_Controller
 				}
 
 				$created_on = date('Y-m-d H:i:s');
-				$status = 1;
+				$status = 0;
 				$datas = array(
 					'user_id' => $this->dbs_user_id,
 					'title' => $data['title'] ?? null,
@@ -141,12 +141,13 @@ class Gigs extends CI_Controller
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
-					'campaign_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['campaign_date'])) : $created_on,
-					'gig_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['gig_date'])) : $created_on,
-					'start_time' => date('H:i:s', strtotime($data['start_time'])),
-					'end_time' => date('H:i:s', strtotime($data['end_time'])),
+					// 'campaign_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['campaign_date'])) : $created_on,
+					// 'gig_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['gig_date'])) : $created_on,
+					// 'start_time' => date('H:i:s', strtotime($data['start_time'])),
+					// 'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 					'status' => $status,
+					'is_draft' => $data['is_draft'],
 					'created_on' => $created_on,
 				);
 				// echo json_encode($datas);
@@ -176,6 +177,11 @@ class Gigs extends CI_Controller
 			}
 		} else {
 			if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
+				$gig = $this->gigs_model->check_gig_by_user_id($this->dbs_user_id);
+				if($gig){
+					$this->session->set_flashdata('warning_msg', 'You already have a gig waiting for approval');
+					redirect('my_gigs');
+				}
 				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');

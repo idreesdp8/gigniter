@@ -7,7 +7,7 @@
                     <span data-dismiss="modal" aria-hidden="true"><i class="fas fa-times"></i></span>
                 <!-- </button> -->
             </div>
-            <form method="post" method="post" action="<?php echo user_base_url() ?>cart/add" id="basic_info_form">
+            <form method="post" method="post" action="<?php echo user_base_url() ?>cart/add" onsubmit="return validateForm()" name="add_to_cart_form" id="add_to_cart_form">
                 <div class="modal-body">
                     <div class="row">
                     <input type="hidden" name="gig_id" id="gig_id">
@@ -19,7 +19,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Quantity</label>
-                                <input type="text" name="quantity" id="quantity" class="form-control">
+                                <input type="number" name="quantity" id="quantity" class="form-control">
                             </div>
 
                         </div>
@@ -34,3 +34,18 @@
         </div>
     </div>
 </div>
+
+<script>
+function validateForm() {
+  var tier = document.forms["add_to_cart_form"]["tier"].value;
+  var qty = document.forms["add_to_cart_form"]["quantity"].value;
+  if (tier == "") {
+    alert("Tier is required field");
+    return false;
+  }
+  if (qty == "") {
+    alert("Quantity is required field");
+    return false;
+  }
+}
+</script>
