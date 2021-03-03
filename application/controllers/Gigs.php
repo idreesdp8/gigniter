@@ -178,8 +178,8 @@ class Gigs extends CI_Controller
 		} else {
 			if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
 				$gig = $this->gigs_model->check_gig_by_user_id($this->dbs_user_id);
-				echo json_encode($gig);
-				die();
+				// echo json_encode($gig);
+				// die();
 				if($gig){
 					$this->session->set_flashdata('warning_msg', 'You already have a gig waiting for approval');
 					redirect('my_gigs');
