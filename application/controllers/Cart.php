@@ -402,11 +402,15 @@ class Cart extends CI_Controller
 		$this->email->to($to_email);
 		$this->email->subject($subject);
 		$this->email->message($msg);
+		// echo json_encode($this->email);
+		// die();
 		//Send mail
 		if ($this->email->send()) {
 			return true;
 		} else {
-			return false;
+			// return false;
+			echo json_encode($this->email->print_debugger());
+			die();
 		}
 	}
 
