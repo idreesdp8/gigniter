@@ -95,21 +95,34 @@
                                                 </select>
                                                 <span id="category1" class="text-danger" generated="true"><?php echo form_error('category'); ?></span>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Genre <span class="text-danger">*</span></label>
-                                                <select name="genre" id="genre" class="form-control select" data-error="#genre1">
-                                                    <option value="">Select Genre</option>
-                                                    <?php
-                                                    if (isset($genres)) :
-                                                        foreach ($genres as $genre) :
-                                                    ?>
-                                                            <option value="<?php echo $genre->value ?>" <?php echo $gig->genre == $genre->value ? 'selected' : '' ?>><?php echo $genre->label ?></option>
-                                                    <?php
-                                                        endforeach;
-                                                    endif;
-                                                    ?>
-                                                </select>
-                                                <span id="genre1" class="text-danger" generated="true"><?php echo form_error('genre'); ?></span>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Genre <span class="text-danger">*</span></label>
+                                                        <select name="genre" id="genre" class="form-control select" data-error="#genre1">
+                                                            <option value="">Select Genre</option>
+                                                            <?php
+                                                            if (isset($genres)) :
+                                                                foreach ($genres as $genre) :
+                                                            ?>
+                                                                    <option value="<?php echo $genre->value ?>" <?php echo $gig->genre == $genre->value ? 'selected' : '' ?>><?php echo $genre->label ?></option>
+                                                            <?php
+                                                                endforeach;
+                                                            endif;
+                                                            ?>
+                                                        </select>
+                                                        <span id="genre1" class="text-danger" generated="true"><?php echo form_error('genre'); ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Draft</label>
+                                                        <select name="is_draft" id="is_draft" class="form-control select">
+                                                            <option value="0" <?php echo $gig->is_draft == 0 ? 'selected' : '' ?>>No</option>
+                                                            <option value="1" <?php echo $gig->is_draft == 1 ? 'selected' : '' ?>>Yes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -212,8 +225,8 @@
                                                     // if (isset($status)) :
                                                     //     foreach ($status as $k => $v) :
                                                     ?>
-                                                            <option value="0" <?php echo $gig->is_featured ? 'selected' : '' ?>>No</option>
-                                                            <option value="1" <?php echo $gig->is_featured ? 'selected' : '' ?>>Yes</option>
+                                                    <option value="0" <?php echo $gig->is_featured ? 'selected' : '' ?>>No</option>
+                                                    <option value="1" <?php echo $gig->is_featured ? 'selected' : '' ?>>Yes</option>
                                                     <?php
                                                     //     endforeach;
                                                     // endif;
@@ -229,8 +242,8 @@
                                                     // if (isset($status)) :
                                                     //     foreach ($status as $k => $v) :
                                                     ?>
-                                                            <option value="0" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>No</option>
-                                                            <option value="1" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>Yes</option>
+                                                    <option value="0" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>No</option>
+                                                    <option value="1" <?php echo $gig->is_exclusive ? 'selected' : '' ?>>Yes</option>
                                                     <?php
                                                     //     endforeach;
                                                     // endif;

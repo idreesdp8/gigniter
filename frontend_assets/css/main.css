@@ -1178,8 +1178,8 @@ input[type="submit"] {
   right: 0;
   left: 0;
   top: 80px;
-  -webkit-mask-image: url(../../assets/images/footer/footer-shape.png);
-  mask-image: url(../../assets/images/footer/footer-shape.png);
+  -webkit-mask-image: url(../images/footer/footer-shape.png);
+  mask-image: url(../images/footer/footer-shape.png);
   -webkit-mask-position: top center;
   mask-position: top center;
   -webkit-mask-repeat: no-repeat;
@@ -11290,7 +11290,7 @@ a.btn-circle.line:hover:before {
 }
 
 .gig-details ul li {
-    display: inline;
+    display: inline-flex;
     margin-right: 15px;
     font-weight: 700 !important;
     cursor: pointer;
@@ -11312,6 +11312,9 @@ a.btn-circle.line:hover:before {
 
 .profile-img img{
   width: 40px;
+}
+.poster-img img{
+  width: 300px;
 }
 
 .step-container .gig-details label {

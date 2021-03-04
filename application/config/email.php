@@ -10,11 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config = Array(
-	// 'protocol' => 'smtp',
-	// 'smtp_host' => 'smtp.mailtrap.io',
-	// 'smtp_port' => 2525,
-	// 'smtp_user' => '28f97a1a718e43',
-	// 'smtp_pass' => '2777a16b9398ac',
+	'protocol' => 'smtp',
+	'smtp_host' => 'smtp.gmail.com',
+	'smtp_port' => 465,
+	'smtp_user' => 'sirwalwfanilas@gmail.com',
+	'smtp_pass' => 'DigitalPoin8',
 	'crlf' => "\r\n",
 	'newline' => "\r\n",
   );

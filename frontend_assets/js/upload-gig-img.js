@@ -30,6 +30,7 @@ function readURL2(input) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#img2').attr('src', e.target.result);
+            $('#gig_user_iamge').attr('src', e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }

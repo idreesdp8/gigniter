@@ -413,6 +413,7 @@ class Gigs extends CI_Controller
 					'goal' => $data['goal'],
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
 					'is_featured' => $data['is_featured'],
+					'is_draft' => $data['is_draft'],
 					'is_exclusive' => $data['is_exclusive'],
 					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
 					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),

@@ -443,53 +443,48 @@
 
               <div class="panel panel-primary setup-content" id="step-5">
                 <div class="row">
-                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
                       <div class="gig-details">
                         <h2>Gig Details</h2>
                         <ul>
                           <li>
+                            <label class="m-0 font-weight-bold">Gig Title
+                              <p id="gig_title"></p>
+                            </label>
+                          </li>
+                          <li>
                             <label class="m-0 font-weight-bold">Gig Subtitle
-                              <p id="gig_subtitle">adadf</p>
+                              <p id="gig_subtitle"></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">Gig Category
-                              <p id="gig_subtitle">adadf</p>
+                              <p id="gig_category"></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">Gig Genre
-                              <p id="gig_subtitle">adadf</p>
+                              <p id="gig_genre"></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">Gig Venue(s)
-                              <p id="gig_subtitle">adadf</p>
+                              <p id="gig_venues"></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">Gig Address
-                              <p id="gig_subtitle">adadf</p>
+                              <p id="gig_address"></p>
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">Gig Goal
-                              <p id="gig_subtitle">adadf</p>
+                            <label class="m-0 font-weight-bold">Number of Tickets
+                              <p id="gig_goal"></p>
                             </label>
                           </li>
-                          <li>
+                          <!-- <li>
                             <label class="m-0 font-weight-bold">Gig Campaign Date
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Date
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Date
                               <p id="gig_subtitle">adadf</p>
                             </label>
                           </li>
@@ -507,10 +502,15 @@
                             <label class="m-0 font-weight-bold">Gig End Time
                               <p id="gig_subtitle">adadf</p>
                             </label>
+                          </li> -->
+                          <li>
+                            <label class="m-0 font-weight-bold">
+                              <p id="gig_is_overshoot" class="d-none">*Overshoot allowed</p>
+                            </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">Gig Poster
-                              <p id="gig_subtitle">adadf</p>
+                            <label class="m-0 poster-img font-weight-bold">Gig Poster
+                              <img id="gig_poster" src="" width="100%">
                             </label>
                           </li>
                         </ul>
@@ -518,28 +518,39 @@
 
                       <div class="gig-details">
                         <h2>Gig Ticket Tiers</h2>
-                        <ul>
-                          <li>
-                            <label class="m-0 font-weight-bold">Tier Name
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Tier Price
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Number of tickets
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Tier Description
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                        </ul>
+                        <div class="row" id="gig_ticket_tiers">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div id="gig_tier1">
+                              <ul>
+                                <li>
+                                  <label class="m-0 font-weight-bold">Tier Name
+                                    <p class="ticket_name"></p>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label class="m-0 font-weight-bold">Tier Price
+                                    <p class="ticket_price"></p>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label class="m-0 font-weight-bold">Number of tickets
+                                    <p class="ticket_quantity"></p>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label class="m-0 font-weight-bold">Tier Description
+                                    <p class="ticket_description"></p>
+                                  </label>
+                                </li>
+                                <li>
+                                  <label class="m-0 font-weight-bold">
+                                    <p class="ticket_is_unlimited d-none">*Unlimited</p>
+                                  </label>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="gig-details">
@@ -547,50 +558,49 @@
                         <ul>
                           <li>
                             <label class="m-0 font-weight-bold">User Name
-                              <p id="gig_subtitle">John Doe</p>
+                              <p id="gig_user_name"><?php echo $user->fname . ' ' . $user->lname ?></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">User Bio
-                              <p id="gig_subtitle">Bio of John Doe</p>
+                              <p id="gig_user_bio"><?php echo $user->description ?></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 font-weight-bold">User Address
-                              <p id="gig_subtitle">Abcd Street</p>
+                              <p id="gig_user_address"><?php echo $user->address ?></p>
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">User Mail Links
-                              <p id="gig_mail">mail</p>
+                            <label class="m-0 font-weight-bold">User Mail
+                              <p id="gig_mail"><?php echo $link[0]['mail'] ?? null ?></p>
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">User Facebook Links
-                              <p id="gig_facebook">facebook</p>
+                            <label class="m-0 font-weight-bold">User Facebook URL
+                              <p id="gig_facebook"><?php echo $link[1]['facebook'] ?? null ?></p>
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">User instagram Links
-                              <p id="gig_instagram">instagram</p>
+                            <label class="m-0 font-weight-bold">User instagram URL
+                              <p id="gig_instagram"><?php echo $link[2]['instagram'] ?? null ?></p>
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 font-weight-bold">User twitter Links
-                              <p id="gig_twitter">twitter</p>
+                            <label class="m-0 font-weight-bold">User twitter URL
+                              <p id="gig_twitter"><?php echo $link[3]['twitter'] ?? null ?></p>
                             </label>
                           </li>
                           <li>
                             <label class="m-0 profile-img font-weight-bold">Profile Image
-                              <img src="https://gigniter.digitalpoin8.com/downloads/profile_pictures/1614150520jpg.png"
-                                width="100%">
+                              <img id="gig_user_iamge" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" width="100%">
                             </label>
                           </li>
                         </ul>
                       </div>
                     </div>
-                  </div> -->
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                  </div>
+                  <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <h5 class="mb-3">Gig Details</h5>
                     <label class="m-0 font-weight-bold">Gig Title
                       <p id="gig_title"></p>
@@ -614,7 +624,7 @@
                     <label class="m-0 font-weight-bold">Gig Goal
                       <p id="gig_goal"></p>
                     </label>
-                    <!-- <label class="m-0 font-weight-bold">Gig Campaign Date
+                    <label class="m-0 font-weight-bold">Gig Campaign Date
                       <p id="gig_campaign_date"></p>
                     </label>
                     <label class="m-0 font-weight-bold">Gig Date
@@ -625,7 +635,7 @@
                     </label>
                     <label class="m-0 font-weight-bold">Gig End Time
                       <p id="gig_end_time"></p>
-                    </label> -->
+                    </label>
                     <label class="m-0 font-weight-bold">Gig Poster
                       <img id="gig_poster" src="" width="100%">
                     </label>
@@ -680,9 +690,9 @@
                               <p id="gig_instagram"><?php echo $link[2]['instagram'] ?? null ?></p>
                               <p id="gig_twitter"><?php echo $link[3]['twitter'] ?? null ?></p>
                             </label>
-                            <!-- <label class="m-0 font-weight-bold">User Stripe
+                            <label class="m-0 font-weight-bold">User Stripe
                               <p id="gig_user_name"></p>
-                            </label> -->
+                            </label>
                           </div>
                           <div class="col-lg-8 col-md-8 col-sm-12 col-12">
                             <label class="m-0 font-weight-bold">Profile Image
@@ -692,12 +702,18 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-heading">
+                    <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
                       <button type="submit" class="btn btn-secondary" onclick="submit_form(1)">Save as Draft</button>
-                      <button type="submit" class="btn btn-success ml-3" onclick="submit_form(0)">Submit for Approval</button>
+                      <?php
+                      if (!$gig) :
+                      ?>
+                        <button type="submit" class="btn btn-success ml-3" onclick="submit_form(0)">Submit for Approval</button>
+                      <?php
+                      endif;
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -775,13 +791,15 @@
           '</div>'
         );
         $('#gig_ticket_tiers').append(
-          '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
+          '<div class="col-lg-12 col-md-12 col-sm-12 col-12">' +
           '<div id="gig_tier' + tier + '">' +
-          '<label class="m-0 font-weight-bold">Tier Name<p class="ticket_name"></p></label>' +
-          '<label class="m-0 font-weight-bold">Tier Price<p class="ticket_price"></p></label>' +
-          '<label class="m-0 font-weight-bold">Number of tickets<p class="ticket_quantity"></p></label>' +
-          '<label class="m-0 font-weight-bold">Tier Description<p class="ticket_description"></p></label>' +
-          '<label class="m-0 font-weight-bold"><p class="ticket_is_unlimited d-none">*Unlimited</p></label>' +
+          '<ul>' +
+          '<li><label class="m-0 font-weight-bold">Tier Name<p class="ticket_name"></p></label></li>' +
+          '<li><label class="m-0 font-weight-bold">Tier Price<p class="ticket_price"></p></label></li>' +
+          '<li><label class="m-0 font-weight-bold">Number of tickets<p class="ticket_quantity"></p></label></li>' +
+          '<li><label class="m-0 font-weight-bold">Tier Description<p class="ticket_description"></p></label></li>' +
+          '<li><label class="m-0 font-weight-bold"><p class="ticket_is_unlimited d-none">*Unlimited</p></label></li>' +
+          '</ul>' +
           '</div>' +
           '</div>'
         );

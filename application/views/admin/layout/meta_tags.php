@@ -28,7 +28,7 @@
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script> -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<!-- for profile image upload -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
 	<!-- for select2 sortable function -->
@@ -50,5 +50,5 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
 	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/form_inputs.js"></script> -->
-	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script> -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
 	<!-- /theme JS files -->

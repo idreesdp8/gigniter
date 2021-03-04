@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped datatable-basic">
     <?php if (isset($records) && count($records) > 0) { ?>
         <thead>
             <tr>
