@@ -28,8 +28,10 @@ if ($gigs) :
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
-                        <a href="<?php echo user_base_url() ?>gigs/detail?gig=<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
+                        <div class="d-flex">
+                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id; ?>">book now</a>
+                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
+                        </div>
                     </div>
                 </div>
             </div>

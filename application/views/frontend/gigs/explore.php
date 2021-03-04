@@ -67,10 +67,10 @@
                             </select>
                         </p>
 
-                        <div class="view d-flex ml-auto">
+                        <!-- <div class="view d-flex ml-auto">
                             <button id="grid-btn" class="grid-view"><img src="<?php echo user_asset_url(); ?>images/icons/grid-view.png"></button>
                             <button id="list-btn" class="list-view"><img src="<?php echo user_asset_url(); ?>images/icons/list-view.png"></button>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">
@@ -196,9 +196,9 @@
                             </div>
                         </div>
 
-                        <div id="list_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <?php $this->load->view('frontend/gigs/partial_explore_list'); ?>
-                        </div>
+                        <!-- <div id="list_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <?php //$this->load->view('frontend/gigs/partial_explore_list'); ?>
+                        </div> -->
 
                         <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php $this->load->view('frontend/gigs/partial_explore_grid'); ?>
@@ -212,29 +212,29 @@
     <!-- ==========Explore-content-Section========== -->
     <!-- /page content -->
 
-    <?php $this->load->view('frontend/gigs/book_now'); ?>
+    <!-- <?php //$this->load->view('frontend/gigs/book_now'); ?> -->
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
-    <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
+    <!-- <script src="<?php //echo user_asset_url(); ?>js/add-to-cart.js"></script> -->
     <script>
         $(document).ready(function() {
-            $('#explore_menu').addClass('active');
-            $('.list-view').addClass("active");
-            $('#grid_view').hide();
+            // $('#explore_menu').addClass('active');
+            // $('.list-view').addClass("active");
+            // $('#grid_view').hide();
 
-            $('#list-btn').click(function(event) {
-                $('.grid-view').removeClass("active");
-                $('.list-view').addClass("active");
-                $('#grid_view').hide();
-                $('#list_view').show();
-            });
+            // $('#list-btn').click(function(event) {
+            //     $('.grid-view').removeClass("active");
+            //     $('.list-view').addClass("active");
+            //     $('#grid_view').hide();
+            //     $('#list_view').show();
+            // });
 
-            $('#grid-btn').click(function(event) {
-                $('.grid-view').addClass("active");
-                $('.list-view').removeClass("active");
-                $('#grid_view').show();
-                $('#list_view').hide();
-            });
+            // $('#grid-btn').click(function(event) {
+            //     $('.grid-view').addClass("active");
+            //     $('.list-view').removeClass("active");
+            //     $('#grid_view').show();
+            //     $('#list_view').hide();
+            // });
 
             $('#category').change(function() {
                 filter_gigs();

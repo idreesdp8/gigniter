@@ -297,17 +297,20 @@ class Gigs extends CI_Controller
 		$length = count($data['ticket_name']);
 		for ($i = 0; $i < $length; $i++) {
 			$j = $i + 1;
-			$tier = [
-				'user_id' => $this->dbs_user_id,
-				'gig_id' => $gig_id,
-				'name' => $data['ticket_name'][$i],
-				'price' => $data['ticket_price'][$i],
-				'quantity' => $data['ticket_quantity'][$i],
-				'description' => $data['ticket_description'][$i],
-				'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
-				'created_on' => $created_on,
-			];
-			$res = $this->gigs_model->add_ticket_tier($tier);
+			$res = false;
+			if($data['ticket_name'][$i] != '') {
+				$tier = [
+					'user_id' => $this->dbs_user_id,
+					'gig_id' => $gig_id,
+					'name' => $data['ticket_name'][$i],
+					'price' => $data['ticket_price'][$i],
+					'quantity' => $data['ticket_quantity'][$i],
+					'description' => $data['ticket_description'][$i],
+					'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
+					'created_on' => $created_on,
+				];
+				$res = $this->gigs_model->add_ticket_tier($tier);
+			}
 			if ($res) {
 				// echo $j;
 				$this->add_ticket_bundles($data, $res, $j);
@@ -651,6 +654,8 @@ class Gigs extends CI_Controller
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
 		echo json_encode($tiers);
 	}
+
+
 
 	function select_tier()
 	{

@@ -60,8 +60,8 @@ class Gigs_model extends CI_Model
 
 	function get_all_active_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= ? AND status = ?";
-		$query = $this->db->query($sql, array(date('Y-m-d'), 1));
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() AND status = 1";
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
@@ -94,7 +94,7 @@ class Gigs_model extends CI_Model
 
 	function check_gig_by_user_id($args1)
 	{
-		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'is_draft' => 1));
+		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'is_draft' => 0));
 		return $query->row();
 	}
 

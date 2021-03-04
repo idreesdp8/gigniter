@@ -41,7 +41,7 @@
                                                 <p><span class="days-text">Days left</span></p>
                                             </div>
                                             <div class="book-btn ml-5">
-                                                <button type="button" class="btn btn-primary btn-booknow show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">Book Now</button>
+                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">Book Now</a>
                                             </div>
                                         </div>
                                         <div class="d-flex responsive-class">
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
                                             <div class="book-btn m-auto">
-                                                <button type="button" class="btn btn-primary btn-booknow show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">Book Now</button>
+                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">Book Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -230,8 +230,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
-                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -305,8 +305,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
-                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -381,8 +381,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-warning btn-watch mb-4 show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
-                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -413,10 +413,10 @@
     <!-- ==========Carousel-5============== -->
     <!-- /page content -->
 
-    <?php $this->load->view('frontend/gigs/book_now'); ?>
+    <?php //$this->load->view('frontend/gigs/book_now'); ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
-    <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
+    <!-- <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script> -->
     <script>
         $(document).ready(function() {
             $('.carousel-inner').children().first().addClass('active');
@@ -427,9 +427,18 @@
                     $(this).parent().find('.speaker-next').addClass('d-none');
                 }
             });
+            $('.speaker-prev, .speaker-next').on('mouseover', function() {
+                console.log($(this).parent().children('.owl-carousel'));
+                $(this).parent().children('.owl-carousel').trigger('stop.owl.autoplay');
+            });
+            $('.speaker-prev, .speaker-next').on('mouseleave', function() {
+                console.log($(this).parent().children('.owl-carousel'));
+                $(this).parent().children('.owl-carousel').trigger('play.owl.autoplay');
+            });
         });
         $('.owl-carousel').owlCarousel({
-            loop: $(this).find('.owl-item').length > 2,
+            loop: ($(this).find('.owl-item')).length > 2,
+            rewind: true,
             autoplay: true,
             dots: false,
             autoplayTimeout: 2000,
