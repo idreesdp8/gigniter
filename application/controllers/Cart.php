@@ -374,6 +374,7 @@ class Cart extends CI_Controller
 
 	function send_email($to_email, $subject, $email_for)
 	{
+		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
 
