@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Carts_model extends CI_Model
+class Bookings_model extends CI_Model
 {
 
 	function __construct()
@@ -8,10 +8,17 @@ class Carts_model extends CI_Model
 		parent::__construct();
 	}
 
-	function trash_gig($args2)
+	function trash_booking($args2)
 	{
 		$this->db->where('id', $args2);
-		$this->db->delete('gigs');
+		$this->db->delete('bookings');
+		return true;
+	}
+
+	function remove_booking_cart_items($args2)
+	{
+		$this->db->where('booking_id', $args2);
+		$this->db->delete('cart');
 		return true;
 	}
 
@@ -51,10 +58,21 @@ class Carts_model extends CI_Model
 		return $query->result();
 	}
 
-
-	function get_all_cart_items()
+	function get_booking_items_count($id)
 	{
-		$query = $this->db->get('cart');
+		$query = $this->db->get_where('cart', array('booking_id' => $id));
+		return $query->num_rows();
+	}
+
+	function get_booking_items($id)
+	{
+		$query = $this->db->get_where('cart', array('booking_id' => $id));
+		return $query->result();
+	}
+
+	function get_all_bookings()
+	{
+		$query = $this->db->get('bookings');
 		return $query->result();
 	}
 
@@ -65,15 +83,21 @@ class Carts_model extends CI_Model
 		return $query->result();
 	}
 
-	function get_gig_by_id($args1)
+	function get_booking_by_id($args1)
 	{
-		$query = $this->db->get_where('gigs', array('id' => $args1));
+		$query = $this->db->get_where('bookings', array('id' => $args1));
 		return $query->row();
+	}
+
+	function insert_booking_data($data)
+	{
+		$ress = $this->db->insert('bookings', $data) ? $this->db->insert_id() : false;
+		return $ress;
 	}
 
 	function insert_cart_data($data)
 	{
-		$ress = $this->db->insert('cart', $data) ? $this->db->insert_id() : false;
+		$ress = $this->db->insert_batch('cart', $data);
 		return $ress;
 	}
 

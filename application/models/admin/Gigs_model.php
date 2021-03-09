@@ -96,6 +96,12 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_ticker_tier_by_id($id)
+	{
+		$query = $this->db->get_where('ticket_tiers', array('id' => $id));
+		return $query->row();
+	}
+
 	function add_ticket_tier_bundle($data)
 	{
 		$ress = $this->db->insert('ticket_bundles', $data) ? $this->db->insert_id() : false;

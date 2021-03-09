@@ -21,7 +21,7 @@
 	}  
 	
 	function admin_base_url(){
-		return base_url().'admin/';
+		return base_url().'index.php/admin/';
 	}
 	
 	function user_base_url(){

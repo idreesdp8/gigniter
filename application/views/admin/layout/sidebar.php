@@ -56,6 +56,16 @@ foreach ($role_permissions as $role_permission) {
                         </ul>
                     </li>
                 <?php endif; ?>
+                <?php if (in_array('edit-booking', $user_permissions) || in_array('view-booking', $user_permissions) || in_array('delete-booking', $user_permissions)) : ?>
+                <li class="nav-item" id="sidebar_booking">
+                    <a href="<?php echo admin_base_url(); ?>bookings" class="nav-link">
+                        <i class="icon-cart"></i>
+                        <span>
+                            Bookings
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <?php if (in_array('create-user', $user_permissions) || in_array('edit-user', $user_permissions) || in_array('view-user', $user_permissions) || in_array('delete-user', $user_permissions)) : ?>
                     <li class="nav-item nav-item-submenu" id="sidebar_user">
                         <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Users</span></a>

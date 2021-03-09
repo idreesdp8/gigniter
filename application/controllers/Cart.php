@@ -27,7 +27,7 @@ class Cart extends CI_Controller
 		$this->load->model('user/users_model', 'users_model');
 		// $this->load->model('user/configurations_model', 'configurations_model');
 		// $this->load->model('user/countries_model', 'countries_model');
-		$this->load->model('user/carts_model', 'carts_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		// $this->gig_status_key = 'gig-status';
@@ -137,12 +137,38 @@ class Cart extends CI_Controller
 		// // $this->cart->destroy();
 		// echo json_encode($this->session->userdata());
 		// die();
-		if (isset($_POST) && !empty($_POST)) {
-			// echo json_encode($_POST);
-			// die();
+		$cart_items = $this->cart->contents();
+		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
+			
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
 			$lname = $this->input->post("user_lname");
+
+			$booking_no = 'GN_'.strtotime('now');
+			$created_on = date('Y-m-d H:i:s', strtotime('now'));
+			$booking_params = [
+				'booking_no' => $booking_no,
+				'user_id' => $this->dbs_user_id,
+				'price' => $this->cart->total(),
+				'is_paid' => 0,
+				'created_on' => $created_on
+			];
+			$res = $this->bookings_model->insert_booking_data($booking_params);
+			if($res){
+				foreach($cart_items as $item) {
+					$cart_params[] = [
+						'gig_id' => $item['gig_id'],
+						'ticket_tier_id' => $item['ticket_tier_id'],
+						'quantity' => $item['qty'],
+						'price' => $item['subtotal'],
+						'user_id' => $this->dbs_user_id,
+						'booking_id' => $res,
+						'created_on' => $item['created_on'],
+					];
+				}
+				$res = $this->bookings_model->insert_cart_data($cart_params);
+			}
+
 			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
 			if ($is_sent) {
 				$this->cart->destroy();
