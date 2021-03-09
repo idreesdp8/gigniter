@@ -11290,7 +11290,7 @@ a.btn-circle.line:hover:before {
 }
 
 .gig-details ul li {
-    display: inline-flex;
+    display: inline;
     margin-right: 15px;
     font-weight: 700 !important;
     cursor: pointer;
@@ -11313,10 +11313,38 @@ a.btn-circle.line:hover:before {
 .profile-img img{
   width: 40px;
 }
-.poster-img img{
-  width: 300px;
-}
 
 .step-container .gig-details label {
     width: auto;
+}
+
+
+.product-img {
+    min-height: 190px;
+    padding: 40px 0px;
+}
+
+.product-img img {
+    width: 250px;
+}
+
+.product-description ul {
+    margin-top: 0 !important;
+}
+
+.product-description ul li::before{
+  display: none;
+}
+.product-description li {
+    border: 0 !important;
+    padding: 0 0 !important;
+    font-size: 23px;
+    color: #000;
+}
+
+.product-slider .speaker-prev2 {
+    left: -50px;
+}
+.product-slider .speaker-next2 {
+    right: -50px;
 }

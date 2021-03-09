@@ -125,14 +125,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-live_stream" name="venues[]" value="live-stream" type="checkbox" onchange="preview(this)">
+                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox" onchange="preview(this)">
                             <label for="myCheckbox-live_stream">Live stream</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-physical" name="venues[]" value="physical" type="checkbox" onchange="preview(this)">
+                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox" onchange="preview(this)">
                             <label for="myCheckbox-physical">Physical</label>
                             <span></span>
                           </div>

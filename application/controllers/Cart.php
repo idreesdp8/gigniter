@@ -62,21 +62,38 @@ class Cart extends CI_Controller
 
 	public function book_tier($gig_id = '')
 	{
+		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		$data['venues'] = [];
+		if($data['gig']->venues) {
+			$data['venues'] = explode(',', $data['gig']->venues);
+		}
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
-		// foreach($tiers as $tier) {
-
-		// }
-		echo json_encode($tiers);
-		die();
+		foreach($tiers as $tier) {
+			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+			$tier->image = '';
+			if($tier->bundles) {
+				foreach($tier->bundles as $bundle) {
+					if($tier->image == '') {
+						$tier->image = $bundle->image;
+					}
+				}
+			}
+		}
+		$data['tiers'] = $tiers;
+		// echo json_encode($tiers);
+		// die();
+		$this->load->view('frontend/cart/book_ticket', $data);
 	}
 
 	public function add()
 	{
+		// echo json_encode($_POST);
+		// die();
 		$gig_id = $this->input->post('gig_id');
-		$ticket_tier_id = $this->input->post('tier');
+		$ticket_tier_id = $this->input->post('ticket_tier_id');
 		$tier = $this->gigs_model->get_ticket_tier_by_id($ticket_tier_id);
 		$gig = $this->gigs_model->get_gig_by_id($gig_id);
-		$quantity = $this->input->post('quantity');
+		$quantity = $this->input->post('qty');
 		$created_on = date('Y-m-d H:i:s');
 		// $user_id = $this->dbs_user_id;
 		// $params = [

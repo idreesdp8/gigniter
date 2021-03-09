@@ -11,10 +11,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config = Array(
 	'protocol' => 'smtp',
-	'smtp_host' => 'ssl://smtp.gmail.com',
-	'smtp_port' => 465,
+	'smtp_host' => 'smtp.gmail.com',
+	'smtp_port' => 587,
 	'smtp_user' => 'sirwalwfanilas@gmail.com',
 	'smtp_pass' => 'DigitalPoin8',
+	"smtp_crypto"=> "tls",
 	'crlf' => "\r\n",
 	'newline' => "\r\n",
   );
