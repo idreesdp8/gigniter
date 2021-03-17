@@ -95,6 +95,12 @@ class Bookings_model extends CI_Model
 		return $ress;
 	}
 
+	function insert_transaction_data($data)
+	{
+		$ress = $this->db->insert('tansactions', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
 	function insert_cart_data($data)
 	{
 		$ress = $this->db->insert_batch('cart', $data);

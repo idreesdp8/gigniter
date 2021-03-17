@@ -86,8 +86,8 @@ class Bookings extends CI_Controller
 		
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
-		$stripe = new \Stripe\StripeClient($stripeSecret);
-		$customer = $stripe->customers->retrieve($customer->customer_id);
+		\Stripe\Stripe::setApiKey($stripeSecret);
+		$customer = \Stripe\Customer::retrieve($customer->customer_id);
 		$booking->user_name = $user->fname.' '.$user->lname;
 		$data['booking'] = $booking;
 		$data['customer'] = $customer;
@@ -117,39 +117,39 @@ class Bookings extends CI_Controller
 		$this->load->view('admin/bookings/show', $data);
 	}
 
-	function charge()
-	{
-		// echo json_encode($_POST);
-		// die();
-		$amount = $this->input->post('amount');
-		$customer_id = $this->input->post('customer_id');
-		$booking_id = $this->input->post('booking_id');
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		$currency = $this->config->item('stripe_currency');
+	// function charge()
+	// {
+	// 	// echo json_encode($_POST);
+	// 	// die();
+	// 	$amount = $this->input->post('amount');
+	// 	$customer_id = $this->input->post('customer_id');
+	// 	$booking_id = $this->input->post('booking_id');
+	// 	require_once('application/libraries/stripe-php/init.php');
+	// 	$stripeSecret = $this->config->item('stripe_api_key');
+	// 	$currency = $this->config->item('stripe_currency');
 
-		$stripe = new \Stripe\StripeClient($stripeSecret);
+	// 	$stripe = new \Stripe\StripeClient($stripeSecret);
 
-		$charge = $stripe->charges->create([
-			"amount" => $amount*100,
-			"currency" => $currency,
-			"customer" => $customer_id,
-			// "capture" => false,
-			"description" => "Thank you for buying!"
-		]);
-		$param = [
-			'customer_id' => $customer_id,
-			'booking_id' => $booking_id,
-			'charge_id' => $charge->id
-		];
-		$this->bookings_model->add_customer_charge($param);
-		$this->bookings_model->update_booking_data($booking_id, ['is_paid' => 1]);
-		// after successfull payment, you can store payment related information into your database
+	// 	$charge = $stripe->charges->create([
+	// 		"amount" => $amount*100,
+	// 		"currency" => $currency,
+	// 		"customer" => $customer_id,
+	// 		// "capture" => false,
+	// 		"description" => "Thank you for buying!"
+	// 	]);
+	// 	$param = [
+	// 		'customer_id' => $customer_id,
+	// 		'booking_id' => $booking_id,
+	// 		'charge_id' => $charge->id
+	// 	];
+	// 	$this->bookings_model->add_customer_charge($param);
+	// 	$this->bookings_model->update_booking_data($booking_id, ['is_paid' => 1]);
+	// 	// after successfull payment, you can store payment related information into your database
 
-		// $data = array('success' => true, 'data' => $transaction);
+	// 	// $data = array('success' => true, 'data' => $transaction);
 
-		redirect('admin/bookings');
-	}
+	// 	redirect('admin/bookings');
+	// }
 
 	// function update($args1 = '')
 	// {

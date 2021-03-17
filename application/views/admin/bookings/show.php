@@ -51,20 +51,14 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Customer ID</label>
-                                    <input type="text" class="form-control" value="<?php echo $customer->id ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Customer Name</label>
-                                    <input type="text" class="form-control" value="<?php echo $customer->name ?>">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Booking Number</label>
+                                    <label>Order #</label>
                                     <input type="text" class="form-control" value="<?php echo $booking->booking_no ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Customer</label>
+                                    <input type="text" class="form-control" value="<?php echo $customer->name ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -73,9 +67,15 @@
                                     <input type="text" class="form-control" value="$<?php echo $booking->price ?>">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input type="text" class="form-control" value="<?php echo date('M d, Y h:i A', strtotime($booking->created_on)) ?>">
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <h6>
-                                    Ticket Tiers
+                                    Purchased Ticket Tiers
                                 </h6>
                             </div>
                         </div>
@@ -124,11 +124,54 @@
                         <?php
                         endif;
                         ?>
-                        <div class="d-flex justify-content-start">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6>
+                                    Transaction Details
+                                </h6>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <?php if ($booking->is_paid /* && isset($records) && count($records) > 0 */) { ?>
+                                        <thead>
+                                            <tr>
+                                                <th>Order #</th>
+                                                <th>Customer</th>
+                                                <th>Amount ($)</th>
+                                                <th>Gig Owner</th>
+                                                <th>Admin fee (%)</th>
+                                                <th>Transfered ($)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // $i = 1;
+                                            // foreach ($records as $record) {
+                                            ?>
+                                                <tr>
+                                                    <td>12321213</td>
+                                                    <td>Hamza</td>
+                                                    <td>200$</td>
+                                                    <td>Adil</td>
+                                                    <td>20%</td>
+                                                    <td>160$</td>
+                                                </tr>
+                                            <?php
+                                                //$i++;
+                                            //}
+                                            ?>
+                                        </tbody>
+                                    <?php } else { ?>
+                                        <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+                                    <?php } ?>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-start mt-3">
                             <a href="<?php echo admin_base_url() ?>bookings" type="button" class="btn btn-light">Back</a>
-                            <?php
-                            if (!$booking->is_paid) :
-                            ?>
+                            <!-- <?php
+                                    if (!$booking->is_paid) :
+                                    ?>
                                 <form action="<?php echo admin_base_url() ?>bookings/charge" method="post">
                                     <input type="hidden" name="customer_id" value="<?php echo $customer->id ?>">
                                     <input type="hidden" name="amount" value="<?php echo $booking->price ?>">
@@ -136,8 +179,8 @@
                                     <button type="submit" class="btn bg-blue ml-3">Charge</button>
                                 </form>
                             <?php
-                            endif;
-                            ?>
+                                    endif;
+                            ?> -->
                         </div>
                     </div>
                 </div>

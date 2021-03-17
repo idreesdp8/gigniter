@@ -26,7 +26,7 @@ class Cart extends CI_Controller
 
 		$this->load->model('user/users_model', 'users_model');
 		$this->load->model('user/customers_model', 'customers_model');
-		// $this->load->model('user/countries_model', 'countries_model');
+		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
@@ -136,18 +136,18 @@ class Cart extends CI_Controller
 	function checkout()
 	{
 		// // $this->cart->destroy();
-		// echo json_encode($this->session->userdata());
-		// die();
 		$cart_items = $this->cart->contents();
+		// echo json_encode($cart_items);
+		// die();
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
 
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
 			$lname = $this->input->post("user_lname");
-			$name = ucfirst($fname). ' ' . ucfirst($lname);
+			$name = ucfirst($fname) . ' ' . ucfirst($lname);
 			$token = $this->input->post('stripe-token');
 
-			
+
 			$user = $this->users_model->get_user_by_email($email_to);
 			if (!$user) {
 				$this->load->helper('string');
@@ -185,8 +185,9 @@ class Cart extends CI_Controller
 				'created_on' => $created_on
 			];
 			$res = $this->bookings_model->insert_booking_data($booking_params);
-			if($res){
-				foreach($cart_items as $item) {
+			// $user_accounts = [];
+			if ($res) {
+				foreach ($cart_items as $item) {
 					$cart_params[] = [
 						'gig_id' => $item['gig_id'],
 						'ticket_tier_id' => $item['ticket_tier_id'],
@@ -196,23 +197,29 @@ class Cart extends CI_Controller
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
+					// $gig = $this->gigs_model->get_gig_by_id($item['gig_id']);
+					// $user_stripe_detail = $this->users_model->get_stripe_details($gig->user_id);
+					// array_push($user_accounts, $user_stripe_detail->stripe_account_id);
+					// $gig_owner_ids = $gig->user_id;
 				}
 				$resp = $this->bookings_model->insert_cart_data($cart_params);
 			}
-			$customer_id = $this->create_customer($token, $email_to, $name);
-			$cust_param = [
-				'customer_id' => $customer_id,
-				'email' => $email_to,
-				'user_id' => $user ? $user->id : $user_id,
-				'booking_id' => $res,
-				'created_on' => $created_on
-			];
-			$this->customers_model->insert_customer_data($cust_param);
+			$this->charge_and_transfer($token, $email_to, $name, $res);
+			// $customer_id = $this->create_customer($token, $email_to, $name);
+			// $cust_param = [
+			// 	'customer_id' => $customer_id,
+			// 	'email' => $email_to,
+			// 	'user_id' => $user ? $user->id : $user_id,
+			// 	'booking_id' => $res,
+			// 	'created_on' => $created_on
+			// ];
+			// $this->customers_model->insert_customer_data($cust_param);
 			// $this->charge_amount($price, $customer_id);
 
 			$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if ($is_sent) {
 				$this->cart->destroy();
+				// redirect('cart/checkout');
 				redirect('cart/thankyou');
 			} else {
 				redirect('cart/checkout');
@@ -232,45 +239,181 @@ class Cart extends CI_Controller
 		}
 	}
 
-	function create_customer($token, $email, $name)
+	function charge_and_transfer($token, $email, $name, $booking_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
-		$stripe = new \Stripe\StripeClient($stripeSecret);
-		$customer = $stripe->customers->create([
-			'source' => $token,
-			'email' => $email,
-			'name' => $name,
-			'description' => 'Gigniter Customer',
-		]);
-		// echo json_encode($customer);
+		\Stripe\Stripe::setApiKey($stripeSecret);
+
+		$booking = $this->bookings_model->get_booking_by_id($booking_id);
+		$cart_items = $this->bookings_model->get_booking_items($booking_id);
+		// echo json_encode($booking);
+		// echo json_encode($cart_items);
 		// die();
-		return $customer->id;
+		$total_charged = $booking->price;
+		$success_md = 0;
+		$error_msg = '';
+		try {
+			$customer = \Stripe\Customer::create(array(
+				'email' => $email,
+				'name' => $name,
+				'source'  => $token,
+				'description' => 'Gigniter Customer'
+			));
+
+			// echo json_encode($customer);
+			// die();
+
+			$success_md = 1;
+			$error_msg = 0;
+		} catch (\Exception $e) {
+			$error0 = $e->getMessage();
+			$error_msg = $error0;
+			$success_md = 0;
+		}
+		if ($success_md == 1) {
+			$currency = $this->config->item('stripe_currency');
+
+			// sleep(20);
+			//charge a credit or a debit card
+			$charge = \Stripe\Charge::create([
+				"amount" => $total_charged * 100,
+				"currency" => $currency,
+				"customer" => $customer->id,
+				"description" => "Thank you for purchasing Tickets from Gigniter!",
+				'metadata' => array(
+					'order_id' => $booking_id
+				)
+			]);
+
+			//retrieve charge details
+			$chargeJson = $charge->jsonSerialize();
+
+			// echo json_encode($charge);
+			// die();
+
+			//check whether the charge is successful
+			if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
+				//order details
+				$this->bookings_model->update_booking_data($booking_id, array('is_paid'=>1));
+				$txn_id = $chargeJson['balance_transaction'];
+				$amount = $chargeJson['amount'];
+				$payment_currency = $chargeJson['currency'];
+				$payment_status = $chargeJson['status'];
+				$charge_param = [
+					'booking_id' => $booking_id,
+					'charge_id' => $chargeJson['id'],
+					'transaction_id' => $txn_id,
+					'amount' => $amount/100,
+					'type' => $chargeJson['object'],
+					'customer_id' => $chargeJson['customer'],
+					'created_on' => date('Y-m-d H:i:s', $chargeJson['created']),
+				];
+
+				$this->bookings_model->insert_transaction_data($charge_param);
+
+				//if order inserted successfully
+				if ($payment_status == 'succeeded') {
+					foreach($cart_items as $item) {
+						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+						$user_stripe_detail = $this->users_model->get_stripe_details($gig->user_id);
+						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
+						$amount = $item->price - ($item->price * $admin_fee->value / 100);
+						$transfer = \Stripe\Transfer::create([
+							'amount' => $item->price * 100,
+							'currency' => $currency,
+							'destination' => $user_stripe_detail->stripe_account_id,
+						]);
+						$transferJson = $transfer->jsonSerialize();
+						if($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+							$transfer_param = [
+								'booking_id' => $booking_id,
+								'transfer_id' => $transferJson['id'],
+								'transaction_id' => $transferJson['balance_transaction'],
+								'amount' => $transferJson['amount']/100,
+								'type' => $transferJson['object'],
+								'destination_id' => $transferJson['destination'],
+								'admin_fee' => $admin_fee->value,
+								'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+							];
+							$this->bookings_model->insert_transaction_data($transfer_param);
+						}
+						// echo json_encode($transfer);
+						// die();
+					}
+				} else {
+
+					$out['status'] = '2';
+					$out['message'] = 'Error: Customer Charge has been failed!';
+					// $out['txn_id'] = $txn_id;
+					// $out['amount'] = $amount;
+					// $out['currency'] = $payment_currency;
+					// $out['payment_status'] = $payment_status;
+					// $out['transfer'] = '';
+					$this->session->set_flashdata('error_msg', $out['message']);
+					redirect('cart/checkout');
+					echo json_encode($out);
+					die();
+				}
+			} else {
+
+				$out['status'] = '3';
+				$out['message'] = 'Error: Transaction has been failed!';
+				$this->session->set_flashdata('error_msg', $out['message']);
+				redirect('cart/checkout');
+				echo json_encode($out);
+				die();
+			}
+		} else {
+
+			$out['status'] = '5';
+			$out['message'] = "$error_msg";
+			$this->session->set_flashdata('error_msg', $out['message']);
+			redirect('cart/checkout');
+			echo json_encode($out);
+			die();
+		}
 	}
 
-	function charge_amount($amount, $customer_id)
-	{
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		$currency = $this->config->item('stripe_currency');
+	// function create_customer($token, $email, $name)
+	// {
+	// 	require_once('application/libraries/stripe-php/init.php');
+	// 	$stripeSecret = $this->config->item('stripe_api_key');
+	// 	$stripe = new \Stripe\StripeClient($stripeSecret);
+	// 	$customer = $stripe->customers->create([
+	// 		'source' => $token,
+	// 		'email' => $email,
+	// 		'name' => $name,
+	// 		'description' => 'Gigniter Customer',
+	// 	]);
+	// 	// echo json_encode($customer);
+	// 	// die();
+	// 	return $customer->id;
+	// }
 
-		$stripe = new \Stripe\StripeClient($stripeSecret);
+	// function charge_amount($amount, $customer_id)
+	// {
+	// 	require_once('application/libraries/stripe-php/init.php');
+	// 	$stripeSecret = $this->config->item('stripe_api_key');
+	// 	$currency = $this->config->item('stripe_currency');
 
-		$charge = $stripe->charges->create([
-			"amount" => "10000",
-			"currency" => $currency,
-			"source" => $customer_id,
-			"capture" => false,
-			"description" => "Thank you for pledging!"
-		]);
+	// 	$stripe = new \Stripe\StripeClient($stripeSecret);
 
-		// after successfull payment, you can store payment related information into your database
+	// 	$charge = $stripe->charges->create([
+	// 		"amount" => "10000",
+	// 		"currency" => $currency,
+	// 		"source" => $customer_id,
+	// 		"capture" => false,
+	// 		"description" => "Thank you for pledging!"
+	// 	]);
 
-		// $data = array('success' => true, 'data' => $transaction);
+	// 	// after successfull payment, you can store payment related information into your database
 
-		echo json_encode($charge);
-		die();
-	}
+	// 	// $data = array('success' => true, 'data' => $transaction);
+
+	// 	echo json_encode($charge);
+	// 	die();
+	// }
 
 	function send_email($to_email, $subject, $email_for)
 	{

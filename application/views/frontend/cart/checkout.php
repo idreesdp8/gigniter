@@ -36,6 +36,7 @@
     <form method="post" action="<?php echo user_base_url() ?>cart/checkout" id="datas_form">
         <div class="event-facility padding-bottom padding-top">
             <div class="container">
+                <?php $this->load->view('alert/alert'); ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <?php
