@@ -320,7 +320,7 @@ class Cart extends CI_Controller
 						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
 						$amount = $item->price - ($item->price * $admin_fee->value / 100);
 						$transfer = \Stripe\Transfer::create([
-							'amount' => $item->price * 100,
+							'amount' => $amount * 100,
 							'currency' => $currency,
 							'destination' => $user_stripe_detail->stripe_account_id,
 						]);
