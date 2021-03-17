@@ -101,6 +101,12 @@ class Bookings_model extends CI_Model
 		return $ress;
 	}
 
+	function get_transactions_by_booking_id($id)
+	{
+		$query = $this->db->get_where('tansactions', array('booking_id' => $id));
+		return $query->result();
+	}
+
 	function insert_cart_data($data)
 	{
 		$ress = $this->db->insert_batch('cart', $data);

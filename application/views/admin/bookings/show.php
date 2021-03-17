@@ -132,7 +132,7 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped">
-                                    <?php if ($booking->is_paid /* && isset($records) && count($records) > 0 */) { ?>
+                                    <?php if ($booking->is_paid && isset($transactions) && count($transactions) > 0) { ?>
                                         <thead>
                                             <tr>
                                                 <th>Order #</th>
@@ -145,20 +145,35 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                            // $i = 1;
-                                            // foreach ($records as $record) {
+                                            $i = 1;
+                                            foreach ($transactions as $transaction) {
                                             ?>
                                                 <tr>
-                                                    <td>12321213</td>
-                                                    <td>Hamza</td>
-                                                    <td>200$</td>
-                                                    <td>Adil</td>
-                                                    <td>20%</td>
-                                                    <td>160$</td>
+                                                    <?php
+                                                    if ($transaction->type == 'charge') :
+                                                    ?>
+                                                        <td><?php echo $booking->booking_no ?></td>
+                                                        <td><?php echo $customer->name ?></td>
+                                                        <td>$<?php echo $transaction->amount ?></td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                    <?php
+                                                    else :
+                                                    ?>
+                                                        <td><?php echo $booking->booking_no ?></td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td><?php echo $account->individual->first_name . ' ' . $account->individual->last_name ?></td>
+                                                        <td>$<?php echo $transaction->admin_fee ?></td>
+                                                        <td>$<?php echo $transaction->amount ?></td>
+                                                    <?php
+                                                    endif;
+                                                    ?>
                                                 </tr>
                                             <?php
-                                                //$i++;
-                                            //}
+                                                $i++;
+                                            }
                                             ?>
                                         </tbody>
                                     <?php } else { ?>

@@ -333,7 +333,7 @@ class Cart extends CI_Controller
 								'amount' => $transferJson['amount']/100,
 								'type' => $transferJson['object'],
 								'destination_id' => $transferJson['destination'],
-								'admin_fee' => $admin_fee->value,
+								'admin_fee' => $item->price * $admin_fee->value / 100,
 								'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
 							];
 							$this->bookings_model->insert_transaction_data($transfer_param);
