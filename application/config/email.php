@@ -16,6 +16,7 @@ $config = Array(
 	'smtp_user' => 'sirwalwfanilas@gmail.com',
 	'smtp_pass' => 'DigitalPoin8',
 	"smtp_crypto"=> "tls",
+	"smtp_timeout"=> "10",
 	'crlf' => "\r\n",
 	'newline' => "\r\n",
   );

@@ -55,7 +55,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Booking #</th>
-                                        <th>Customer Name</th>
                                         <th>Price</th>
                                         <th>Item Count</th>
                                         <th>Paid</th>
@@ -71,7 +70,6 @@
                                         <tr>
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->booking_no ?></td>
-                                            <td><?php echo $record->user_name ?></td>
                                             <td>$<?php echo $record->price ?></td>
                                             <td><?php echo $record->item_count ?></td>
                                             <td><?php echo $record->is_paid ? 'Yes' : 'No' ?></td>

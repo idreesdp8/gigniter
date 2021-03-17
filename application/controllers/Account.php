@@ -138,6 +138,7 @@ class Account extends CI_Controller
 
 	function send_email($to_email, $subject, $email_for)
 	{
+		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
 
@@ -165,6 +166,11 @@ class Account extends CI_Controller
 			return false;
 		}
 	}
+
+	// function account_verified_page()
+	// {
+	// 	$this->load->view('frontend/account/account_verified');
+	// }
 
 	function verify_email()
 	{
@@ -271,7 +277,7 @@ class Account extends CI_Controller
 			// die();
 			// form validation
 			$this->form_validation->set_rules("password", "New Password", 'required|trim|xss_clean');
-			
+
 			if ($this->form_validation->run() == FALSE) {
 				if (isset($_SESSION['error_msg'])) {
 					unset($_SESSION['error_msg']);
@@ -315,6 +321,26 @@ class Account extends CI_Controller
 	{
 		$this->session->sess_destroy();
 		redirect('/');
+	}
+
+	public function create_user_stripe_account($stripe_id)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+
+		$account = $stripe->accounts->create([
+			'type' => 'custom',
+			'email' => $stripe_id,
+			'capabilities' => [
+				'card_payments' => ['requested' => true],
+				'transfers' => ['requested' => true],
+			],
+		]);
+		return $account;
+		// echo json_encode($account);
+		// die();
 	}
 
 	public function profile()
@@ -417,6 +443,16 @@ class Account extends CI_Controller
 						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
 					);
 					$this->session->set_userdata($cstm_sess_data);
+					$stripe_id = $this->input->post('stripe_id');
+					if ($stripe_id) {
+						$account = $this->create_user_stripe_account($stripe_id);
+						$temp = [
+							'user_id' => $data['id'],
+							'stripe_id' => $stripe_id,
+							'stripe_account_id' => $account->id,
+						];
+						$this->users_model->insert_user_stripe_details($temp);
+					}
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
@@ -429,6 +465,18 @@ class Account extends CI_Controller
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);
+				$stripe_details = $this->users_model->get_stripe_details($this->dbs_user_id);
+				$detail_submitted_flag = false;
+				if ($stripe_details) {
+					$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
+					// echo json_encode($stripe_account);
+					// die();
+					if ($stripe_account->details_submitted) {
+						$detail_submitted_flag = true;
+					}
+				}
+				$user->stripe_id = $stripe_details ? $stripe_details->stripe_id : null;
+				$user->detail_submitted_flag = $detail_submitted_flag;
 				if (isset($links) && !empty($links)) {
 					foreach ($links as $link) {
 						$platform = $link->platform;
@@ -446,6 +494,37 @@ class Account extends CI_Controller
 				redirect('account/logoff');
 			}
 		}
+	}
+
+	function check_user_account_details($account_id)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+		$account = $stripe->accounts->retrieve(
+			$account_id,
+			[]
+		);
+		return $account;
+	}
+
+	function enable_stripe_account()
+	{
+		$user_id = $this->input->post('user_id');
+		$stripe_details = $this->users_model->get_stripe_details($user_id);
+
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+		$response = $stripe->accountLinks->create([
+			'account' => $stripe_details->stripe_account_id,
+			'refresh_url' => 'https://example.com/reauth',
+			'return_url' => user_base_url().'profile',
+			'type' => 'account_update',
+		]);
+
+		echo json_encode($response);
 	}
 
 	function remove_social_links($id)

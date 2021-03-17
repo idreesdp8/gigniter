@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Bookings_model extends CI_Model
+class Customers_model extends CI_Model
 {
 
 	function __construct()
@@ -70,9 +70,9 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
-	function get_all_bookings()
+	function get_all_customers()
 	{
-		$query = $this->db->get('bookings');
+		$query = $this->db->get('customers');
 		return $query->result();
 	}
 
@@ -83,15 +83,15 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
-	function get_booking_by_id($args1)
+	function get_customer_by_booking_id($args1)
 	{
-		$query = $this->db->get_where('bookings', array('id' => $args1));
+		$query = $this->db->get_where('customers', array('booking_id' => $args1));
 		return $query->row();
 	}
 
-	function insert_booking_data($data)
+	function insert_customer_data($data)
 	{
-		$ress = $this->db->insert('bookings', $data) ? $this->db->insert_id() : false;
+		$ress = $this->db->insert('customers', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}
 
@@ -101,15 +101,9 @@ class Bookings_model extends CI_Model
 		return $ress;
 	}
 
-	function update_booking_data($args1, $data)
+	function update_gig_data($args1, $data)
 	{
 		$this->db->where('id', $args1);
-		return $this->db->update('bookings', $data);
-	}
-
-	function add_customer_charge($data)
-	{
-		$ress = $this->db->insert('customer_charges', $data) ? $this->db->insert_id() : false;
-		return $ress;
+		return $this->db->update('gigs', $data);
 	}
 }

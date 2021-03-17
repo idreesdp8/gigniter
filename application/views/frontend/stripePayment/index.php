@@ -51,7 +51,7 @@
                     // Get the token ID to your server-side code for use.
                     console.log('Token Created!!');
                     console.log(token)
-                    $('#token_response').html(JSON.stringify(token));
+                    $('#token_response').html('<p>'+JSON.stringify(token)+'</p>');
 
                     $.ajax({
                         url: "<?php echo base_url(); ?>stripe/payment",
@@ -63,7 +63,7 @@
                         dataType: "json",
                         success: function(response) {
                             console.log(response.data);
-                            $('#token_response').append('<br />' + JSON.stringify(response.data));
+                            $('#token_response').append('<br /><p>' + JSON.stringify(response.data)+'</p>');
                         }
                     })
                 }

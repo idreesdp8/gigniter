@@ -66,6 +66,16 @@ foreach ($role_permissions as $role_permission) {
                     </a>
                 </li>
                 <?php endif; ?>
+                <!-- <?php if (in_array('edit-customer', $user_permissions) || in_array('view-customer', $user_permissions) || in_array('delete-customer', $user_permissions)) : ?>
+                <li class="nav-item" id="sidebar_customer">
+                    <a href="<?php echo admin_base_url(); ?>customers" class="nav-link">
+                        <i class="icon-cart"></i>
+                        <span>
+                            Customers
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?> -->
                 <?php if (in_array('create-user', $user_permissions) || in_array('edit-user', $user_permissions) || in_array('view-user', $user_permissions) || in_array('delete-user', $user_permissions)) : ?>
                     <li class="nav-item nav-item-submenu" id="sidebar_user">
                         <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Users</span></a>
@@ -106,6 +116,7 @@ foreach ($role_permissions as $role_permission) {
                     <li class="nav-item nav-item-submenu" id="sidebar_configuration">
                         <a href="#" class="nav-link"><i class="icon-cog"></i> <span>Configurations</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Configurations">
+                            <li class="nav-item" id="sidebar_config"><a href="<?php echo admin_base_url(); ?>configurations" class="nav-link">All Configurations</a></li>
                             <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Gig Genres</a></li>
                             <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Gig Categories</a></li>
                             <li class="nav-item" id="sidebar_gig_status"><a href="<?php echo admin_base_url(); ?>gig_statuses" class="nav-link">Gig Statuses</a></li>

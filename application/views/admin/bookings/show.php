@@ -49,19 +49,25 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Customer Name</label>
-                                    <input type="text" class="form-control" value="<?php echo $booking->user_name ?>">
+                                    <label>Customer ID</label>
+                                    <input type="text" class="form-control" value="<?php echo $customer->id ?>">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Customer Name</label>
+                                    <input type="text" class="form-control" value="<?php echo $customer->name ?>">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Booking Number</label>
                                     <input type="text" class="form-control" value="<?php echo $booking->booking_no ?>">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Total Amount</label>
                                     <input type="text" class="form-control" value="$<?php echo $booking->price ?>">
@@ -118,7 +124,21 @@
                         <?php
                         endif;
                         ?>
-                    <a href="<?php echo admin_base_url() ?>bookings" type="button" class="btn btn-secondary">Back</a>
+                        <div class="d-flex justify-content-start">
+                            <a href="<?php echo admin_base_url() ?>bookings" type="button" class="btn btn-light">Back</a>
+                            <?php
+                            if (!$booking->is_paid) :
+                            ?>
+                                <form action="<?php echo admin_base_url() ?>bookings/charge" method="post">
+                                    <input type="hidden" name="customer_id" value="<?php echo $customer->id ?>">
+                                    <input type="hidden" name="amount" value="<?php echo $booking->price ?>">
+                                    <input type="hidden" name="booking_id" value="<?php echo $booking->id ?>">
+                                    <button type="submit" class="btn bg-blue ml-3">Charge</button>
+                                </form>
+                            <?php
+                            endif;
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>

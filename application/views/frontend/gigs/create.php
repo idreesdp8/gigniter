@@ -383,14 +383,13 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Stripe integration
-                      <!-- -->
                       <input type="text" id="stripe_integration" name="stripe_integration">
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div> -->
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">

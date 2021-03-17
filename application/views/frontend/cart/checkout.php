@@ -54,49 +54,91 @@
                         <?php
                         endif;
                         ?>
-                        <form class="checkout-contact-form">
-                            <div class="checkout-widget checkout-contact">
-                                <h5 class="title">Share your Contact Details </h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?? '' ?>" data-error="#user_fname1" required>
-                                            <span id="user_fname1" class="text-danger"><?php echo form_error('user_fname'); ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" name="user_lname" placeholder="Last Name" value="<?php echo $user->lname ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="Enter your Mail" name="user_email" value="<?php echo $mail_link ?>" data-error="#user_email1" required>
-                                            <span id="user_email1" class="text-danger">
-                                                <?php
-                                                echo form_error('user_email');
-                                                echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
-                                                ?>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="Enter your Phone Number" name="phone_no" value="<?php echo $user->phone_no ?? '' ?>">
-                                        </div>
+                        <!-- <form class="checkout-contact-form"> -->
+                        <div class="checkout-widget checkout-contact">
+                            <h5 class="title">Share your Contact Details </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="user_fname" placeholder="First Name" value="<?php echo $user->fname ?? '' ?>" data-error="#user_fname1" required>
+                                        <span id="user_fname1" class="text-danger"><?php echo form_error('user_fname'); ?></span>
                                     </div>
                                 </div>
-                                <?php
-                                // if ($user) :
-                                ?>
-                                <!-- <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="user_lname" placeholder="Last Name" value="<?php echo $user->lname ?? '' ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Enter your Mail" name="user_email" value="<?php echo $user->email ?? '' ?>" data-error="#user_email1" required>
+                                        <span id="user_email1" class="text-danger">
+                                            <?php
+                                            echo form_error('user_email');
+                                            echo isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
+                                            ?>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Enter your Phone Number" name="phone_no" value="<?php echo $user->phone_no ?? '' ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                            // if ($user) :
+                            ?>
+                            <!-- <div class="form-group">
                                         <input type="submit" value="Continue" class="custom-button">
                                     </div> -->
-                                <?php
-                                // endif;
-                                ?>
+                            <?php
+                            // endif;
+                            ?>
+                        </div>
+                        <div class="checkout-widget checkout-contact">
+                            <h5 class="title">Share your Card details </h5>
+                            <!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="card_number" placeholder="4242 4242 4242 4242" value="4242424242424242" data-stripe="number" data-error="#card_number1" required>
+                                            <span id="card_number1" class="text-danger"><?php echo form_error('card_number'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="cvc" placeholder="123" value="123" data-stripe="cvc" data-error="#cvc1" required>
+                                            <span id="cvc1" class="text-danger"><?php echo form_error('cvc'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="02" name="exp_month" value="02" data-stripe="exp-month" data-error="#exp_month1" required>
+                                            <span id="exp_month1" class="text-danger"><?php echo form_error('exp_month'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="2022" name="exp_year" value="2022" data-stripe="exp-year" data-error="#exp_year1" required>
+                                            <span id="exp_year1" class="text-danger"><?php echo form_error('exp_year'); ?></span>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            <div class="form-group">
+                                <!-- <label for="card-element">Card</label> -->
+                                <div id="card-element"></div>
                             </div>
-                        </form>
+                            <?php
+                            // if ($user) :
+                            ?>
+                            <!-- <div class="form-group">
+                                        <input type="submit" value="Continue" class="custom-button">
+                                    </div> -->
+                            <?php
+                            // endif;
+                            ?>
+                        </div>
+                        <!-- </form> -->
                     </div>
                     <div class="col-lg-4">
                         <div class="booking-summery bg-one">
@@ -157,6 +199,7 @@
 
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <?php $this->load->view('frontend/layout/stripe_init') ?>
     <script>
         $(document).ready(function() {
             var validator = $('#datas_form').validate({
@@ -187,9 +230,11 @@
                     }
                 },
                 submitHandler: function() {
-                    document.forms["datas_form"].submit();
+                    // document.forms["datas_form"].submit();
                 }
             });
+
+
         });
     </script>
 </body>

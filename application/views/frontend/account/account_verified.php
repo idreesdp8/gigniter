@@ -24,6 +24,9 @@
                     <div class="section-header-3">
                         <!-- <span class="cate">welcome</span> -->
                         <h6>Your Account has been Verified!</h6>
+                        <div class="form-group text-center">
+                            <a href="<?php echo user_base_url();  ?>" type="button" class="btn btn-primary">Main Page</a>
+                        </div>
                     </div>
                 </div>
             </div>

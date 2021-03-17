@@ -25,7 +25,7 @@ class Cart extends CI_Controller
 		// }
 
 		$this->load->model('user/users_model', 'users_model');
-		// $this->load->model('user/configurations_model', 'configurations_model');
+		$this->load->model('user/customers_model', 'customers_model');
 		// $this->load->model('user/countries_model', 'countries_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
@@ -36,6 +36,7 @@ class Cart extends CI_Controller
 
 		// $this->load->library('Ajax_pagination');
 		$this->load->library('cart');
+		// $this->load->library('stripe');
 		// $this->perPage = 25;
 	}
 
@@ -64,16 +65,16 @@ class Cart extends CI_Controller
 	{
 		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
 		$data['venues'] = [];
-		if($data['gig']->venues) {
+		if ($data['gig']->venues) {
 			$data['venues'] = explode(',', $data['gig']->venues);
 		}
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
-		foreach($tiers as $tier) {
+		foreach ($tiers as $tier) {
 			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
 			$tier->image = '';
-			if($tier->bundles) {
-				foreach($tier->bundles as $bundle) {
-					if($tier->image == '') {
+			if ($tier->bundles) {
+				foreach ($tier->bundles as $bundle) {
+					if ($tier->image == '') {
 						$tier->image = $bundle->image;
 					}
 				}
@@ -139,17 +140,47 @@ class Cart extends CI_Controller
 		// die();
 		$cart_items = $this->cart->contents();
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
-			
+
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
 			$lname = $this->input->post("user_lname");
+			$name = ucfirst($fname). ' ' . ucfirst($lname);
+			$token = $this->input->post('stripe-token');
 
-			$booking_no = 'GN_'.strtotime('now');
+			
+			$user = $this->users_model->get_user_by_email($email_to);
+			if (!$user) {
+				$this->load->helper('string');
+				$password = random_string('alnum', 8);
+				$this->session->set_userdata(['password' => $password]);
+				$password = $this->general_model->safe_ci_encoder($password);
+				$role = $this->roles_model->get_role_by_name('User');
+				$created_on = date('Y-m-d H:i:s');
+				$status = 0;
+				$datas = array(
+					'email' => $email_to,
+					'fname' => $fname,
+					'lname' => $lname ?? '',
+					'password' => $password,
+					'role_id' => $role->id,
+					'status' => $status,
+					'created_on' => $created_on
+				);
+				$user_id = $this->users_model->insert_user_data($datas);
+				$is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
+				$is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
+			}
+
+			// echo json_encode($_POST);
+			// die();
+
+			$price = $this->cart->total();
+			$booking_no = 'GN_' . strtotime('now');
 			$created_on = date('Y-m-d H:i:s', strtotime('now'));
 			$booking_params = [
 				'booking_no' => $booking_no,
-				'user_id' => $this->dbs_user_id,
-				'price' => $this->cart->total(),
+				'user_id' => $user ? $user->id : $user_id,
+				'price' => $price,
 				'is_paid' => 0,
 				'created_on' => $created_on
 			];
@@ -161,90 +192,84 @@ class Cart extends CI_Controller
 						'ticket_tier_id' => $item['ticket_tier_id'],
 						'quantity' => $item['qty'],
 						'price' => $item['subtotal'],
-						'user_id' => $this->dbs_user_id,
+						'user_id' => $user ? $user->id : $user_id,
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
 				}
-				$res = $this->bookings_model->insert_cart_data($cart_params);
+				$resp = $this->bookings_model->insert_cart_data($cart_params);
 			}
+			$customer_id = $this->create_customer($token, $email_to, $name);
+			$cust_param = [
+				'customer_id' => $customer_id,
+				'email' => $email_to,
+				'user_id' => $user ? $user->id : $user_id,
+				'booking_id' => $res,
+				'created_on' => $created_on
+			];
+			$this->customers_model->insert_customer_data($cust_param);
+			// $this->charge_amount($price, $customer_id);
 
-			$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
+			$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if ($is_sent) {
 				$this->cart->destroy();
-				$user = $this->users_model->get_user_by_email($email_to);
-				if (!$user) { 
-					$this->load->helper('string');
-					$password = random_string('alnum', 8);
-					$this->session->set_userdata(['password' => $password]);
-					$password = $this->general_model->safe_ci_encoder($password);
-					$role = $this->roles_model->get_role_by_name('User');
-					$created_on = date('Y-m-d H:i:s');
-					$status = 0;
-					$datas = array(
-						'email' => $email_to,
-						'fname' => $fname,
-						'lname' => $lname ?? '',
-						'password' => $password,
-						'role_id' => $role->id,
-						'status' => $status,
-						'created_on' => $created_on
-					);
-					$insert_data = $this->users_model->insert_user_data($datas);
-					$is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
-					$is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
-				}
 				redirect('cart/thankyou');
 			} else {
 				redirect('cart/checkout');
 			}
 		} else {
-			// $this->session->unset_userdata('redirect');
-			// if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
-			// $data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-			// $link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-			// $data['mail_link'] = $link->url;
-
 			if ($this->dbs_user_id) {
 				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-				$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-				$data['mail_link'] = $link->url ?? '';
 			} else {
-				$uri = uri_string();
+				// $uri = uri_string();
 				// $this->session->set_userdata('redirect', $uri);
 				$data['user'] = [];
-				$data['mail_link'] = '';
 			}
 
 			$cart_items = $this->cart->contents();
 			$data['cart_items'] = $cart_items;
-			// echo json_encode($cart_items);
-			// die(); 
-
-			// $gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
-			// $venues = explode(',', $gig->venues);
-			// foreach ($venues as $venue) {
-			// 	$temp[] = str_replace('-', ' ', $venue);
-			// }
-			// $gig->venues = $temp;
-			// $data['gig'] = $gig;
-			// $tier =  $this->session->userdata('ticket_tier');
-			// echo $tier;
-			// die();
-			// $data['quantity'] = $this->session->userdata('quantity');
-			// $tier = $this->gigs_model->get_ticket_tier_by_id($this->session->userdata('ticket_tier'));
-			// $data['tier'] = $tier;
-			// $price = $data['quantity'] * $tier->price;
-			// $data['total_price'] = $price;
-			// echo json_encode($data);
-			// die();
 			$this->load->view('frontend/cart/checkout', $data);
-			// } else {
-			// 	$uri = uri_string();
-			// 	$this->session->set_userdata('redirect', $uri);
-			// 	redirect('login');
-			// }
 		}
+	}
+
+	function create_customer($token, $email, $name)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+		$customer = $stripe->customers->create([
+			'source' => $token,
+			'email' => $email,
+			'name' => $name,
+			'description' => 'Gigniter Customer',
+		]);
+		// echo json_encode($customer);
+		// die();
+		return $customer->id;
+	}
+
+	function charge_amount($amount, $customer_id)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+		$currency = $this->config->item('stripe_currency');
+
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+
+		$charge = $stripe->charges->create([
+			"amount" => "10000",
+			"currency" => $currency,
+			"source" => $customer_id,
+			"capture" => false,
+			"description" => "Thank you for pledging!"
+		]);
+
+		// after successfull payment, you can store payment related information into your database
+
+		// $data = array('success' => true, 'data' => $transaction);
+
+		echo json_encode($charge);
+		die();
 	}
 
 	function send_email($to_email, $subject, $email_for)

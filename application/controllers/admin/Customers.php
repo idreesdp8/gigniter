@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Bookings extends CI_Controller
+class Customers extends CI_Controller
 {
 
 	public function __construct()
@@ -25,7 +25,7 @@ class Bookings extends CI_Controller
 		// }
 
 		$this->load->model('admin/users_model', 'users_model');
-		$this->load->model('admin/customers_model', 'customers_model');
+		// $this->load->model('admin/configurations_model', 'configurations_model');
 		$this->load->model('admin/gigs_model', 'gigs_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
@@ -82,18 +82,8 @@ class Bookings extends CI_Controller
 	{
 		$booking = $this->bookings_model->get_booking_by_id($args1);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
-		$customer = $this->customers_model->get_customer_by_booking_id($booking->id);
-		
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		$stripe = new \Stripe\StripeClient($stripeSecret);
-		$customer = $stripe->customers->retrieve($customer->customer_id);
 		$booking->user_name = $user->fname.' '.$user->lname;
 		$data['booking'] = $booking;
-		$data['customer'] = $customer;
-		
-		// echo json_encode($data);
-		// die();
 		$cart_items = $this->bookings_model->get_booking_items($args1);
 		foreach($cart_items as $item){
 			$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
@@ -115,40 +105,6 @@ class Bookings extends CI_Controller
 		// echo json_encode($data);
 		// die();
 		$this->load->view('admin/bookings/show', $data);
-	}
-
-	function charge()
-	{
-		// echo json_encode($_POST);
-		// die();
-		$amount = $this->input->post('amount');
-		$customer_id = $this->input->post('customer_id');
-		$booking_id = $this->input->post('booking_id');
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		$currency = $this->config->item('stripe_currency');
-
-		$stripe = new \Stripe\StripeClient($stripeSecret);
-
-		$charge = $stripe->charges->create([
-			"amount" => $amount*100,
-			"currency" => $currency,
-			"customer" => $customer_id,
-			// "capture" => false,
-			"description" => "Thank you for buying!"
-		]);
-		$param = [
-			'customer_id' => $customer_id,
-			'booking_id' => $booking_id,
-			'charge_id' => $charge->id
-		];
-		$this->bookings_model->add_customer_charge($param);
-		$this->bookings_model->update_booking_data($booking_id, ['is_paid' => 1]);
-		// after successfull payment, you can store payment related information into your database
-
-		// $data = array('success' => true, 'data' => $transaction);
-
-		redirect('admin/bookings');
 	}
 
 	// function update($args1 = '')

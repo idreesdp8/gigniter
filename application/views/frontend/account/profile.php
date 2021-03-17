@@ -24,6 +24,17 @@
         .account-area .account-form .form-group input {
             color: black !important;
         }
+
+        .link {
+            color: #ffffffb3;
+            border-bottom: 1px dashed;
+            font-style: italic;
+        }
+
+        .link:hover {
+            color: #e3e3e3;
+            border-bottom: 0px;
+        }
     </style>
 </head>
 
@@ -111,7 +122,34 @@
                                     <span id="country_id1" class="text-danger"><?php echo form_error('country_id'); ?></span>
                                 </div>
                             </div>
-                            <div class="col-xl-6"></div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="stripe_id" class="w-100">Stripe Email
+                                        <!-- <div class=""> -->
+                                        <span class="<?php echo $user->detail_submitted_flag ? 'text-success' : 'text-danger' ?>">
+                                            <small>
+                                                <?php
+                                                echo $user->detail_submitted_flag ? 'Enabled' : 'Restricted';
+                                                ?>
+                                            </small>
+                                        </span>
+                                        <span class="float-right">
+                                            <?php
+                                            if (!$user->detail_submitted_flag) :
+                                            ?>
+                                                <small>
+                                                    <a class="link" href="<?php echo user_base_url() ?>account/enable_stripe_account">Enable Account</a>
+                                                </small>
+                                            <?php
+                                            endif;
+                                            ?>
+                                        </span>
+                                        <!-- </div> -->
+                                    </label>
+                                    <input type="text" value="<?php echo $user->stripe_id ?>" name="stripe_id" id="stripe_id" data-error="#stripe_id1">
+                                    <span id="stripe_id1" class="text-danger"><?php echo form_error('stripe_id'); ?></span>
+                                </div>
+                            </div>
                             <div class="col-xl-12">
                                 <!-- <div class="form-group">
                                     <label>Social urls</label>
@@ -203,6 +241,24 @@
                 submitHandler: function() {
                     document.forms["datas_form"].submit();
                 }
+            });
+            $('.link').click(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                var user_id = $('input[name=id]').val();
+                console.log(url);
+                console.log(user_id);
+                $.ajax({
+                    url: url,
+                    method: 'post',
+                    data: {
+                        'user_id': user_id
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        console.log(res);
+                    }
+                });
             });
         });
     </script>
