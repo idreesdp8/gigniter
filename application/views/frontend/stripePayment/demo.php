@@ -20,9 +20,14 @@
     <div class="container">
         <input type="hidden" id="stripe-token" />
         <div class="row">
-
             <div class="col-md-8">
                 <div class="row">
+                    <div class="col-md-6 mt-3">
+                        <a href="<?php echo user_base_url() ?>stripe/demo">Demo 1</a>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <a href="<?php echo user_base_url() ?>stripe/demo2">Demo 2</a>
+                    </div>
                     <div class="col-md-6 mt-3">
                         <div>Customer Email</div>
                         <input type="text" class="form-control" id="cust_email" value="hamza0952454@gmail.com" />
@@ -39,7 +44,7 @@
                         <button class="btn btn-primary btn-block" id="create_customer">Create Customer</button>
                     </div>
                     <div class="col-md-6 mt-3">
-                        <div>Customer card Details</div>
+                        <div>Customer ID</div>
                         <input type="text" class="form-control" id="customer_id" />
                     </div>
                     <div class="col-md-6 mt-auto">
@@ -141,7 +146,7 @@
                 success: function(response) {
                     // $('#customer_id').val(response.data.id);
                     $('#log').append('<div>Transfer: ' + response.data.id + '</div>');
-                    $('#log').append('<div>Gig Owner Received $' + response.data.amount/100 + '</div>');
+                    $('#log').append('<div>Gig Owner Received $' + response.data.amount / 100 + '</div>');
                     $('#log').append('<div>Transaction ID is ' + response.data.balance_transaction + '</div>');
                 }
             })
@@ -181,7 +186,7 @@
                 success: function(response) {
                     // console.log(response.data);
                     $('#log').append('<div>Customer: ' + response.data.id + '</div>');
-                    $('#log').append('<div>Customer has been charged $' + response.data.amount/100 + '</div>');
+                    $('#log').append('<div>Customer has been charged $' + response.data.amount / 100 + '</div>');
                     $('#log').append('<div>Transaction ID is ' + response.data.balance_transaction + '</div>');
                 }
             })
