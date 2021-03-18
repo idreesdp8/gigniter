@@ -451,6 +451,7 @@ class Account extends CI_Controller
 							'stripe_id' => $stripe_id,
 							'stripe_account_id' => $account->id,
 						];
+						$this->users_model->trash_user_stripe_details($data['id']);
 						$this->users_model->insert_user_stripe_details($temp);
 					}
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');
@@ -465,14 +466,17 @@ class Account extends CI_Controller
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);
-				$stripe_details = $this->users_model->get_stripe_details($this->dbs_user_id);
-				$detail_submitted_flag = false;
+				$stripe_details = $this->users_model->get_user_stripe_details($this->dbs_user_id);
+				$detail_submitted_flag = 'NA';
 				if ($stripe_details) {
-					$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
-					// echo json_encode($stripe_account);
-					// die();
-					if ($stripe_account->details_submitted) {
-						$detail_submitted_flag = true;
+					$detail_submitted_flag = 'restricted';
+					if ($stripe_details) {
+						$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
+						// echo json_encode($stripe_account);
+						// die();
+						if ($stripe_account->charges_enabled) {
+							$detail_submitted_flag = 'enabled';
+						}
 					}
 				}
 				$user->stripe_id = $stripe_details ? $stripe_details->stripe_id : null;
@@ -511,20 +515,20 @@ class Account extends CI_Controller
 
 	function enable_stripe_account()
 	{
-		$user_id = $this->input->post('user_id');
-		$stripe_details = $this->users_model->get_stripe_details($user_id);
+		$user_id = $this->input->get('user_id');
+		$stripe_details = $this->users_model->get_user_stripe_details($user_id);
 
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
 		$stripe = new \Stripe\StripeClient($stripeSecret);
 		$response = $stripe->accountLinks->create([
 			'account' => $stripe_details->stripe_account_id,
-			'refresh_url' => 'https://example.com/reauth',
-			'return_url' => user_base_url().'profile',
+			'refresh_url' => user_base_url() . 'account/enable_stripe_account?user_id=' . $user_id,
+			'return_url' => user_base_url() . 'profile',
 			'type' => 'account_update',
 		]);
-
-		echo json_encode($response);
+		redirect($response->url);
+		// echo json_encode($response);
 	}
 
 	function remove_social_links($id)

@@ -126,20 +126,31 @@
                                 <div class="form-group">
                                     <label for="stripe_id" class="w-100">Stripe Email
                                         <!-- <div class=""> -->
-                                        <span class="<?php echo $user->detail_submitted_flag ? 'text-success' : 'text-danger' ?>">
+                                        <span class="<?php echo $user->detail_submitted_flag == 'enabled' ? 'text-success' : 'text-danger' ?>">
                                             <small>
                                                 <?php
-                                                echo $user->detail_submitted_flag ? 'Enabled' : 'Restricted';
+                                                if($user->detail_submitted_flag == 'NA') {
+                                                    echo 'No stripe account added';
+                                                } else {
+                                                    echo $user->detail_submitted_flag == 'enabled' ? 'Enabled' : 'Restricted';
+                                                }
+                                                // echo $user->detail_submitted_flag == 'NA' ? 'No stripe account added' : ($user->detail_submitted_flag == true ? 'Enabled' : 'Restricted');
                                                 ?>
                                             </small>
                                         </span>
                                         <span class="float-right">
                                             <?php
-                                            if (!$user->detail_submitted_flag) :
+                                            if ($user->detail_submitted_flag != 'NA') :
                                             ?>
-                                                <small>
-                                                    <a class="link" href="<?php echo user_base_url() ?>account/enable_stripe_account">Enable Account</a>
-                                                </small>
+                                                <?php
+                                                if (!$user->detail_submitted_flag) :
+                                                ?>
+                                                    <small>
+                                                        <a class="link" href="<?php echo user_base_url().'account/enable_stripe_account?user_id='.$user->id ?>">Enable Account</a>
+                                                    </small>
+                                                <?php
+                                                endif;
+                                                ?>
                                             <?php
                                             endif;
                                             ?>
@@ -242,24 +253,25 @@
                     document.forms["datas_form"].submit();
                 }
             });
-            $('.link').click(function(e) {
-                e.preventDefault();
-                var url = $(this).attr('href');
-                var user_id = $('input[name=id]').val();
-                console.log(url);
-                console.log(user_id);
-                $.ajax({
-                    url: url,
-                    method: 'post',
-                    data: {
-                        'user_id': user_id
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        console.log(res);
-                    }
-                });
-            });
+            // $('.link').click(function(e) {
+            //     e.preventDefault();
+            //     var url = $(this).attr('href');
+            //     var user_id = $('input[name=id]').val();
+            //     // console.log(url);
+            //     // console.log(user_id);
+            //     $.ajax({
+            //         url: url,
+            //         method: 'get',
+            //         data: {
+            //             'user_id': user_id
+            //         },
+            //         dataType: 'json',
+            //         success: function(res) {
+            //             console.log(res);
+            //             window.location.href = res.url;
+            //         }
+            //     });
+            // });
         });
     </script>
 </body>
