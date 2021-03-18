@@ -415,12 +415,13 @@ class Account extends CI_Controller
 						@move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
 						$width = 200;
 						$height = 200;
-						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+						$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
 						if ($thumbnail == '1') {
 							$thumbnail_file = $thumbnail_path . $imagename;
 						}
 						// echo $thumbnail;
-						@move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
+						// die();
+						// @move_uploaded_file($_FILES["image"]["tmp_name"], $thumbnail_file);
 						$datas['image'] = $imagename;
 					}
 					if (strlen($prf_img_error) > 0) {
