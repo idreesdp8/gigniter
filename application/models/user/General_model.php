@@ -128,17 +128,6 @@ class General_model extends CI_Model
 		}
 	}
 
-	function crop_image($image, $width, $height)
-	{
-		$image = imagecrop($image, array(
-			"x" => ($width - $height) / 2,
-			"y" => 0,
-			"width" => $height,
-			"height" => $height
-		));
-		return $image;
-	}
-
 	public function _resize_and_crop($fileName, $source_paths, $target_paths, $newwidth, $newheight)
 	{
 		$this->load->library('image_lib');

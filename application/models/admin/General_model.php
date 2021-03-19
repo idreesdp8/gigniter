@@ -25,6 +25,148 @@ class General_model extends CI_Model
 		return $msgs;
 	}
 
+	
+	public function _resize_and_crop($fileName, $source_paths, $target_paths, $newwidth, $newheight)
+	{
+		$this->load->library('image_lib');
+		$source_image = $source_paths . $fileName;
+		$target_image = $target_paths . $fileName;
+		$fileext = pathinfo($source_image, PATHINFO_EXTENSION);
+		// $ratio = $width / $height;
+		list($orig_w, $orig_h) = getimagesize($source_image);
+		// echo 'Original width: ' . $orig_w . ' Original height: ' . $orig_h . ' Final width: ' . $newwidth . ' final height: ' . $newheight;
+		// die();
+		// $image = $this->create_image_after_extension_check($source_image, $fileext);
+		if ($orig_w < $orig_h) { // then keep the width and scale the height
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $source_image,
+				'new_image' => $target_image,
+				'maintain_ratio' => true,
+				'master_dim' => 'width',
+				'width' => $newwidth,
+				'height' => $newheight,
+			));
+			if (!$this->image_lib->resize()) {
+				return $this->image_lib->display_errors();
+			} else {
+				$image = $this->create_image_after_extension_check($target_image, $fileext);
+				list($orig_w, $orig_h) = getimagesize($target_image);
+				// $ratio = $newheight / $newwidth;
+				// echo $ratio;
+				// echo 'Original width: ' . $orig_w . ' Original height: ' . $orig_h . ' Final width: ' . $newwidth . ' final height: ' . $newheight;
+				// die();
+				// $width = $ratio * $orig_w;
+				// $image = imagecrop($image, array(
+				// 	"x" => ($orig_w - $newwidth) / 2,
+				// 	"y" => 0,
+				// 	"width" => $newwidth,
+				// 	"height" => $orig_h
+				// ));
+				$image = imagecrop($image, array(
+					"x" => 0,
+					"y" => ($orig_h - $newheight) / 2,
+					"width" => $orig_w,
+					"height" => $newheight
+				));
+				$this->save_image($image, $target_image, $fileext);
+				return '1';
+			}
+		} else if ($orig_h < $orig_w) { // then keep the height and scale the width
+			// if ($orig_h < $newheight) {
+			// 	$image = imagecrop($image, array(
+			// 		"x" => ($orig_w - $orig_h) / 2,
+			// 		"y" => 0,
+			// 		"width" => $orig_h,
+			// 		"height" => $orig_h
+			// 	));
+			// 	$this->save_image($image, $target_image, $fileext);
+			// 	return '1';
+			// } else {
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $source_image,
+				'new_image' => $target_image,
+				'maintain_ratio' => true,
+				'master_dim' => 'height',
+				'width' => $newwidth,
+				'height' => $newheight,
+			));
+			if (!$this->image_lib->resize()) {
+				return $this->image_lib->display_errors();
+			} else {
+				$image = $this->create_image_after_extension_check($target_image, $fileext);
+				list($orig_w, $orig_h) = getimagesize($target_image);
+				// $ratio = $newheight / $newwidth;
+				// echo $ratio;
+				// echo 'Original width: ' . $orig_w . ' Original height: ' . $orig_h . ' Final width: ' . $newwidth . ' final height: ' . $newheight;
+				// die();
+				// $width = $ratio * $orig_w;
+				$image = imagecrop($image, array(
+					"x" => ($orig_w - $newwidth) / 2,
+					"y" => 0,
+					"width" => $newwidth,
+					"height" => $orig_h
+				));
+				$this->save_image($image, $target_image, $fileext);
+				return '1';
+			}
+			// }
+		} else {
+			$this->image_lib->initialize(array(
+				'image_library' => 'gd2',
+				'source_image' => $source_image,
+				'new_image' => $target_image,
+				'maintain_ratio' => true,
+				// 'master_dim' => 'height',
+				'width' => $newwidth,
+				'height' => $newheight,
+			));
+			if (!$this->image_lib->resize()) {
+				return $this->image_lib->display_errors();
+			} else {
+				// $this->save_image($image, $target_image, $fileext);
+				return '1';
+			}
+		}
+	}
+
+	
+	function create_image_after_extension_check($source_image, $fileext)
+	{
+		// echo $source_image;
+		// echo $fileext;
+		// die();
+		switch ($fileext) {
+			case 'jpg':
+			case 'jpeg':
+				// ini_set("gd.jpeg_ignore_warning", 1);
+				$image = imagecreatefromjpeg($source_image);
+				break;
+			case 'png':
+				$image = imagecreatefrompng($source_image);
+				break;
+			default:
+		}
+		return $image;
+	}
+	
+	function save_image($image, $path, $fileext)
+	{
+		switch ($fileext) {
+			case 'jpg':
+			case 'jpeg':
+				// $image = imagecreatefromjpeg($source_image);
+				imagejpeg($image, $path);
+				break;
+			case 'png':
+				imagepng($image, $path);
+				// $image = imagecreatefrompng($source_image);
+				break;
+			default:
+		}
+	}
+
 
 	public function validate_input_format($sel_input)
 	{
