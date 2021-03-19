@@ -151,14 +151,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-live_stream" name="venues[]" value="live-stream" type="checkbox" <?php echo in_array('live-stream', $gig->venues) ? 'checked' : '' ?>>
+                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox" <?php echo in_array('Live stream', $gig->venues) ? 'checked' : '' ?>>
                             <label for="myCheckbox-live_stream">Live stream</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-physical" name="venues[]" value="physical" type="checkbox" <?php echo in_array('physical', $gig->venues) ? 'checked' : '' ?>>
+                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox" <?php echo in_array('Physical', $gig->venues) ? 'checked' : '' ?>>
                             <label for="myCheckbox-physical">Physical</label>
                             <span></span>
                           </div>
@@ -168,7 +168,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Upload Gig Poster
+                      Upload Gig Poster <small class="text-warning">min 360px x 354px</small>
                       <!-- or Pitch Video -->
                       <div>
                         <img id="img" src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
@@ -255,8 +255,8 @@
                   </div> -->
                 <div class="row" id="ticket_tiers">
                   <?php
+                  $tier = 1;
                   if (isset($tickets) && !empty($tickets)) :
-                    $tier = 1;
                     foreach ($tickets as $ticket) :
                   ?>
                       <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">

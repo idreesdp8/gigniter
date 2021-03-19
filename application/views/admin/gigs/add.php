@@ -155,13 +155,13 @@
                                                         <div class="form-check form-check-switchery form-check-inline">
                                                             <label class="form-check-label">
                                                                 Live stream
-                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="live-stream" data-fouc>
+                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="Live stream" data-fouc>
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-switchery form-check-inline">
                                                             <label class="form-check-label">
                                                                 Physical
-                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="physical" data-fouc>
+                                                                <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="Physical" data-fouc>
                                                             </label>
                                                         </div>
                                                     </div>

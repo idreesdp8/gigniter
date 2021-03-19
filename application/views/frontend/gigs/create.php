@@ -142,7 +142,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Upload Gig Poster <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
+                      Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
                       <div>
                         <img id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />

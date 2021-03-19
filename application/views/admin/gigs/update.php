@@ -190,13 +190,13 @@
                                                 <div class="form-check form-check-switchery form-check-inline">
                                                     <label class="form-check-label">
                                                         Live stream
-                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="live-stream" data-fouc <?php echo in_array('live-stream', $gig->venues) ? 'checked' : '' ?>>
+                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="Live stream" data-fouc <?php echo in_array('Live stream', $gig->venues) ? 'checked' : '' ?>>
                                                     </label>
                                                 </div>
                                                 <div class="form-check form-check-switchery form-check-inline">
                                                     <label class="form-check-label">
                                                         Physical
-                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="physical" data-fouc <?php echo in_array('physical', $gig->venues) ? 'checked' : '' ?>>
+                                                        <input type="checkbox" class="form-check-input-switchery-primary" name="venues[]" value="Physical" data-fouc <?php echo in_array('Physical', $gig->venues) ? 'checked' : '' ?>>
                                                     </label>
                                                 </div>
                                             </div>

@@ -113,7 +113,7 @@ class Gigs extends CI_Controller
 						@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
 						$width = 360;
 						$height = 354;
-						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+						$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
 						if ($thumbnail == '1') {
 							$thumbnail_file = $thumbnail_path . $imagename;
 						}
@@ -256,7 +256,7 @@ class Gigs extends CI_Controller
 				@move_uploaded_file($file["tmp_name"], $target_file);
 				$width = 200;
 				$height = 200;
-				$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+				$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
 				if ($thumbnail == '1') {
 					$thumbnail_file = $thumbnail_path . $imagename;
 				}
@@ -336,7 +336,7 @@ class Gigs extends CI_Controller
 					@move_uploaded_file($_FILES["bundle_image_tier$tier"]["tmp_name"][$i], $target_file);
 					$width = 200;
 					$height = 200;
-					$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+					$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
 					if ($thumbnail == '1') {
 						$thumbnail_file = $thumbnail_path . $imagename;
 					}
@@ -418,7 +418,7 @@ class Gigs extends CI_Controller
 						@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
 						$width = 360;
 						$height = 354;
-						$thumbnail = $this->general_model->_create_thumbnail($imagename, $image_path, $thumbnail_path, $width, $height);
+						$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
 						if ($thumbnail == '1') {
 							$thumbnail_file = $thumbnail_path . $imagename;
 						}
