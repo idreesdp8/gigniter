@@ -43,3 +43,7 @@ textarea {
 .modal-content {
 	background-color: #05102f !important;
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}

@@ -10,7 +10,8 @@
             text-transform: uppercase;
         }
 
-        input[type="text"] {
+        input[type="text"],
+        input[type="number"] {
             color: black;
             padding: 5px !important;
         }
@@ -161,9 +162,16 @@
                                 foreach ($cart_items as $item) :
                                 ?>
                                     <li>
-                                        <h6 class="subtitle"><span><?php echo $item['name'] ?></span><span><?php echo $item['qty'] ?></span></h6>
+                                        <h6 class="subtitle">
+                                            <input type="hidden" class="rowid" value="<?php echo $item['rowid'] ?>">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <span><?php echo $item['name'] ?></span>
+                                                <span class="text-danger mt-auto mb-auto cursor-pointer remove_item"><i class="fas fa-times"></i></span>
+                                            </div>
+                                            <div class="w-100"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
+                                        </h6>
                                         <div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
-                                        <div class="info"><span>Tickets Price</span> <span>$<?php echo $item['subtotal']; ?></span></div>
+                                        <div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
                                     </li>
                                     <!-- <li>
                                     <h6 class="subtitle mb-0"><span>Tickets Price</span><span>$<?php echo $item['subtotal']; ?></span></h6>
@@ -174,7 +182,7 @@
                             </ul>
                             <ul class="side-shape">
                                 <li>
-                                    <span class="info"><span>total price</span><span>$<?php echo $this->cart->total(); ?></span></span>
+                                    <span class="info"><span>total price</span><span id="total_amount">$<?php echo $total_amount; ?></span></span>
                                     <span class="info"><span>vat</span><span>$0</span></span>
                                 </li>
                             </ul>
@@ -183,7 +191,7 @@
                         // if ($user) :
                         ?>
                         <div class="proceed-area  text-center">
-                            <h6 class="subtitle"><span>Amount Payable</span><span>$<?php echo $this->cart->total(); ?></span></h6>
+                            <h6 class="subtitle"><span>Amount Payable</span><span id="payable_amount">$<?php echo $total_amount; ?></span></h6>
                             <button type="submit" class="custom-button back-button">proceed</button>
                         </div>
                         <?php
@@ -203,6 +211,7 @@
     <?php $this->load->view('frontend/layout/stripe_init') ?>
     <script>
         $(document).ready(function() {
+            const base_url = '<?php echo user_base_url(); ?>';
             var validator = $('#datas_form').validate({
                 rules: {
                     user_fname: {
@@ -233,6 +242,53 @@
                 submitHandler: function() {
                     // document.forms["datas_form"].submit();
                 }
+            });
+
+            $('.remove_item').click(function(){
+                var elem = $(this);
+                var rowid = elem.parents('li').find('.rowid').val();
+                // console.log(rowid);
+                $.ajax({
+                    url: base_url + 'cart/delete_item',
+                    data: {
+                        'rowid' : rowid
+                    },
+                    method: 'post',
+                    dataType: 'json',
+                    success: function(resp) {
+                        alert(resp.message);
+                        if(resp.status == 200) {
+                            elem.parents('li').remove();
+                            $('#total_amount').empty().html('$'+resp.total_amount);
+                            $('#payable_amount').empty().html('$'+resp.total_amount);
+                        }
+                    }
+                });
+            });
+
+            $('.qty').blur(function(){
+                var elem = $(this);
+                var rowid = elem.parents('li').find('.rowid').val();
+                var qty = elem.val();
+                // console.log(rowid);
+                $.ajax({
+                    url: base_url + 'cart/update_item',
+                    data: {
+                        'rowid' : rowid,
+                        'qty' : qty
+                    },
+                    method: 'post',
+                    dataType: 'json',
+                    success: function(resp) {
+                        alert(resp.message);
+                        if(resp.status == 200) {
+                            // elem.parents('li').remove();
+                            elem.parents('li').find('.item_subtotal').empty().html('$'+resp.item_total);
+                            $('#total_amount').empty().html('$'+resp.total_amount);
+                            $('#payable_amount').empty().html('$'+resp.total_amount);
+                        }
+                    }
+                });
             });
 
 

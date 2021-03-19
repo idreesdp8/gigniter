@@ -88,14 +88,33 @@ class Cart extends CI_Controller
 
 	public function add()
 	{
-		// echo json_encode($_POST);
-		// die();
 		$gig_id = $this->input->post('gig_id');
-		$ticket_tier_id = $this->input->post('ticket_tier_id');
-		$tier = $this->gigs_model->get_ticket_tier_by_id($ticket_tier_id);
-		$gig = $this->gigs_model->get_gig_by_id($gig_id);
-		$quantity = $this->input->post('qty');
+		$ticket_tier_ids = $this->input->post('ticket_tier_id[]');
+		$quantities = $this->input->post('qty[]');
 		$created_on = date('Y-m-d H:i:s');
+		$gig = $this->gigs_model->get_gig_by_id($gig_id);
+		$length = count($ticket_tier_ids);
+		for ($i = 0; $i < $length; $i++) {
+			// if ($quantities[$i]) {
+			$tier = $this->gigs_model->get_ticket_tier_by_id($ticket_tier_ids[$i]);
+			$param[] = [
+				'id' => $ticket_tier_ids[$i],
+				'gig_id' => $gig_id,
+				'gig_title' => $gig->title,
+				'ticket_tier_id' => $ticket_tier_ids[$i],
+				'qty' => $quantities[$i],
+				'price' => $tier->price,
+				'name' => $tier->name,
+				'created_on' => $created_on,
+			];
+			// }
+		}
+		// echo json_encode($gig_id);
+		// echo json_encode($ticket_tier_ids);
+		// echo json_encode($quantities);
+		// echo json_encode($param);
+		// die();
+
 		// $user_id = $this->dbs_user_id;
 		// $params = [
 		// 	'gig_id' => $gig_id,
@@ -105,16 +124,7 @@ class Cart extends CI_Controller
 		// 	'created_on' => $created_on,
 		// ];
 		// $res = $this->carts_model->insert_cart_data($params);
-		$param = [
-			'id' => $ticket_tier_id,
-			'gig_id' => $gig_id,
-			'gig_title' => $gig->title,
-			'ticket_tier_id' => $ticket_tier_id,
-			'qty' => $quantity,
-			'price' => $tier->price,
-			'name' => $tier->name,
-			'created_on' => $created_on,
-		];
+
 		$res = $this->cart->insert($param);
 
 		if ($res) {
@@ -124,14 +134,78 @@ class Cart extends CI_Controller
 			// 	'message' => 'Added to Cart'
 			// ];
 		} else {
-			// $response = [
-			// 	'status' => '500',
-			// 	'message' => 'Problem occured!'
-			// ];
+			$response = [
+				'status' => '500',
+				'message' => 'Problem occured!'
+			];
+			echo json_encode($response);
 		}
-		// echo json_encode($response);
 	}
 
+	public function delete_item()
+	{
+		$rowid = $this->input->post('rowid');
+		$item = $this->cart->get_item($rowid);
+		if ($item) {
+			$res = $this->cart->remove($rowid);
+			if ($res) {
+				$response = [
+					'status' => 200,
+					'message' => 'Item is removed from your cart!',
+					'total_amount' => $this->cart->total()
+				];
+			} else {
+				$response = [
+					'status' => 500,
+					'message' => 'Error: Item is not removed!'
+				];
+			}
+		} else {
+			$response = [
+				'status' => 404,
+				'message' => 'Item is not found in your cart!'
+			];
+		}
+		echo json_encode($response);
+	}
+	public function update_item()
+	{
+		$rowid = $this->input->post('rowid');
+		$qty = $this->input->post('qty');
+		// echo $rowid;
+		// echo $qty;
+		// die();
+		$item = $this->cart->get_item($rowid);
+		if ($item) {
+			$data = array(
+				'rowid' => $rowid,
+				'qty'   => $qty
+			);
+			$res = $this->cart->update($data);
+			if ($res) {
+				$item = $this->cart->get_item($rowid);
+				// echo json_encode($item);
+				// die();
+				$response = [
+					'status' => 200,
+					'message' => 'Cart is updated!',
+					'item_total' => $item['subtotal'],
+					'total_amount' => $this->cart->total()
+				];
+			} else {
+				$response = [
+					'status' => 500,
+					'message' => 'Error: Item is not removed!'
+				];
+			}
+		} else {
+			$response = [
+				'status' => 404,
+				'message' => 'Item is not found in your cart!'
+			];
+		}
+		echo json_encode($response);
+	}
 
 	function checkout()
 	{
@@ -235,6 +309,7 @@ class Cart extends CI_Controller
 
 			$cart_items = $this->cart->contents();
 			$data['cart_items'] = $cart_items;
+			$data['total_amount'] = $this->cart->total();
 			$this->load->view('frontend/cart/checkout', $data);
 		}
 	}
@@ -295,7 +370,7 @@ class Cart extends CI_Controller
 			//check whether the charge is successful
 			if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 				//order details
-				$this->bookings_model->update_booking_data($booking_id, array('is_paid'=>1));
+				$this->bookings_model->update_booking_data($booking_id, array('is_paid' => 1));
 				$txn_id = $chargeJson['balance_transaction'];
 				$amount = $chargeJson['amount'];
 				$payment_currency = $chargeJson['currency'];
@@ -304,7 +379,7 @@ class Cart extends CI_Controller
 					'booking_id' => $booking_id,
 					'charge_id' => $chargeJson['id'],
 					'transaction_id' => $txn_id,
-					'amount' => $amount/100,
+					'amount' => $amount / 100,
 					'type' => $chargeJson['object'],
 					'customer_id' => $chargeJson['customer'],
 					'created_on' => date('Y-m-d H:i:s', $chargeJson['created']),
@@ -314,7 +389,7 @@ class Cart extends CI_Controller
 
 				//if order inserted successfully
 				if ($payment_status == 'succeeded') {
-					foreach($cart_items as $item) {
+					foreach ($cart_items as $item) {
 						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 						$user_stripe_detail = $this->users_model->get_stripe_details($gig->user_id);
 						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
@@ -325,12 +400,12 @@ class Cart extends CI_Controller
 							'destination' => $user_stripe_detail->stripe_account_id,
 						]);
 						$transferJson = $transfer->jsonSerialize();
-						if($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+						if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
 							$transfer_param = [
 								'booking_id' => $booking_id,
 								'transfer_id' => $transferJson['id'],
 								'transaction_id' => $transferJson['balance_transaction'],
-								'amount' => $transferJson['amount']/100,
+								'amount' => $transferJson['amount'] / 100,
 								'type' => $transferJson['object'],
 								'destination_id' => $transferJson['destination'],
 								'admin_fee' => $item->price * $admin_fee->value / 100,
@@ -374,46 +449,6 @@ class Cart extends CI_Controller
 			die();
 		}
 	}
-
-	// function create_customer($token, $email, $name)
-	// {
-	// 	require_once('application/libraries/stripe-php/init.php');
-	// 	$stripeSecret = $this->config->item('stripe_api_key');
-	// 	$stripe = new \Stripe\StripeClient($stripeSecret);
-	// 	$customer = $stripe->customers->create([
-	// 		'source' => $token,
-	// 		'email' => $email,
-	// 		'name' => $name,
-	// 		'description' => 'Gigniter Customer',
-	// 	]);
-	// 	// echo json_encode($customer);
-	// 	// die();
-	// 	return $customer->id;
-	// }
-
-	// function charge_amount($amount, $customer_id)
-	// {
-	// 	require_once('application/libraries/stripe-php/init.php');
-	// 	$stripeSecret = $this->config->item('stripe_api_key');
-	// 	$currency = $this->config->item('stripe_currency');
-
-	// 	$stripe = new \Stripe\StripeClient($stripeSecret);
-
-	// 	$charge = $stripe->charges->create([
-	// 		"amount" => "10000",
-	// 		"currency" => $currency,
-	// 		"source" => $customer_id,
-	// 		"capture" => false,
-	// 		"description" => "Thank you for pledging!"
-	// 	]);
-
-	// 	// after successfull payment, you can store payment related information into your database
-
-	// 	// $data = array('success' => true, 'data' => $transaction);
-
-	// 	echo json_encode($charge);
-	// 	die();
-	// }
 
 	function send_email($to_email, $subject, $email_for)
 	{

@@ -294,27 +294,31 @@ class Gigs extends CI_Controller
 	function add_tickets($data, $gig_id)
 	{
 		$created_on = date('Y-m-d H:i:s');
-		$length = count($data['ticket_name']);
-		for ($i = 0; $i < $length; $i++) {
-			$j = $i + 1;
-			$res = false;
-			if($data['ticket_name'][$i] != '') {
-				$tier = [
-					'user_id' => $this->dbs_user_id,
-					'gig_id' => $gig_id,
-					'name' => $data['ticket_name'][$i],
-					'price' => $data['ticket_price'][$i],
-					'quantity' => $data['ticket_quantity'][$i],
-					'description' => $data['ticket_description'][$i],
-					'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
-					'created_on' => $created_on,
-				];
-				$res = $this->gigs_model->add_ticket_tier($tier);
-			}
-			if ($res) {
-				// echo $j;
-				$this->add_ticket_bundles($data, $res, $j);
-				// die();
+		if(isset($data["ticket_name"]) && $data['ticket_name'] != '') {
+			$length = count($data['ticket_name']);
+			// echo $length;
+			// die();
+			for ($i = 0; $i < $length; $i++) {
+				$j = $i + 1;
+				$res = false;
+				if($data['ticket_name'][$i] != '') {
+					$tier = [
+						'user_id' => $this->dbs_user_id,
+						'gig_id' => $gig_id,
+						'name' => $data['ticket_name'][$i],
+						'price' => $data['ticket_price'][$i],
+						'quantity' => $data['ticket_quantity'][$i],
+						'description' => $data['ticket_description'][$i],
+						'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
+						'created_on' => $created_on,
+					];
+					$res = $this->gigs_model->add_ticket_tier($tier);
+				}
+				if ($res) {
+					// echo $j;
+					$this->add_ticket_bundles($data, $res, $j);
+					// die();
+				}
 			}
 		}
 	}
