@@ -393,7 +393,7 @@ class Cart extends CI_Controller
 				if ($payment_status == 'succeeded') {
 					foreach ($cart_items as $item) {
 						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-						$user_stripe_detail = $this->users_model->get_stripe_details($gig->user_id);
+						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
 						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
 						$amount = $item->price - ($item->price * $admin_fee->value / 100);
 						$transfer = \Stripe\Transfer::create([

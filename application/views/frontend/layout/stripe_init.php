@@ -1,4 +1,5 @@
 <script src="https://js.stripe.com/v3/"></script>
+<!-- <script src="<?php echo user_asset_url(); ?>js/stripe.js"></script> -->
 <script>
     var pub_key = '<?php echo $this->config->item('stripe_pub_key'); ?>';
     var stripe = Stripe(pub_key);

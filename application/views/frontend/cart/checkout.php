@@ -15,6 +15,15 @@
             color: black;
             padding: 5px !important;
         }
+
+        input[type="radio"] {
+            width: auto;
+            height: auto;
+        }
+
+        #stripe {
+            margin-left: 1rem;
+        }
     </style>
 </head>
 
@@ -127,7 +136,12 @@
                                     </div>
                                 </div> -->
                             <div class="form-group">
-                                <!-- <label for="card-element">Card</label> -->
+                                <input type="radio" id="card" name="payment_type" value="card">
+                                <label for="card">Card</label>
+                                <input type="radio" id="stripe" name="payment_type" value="stripe">
+                                <label for="stripe">Stripe</label>
+                            </div>
+                            <div class="form-group d-none">
                                 <div id="card-element"></div>
                             </div>
                             <?php
@@ -244,29 +258,29 @@
                 }
             });
 
-            $('.remove_item').click(function(){
+            $('.remove_item').click(function() {
                 var elem = $(this);
                 var rowid = elem.parents('li').find('.rowid').val();
                 // console.log(rowid);
                 $.ajax({
                     url: base_url + 'cart/delete_item',
                     data: {
-                        'rowid' : rowid
+                        'rowid': rowid
                     },
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
                         alert(resp.message);
-                        if(resp.status == 200) {
+                        if (resp.status == 200) {
                             elem.parents('li').remove();
-                            $('#total_amount').empty().html('$'+resp.total_amount);
-                            $('#payable_amount').empty().html('$'+resp.total_amount);
+                            $('#total_amount').empty().html('$' + resp.total_amount);
+                            $('#payable_amount').empty().html('$' + resp.total_amount);
                         }
                     }
                 });
             });
 
-            $('.qty').blur(function(){
+            $('.qty').blur(function() {
                 var elem = $(this);
                 var rowid = elem.parents('li').find('.rowid').val();
                 var qty = elem.val();
@@ -274,21 +288,31 @@
                 $.ajax({
                     url: base_url + 'cart/update_item',
                     data: {
-                        'rowid' : rowid,
-                        'qty' : qty
+                        'rowid': rowid,
+                        'qty': qty
                     },
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
                         alert(resp.message);
-                        if(resp.status == 200) {
+                        if (resp.status == 200) {
                             // elem.parents('li').remove();
-                            elem.parents('li').find('.item_subtotal').empty().html('$'+resp.item_total);
-                            $('#total_amount').empty().html('$'+resp.total_amount);
-                            $('#payable_amount').empty().html('$'+resp.total_amount);
+                            elem.parents('li').find('.item_subtotal').empty().html('$' + resp.item_total);
+                            $('#total_amount').empty().html('$' + resp.total_amount);
+                            $('#payable_amount').empty().html('$' + resp.total_amount);
                         }
                     }
                 });
+            });
+
+            $('input[type=radio]').click(function() {
+                let value = $(this).val();
+                if (value == 'card') {
+                    $('#card-element').parent().removeClass('d-none');
+                } else {
+                    $('#card-element').parent().addClass('d-none');
+                }
+                console.log(value);
             });
 
 
