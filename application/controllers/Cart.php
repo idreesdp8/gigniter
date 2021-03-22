@@ -248,12 +248,13 @@ class Cart extends CI_Controller
 			// echo json_encode($_POST);
 			// die();
 
+			$user_id = $user ? $user->id : $user_id;
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');
 			$created_on = date('Y-m-d H:i:s', strtotime('now'));
 			$booking_params = [
 				'booking_no' => $booking_no,
-				'user_id' => $user ? $user->id : $user_id,
+				'user_id' => $user_id,
 				'price' => $price,
 				'is_paid' => 0,
 				'created_on' => $created_on
@@ -267,7 +268,7 @@ class Cart extends CI_Controller
 						'ticket_tier_id' => $item['ticket_tier_id'],
 						'quantity' => $item['qty'],
 						'price' => $item['subtotal'],
-						'user_id' => $user ? $user->id : $user_id,
+						'user_id' => $user_id,
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
@@ -278,7 +279,7 @@ class Cart extends CI_Controller
 				}
 				$resp = $this->bookings_model->insert_cart_data($cart_params);
 			}
-			$this->charge_and_transfer($token, $email_to, $name, $res);
+			$this->charge_and_transfer($user_id, $token, $email_to, $name, $res);
 			// $customer_id = $this->create_customer($token, $email_to, $name);
 			// $cust_param = [
 			// 	'customer_id' => $customer_id,
@@ -314,7 +315,7 @@ class Cart extends CI_Controller
 		}
 	}
 
-	function charge_and_transfer($token, $email, $name, $booking_id)
+	function charge_and_transfer($user_id, $token, $email, $name, $booking_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
@@ -379,6 +380,7 @@ class Cart extends CI_Controller
 					'booking_id' => $booking_id,
 					'charge_id' => $chargeJson['id'],
 					'transaction_id' => $txn_id,
+					'user_send' => $user_id,
 					'amount' => $amount / 100,
 					'type' => $chargeJson['object'],
 					'customer_id' => $chargeJson['customer'],
@@ -408,6 +410,7 @@ class Cart extends CI_Controller
 								'amount' => $transferJson['amount'] / 100,
 								'type' => $transferJson['object'],
 								'destination_id' => $transferJson['destination'],
+								'user_received' => $gig->user_id,
 								'admin_fee' => $item->price * $admin_fee->value / 100,
 								'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
 							];

@@ -97,13 +97,23 @@ class Bookings_model extends CI_Model
 
 	function insert_transaction_data($data)
 	{
-		$ress = $this->db->insert('tansactions', $data) ? $this->db->insert_id() : false;
+		$ress = $this->db->insert('transactions', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}
 
 	function get_transactions_by_booking_id($id)
 	{
-		$query = $this->db->get_where('tansactions', array('booking_id' => $id));
+		$query = $this->db->get_where('transactions', array('booking_id' => $id));
+		return $query->result();
+	}
+
+	function get_transactions_by_user_id($id, $type)
+	{
+		if($type == 'customer') {
+			$query = $this->db->get_where('transactions', array('user_send' => $id));
+		} else {
+			$query = $this->db->get_where('transactions', array('user_received' => $id));
+		}
 		return $query->result();
 	}
 
