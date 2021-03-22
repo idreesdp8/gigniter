@@ -66,7 +66,7 @@
                                             <td><?php echo date('M d, Y H:i A', strtotime($transaction->created_on)) ?></td>
                                             <td><?php echo $transaction->gig_names ?></td>
                                             <td><?php echo $transaction->ticket_names ?></td>
-                                            <td><?php echo $transaction->booking->is_paid ? 'Paid' : 'Not paid' ?></td>
+                                            <td><?php echo $transaction->booking->is_paid ? 'Paid' : 'Pending' ?></td>
                                             <td></td>
                                         </tr>
                                     <?php
