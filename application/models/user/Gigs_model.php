@@ -74,8 +74,15 @@ class Gigs_model extends CI_Model
 
 	function get_user_gigs($user_id)
 	{
-		$sql = "SELECT * FROM gigs WHERE user_id = ? ORDER BY created_on";
+		$sql = "SELECT * FROM gigs WHERE user_id = ? ORDER BY created_on DESC";
 		$query = $this->db->query($sql, array($user_id));
+		return $query->result();
+	}
+
+	function get_active_user_gigs($user_id)
+	{
+		$sql = "SELECT * FROM gigs WHERE user_id = ? AND status > ? AND is_draft = ? ORDER BY created_on DESC";
+		$query = $this->db->query($sql, array($user_id, 0, 0));
 		return $query->result();
 	}
 

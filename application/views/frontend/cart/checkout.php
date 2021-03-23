@@ -53,7 +53,7 @@
                         if (!$user) :
                         ?>
                             <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
-                            <div class="checkout-widget d-flex flex-wrap align-items-center justify-cotent-between">
+                            <div class="checkout-widget d-flex flex-wrap align-items-center justify-content-between">
                                 <div class="title-area">
                                     <h5 class="title">Already a Gigniter Member?</h5>
                                     <p>Sign in to proceed</p>

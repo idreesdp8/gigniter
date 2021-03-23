@@ -55,9 +55,10 @@ class Cron extends CI_Controller
     {
         echo "Hello from index \n";
     }
-    public function test()
+
+    public function charge()
     {
-        echo "Hello from test \n";
+        
     }
 
     

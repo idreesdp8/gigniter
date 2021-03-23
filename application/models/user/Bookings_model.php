@@ -70,9 +70,22 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_booking_items_by_gig_id($id)
+	{
+		$query = $this->db->get_where('cart', array('gig_id' => $id));
+		return $query->result();
+	}
+
 	function get_all_bookings()
 	{
 		$query = $this->db->get('bookings');
+		return $query->result();
+	}
+
+	function get_bookings_by_user_id($user_id)
+	{
+		$sql = "SELECT * FROM bookings WHERE user_id = ? ORDER BY is_paid ASC, created_on DESC";
+		$query = $this->db->query($sql, array($user_id));
 		return $query->result();
 	}
 
@@ -101,10 +114,22 @@ class Bookings_model extends CI_Model
 		return $ress;
 	}
 
+	function get_transaction_by_id($id)
+	{
+		$query = $this->db->get_where('transactions', array('id' => $id));
+		return $query->row();
+	}
+
 	function get_transactions_by_booking_id($id)
 	{
 		$query = $this->db->get_where('transactions', array('booking_id' => $id));
 		return $query->result();
+	}
+
+	function get_charged_transaction_by_booking_id($id)
+	{
+		$query = $this->db->get_where('transactions', array('booking_id' => $id, 'type' => 'charge'));
+		return $query->row();
 	}
 
 	function get_transactions_by_user_id($id, $type)

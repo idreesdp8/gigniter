@@ -26,7 +26,7 @@
     <section class="explore-banner-section bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-3.png">
         <div class="container">
             <div class="text-box text-center">
-                <h2 class="exlpore-title">Payment History</h2>
+                <h2 class="exlpore-title">My Bookings</h2>
                 <!-- <h5 class="explore-subtitle"><?php echo $gig->address ?? 'Test Address' ?></h5> -->
             </div>
         </div>
@@ -40,33 +40,45 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="checkout-widget checkout-contact">
-                        <h5 class="title">Payments </h5>
+                        <h5 class="title">Bookings </h5>
                         <?php
-                        if ($gigs) :
+                        if ($bookings) :
                         ?>
                             <table class="table text-white table-striped">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Gig Title</th>
-                                        <th>Tickets Quantity</th>
-                                        <th>Gig Date</th>
+                                        <th>Order #</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Gig Name(s)</th>
+                                        <th>Ticket(s)</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($gigs as $key => $value) :
+                                    foreach ($bookings as $booking) :
                                     ?>
                                         <tr>
-                                            <td><?php echo $key+1 ?></td>
-                                            <td><?php echo $value->title ?></td>
-                                            <td><?php echo $value->goal  ?></td>
-                                            <td><?php echo date('M d, Y H:i A', strtotime($value->gig_date)) ?></td>
-                                            <td><?php echo $value->status_label ?></td>
+                                            <td><?php echo $booking->booking_no ?></td>
+                                            <td><?php echo '$' . $booking->price  ?></td>
+                                            <td><?php echo date('M d, Y H:i A', strtotime($booking->created_on)) ?></td>
+                                            <td><?php echo $booking->gig_names ?></td>
+                                            <td><?php echo $booking->ticket_names ?></td>
                                             <td>
-                                                <a href="<?php echo user_base_url() . 'transactions/show/' . $value->id ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                                <?php
+                                                if ($booking->is_paid == 0)
+                                                    echo 'Pending';
+                                                if ($booking->is_paid == 1)
+                                                    echo 'Paid';
+                                                if ($booking->is_paid == 2)
+                                                    echo 'Cancelled';
+                                                // echo $booking->is_paid ? 'Paid' : 'Pending'
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a>
                                             </td>
                                         </tr>
                                     <?php

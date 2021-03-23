@@ -222,8 +222,9 @@ class Cart extends CI_Controller
 			$token = $this->input->post('stripe-token');
 
 
-			$user = $this->users_model->get_user_by_email($email_to);
-			if (!$user) {
+			// $user = $this->users_model->get_user_by_email($email_to);
+			$user_id = $this->dbs_user_id;
+			if (!$user_id) {
 				$this->load->helper('string');
 				$password = random_string('alnum', 8);
 				$this->session->set_userdata(['password' => $password]);
@@ -248,7 +249,6 @@ class Cart extends CI_Controller
 			// echo json_encode($_POST);
 			// die();
 
-			$user_id = $user ? $user->id : $user_id;
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');
 			$created_on = date('Y-m-d H:i:s', strtotime('now'));
