@@ -19,6 +19,15 @@
             display: flex;
             justify-content: space-between;
         }
+
+        .bundle-pill {
+            padding: 3px 8px;
+            background: #f1c40c;
+            margin: 2px;
+            border-radius: .75rem;
+            color: #0e1e5e;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -113,10 +122,10 @@
                                                             <td><?php echo $value->price ?></td>
                                                             <td><?php echo date('M d, Y H:i A', strtotime($value->created_on)) ?></td>
                                                             <td>
-                                                                <?php 
-                                                                if($value->ticket->bundles) {
-                                                                    foreach($value->ticket->bundles as $bundle) {
-                                                                        echo '<span>'.$bundle->title.'</span>';
+                                                                <?php
+                                                                if ($value->ticket->bundles) {
+                                                                    foreach ($value->ticket->bundles as $bundle) {
+                                                                        echo '<span class="bundle-pill">' . $bundle->title . '</span>';
                                                                     }
                                                                 } else {
                                                                     echo 'NA';
