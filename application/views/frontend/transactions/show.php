@@ -116,7 +116,7 @@
                                                                 <?php 
                                                                 if($value->ticket->bundles) {
                                                                     foreach($value->ticket->bundles as $bundle) {
-                                                                        echo '<span>'.$bundle->name.'</span>';
+                                                                        echo '<span>'.$bundle->title.'</span>';
                                                                     }
                                                                 } else {
                                                                     echo 'NA';
