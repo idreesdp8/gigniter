@@ -22,7 +22,7 @@
                 </li>
                 <?php
                 $vs_id = $this->session->userdata('us_id');
-                $vs_fname = $this->session->userdata('us_fname');
+                $vs_user_name = $this->session->userdata('us_username');
                 if (!$vs_id) :
                 ?>
                     <li class="header-button pr-0">
@@ -37,7 +37,7 @@
                     <li>
                         <a href="#0">
                             <span class="signed-welcome">Welcome</span>
-                            <p class="user-name"><?php echo $vs_fname !== '' ? $vs_fname : 'User' ?> <span class="name-divider">|</span> My account</p>
+                            <p class="user-name"><?php echo $vs_user_name !== '' ? $vs_user_name : 'User' ?> <span class="name-divider">|</span> My account</p>
                         </a>
                         <ul class="submenu signed-user-menu">
                             <li>
