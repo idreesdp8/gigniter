@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-md-12">
                                 <h6>
-                                    Purchased Ticket Tiers
+                                    Tickets
                                 </h6>
                             </div>
                         </div>
@@ -88,10 +88,11 @@
                                 ?>
                                     <div class="col-md-3">
                                         <div class="card">
-                                            <div class="card-header header-elements-inline">
-                                                <h6 class="card-title text-uppercase">
+                                            <div class="card-header">
+                                                <h5 class="card-title text-uppercase">
                                                     <?php echo $item->ticket_tier->name ?>
-                                                </h6>
+                                                </h5>
+                                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $item->gig_title ?></h6>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -168,7 +169,7 @@
                                                         <td><?php echo $booking->booking_no ?></td>
                                                         <td>-</td>
                                                         <td>-</td>
-                                                        <td><?php echo $account->fname . ' ' . $account->lname ?></td>
+                                                        <td><?php echo isset($account) ? $account->fname . ' ' . $account->lname : '' ?></td>
                                                         <td><?php echo '$'.$transaction->admin_fee ?></td>
                                                         <td><?php echo '$'.$transaction->amount ?></td>
                                                     <?php

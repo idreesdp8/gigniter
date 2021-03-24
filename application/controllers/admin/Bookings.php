@@ -88,9 +88,9 @@ class Bookings extends CI_Controller
 			foreach($transactions as $transaction) {
 				if($transaction->type == 'transfer') {
 					$destination = $transaction->user_received;
+					$account = $this->users_model->get_user_by_id($destination);
 				}
 			}
-			$account = $this->users_model->get_user_by_id($destination);
 		}
 		$customer = $this->users_model->get_user_by_id($booking->user_id);
 		// echo json_encode($account->individual);
