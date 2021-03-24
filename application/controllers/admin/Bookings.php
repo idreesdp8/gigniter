@@ -83,21 +83,16 @@ class Bookings extends CI_Controller
 		$booking = $this->bookings_model->get_booking_by_id($args1);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$transactions = $this->bookings_model->get_transactions_by_booking_id($booking->id);
-		foreach($transactions as $transaction) {
-			if($transaction->type == 'charge') {
-				$customer = $transaction->user_send;
-			} else if($transaction->type == 'transfer') {
-				$destination = $transaction->user_received;
+		$account = [];
+		if($transactions){
+			foreach($transactions as $transaction) {
+				if($transaction->type == 'transfer') {
+					$destination = $transaction->user_received;
+				}
 			}
+			$account = $this->users_model->get_user_by_id($destination);
 		}
-		
-		// require_once('application/libraries/stripe-php/init.php');
-		// $stripeSecret = $this->config->item('stripe_api_key');
-		// \Stripe\Stripe::setApiKey($stripeSecret);
-		// $customer = \Stripe\Customer::retrieve($customer);
-		// $account = \Stripe\Account::retrieve($destination);
-		$customer = $this->users_model->get_user_by_id($customer);
-		$account = $this->users_model->get_user_by_id($destination);
+		$customer = $this->users_model->get_user_by_id($booking->user_id);
 		// echo json_encode($account->individual);
 		// die();
 		$booking->user_name = $user->fname.' '.$user->lname;

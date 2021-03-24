@@ -58,7 +58,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Customer</label>
-                                    <input type="text" class="form-control" value="<?php echo $customer->fname. ' '.$customer->lname ?>">
+                                    <input type="text" class="form-control" value="<?php echo $customer->fname . ' ' . $customer->lname ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -132,7 +132,11 @@
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped">
-                                    <?php if ($booking->is_paid && isset($transactions) && count($transactions) > 0) { ?>
+                                    <?php
+                                    if ($booking->is_paid && isset($transactions) && count($transactions) > 0) {
+                                        $total_admin_fee = 0;
+                                        $total_transfer = 0;
+                                    ?>
                                         <thead>
                                             <tr>
                                                 <th>Order #</th>
@@ -153,8 +157,8 @@
                                                     if ($transaction->type == 'charge') :
                                                     ?>
                                                         <td><?php echo $booking->booking_no ?></td>
-                                                        <td><?php echo $customer->fname. ' '.$customer->lname ?></td>
-                                                        <td>$<?php echo $transaction->amount ?></td>
+                                                        <td><?php echo $customer->fname . ' ' . $customer->lname ?></td>
+                                                        <td><?php echo '$'.$transaction->amount ?></td>
                                                         <td>-</td>
                                                         <td>-</td>
                                                         <td>-</td>
@@ -164,17 +168,24 @@
                                                         <td><?php echo $booking->booking_no ?></td>
                                                         <td>-</td>
                                                         <td>-</td>
-                                                        <td><?php echo $account->fname. ' '.$account->lname ?></td>
-                                                        <td>$<?php echo $transaction->admin_fee ?></td>
-                                                        <td>$<?php echo $transaction->amount ?></td>
+                                                        <td><?php echo $account->fname . ' ' . $account->lname ?></td>
+                                                        <td><?php echo '$'.$transaction->admin_fee ?></td>
+                                                        <td><?php echo '$'.$transaction->amount ?></td>
                                                     <?php
+                                                        $total_transfer += $transaction->amount;
                                                     endif;
                                                     ?>
                                                 </tr>
                                             <?php
                                                 $i++;
+                                                $total_admin_fee += $transaction->admin_fee;
                                             }
                                             ?>
+                                            <tr>
+                                                <td colspan="4">Total</td>
+                                                <td><?php echo '$'.$total_admin_fee ?></td>
+                                                <td><?php echo '$'.$total_transfer ?></td>
+                                            </tr>
                                         </tbody>
                                     <?php } else { ?>
                                         <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
