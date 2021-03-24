@@ -95,13 +95,13 @@ class Transactions extends CI_Controller
             $gig->genre_label = $genre->label;
             $cart_items = $this->bookings_model->get_booking_items_by_gig_id($args1);
             $ticket_bought = 0;
-            $bundles = array();
+            // $bundles = array();
             foreach ($cart_items as $item) {
                 $user = $this->users_model->get_user_by_id($item->user_id);
                 $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-                if($ticket) {
+                // if($ticket) {
                     $bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
-                }
+                // }
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
                 $ticket->bundles = $bundles;

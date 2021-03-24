@@ -28,6 +28,12 @@
             color: #0e1e5e;
             font-weight: 600;
         }
+        .bundle_image {
+            border-radius: 50%;
+        }
+        tr td {
+            vertical-align: middle;
+        }
     </style>
 </head>
 
@@ -116,8 +122,8 @@
                                                     ?>
                                                         <tr>
                                                             <td><?php echo $key + 1 ?></td>
-                                                            <td><?php echo $value->ticket->name ?></td>
-                                                            <td><?php echo $value->ticket->price ?></td>
+                                                            <td><?php echo $value->ticket->name ?? '' ?></td>
+                                                            <td><?php echo $value->ticket->price ?? '' ?></td>
                                                             <td><?php echo $value->quantity ?></td>
                                                             <td><?php echo $value->price ?></td>
                                                             <td><?php echo date('M d, Y H:i A', strtotime($value->created_on)) ?></td>
@@ -126,7 +132,7 @@
                                                                 if ($value->ticket->bundles) {
                                                                     foreach ($value->ticket->bundles as $bundle) {
                                                                 ?>
-                                                                        <img src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" />
+                                                                        <img class="bundle_image" src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" width="50" height="auto"  />
                                                                         <!-- echo '<span class="bundle-pill">' . $bundle->title . '</span>'; -->
                                                                 <?php
                                                                     }
