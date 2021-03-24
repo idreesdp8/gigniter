@@ -446,6 +446,7 @@ class Account extends CI_Controller
 					);
 					$this->session->set_userdata($cstm_sess_data);
 					$stripe_id = $this->input->post('stripe_id');
+					$this->users_model->trash_user_stripe_details($data['id']);
 					if ($stripe_id) {
 						$account = $this->create_user_stripe_account($stripe_id);
 						$temp = [
@@ -453,7 +454,6 @@ class Account extends CI_Controller
 							'stripe_id' => $stripe_id,
 							'stripe_account_id' => $account->id,
 						];
-						$this->users_model->trash_user_stripe_details($data['id']);
 						$this->users_model->insert_user_stripe_details($temp);
 					}
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');

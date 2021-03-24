@@ -143,10 +143,10 @@
                                             if ($user->detail_submitted_flag != 'NA') :
                                             ?>
                                                 <?php
-                                                if (!$user->detail_submitted_flag) :
+                                                if ($user->detail_submitted_flag == 'restricted') :
                                                 ?>
                                                     <small>
-                                                        <a class="link" href="<?php echo user_base_url().'account/enable_stripe_account?user_id='.$user->id ?>">Enable Account</a>
+                                                        <a class="link" href="<?php echo user_base_url().'account/enable_stripe_account?user_id='.$user->id ?>" target="_blank">Enable Account</a>
                                                     </small>
                                                 <?php
                                                 endif;
