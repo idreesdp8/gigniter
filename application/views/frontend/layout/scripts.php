@@ -16,6 +16,7 @@
 <script src="<?php echo user_asset_url(); ?>js/nice-select.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/main.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/jquery.validate.js"></script>
+<script src="<?php echo user_asset_url(); ?>js/sweetalert.min.js"></script>
 <script>
     const base_url = '<?php echo user_base_url() ?>';
     $('[data-toggle="tooltip"]').tooltip();

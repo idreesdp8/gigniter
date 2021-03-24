@@ -21,13 +21,8 @@
         <input type="hidden" id="stripe-token" />
         <div class="row">
             <div class="col-md-8">
+                <?php $this->load->view('frontend/stripePayment/links'); ?>
                 <div class="row">
-                    <div class="col-md-6 mt-3">
-                        <a href="<?php echo user_base_url() ?>stripe/demo">Demo 1</a>
-                    </div>
-                    <div class="col-md-6 mt-3">
-                        <a href="<?php echo user_base_url() ?>stripe/demo2">Demo 2</a>
-                    </div>
                     <div class="col-md-6 mt-3">
                         <div>Customer Email</div>
                         <input type="text" class="form-control" id="cust_email" value="hamza0952454@gmail.com" />

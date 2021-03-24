@@ -125,7 +125,10 @@
                                                                 <?php
                                                                 if ($value->ticket->bundles) {
                                                                     foreach ($value->ticket->bundles as $bundle) {
-                                                                        echo '<span class="bundle-pill">' . $bundle->title . '</span>';
+                                                                ?>
+                                                                <img src="<?php echo $bundle->image ? bundle_thumbnail_url().$bundle->image : ''; ?>" />
+                                                                        <!-- echo '<span class="bundle-pill">' . $bundle->title . '</span>'; -->
+                                                                <?php
                                                                     }
                                                                 } else {
                                                                     echo 'NA';

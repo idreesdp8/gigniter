@@ -98,7 +98,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <!-- <script src="https://js.stripe.com/v3/"></script> -->
     <script>
-
         $('#transfer').click(function() {
             var user_account = $('#user_account').val();
             var charge_amount = $('#charge_amount').val();
@@ -111,7 +110,7 @@
             var cvc = $('#cvc').val();
 
             $.ajax({
-                url: "<?php echo user_base_url(); ?>stripe/transfer3",
+                url: "<?php echo user_base_url(); ?>stripe/transfer4",
                 method: 'post',
                 data: {
                     user_account: user_account,
@@ -129,12 +128,7 @@
                     // $('#log').val(response);
                     if(response.data.status == 1) {
                         $('#log').append('<div><strong>Message</strong>: ' + response.data.message + '</div>');
-                        $('#log').append('<div><strong>Currency</strong>: ' + response.data.currency + '</div>'); 
-                        $('#log').append('<div><strong>Total Charged</strong>: $' + response.data.amount / 100 + '</div>');
-                        $('#log').append('<div><strong>Charge Transaction ID</strong>: ' + response.data.txn_id + '</div>');
-                        // // $('#log').append('<div><strong>Total Transfered</strong>: $' + response.data.transfer.amount / 100 + '</div>');
-                        // $('#log').append('<div><strong>Transfer Transaction ID</strong>: ' + response.data.transfer.balance_transaction + '</div>');
-                        $('#log').append('<div><strong>Charge Json</strong>: ' + JSON.stringify(response.data.charge) + '</div>');
+                        $('#log').append('<div><strong>Link</strong>: ' + response.data.url + '</div>');
                     }
                 }
             })

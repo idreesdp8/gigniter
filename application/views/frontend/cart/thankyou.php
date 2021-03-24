@@ -33,7 +33,7 @@
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========Explore-content-Section========== -->
-    <section class="speaker-banner bg_img" data-background="./assets/images/banner/banner07.jpg">
+    <section class="speaker-banner bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-2.png">
         <div class="container">
             <div class="speaker-banner-content">
                 <h2 class="title">Thank You!</h2>

@@ -108,24 +108,6 @@ class Transactions extends CI_Controller
             }
             $gig->cart_items = $cart_items;
             $gig->ticket_left = $gig->goal - $ticket_bought;
-            // $transaction = $this->bookings_model->get_transaction_by_id($args1);
-            // $booking = $this->bookings_model->get_booking_by_id($transaction->booking_id);
-            // $cart_items = $this->bookings_model->get_booking_items($booking->id);
-            // $customer = $this->users_model->get_user_by_id($booking->user_id);
-            // foreach ($cart_items as $item) {
-            //     $gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-            //     $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-            //     $category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
-            //     $genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
-            //     $gig->category = $category;
-            //     $gig->genre = $genre;
-            //     // $gig->venues = explode(',', $gig->venues);
-            //     $item->gig = $gig;
-            //     $item->ticket = $ticket;
-            // }
-            // $booking->items = $cart_items;
-            // $booking->customer = $customer;
-            // $transaction->booking = $booking;
             $data['gig'] = $gig;
 
             // echo json_encode($gig);

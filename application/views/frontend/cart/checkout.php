@@ -24,6 +24,28 @@
         #stripe {
             margin-left: 1rem;
         }
+
+        .StripeElement {
+            background-color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
     </style>
 </head>
 
@@ -110,38 +132,58 @@
                         <div class="checkout-widget checkout-contact">
                             <h5 class="title">Share your Card details </h5>
                             <!-- <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" name="card_number" placeholder="4242 4242 4242 4242" value="4242424242424242" data-stripe="number" data-error="#card_number1" required>
-                                            <span id="card_number1" class="text-danger"><?php echo form_error('card_number'); ?></span>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" name="cardNumber" placeholder="4242 4242 4242 4242" value="4242424242424242" data-error="#card_number1" required>
+                                        <span id="card_number1" class="text-danger"><?php echo form_error('card_number'); ?></span>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" name="cvc" placeholder="123" value="123" data-stripe="cvc" data-error="#cvc1" required>
-                                            <span id="cvc1" class="text-danger"><?php echo form_error('cvc'); ?></span>
-                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="02" name="cardExpiry" value="02" data-error="#exp_month1" required>
+                                        <span id="exp_month1" class="text-danger"><?php echo form_error('exp_month'); ?></span>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="02" name="exp_month" value="02" data-stripe="exp-month" data-error="#exp_month1" required>
-                                            <span id="exp_month1" class="text-danger"><?php echo form_error('exp_month'); ?></span>
-                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" name="cardCvc" placeholder="123" value="123" data-error="#cvc1" required>
+                                        <span id="cvc1" class="text-danger"><?php echo form_error('cvc'); ?></span>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="2022" name="exp_year" value="2022" data-stripe="exp-year" data-error="#exp_year1" required>
-                                            <span id="exp_year1" class="text-danger"><?php echo form_error('exp_year'); ?></span>
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="02" name="exp_month" value="02" data-stripe="exp-month" data-error="#exp_month1" required>
+                                        <span id="exp_month1" class="text-danger"><?php echo form_error('exp_month'); ?></span>
                                     </div>
-                                </div> -->
-                            <div class="form-group">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="2022" name="exp_year" value="2022" data-stripe="exp-year" data-error="#exp_year1" required>
+                                        <span id="exp_year1" class="text-danger"><?php echo form_error('exp_year'); ?></span>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="cardNumber"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div id="cardExpiry"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div id="cardCvc"></div>
+                                </div>
+                            </div>
+                            <div class="text-danger mt-1" id="cardNumber-errors"></div>
+                            <div class="text-danger mt-1" id="cardExpiry-errors"></div>
+                            <div class="text-danger mt-1" id="cardCvc-errors"></div>
+                            <!-- <div class="form-group">
                                 <input type="radio" id="card" name="payment_type" value="card">
                                 <label for="card">Card</label>
                                 <input type="radio" id="stripe" name="payment_type" value="stripe">
                                 <label for="stripe">Stripe</label>
-                            </div>
-                            <div class="form-group d-none">
+                            </div> -->
+                            <div class="form-group">
                                 <div id="card-element"></div>
                             </div>
                             <?php
@@ -182,7 +224,7 @@
                                                 <span><?php echo $item['name'] ?></span>
                                                 <span class="text-danger mt-auto mb-auto cursor-pointer remove_item"><i class="fas fa-times"></i></span>
                                             </div>
-                                            <div class="w-100"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
+                                            <div class="w-25"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
                                         </h6>
                                         <div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
                                         <div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
@@ -261,30 +303,62 @@
             $('.remove_item').click(function() {
                 var elem = $(this);
                 var rowid = elem.parents('li').find('.rowid').val();
-                // console.log(rowid);
-                $.ajax({
-                    url: base_url + 'cart/delete_item',
-                    data: {
-                        'rowid': rowid
-                    },
-                    method: 'post',
-                    dataType: 'json',
-                    success: function(resp) {
-                        alert(resp.message);
-                        if (resp.status == 200) {
-                            elem.parents('li').remove();
-                            $('#total_amount').empty().html('$' + resp.total_amount);
-                            $('#payable_amount').empty().html('$' + resp.total_amount);
-                        }
+                swal({
+                    title: "Are you sure?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: base_url + 'cart/delete_item',
+                            data: {
+                                'rowid': rowid
+                            },
+                            method: 'post',
+                            dataType: 'json',
+                            success: function(resp) {
+                                if (resp.status == 200) {
+                                    swal({
+                                        icon: 'success',
+                                        title: resp.message,
+                                    });
+                                    elem.parents('li').remove();
+                                    $('#total_amount').empty().html('$' + resp.total_amount);
+                                    $('#payable_amount').empty().html('$' + resp.total_amount);
+                                } else {
+                                    swal({
+                                        icon: 'error',
+                                        title: resp.message,
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        swal({
+                            icon: 'info',
+                            title: 'Your Item is not removed!',
+                        });
+                        // swal("Your Item is not removed!");
                     }
                 });
+                // console.log(rowid);
             });
 
-            $('.qty').blur(function() {
+            var timer;
+            $('.qty').change(function() {
                 var elem = $(this);
                 var rowid = elem.parents('li').find('.rowid').val();
                 var qty = elem.val();
                 // console.log(rowid);
+                clearTimeout(timer);
+                var ms = 2000;
+                timer = setTimeout(function() {
+                    update_items(elem, rowid, qty);
+                }, ms);
+            });
+
+            function update_items(elem, rowid, qty) {
                 $.ajax({
                     url: base_url + 'cart/update_item',
                     data: {
@@ -294,16 +368,25 @@
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
-                        alert(resp.message);
+                        // alert(resp.message);
                         if (resp.status == 200) {
+                            swal({
+                                icon: 'success',
+                                title: resp.message,
+                            });
                             // elem.parents('li').remove();
                             elem.parents('li').find('.item_subtotal').empty().html('$' + resp.item_total);
                             $('#total_amount').empty().html('$' + resp.total_amount);
                             $('#payable_amount').empty().html('$' + resp.total_amount);
+                        } else {
+                            swal({
+                                icon: 'error',
+                                title: resp.message,
+                            });
                         }
                     }
                 });
-            });
+            }
 
             $('input[type=radio]').click(function() {
                 let value = $(this).val();
@@ -311,8 +394,24 @@
                     $('#card-element').parent().removeClass('d-none');
                 } else {
                     $('#card-element').parent().addClass('d-none');
+
+                    // var pub_key = '<?php echo $this->config->item('stripe_pub_key'); ?>';
+                    // var stripe = Stripe(pub_key);
+                    // stripe.redirectToCheckout({
+                    //     lineItems: [{
+                    //         price: '{{PRICE_ID}}', // Replace with the ID of your price
+                    //         quantity: 1,
+                    //     }],
+                    //     mode: 'payment',
+                    //     successUrl: 'https://example.com/success',
+                    //     cancelUrl: 'https://example.com/cancel',
+                    // }).then(function(result) {
+                    //     // If `redirectToCheckout` fails due to a browser or network
+                    //     // error, display the localized error message to your customer
+                    //     // using `result.error.message`.
+                    // });
                 }
-                console.log(value);
+                // console.log(value);
             });
 
 

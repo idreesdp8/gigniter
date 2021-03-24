@@ -195,7 +195,7 @@ class Cart extends CI_Controller
 			} else {
 				$response = [
 					'status' => 500,
-					'message' => 'Error: Item is not removed!'
+					'message' => 'Error updating cart!'
 				];
 			}
 		} else {
