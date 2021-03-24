@@ -68,8 +68,8 @@ class Transactions extends CI_Controller
             $gig_names = '';
             // $ticket_names = '';
             if ($cart_items) {
+                $temp_gig_titles = array();
                 foreach ($cart_items as $item) {
-                    // $temp_gig_titles = array();
                     $gig = $this->gigs_model->get_gig_by_id($item->gig_id);
                     // $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
                     $temp_gig_titles[] = $gig->title;
