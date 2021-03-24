@@ -72,7 +72,7 @@
                                         <tr>
                                             <td><?php echo $i ?></td>
                                             <td>
-                                                <a style="color: inherit;" href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking->id ?>">
+                                                <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking->id ?>" target="_blank">
                                                     <?php echo $record->booking->booking_no ?>
                                                 </a>
                                             </td>
