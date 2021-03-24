@@ -58,7 +58,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Customer</label>
-                                    <input type="text" class="form-control" value="<?php echo $customer->name ?>">
+                                    <input type="text" class="form-control" value="<?php echo $customer->fname. ' '.$customer->lname ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -153,7 +153,7 @@
                                                     if ($transaction->type == 'charge') :
                                                     ?>
                                                         <td><?php echo $booking->booking_no ?></td>
-                                                        <td><?php echo $customer->name ?></td>
+                                                        <td><?php echo $customer->fname. ' '.$customer->lname ?></td>
                                                         <td>$<?php echo $transaction->amount ?></td>
                                                         <td>-</td>
                                                         <td>-</td>
@@ -164,7 +164,7 @@
                                                         <td><?php echo $booking->booking_no ?></td>
                                                         <td>-</td>
                                                         <td>-</td>
-                                                        <td><?php echo $account->individual->first_name . ' ' . $account->individual->last_name ?></td>
+                                                        <td><?php echo $account->fname. ' '.$account->lname ?></td>
                                                         <td>$<?php echo $transaction->admin_fee ?></td>
                                                         <td>$<?php echo $transaction->amount ?></td>
                                                     <?php
@@ -184,18 +184,6 @@
                         </div>
                         <div class="d-flex justify-content-start mt-3">
                             <a href="<?php echo admin_base_url() ?>bookings" type="button" class="btn btn-light">Back</a>
-                            <!-- <?php
-                                    if (!$booking->is_paid) :
-                                    ?>
-                                <form action="<?php echo admin_base_url() ?>bookings/charge" method="post">
-                                    <input type="hidden" name="customer_id" value="<?php echo $customer->id ?>">
-                                    <input type="hidden" name="amount" value="<?php echo $booking->price ?>">
-                                    <input type="hidden" name="booking_id" value="<?php echo $booking->id ?>">
-                                    <button type="submit" class="btn bg-blue ml-3">Charge</button>
-                                </form>
-                            <?php
-                                    endif;
-                            ?> -->
                         </div>
                     </div>
                 </div>

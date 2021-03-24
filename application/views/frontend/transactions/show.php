@@ -28,9 +28,11 @@
             color: #0e1e5e;
             font-weight: 600;
         }
+
         .bundle_image {
             border-radius: 50%;
         }
+
         tr td {
             vertical-align: middle;
         }
@@ -107,13 +109,13 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>Customer</th>
                                                         <th>Ticket Name</th>
                                                         <th>Price</th>
                                                         <th>Purchased</th>
                                                         <th>Sub Total</th>
                                                         <th>Purchase Date</th>
                                                         <th>Bundle(s)</th>
-                                                        <th>Customer</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -122,6 +124,7 @@
                                                     ?>
                                                         <tr>
                                                             <td><?php echo $key + 1 ?></td>
+                                                            <td><?php echo $value->user_name ?></td>
                                                             <td><?php echo $value->ticket->name ?? '' ?></td>
                                                             <td><?php echo $value->ticket->price ?? '' ?></td>
                                                             <td><?php echo $value->quantity ?></td>
@@ -132,7 +135,7 @@
                                                                 if ($value->ticket->bundles) {
                                                                     foreach ($value->ticket->bundles as $bundle) {
                                                                 ?>
-                                                                        <img class="bundle_image" src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" width="50" height="auto"  />
+                                                                        <img class="bundle_image" src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" width="50" height="auto" />
                                                                         <!-- echo '<span class="bundle-pill">' . $bundle->title . '</span>'; -->
                                                                 <?php
                                                                     }
@@ -141,7 +144,6 @@
                                                                 }
                                                                 ?>
                                                             </td>
-                                                            <td><?php echo $value->user_name ?></td>
                                                         </tr>
                                                     <?php
                                                     endforeach;
@@ -151,7 +153,7 @@
                                         <?php
                                         else :
                                         ?>
-                                        <div>No record found</div>
+                                            <div>No record found</div>
                                         <?php
                                         endif;
                                         ?>

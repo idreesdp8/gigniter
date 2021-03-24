@@ -83,21 +83,21 @@ class Bookings extends CI_Controller
 		$booking = $this->bookings_model->get_booking_by_id($args1);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$transactions = $this->bookings_model->get_transactions_by_booking_id($booking->id);
-		$customer = '';
-		$destination = '';
 		foreach($transactions as $transaction) {
 			if($transaction->type == 'charge') {
-				$customer = $transaction->customer_id;
+				$customer = $transaction->user_send;
 			} else if($transaction->type == 'transfer') {
-				$destination = $transaction->destination_id;
+				$destination = $transaction->user_received;
 			}
 		}
 		
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		\Stripe\Stripe::setApiKey($stripeSecret);
-		$customer = \Stripe\Customer::retrieve($customer);
-		$account = \Stripe\Account::retrieve($destination);
+		// require_once('application/libraries/stripe-php/init.php');
+		// $stripeSecret = $this->config->item('stripe_api_key');
+		// \Stripe\Stripe::setApiKey($stripeSecret);
+		// $customer = \Stripe\Customer::retrieve($customer);
+		// $account = \Stripe\Account::retrieve($destination);
+		$customer = $this->users_model->get_user_by_id($customer);
+		$account = $this->users_model->get_user_by_id($destination);
 		// echo json_encode($account->individual);
 		// die();
 		$booking->user_name = $user->fname.' '.$user->lname;
