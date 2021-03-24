@@ -126,7 +126,7 @@
                                                                 if ($value->ticket->bundles) {
                                                                     foreach ($value->ticket->bundles as $bundle) {
                                                                 ?>
-                                                                <img src="<?php echo $bundle->image ? bundle_thumbnail_url().$bundle->image : ''; ?>" />
+                                                                        <img src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" />
                                                                         <!-- echo '<span class="bundle-pill">' . $bundle->title . '</span>'; -->
                                                                 <?php
                                                                     }
@@ -142,6 +142,10 @@
                                                     ?>
                                                 </tbody>
                                             </table>
+                                        <?php
+                                        else :
+                                        ?>
+                                        <div>No record found</div>
                                         <?php
                                         endif;
                                         ?>
