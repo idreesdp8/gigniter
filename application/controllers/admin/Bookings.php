@@ -106,7 +106,7 @@ class Bookings extends CI_Controller
 		$cart_items = $this->bookings_model->get_booking_items($args1);
 		foreach($cart_items as $item){
 			$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-			$ticket_tier = $this->gigs_model->get_ticker_tier_by_id($item->ticket_tier_id);
+			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 			$item->gig_title = $gig->title;
 			$item->ticket_tier = $ticket_tier;
 			$ticket_tier_bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($item->ticket_tier_id);

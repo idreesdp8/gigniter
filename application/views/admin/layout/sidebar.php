@@ -61,7 +61,17 @@ foreach ($role_permissions as $role_permission) {
                     <a href="<?php echo admin_base_url(); ?>bookings" class="nav-link">
                         <i class="icon-cart"></i>
                         <span>
-                            Bookings
+                            Orders
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if (in_array('edit-transaction', $user_permissions) || in_array('view-transaction', $user_permissions) || in_array('delete-transaction', $user_permissions)) : ?>
+                <li class="nav-item" id="sidebar_transaction">
+                    <a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">
+                        <i class="icon-coin-dollar"></i>
+                        <span>
+                            Transactions
                         </span>
                     </a>
                 </li>

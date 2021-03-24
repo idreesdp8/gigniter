@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('admin/layout/meta_tags'); ?>
-    <title>Bookings</title>
+    <title>Transactions</title>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                 <!-- Striped rows -->
                 <div class="card">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title">Bookings</h5>
+                        <h5 class="card-title">Transactions</h5>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <!-- <a class="list-icons-item" data-action="collapse"></a> -->
@@ -55,11 +55,13 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Order #</th>
-                                        <th>Price</th>
-                                        <th>Item Count</th>
-                                        <th>Paid</th>
-                                        <th>Created on</th>
-                                        <th>Actions</th>
+                                        <th>Gig</th>
+                                        <th>Amount</th>
+                                        <th>Account</th>
+                                        <!-- <th>Account Type</th> -->
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <!-- <th>Actions</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,19 +71,33 @@
                                     ?>
                                         <tr>
                                             <td><?php echo $i ?></td>
-                                            <td><?php echo $record->booking_no ?></td>
-                                            <td>$<?php echo $record->price ?></td>
-                                            <td><?php echo $record->item_count ?></td>
-                                            <td><?php echo $record->is_paid ? 'Yes' : 'No' ?></td>
-                                            <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
+                                                <a style="color: inherit;" href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking->id ?>">
+                                                    <?php echo $record->booking->booking_no ?>
+                                                </a>
+                                            </td>
+                                            <td><span class="badge badge-secondary badge-pill"><?php echo $record->gig_names ?></span></td>
+                                            <td><?php echo '$' . $record->amount ?></td>
+                                            <td><?php echo $record->user_name ?></td>
+                                            <td>
+                                                <?php
+                                                if ($record->booking->is_paid == 0)
+                                                    echo 'Pending';
+                                                if ($record->booking->is_paid == 1)
+                                                    echo 'Paid';
+                                                if ($record->booking->is_paid == 2)
+                                                    echo 'Cancelled';
+                                                ?>
+                                            </td>
+                                            <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
+                                            <!-- <td>
                                                 <div class="d-flex">
-                                                    <a href="<?php echo admin_base_url().'bookings/show/'.$record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+                                                    <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
                                                     <form action="<?php echo admin_base_url() ?>bookings/trash/<?php echo $record->id ?>">
                                                         <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
                                                     </form>
                                                 </div>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     <?php
                                         $i++;
@@ -106,7 +122,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#sidebar_booking a').addClass('active');
+            $('#sidebar_transaction a').addClass('active');
         });
     </script>
 </body>

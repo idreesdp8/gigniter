@@ -45,16 +45,6 @@
                 <div class="col-lg-12">
                     <div class="checkout-widget checkout-contact">
                         <h5 class="title">Payment Details</h5>
-                        <!-- <ul>
-                            <li>
-                                <h6>Order #</h6>
-                                <p><?php echo $booking->booking_no ?></p>
-                            </li>
-                            <li>
-                                <h6>Customer Name</h6>
-                                <p><?php echo $booking->customer->fname . ' ' . $booking->customer->lname ?></p>
-                            </li>
-                        </ul> -->
                         <div class="row">
                             <div class="col-lg-2">
                                 <h6>Order #</h6>

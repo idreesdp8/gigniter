@@ -35,11 +35,11 @@ class Bookings_model extends CI_Model
 				$whrs .= " AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
 			}
 		}
-		if(array_key_exists("category", $params)) {
+		if (array_key_exists("category", $params)) {
 			$category = $params["category"];
 			$whrs .= " AND category='$category'";
 		}
-		if(array_key_exists("genre", $params)) {
+		if (array_key_exists("genre", $params)) {
 			$genre = $params["genre"];
 			$whrs .= " AND genre='$genre'";
 		}
@@ -134,13 +134,21 @@ class Bookings_model extends CI_Model
 
 	function get_transactions_by_user_id($id, $type)
 	{
-		if($type == 'customer') {
+		if ($type == 'customer') {
 			$query = $this->db->get_where('transactions', array('user_send' => $id));
 		} else {
 			$query = $this->db->get_where('transactions', array('user_received' => $id));
 		}
 		return $query->result();
 	}
+
+	function get_transactions_by_type($type)
+	{
+		$query = $this->db->get_where('transactions', array('type' => $type));
+		return $query->result();
+	}
+
+
 
 	function insert_cart_data($data)
 	{
