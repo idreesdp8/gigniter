@@ -69,14 +69,14 @@ class Transactions extends CI_Controller
             // $ticket_names = '';
             if ($cart_items) {
                 foreach ($cart_items as $item) {
-                    $temp_gig_titles = array();
+                    // $temp_gig_titles = array();
                     $gig = $this->gigs_model->get_gig_by_id($item->gig_id);
                     // $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
                     $temp_gig_titles[] = $gig->title;
-                    $gig_names = implode(', ', array_unique($temp_gig_titles));
                     // $temp_tickets[] = $ticket->name;
                     // $ticket_names = implode(', ', array_unique($temp_tickets));
                 }
+                $gig_names = implode(', ', array_unique($temp_gig_titles));
             }
             $transaction->booking = $booking;
             $transaction->user_name = $user->fname.' '.$user->lname;
