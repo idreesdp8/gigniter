@@ -63,37 +63,57 @@
                     <div class="checkout-widget checkout-contact">
                         <h5 class="title">Payment Details</h5>
                         <div class="row">
-                            <div class="col-lg-3">
-                                <h6>Gig Title</h6>
-                                <p><?php echo $gig->title ?></p>
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h6>Gig Title</h6>
+                                        <p><?php echo $gig->title ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Quantity</h6>
+                                        <p><?php echo $gig->goal ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Tickets Left</h6>
+                                        <p><?php echo $gig->ticket_left ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Genre</h6>
+                                        <p><?php echo $gig->genre_label ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Category</h6>
+                                        <p><?php echo $gig->category_label ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Total Sales</h6>
+                                        <p><?php echo '$' . $gig->total_sale ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Venue(s)</h6>
+                                        <p><?php echo $gig->venues ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Status</h6>
+                                        <p><?php echo $gig->status_label ?></p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Concert Date</h6>
+                                        <p><?php echo date('M d,Y', strtotime($gig->gig_date)) ?></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-3">
-                                <h6>Quantity</h6>
-                                <p><?php echo $gig->goal ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Tickets Left</h6>
-                                <p><?php echo $gig->ticket_left ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Genre</h6>
-                                <p><?php echo $gig->genre_label ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Category</h6>
-                                <p><?php echo $gig->category_label ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Venue(s)</h6>
-                                <p><?php echo $gig->venues ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Status</h6>
-                                <p><?php echo $gig->status_label ?></p>
-                            </div>
-                            <div class="col-lg-3">
-                                <h6>Concert Date</h6>
-                                <p><?php echo date('M d,Y', strtotime($gig->gig_date)) ?></p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="circlebar">
+                                            <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
+                                                <div class="pie_progress__label">Booked</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <h6>Transactions</h6>
@@ -109,10 +129,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
+                                                        <th>Order #</th>
                                                         <th>Customer</th>
                                                         <th>Ticket Name</th>
                                                         <th>Price</th>
-                                                        <th>Purchased</th>
+                                                        <th>Qty</th>
                                                         <th>Sub Total</th>
                                                         <th>Purchase Date</th>
                                                         <th>Bundle(s)</th>
@@ -124,11 +145,12 @@
                                                     ?>
                                                         <tr>
                                                             <td><?php echo $key + 1 ?></td>
+                                                            <td><?php echo $value->booking->booking_no ?></td>
                                                             <td><?php echo $value->user_name ?></td>
                                                             <td><?php echo $value->ticket->name ?? '' ?></td>
-                                                            <td><?php echo $value->ticket->price ?? '' ?></td>
+                                                            <td><?php echo $value->ticket ? '$' . $value->ticket->price : '' ?></td>
                                                             <td><?php echo $value->quantity ?></td>
-                                                            <td><?php echo $value->price ?></td>
+                                                            <td><?php echo '$' . $value->price ?></td>
                                                             <td><?php echo date('M d, Y H:i A', strtotime($value->created_on)) ?></td>
                                                             <td>
                                                                 <?php

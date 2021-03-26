@@ -22,10 +22,52 @@ class Gigs_model extends CI_Model
 		// echo json_encode($params);
 		// die();
 		$whrs = '';
-		if (array_key_exists("q_val", $params)) {
-			$q_val = $params['q_val'];
-			if (strlen($q_val) > 0) {
-				$whrs .= " AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
+		// if (array_key_exists("search", $params)) {
+		// 	$search = $params['search'];
+		// 	if (strlen($search) > 0) {
+		// 		$whrs .= " AND ( title LIKE '%$search%' /* OR subtitle LIKE '%$search%' OR address LIKE '%$search%' */ ) ";
+		// 	}
+		// }
+		if(array_key_exists("category", $params)) {
+			$category = $params["category"];
+			$whrs .= " AND category='$category'";
+		}
+		if(array_key_exists("genre", $params)) {
+			$genre = $params["genre"];
+			$whrs .= " AND genre='$genre'";
+		}
+		// if(array_key_exists("status", $params)) {
+		// 	$status = $params["status"];
+		// 	$whrs .= " AND status='$status'";
+		// }
+		// if(array_key_exists("user_id", $params)) {
+		// 	$user_id = $params["user_id"];
+		// 	$whrs .= " AND user_id='$user_id'";
+		// }
+
+		$limits = '';
+		if (array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$tot_limit =   $params['limit'];
+			$str_limit =   $params['start'];
+			$limits = " LIMIT $str_limit, $tot_limit ";
+		} elseif (!array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$tot_limit =   $params['limit'];
+			$limits = " LIMIT $tot_limit ";
+		}
+
+		$query = $this->db->query("SELECT * FROM gigs WHERE status>0 $whrs ORDER BY created_on DESC $limits ");
+		return $query->result();
+	}
+
+	function filter_my_gigs($params = array())
+	{
+		// echo json_encode($params);
+		// die();
+		$whrs = '';
+		if (array_key_exists("search", $params)) {
+			$search = $params['search'];
+			if (strlen($search) > 0) {
+				$whrs .= " AND ( title LIKE '%$search%' /* OR subtitle LIKE '%$search%' OR address LIKE '%$search%' */ ) ";
 			}
 		}
 		if(array_key_exists("category", $params)) {
@@ -35,6 +77,14 @@ class Gigs_model extends CI_Model
 		if(array_key_exists("genre", $params)) {
 			$genre = $params["genre"];
 			$whrs .= " AND genre='$genre'";
+		}
+		if(array_key_exists("status", $params)) {
+			$status = $params["status"];
+			$whrs .= " AND status='$status'";
+		}
+		if(array_key_exists("user_id", $params)) {
+			$user_id = $params["user_id"];
+			$whrs .= " AND user_id='$user_id'";
 		}
 
 		$limits = '';
@@ -47,7 +97,7 @@ class Gigs_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE status=1 $whrs ORDER BY created_on DESC $limits ");
+		$query = $this->db->query("SELECT * FROM gigs WHERE id>0 $whrs ORDER BY created_on DESC $limits ");
 		return $query->result();
 	}
 

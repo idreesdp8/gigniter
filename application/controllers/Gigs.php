@@ -27,6 +27,7 @@ class Gigs extends CI_Controller
 		$this->load->model('user/users_model', 'users_model');
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/countries_model', 'countries_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		$this->gig_status_key = 'gig-status';
@@ -55,12 +56,17 @@ class Gigs extends CI_Controller
 		];
 		$category = $this->configurations_model->get_configuration_by_key_value($args2);
 		$gig->category_name = $category->label;
-		$gig->booked = 0;
 		$now = new DateTime();
 		$gig_date = new DateTime($gig->gig_date);
 		$interval = $gig_date->diff($now);
 		$gig->days_left = $interval->format('%a');
-		$gig->ticket_left = $gig->goal - 0;
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$gig->ticket_left = $gig->goal - $ticket_bought;
+		$gig->booked = $ticket_bought / $gig->goal * 100;
 		$data['gig'] = $gig;
 		// echo json_encode($gig);die();
 		$this->load->view('frontend/gigs/detail', $data);
@@ -294,14 +300,14 @@ class Gigs extends CI_Controller
 	function add_tickets($data, $gig_id)
 	{
 		$created_on = date('Y-m-d H:i:s');
-		if(isset($data["ticket_name"]) && $data['ticket_name'] != '') {
+		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
 			// echo $length;
 			// die();
 			for ($i = 0; $i < $length; $i++) {
 				$j = $i + 1;
 				$res = false;
-				if($data['ticket_name'][$i] != '') {
+				if ($data['ticket_name'][$i] != '') {
 					$tier = [
 						'user_id' => $this->dbs_user_id,
 						'gig_id' => $gig_id,
@@ -489,7 +495,7 @@ class Gigs extends CI_Controller
 			$this->load->view('frontend/gigs/update', $data);
 		}
 	}
-	
+
 	function remove_tickets($gig_id, $delete_bundle_img = '')
 	{
 		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
@@ -498,7 +504,7 @@ class Gigs extends CI_Controller
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
 				if (isset($bundles) && !empty($bundles)) {
 					foreach ($bundles as $bundle) {
-						if($delete_bundle_img) {
+						if ($delete_bundle_img) {
 							@unlink("downloads/bundles/thumb/$bundle->image");
 							@unlink("downloads/bundles/$bundle->image");
 						}
@@ -538,8 +544,13 @@ class Gigs extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+				$ticket_bought = 0;
+				foreach ($cart_items as $item) {
+					$ticket_bought += $item->quantity;
+				}
+				$gig->ticket_left = $gig->goal - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->goal * 100;
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -582,8 +593,13 @@ class Gigs extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+				$ticket_bought = 0;
+				foreach ($cart_items as $item) {
+					$ticket_bought += $item->quantity;
+				}
+				$gig->ticket_left = $gig->goal - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->goal * 100;
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -597,6 +613,76 @@ class Gigs extends CI_Controller
 			];
 		}
 		echo json_encode($response);
+	}
+
+	function filter_my_gigs()
+	{
+		$status = $this->input->post("status");
+		$search = $this->input->post("search");
+		$param = array();
+		// echo 'Status: ' . $status . ' Search: ' . $search;
+		if ($status) {
+			if ($status == 'live') {
+				$status = 2;
+			} else if ($status == 'completed') {
+				$status = 3;
+			} else if ($status == 'upcoming') {
+				$status = 1;
+			}
+			$param['status'] = $status;
+		}
+		if ($search) {
+			$param['search'] = $search;
+		}
+		$param['user_id'] = $this->dbs_user_id;
+		$gigs = $this->gigs_model->filter_my_gigs($param);
+		// echo json_encode($gigs);
+		// die();
+		if ($gigs) {
+			$now = new DateTime();
+			foreach ($gigs as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args1 = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+				$gig->genre_name = $genre->label;
+				$args2 = [
+					'key' => $this->category_key,
+					'value' => $gig->category
+				];
+				$category = $this->configurations_model->get_configuration_by_key_value($args2);
+				$gig->category_name = $category->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+				$ticket_bought = 0;
+				foreach ($cart_items as $item) {
+					$ticket_bought += $item->quantity;
+				}
+				$gig->ticket_left = $gig->goal - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->goal * 100;
+			}
+		}
+		$data['gigs'] = $gigs;
+
+		// $response = array();
+
+		if ($data['gigs']) {
+			$response = [
+				'status' => 1,
+				'view' => $this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE)
+			];
+		} else {
+			$response = [
+				'status' => 0,
+			];
+		}
+		$this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE);
+		// echo json_encode($response);
 	}
 
 	function my_gigs()
@@ -622,8 +708,13 @@ class Gigs extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+				$ticket_bought = 0;
+				foreach ($cart_items as $item) {
+					$ticket_bought += $item->quantity;
+				}
+				$gig->ticket_left = $gig->goal - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->goal * 100;
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -659,8 +750,6 @@ class Gigs extends CI_Controller
 		echo json_encode($tiers);
 	}
 
-
-
 	function select_tier()
 	{
 		$tier = $this->input->post('tier');
@@ -676,50 +765,6 @@ class Gigs extends CI_Controller
 		// echo json_encode('Tier: '.$tier.' Quantity: '.$quantity.' Gig_id: '.$gig_id);
 	}
 
-	// function checkout()
-	// {
-	// 	if(isset($_POST) && !empty($_POST)) {
-	// 		// echo json_encode($_POST);
-	// 		// die();
-	// 		$email_to = $this->input->post("user_email");
-
-	// 		$is_sent = $this->send_email($email_to, 'Order Created', 'ticket_purchase');
-	// 		if($is_sent) {
-	// 			redirect('/');
-	// 		} else {
-	// 			redirect('gigs/checkout');
-	// 		}
-	// 	} else {
-	// 		if($this->dbs_user_id) {
-	// 			$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
-	// 			$link = $this->users_model->get_specific_social_link($this->dbs_user_id, 'mail');
-	// 			$data['mail_link'] = $link->url;
-	// 		} else {
-	// 			$data['user'] = [];
-	// 			$data['mail_link'] = '';
-	// 		}
-			
-	// 		$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
-	// 		$venues = explode(',', $gig->venues);
-	// 		foreach ($venues as $venue) {
-	// 			$temp[] = str_replace('-', ' ', $venue);
-	// 		}
-	// 		$gig->venues = $temp;
-	// 		$data['gig'] = $gig;
-	// 		// $tier =  $this->session->userdata('ticket_tier');
-	// 		// echo $tier;
-	// 		// die();
-	// 		$data['quantity'] = $this->session->userdata('quantity');
-	// 		$tier = $this->gigs_model->get_ticket_tier_by_id($this->session->userdata('ticket_tier'));
-	// 		$data['tier'] = $tier;
-	// 		$price = $data['quantity'] * $tier->price;
-	// 		$data['total_price'] = $price;
-	// 		// echo json_encode($data);
-	// 		// die();
-	// 		$this->load->view('frontend/gigs/checkout', $data);
-	// 	}
-	// }
-	
 	function send_email($to_email, $subject, $email_for)
 	{
 		$from_email = $this->config->item('info_email');

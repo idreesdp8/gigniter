@@ -443,19 +443,25 @@ class Account extends CI_Controller
 						// 'us_username' => ($res->username ? ucfirst($res->username) : ''),
 						'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
 						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
+						'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '').' '.($data['lname'] ? ucfirst($data['lname']) : ''),
 					);
 					$this->session->set_userdata($cstm_sess_data);
 					$stripe_id = $this->input->post('stripe_id');
-					$this->users_model->trash_user_stripe_details($data['id']);
-					if ($stripe_id) {
-						$account = $this->create_user_stripe_account($stripe_id);
-						$temp = [
-							'user_id' => $data['id'],
-							'stripe_id' => $stripe_id,
-							'stripe_account_id' => $account->id,
-						];
-						$this->users_model->insert_user_stripe_details($temp);
+					$stripe_details = $this->users_model->get_user_stripe_details($data['id']);
+					if($stripe_details->stripe_id != $stripe_id) {
+						$this->users_model->trash_user_stripe_details($data['id']);
+						if ($stripe_id) {
+							$account = $this->create_user_stripe_account($stripe_id);
+							$temp = [
+								'user_id' => $data['id'],
+								'stripe_id' => $stripe_id,
+								'stripe_account_id' => $account->id,
+							];
+							$this->users_model->insert_user_stripe_details($temp);
+						}
 					}
+					// echo json_encode($stripe_details);
+					// die();
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating user!');

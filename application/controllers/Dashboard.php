@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/users_model', 'users_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		// if (isset($vs_id) && (isset($vs_user_role_id) && $vs_user_role_id >= 1)) {
 		// 	// /* ok */
 		// 	// $res_nums = $this->general_model->check_controller_permission_access('Admin/Dashboard', $vs_user_role_id, '1');
@@ -62,8 +63,9 @@ class Dashboard extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 				if ($gig->is_featured) {
 					$featured_gigs[] = $gig;
 				}
@@ -82,8 +84,9 @@ class Dashboard extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		if ($now_showing) {
@@ -99,8 +102,9 @@ class Dashboard extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$gig->booked = 0;
-				$gig->ticket_left = $gig->goal - 0;
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -114,5 +118,17 @@ class Dashboard extends CI_Controller
 		// echo json_encode($data['now_showing']);
 		// die();
 		$this->load->view('frontend/index', $data);
+	}
+
+	function get_tickets_booked_and_left($gig)
+	{
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$param['ticket_left'] = $gig->goal - $ticket_bought;
+		$param['booked'] = $ticket_bought / $gig->goal * 100;
+		return $param;
 	}
 }

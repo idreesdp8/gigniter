@@ -95,6 +95,7 @@ class Transactions extends CI_Controller
             $gig->genre_label = $genre->label;
             $cart_items = $this->bookings_model->get_booking_items_by_gig_id($args1);
             $ticket_bought = 0;
+            $total_sale = 0;
             // $bundles = array();
             foreach ($cart_items as $item) {
                 $user = $this->users_model->get_user_by_id($item->user_id);
@@ -104,6 +105,7 @@ class Transactions extends CI_Controller
                 // }
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
+                $total_sale += $item->price;
                 $ticket->bundles = $bundles;
                 $item->user_name = $user->fname . ' ' . $user->lname;
                 $item->ticket = $ticket;
@@ -111,6 +113,9 @@ class Transactions extends CI_Controller
             }
             $gig->cart_items = $cart_items;
             $gig->ticket_left = $gig->goal - $ticket_bought;
+            $gig->total_sale = $total_sale;
+            $gig->booked = $ticket_bought / $gig->goal * 100;
+            // $gig->booked = 100;
             $data['gig'] = $gig;
 
             // echo json_encode($gig);

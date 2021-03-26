@@ -15,6 +15,26 @@
             color: black;
             padding: 5px !important;
         } */
+
+        .bundle-pill {
+            padding: 3px 8px;
+            margin: 2px;
+            border-radius: .75rem;
+            font-weight: 600;
+            color: #0e1e5e;
+        }
+
+        .pill-warning {
+            background: #f1c40c;
+        }
+
+        .pill-success {
+            background: #28a745;
+        }
+
+        .pill-danger {
+            background: #e0004d;
+        }
     </style>
 </head>
 
@@ -49,10 +69,10 @@
                                     <tr>
                                         <th>Order #</th>
                                         <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Gig Name(s)</th>
+                                        <th>Gig Name</th>
                                         <th>Ticket(s)</th>
                                         <th>Status</th>
+                                        <th>Purchase Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,22 +83,33 @@
                                         <tr>
                                             <td><?php echo $booking->booking_no ?></td>
                                             <td><?php echo '$' . $booking->price  ?></td>
-                                            <td><?php echo date('M d, Y H:i A', strtotime($booking->created_on)) ?></td>
-                                            <td><?php echo $booking->gig_names ?></td>
-                                            <td><?php echo $booking->ticket_names ?></td>
                                             <td>
-                                                <?php
+                                                <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $booking->gig_id ?>" target="_blank">
+                                                <?php echo $booking->gig_name ?>
+                                            </a>
+                                        </td>
+                                        <td><?php echo $booking->ticket_names ?></td>
+                                        <td>
+                                            <?php
                                                 if ($booking->is_paid == 0)
-                                                    echo 'Pending';
+                                                echo '<span class="bundle-pill pill-warning">On Hold</span>';
                                                 if ($booking->is_paid == 1)
-                                                    echo 'Paid';
+                                                echo '<span class="bundle-pill pill-success">Paid</span>';
                                                 if ($booking->is_paid == 2)
-                                                    echo 'Cancelled';
+                                                echo '<span class="bundle-pill pill-danger">Cancelled</span>';
                                                 // echo $booking->is_paid ? 'Paid' : 'Pending'
                                                 ?>
                                             </td>
+                                            <td><?php echo date('M d, Y H:i A', strtotime($booking->created_on)) ?></td>
                                             <td>
-                                                <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                                <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="View order detail" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                                <?php
+                                                if ($booking->is_paid == 0) :
+                                                ?>
+                                                    <a href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                                <?php
+                                                endif;
+                                                ?>
                                             </td>
                                         </tr>
                                     <?php

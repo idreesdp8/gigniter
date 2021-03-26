@@ -8,6 +8,11 @@
         #grid_view {
             margin-top: 3rem;
         }
+
+        input[type="text"],select {
+            color: black;
+            padding: 5px !important;
+        }
     </style>
 </head>
 
@@ -33,52 +38,23 @@
             <div class="row">
                 <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <?php $this->load->view('alert/alert'); ?>
-                    <?php
-                    if ($gigs) :
-                    ?>
-                        <div class="row">
-                            <?php
-                            foreach ($gigs as $gig) :
-                            ?>
-                                <div class="col-md-4">
-                                    <div class="card grid-card" style="background: transparent;">
-                                        <div class="card-header p-0">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
-                                        </div>
-                                        <div class="card-footer grid-footer">
-                                            <div class="d-flex">
-                                                <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
-                                                    <h6><?php echo $gig->user_name ?></h6>
-                                                    <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
-                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
-                                                </div>
-                                                <div class="circlebar">
-                                                    <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
-                                                        <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
-                                                        <div class="pie_progress__label">Booked</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
-                                            <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                                <button type="submit" class="btn btn-warning btn-watch mb-4">Delete</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            endforeach;
-                            ?>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
+                            Status: <select id="status">
+                                <option value="">Choose Status</option>
+                                <option value="live">Live</option>
+                                <option value="completed">Past</option>
+                                <option value="upcoming">Upcoming</option>
+                            </select>
                         </div>
-                    <?php
-                    else :
-                    ?>
-                        <div>No record found</div>
-                    <?php
-                    endif;
-                    ?>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
+                            Search: <input type="text" id="search">
+                        </div>
+                    </div>
+                    <div id="partial_view">
+                        <?php $this->load->view('frontend/gigs/partial_my_gigs'); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,44 +66,48 @@
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
-        const base_url = '<?php echo user_base_url(); ?>';
         $(document).ready(function() {
             // $('#explore_menu').addClass('active');
 
-            // $('#category').change(function() {
-            //     filter_gigs();
-            // });
-            // $('#genre').change(function() {
-            //     filter_gigs();
-            // });
+            $('#status').change(function() {
+                filter_gigs();
+            });
+            var timer;
+            $('#search').keyup(function() {
+                clearTimeout(timer);
+                var ms = 1000;
+                timer = setTimeout(function() {
+                    filter_gigs();
+                }, ms);
+            });
         });
 
-        // function filter_gigs() {
-        //     var cat = $('#category').val();
-        //     var gen = $('#genre').val();
-        //     $.ajax({
-        //         url: base_url + 'gigs/filter_gig',
-        //         method: 'post',
-        //         data: {
-        //             'category': cat,
-        //             'genre': gen,
-        //         },
-        //         dataType: 'json',
-        //         success: function(result) {
-        //             if(result.grid && result.list) {
-        //                 $('#list_view').empty();
-        //                 $('#grid_view').empty();
-        //                 $('#list_view').html(result.list);
-        //                 $('#grid_view').html(result.grid);
-        //             } else {
-        //                 $('#list_view').empty();
-        //                 $('#grid_view').empty();
-        //                 $('#list_view').html('<div>No Record Found</div>');
-        //                 $('#grid_view').html('<div>No Record Found</div>');
-        //             }
-        //         }
-        //     });
-        // }
+        function filter_gigs() {
+            var status = $('#status').val();
+            var search = $('#search').val();
+            // console.log(status);
+            // console.log(search);
+            $.ajax({
+                url: base_url + 'gigs/filter_my_gigs',
+                method: 'post',
+                data: {
+                    'status': status,
+                    'search': search,
+                },
+                dataType: 'json',
+                success: function(result) {
+                    console.log(result);
+                    $('#partial_view').empty();
+                    var praseHtml = $.parseHTML(result);
+                    $('#partial_view').html(praseHtml);
+                    // if(result.status) {
+                    // } else {
+                    //     $('#partial_view').empty();
+                    //     $('#partial_view').html('No record found!');
+                    // }
+                }
+            });
+        }
     </script>
 </body>
 

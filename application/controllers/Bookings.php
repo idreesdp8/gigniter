@@ -26,13 +26,13 @@ class Bookings extends CI_Controller
 
 		$this->load->model('user/users_model', 'users_model');
 		// $this->load->model('user/customers_model', 'customers_model');
-        $this->load->model('user/configurations_model', 'configurations_model');
-        $this->load->model('user/bookings_model', 'bookings_model');
-        $this->load->model('user/gigs_model', 'gigs_model');
+		$this->load->model('user/configurations_model', 'configurations_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
+		$this->load->model('user/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		// $this->key = 'gig-status';
-        $this->genre_key = 'genre';
-        $this->category_key = 'category';
+		$this->genre_key = 'genre';
+		$this->category_key = 'category';
 
 		// $this->load->library('Ajax_pagination');
 		// $this->perPage = 25;
@@ -56,13 +56,16 @@ class Bookings extends CI_Controller
 					$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 					$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 					$temp_gig_titles[] = $gig->title;
-					$gig_names = implode(', ', array_unique($temp_gig_titles));
-					$temp_tickets_titles[] = $ticket->name;
+					$temp_gig_ids[] = $gig->id;
+					$gig_id = implode(', ', array_unique($temp_gig_ids));
+					$gig_name = implode(', ', array_unique($temp_gig_titles));
+					$temp_tickets_titles[] = $ticket->name . ' <small>(x' . $item->quantity . ')</small>';
 					$ticket_names = implode(', ', /* array_unique */ ($temp_tickets_titles));
 				}
 			}
 			// $booking->transaction = $transaction;
-			$booking->gig_names = $gig_names;
+			$booking->gig_name = $gig_name;
+			$booking->gig_id = $gig_id;
 			$booking->ticket_names = $ticket_names;
 		}
 		$data['bookings'] = $bookings;
@@ -94,26 +97,36 @@ class Bookings extends CI_Controller
 			$booking->customer = $customer;
 			$booking->transaction = $transaction;
 			$data['booking'] = $booking;
-			// echo json_encode($transaction);
+			
+			$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+			$ticket_bought = 0;
+			foreach ($cart_items as $item) {
+				$ticket_bought += $item->quantity;
+			}
+			$gig->ticket_left = $gig->goal - $ticket_bought;
+			$gig->booked = $ticket_bought / $gig->goal * 100;
+			$data['gig'] = $gig;
+			// echo json_encode($data);
 			// die();
 			$this->load->view('frontend/bookings/show', $data);
 		}
 	}
 
-    public function cancel_booking()
-    {
-        $booking_id = $this->input->post('id');
+	public function cancel_booking($id)
+	{
+		// $booking_id = $this->input->post('id');
 		$param = [
 			'is_paid' => 2
 		];
-		$res = $this->bookings_model->update_booking_data($booking_id, $param);
-		if($res) {
+		// $res = $this->bookings_model->update_booking_data($id, $param);
+		$res = $this->bookings_model->trash_booking($id);
+		if ($res) {
 			$this->session->set_flashdata('success_msg', 'Your Booking is cancelled!');
 		} else {
 			$this->session->set_flashdata('error_msg', 'Error occured');
 		}
 		redirect('bookings');
-        // echo $booking_id;
-        // die();
-    }
+		// echo $booking_id;
+		// die();
+	}
 }
