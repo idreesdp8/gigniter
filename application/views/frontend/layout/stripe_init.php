@@ -71,10 +71,14 @@
 
     // Create single-use token to charge the user
     function createToken() {
-        stripe.createToken(cardNumberElement,cardExpiryElement,cardCvcElement).then(function(result) {
+        stripe.createToken(cardNumberElement, cardExpiryElement, cardCvcElement).then(function(result) {
             if (result.error) {
                 // Inform the user if there was an error
-                alert(result.error.message);
+                swal({
+                    icon: 'error',
+                    title: result.error.message,
+                });
+                // alert(result.error.message);
                 // resultContainer.innerHTML = '<p>' + result.error.message + '</p>';
             } else {
                 // Send the token to your server

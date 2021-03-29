@@ -7,6 +7,8 @@ class Cart extends CI_Controller
 	{
 		parent::__construct();
 
+		// echo json_encode($this->session->userdata('cart_contents'));
+		// die();
 
 		$this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
 		$this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
@@ -35,7 +37,7 @@ class Cart extends CI_Controller
 		// $this->category_key = 'category';
 
 		// $this->load->library('Ajax_pagination');
-		$this->load->library('cart');
+		// $this->load->library('cart');
 		// $this->load->library('stripe');
 		// $this->perPage = 25;
 	}
@@ -88,9 +90,21 @@ class Cart extends CI_Controller
 
 	public function add()
 	{
+		$insert_flag = true;
+		$cart_items = $this->cart->contents();
 		$gig_id = $this->input->post('gig_id');
 		$ticket_tier_ids = $this->input->post('ticket_tier_id[]');
 		$quantities = $this->input->post('qty[]');
+		foreach($cart_items as $item) {
+			$cart_gig_id = $item['gig_id'];
+			if($gig_id != $cart_gig_id) {
+				$insert_flag = false;
+			}
+		}
+		if(!$insert_flag) {
+			$this->session->set_flashdata('warning_msg', 'Please checkout first!');
+			redirect($this->input->server('HTTP_REFERER'));
+		}
 		$created_on = date('Y-m-d H:i:s');
 		$gig = $this->gigs_model->get_gig_by_id($gig_id);
 		$length = count($ticket_tier_ids);
@@ -109,36 +123,14 @@ class Cart extends CI_Controller
 			];
 			// }
 		}
-		// echo json_encode($gig_id);
-		// echo json_encode($ticket_tier_ids);
-		// echo json_encode($quantities);
-		// echo json_encode($param);
-		// die();
-
-		// $user_id = $this->dbs_user_id;
-		// $params = [
-		// 	'gig_id' => $gig_id,
-		// 	'ticket_tier_id' => $ticket_tier_id,
-		// 	'quantity' => $quantity,
-		// 	'user_id' => $user_id ?? 0,
-		// 	'created_on' => $created_on,
-		// ];
-		// $res = $this->carts_model->insert_cart_data($params);
 
 		$res = $this->cart->insert($param);
 
 		if ($res) {
 			redirect('cart/checkout');
-			// $response = [
-			// 	'status' => '200',
-			// 	'message' => 'Added to Cart'
-			// ];
 		} else {
-			$response = [
-				'status' => '500',
-				'message' => 'Problem occured!'
-			];
-			echo json_encode($response);
+			$this->session->set_flashdata('error_msg', 'Problem occured!');
+			redirect($this->input->server('HTTP_REFERER'));
 		}
 	}
 

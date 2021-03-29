@@ -73,6 +73,7 @@ $(document).ready(function () {
     // var error_poster = false;
     var error_gig_address = false;
     var error_goal = false;
+    var error_threshold = false;
     var error_gig_date = false;
     var error_campaign_date = false;
     var error_start_time = false;
@@ -133,6 +134,21 @@ $(document).ready(function () {
         } else {
             $("#goal").removeClass("good").addClass("error");
             error_goal = true;
+        }
+    }
+    $("#threshold").focusout(function () {
+        check_threshold();
+        $('#gig_threshold').html($(this).val());
+    });
+    function check_threshold() {
+        var pattern = /^[0-9]*$/;
+        var threshold = $("#threshold").val();
+        var goal = $("#goal").val();
+        if (pattern.test(threshold) && threshold !== '' && threshold<goal) {
+            $("#threshold").removeClass("error").addClass("good");
+        } else {
+            $("#threshold").removeClass("good").addClass("error");
+            error_threshold = true;
         }
     }
 

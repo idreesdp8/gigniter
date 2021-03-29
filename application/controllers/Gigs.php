@@ -89,6 +89,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
+			$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
 			// $this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 			// $this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			if ($this->form_validation->run() == FALSE) {
@@ -144,6 +145,7 @@ class Gigs extends CI_Controller
 					'address' => $data['address'] ?? null,
 					'poster' => $imagename,
 					'goal' => $data['goal'] ?? null,
+					'threshold' => $data['threshold'] ?? null,
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
@@ -381,6 +383,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
+			$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
 			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 
@@ -396,6 +399,7 @@ class Gigs extends CI_Controller
 					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
 					'goal' => $data['goal'],
+					'threshold' => $data['threshold'],
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
 					'is_overshoot' => $data['is_overshoot'] ?? 0,

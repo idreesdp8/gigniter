@@ -66,6 +66,7 @@
         <form method="post" action="<?php echo user_base_url() ?>cart/add">
             <input type="hidden" name="gig_id" value="<?php echo $gig->id ?>" />
             <div class="container">
+        <?php $this->load->view('alert/alert'); ?>
                 <div class="section-header-3">
                     <span class="cate">simple pricing</span>
                     <h2 class="title">Choose package</h2>
@@ -175,7 +176,7 @@
                         method: 'POST',
                         dataType: 'json',
                         success: function(resp) {
-                            if(resp.status == '500') {
+                            if (resp.status == '500') {
                                 alert(resp.message);
                             }
                         }

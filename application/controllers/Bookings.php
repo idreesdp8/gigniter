@@ -47,6 +47,8 @@ class Bookings extends CI_Controller
 			// $user = $this->users_model->get_user_by_id($booking->user_id);
 			// $transaction = $this->bookings_model->get_charged_transaction_by_booking_id($booking->id);
 			$cart_items = $this->bookings_model->get_booking_items($booking->id);
+			// echo json_encode($cart_items);
+			// die();
 			$gig_names = '';
 			$ticket_names = '';
 			if ($cart_items) {
@@ -103,7 +105,7 @@ class Bookings extends CI_Controller
 			foreach ($cart_items as $item) {
 				$ticket_bought += $item->quantity;
 			}
-			$gig->ticket_left = $gig->goal - $ticket_bought;
+			$gig->ticket_left = $gig->threshold - $ticket_bought;
 			$gig->booked = $ticket_bought / $gig->goal * 100;
 			$data['gig'] = $gig;
 			// echo json_encode($data);

@@ -193,12 +193,18 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Enter Goal
+                    Target Number of Tickets
                       <input type="text" id="goal" name="goal" value="<?php echo $gig->goal ?>" required="required">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <label>
+                    Ticket Threshold
+                      <input type="text" id="threshold" name="threshold" value="<?php echo $gig->threshold ?>" required="required">
+                      <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
+                    </label>
+                  </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Campaign Launch Date
