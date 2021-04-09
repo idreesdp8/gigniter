@@ -672,20 +672,22 @@ class Gigs extends CI_Controller
 			}
 		}
 		$data['gigs'] = $gigs;
+		// echo json_encode($data);
+		// die();
 
 		// $response = array();
 
-		if ($data['gigs']) {
-			$response = [
-				'status' => 1,
-				'view' => $this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE)
-			];
-		} else {
-			$response = [
-				'status' => 0,
-			];
-		}
-		$this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE);
+		// if ($data['gigs']) {
+		// 	$response = [
+		// 		'status' => 1,
+		// 		'view' => $this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE)
+		// 	];
+		// } else {
+		// 	$response = [
+		// 		'status' => 0,
+		// 	];
+		// }
+		echo $this->load->view('frontend/gigs/partial_my_gigs', $data, TRUE);
 		// echo json_encode($response);
 	}
 
@@ -767,40 +769,5 @@ class Gigs extends CI_Controller
 		$this->session->set_userdata($param);
 		redirect('gigs/checkout');
 		// echo json_encode('Tier: '.$tier.' Quantity: '.$quantity.' Gig_id: '.$gig_id);
-	}
-
-	function send_email($to_email, $subject, $email_for)
-	{
-		$from_email = $this->config->item('info_email');
-		$from_name = $this->config->item('from_name');
-
-		if ($email_for == 'verification') {
-			$this->load->helper('string');
-			$code = random_string('alnum', 6);
-			$this->session->set_userdata(['verification_code' => $code]);
-			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
-			$msg = $this->load->view('email/verification_code', $data, TRUE);
-		}
-		if ($email_for == 'forgot_password') {
-			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
-			$msg = $this->load->view('email/forgot_password', $data, TRUE);
-		}
-
-		if ($email_for == 'ticket_purchase') {
-			// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
-			$msg = $this->load->view('email/ticket_purchase', '', TRUE);
-		}
-
-
-		$this->email->from($from_email, $from_name);
-		$this->email->to($to_email);
-		$this->email->subject($subject);
-		$this->email->message($msg);
-		//Send mail
-		if ($this->email->send()) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

@@ -24,7 +24,7 @@
     <section class="explore-banner-section bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-2.png">
         <div class="container">
             <div class="text-box text-center">
-                <h2 class="exlpore-title">My<span class="explore-animated-title"> GIGS</span></h2>
+                <h2 class="exlpore-title">My<span class="explore-animated-title"> SHOWS</span></h2>
                 <h5 class="explore-subtitle">Buy movie tickets in advance, find movie times watch trailer, read movie reviews and much more</h5>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <?php $this->load->view('alert/alert'); ?>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
                             Status: <select id="status">
@@ -52,9 +52,9 @@
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
                             Search: <input type="text" id="search">
                         </div>
-                    </div>
+                    </div> -->
                     <div id="partial_view">
-                        <?php $this->load->view('frontend/gigs/partial_my_gigs'); ?>
+                        <?php $this->load->view('frontend/live/partial_my_shows'); ?>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
             // console.log(status);
             // console.log(search);
             $.ajax({
-                url: base_url + 'gigs/filter_my_gigs',
+                url: base_url + 'gigs/filter_my_shows',
                 method: 'post',
                 data: {
                     'status': status,

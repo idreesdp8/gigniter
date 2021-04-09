@@ -129,6 +129,19 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_upcoming_user_gigs($user_id)
+	{
+		// $this->db->select('*');
+		// $this->db->from('gigs');
+		// $this->db->join('cart', 'cart.gig_id = gigs.id');
+		// $this->db->where('cart.user_id', $user_id);
+		// $query = $this->db->get();
+		$sql = "SELECT * FROM gigs JOIN cart ON cart.gig_id=gigs.id WHERE cart.user_id = ? ORDER BY gigs.created_on ASC";
+		$query = $this->db->query($sql, array($user_id));
+		// return $query;
+		return $query->result();
+	}
+
 	function get_active_user_gigs($user_id)
 	{
 		$sql = "SELECT * FROM gigs WHERE user_id = ? AND status > ? AND is_draft = ? ORDER BY created_on DESC";
@@ -146,6 +159,13 @@ class Gigs_model extends CI_Model
 	function get_gig_by_id($args1)
 	{
 		$query = $this->db->get_where('gigs', array('id' => $args1));
+		return $query->row();
+	}
+
+	function get_gig_threshold($id)
+	{
+		$sql = "SELECT threshold FROM gigs WHERE id = ?";
+		$query = $this->db->query($sql, array($id));
 		return $query->row();
 	}
 

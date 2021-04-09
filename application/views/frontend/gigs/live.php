@@ -25,8 +25,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12 mb-2">
-                    <iframe class="w-100 h-100" src="https://www.youtube.com/embed/tgbNymZ7vqY">
-                    </iframe>
+                    <iframe src="https://iframe.dacast.com/live/f3834221-e170-26ff-318f-79bb11347580/638247f1-aefa-2baf-9aa2-d91f86e5b126" width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <img src="<?php echo user_asset_url(); ?>images/detail-page/custom-text-box.png" class="w-100">

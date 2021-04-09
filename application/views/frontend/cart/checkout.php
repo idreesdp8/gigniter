@@ -200,7 +200,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="booking-summery bg-one">
-                            <h4 class="title">booking summary</h4>
+                            <h4 class="title">order summary</h4>
                             <ul>
                                 <!-- <li>
                                     <h6 class="subtitle">Venues</h6>
@@ -215,25 +215,37 @@
                                     ?>
                                 </li> -->
                                 <?php
-                                foreach ($cart_items as $item) :
+                                if ($cart_items) :
+                                    echo '<input type="hidden" id="is_empty" value="0">';
+                                    foreach ($cart_items as $item) :
                                 ?>
-                                    <li>
-                                        <h6 class="subtitle">
-                                            <input type="hidden" class="rowid" value="<?php echo $item['rowid'] ?>">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <span><?php echo $item['name'] ?></span>
-                                                <span class="text-danger mt-auto mb-auto cursor-pointer remove_item"><i class="fas fa-times"></i></span>
-                                            </div>
-                                            <div class="w-25"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
-                                        </h6>
-                                        <div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
-                                        <div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
-                                    </li>
-                                    <!-- <li>
+                                        <li>
+                                            <h6 class="subtitle">
+                                                <input type="hidden" class="rowid" value="<?php echo $item['rowid'] ?>">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <span><?php echo $item['name'] ?></span>
+                                                    <span class="text-danger mt-auto mb-auto cursor-pointer remove_item"><i class="fas fa-times"></i></span>
+                                                </div>
+                                                <div class="w-25"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
+                                            </h6>
+                                            <div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
+                                            <div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
+                                        </li>
+                                        <!-- <li>
                                     <h6 class="subtitle mb-0"><span>Tickets Price</span><span>$<?php echo $item['subtotal']; ?></span></h6>
                                 </li> -->
+                                    <?php
+                                    endforeach;
+                                else :
+                                    ?>
+                                    <li>
+                                        <input type="hidden" id="is_empty" value="1">
+                                        <p>
+                                            Your Cart is empty!
+                                        </p>
+                                    </li>
                                 <?php
-                                endforeach;
+                                endif;
                                 ?>
                             </ul>
                             <ul class="side-shape">

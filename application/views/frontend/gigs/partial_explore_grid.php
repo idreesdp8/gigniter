@@ -29,8 +29,8 @@ if ($gigs) :
                             </div>
                         </div>
                         <div class="d-flex">
-                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id; ?>">book now</a>
-                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
+                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
+                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
                         </div>
                     </div>
                 </div>
@@ -39,6 +39,10 @@ if ($gigs) :
         endforeach;
         ?>
     </div>
+<?php
+else :
+?>
+    <div>No record found</div>
 <?php
 endif;
 ?>

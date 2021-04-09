@@ -66,7 +66,17 @@
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        createToken();
+        var is_empty = document.getElementById('is_empty').value;
+        // alert(is_empty);
+        if (is_empty == 1) {
+            swal({
+                icon: 'warning',
+                title: 'Your Cart is Empty',
+                text: 'Please add some items in your cart first!',
+            });
+        } else {
+            createToken();
+        }
     });
 
     // Create single-use token to charge the user

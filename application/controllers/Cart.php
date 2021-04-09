@@ -95,13 +95,13 @@ class Cart extends CI_Controller
 		$gig_id = $this->input->post('gig_id');
 		$ticket_tier_ids = $this->input->post('ticket_tier_id[]');
 		$quantities = $this->input->post('qty[]');
-		foreach($cart_items as $item) {
+		foreach ($cart_items as $item) {
 			$cart_gig_id = $item['gig_id'];
-			if($gig_id != $cart_gig_id) {
+			if ($gig_id != $cart_gig_id) {
 				$insert_flag = false;
 			}
 		}
-		if(!$insert_flag) {
+		if (!$insert_flag) {
 			$this->session->set_flashdata('warning_msg', 'Please checkout first!');
 			redirect($this->input->server('HTTP_REFERER'));
 		}
@@ -125,7 +125,7 @@ class Cart extends CI_Controller
 		}
 
 		$res = $this->cart->insert($param);
-
+		// echo json_encode($this->cart->contents());die();
 		if ($res) {
 			redirect('cart/checkout');
 		} else {
@@ -203,7 +203,11 @@ class Cart extends CI_Controller
 	{
 		// // $this->cart->destroy();
 		$cart_items = $this->cart->contents();
-		// echo json_encode($cart_items);
+		
+		foreach ($cart_items as $item) {
+			$gig_id = $item['gig_id'];
+		}
+		// echo json_encode($gig_id);
 		// die();
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
 
@@ -238,7 +242,8 @@ class Cart extends CI_Controller
 				$is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
 			}
 
-			// echo json_encode($_POST);
+			$threshold = $this->gigs_model->get_gig_threshold($gig_id);
+			// echo json_encode($threshold);
 			// die();
 
 			$price = $this->cart->total();
@@ -247,10 +252,12 @@ class Cart extends CI_Controller
 			$booking_params = [
 				'booking_no' => $booking_no,
 				'user_id' => $user_id,
+				'gig_id' => $gig_id,
 				'price' => $price,
 				'is_paid' => 0,
 				'created_on' => $created_on
 			];
+
 			$res = $this->bookings_model->insert_booking_data($booking_params);
 			// $user_accounts = [];
 			if ($res) {
@@ -264,24 +271,21 @@ class Cart extends CI_Controller
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
-					// $gig = $this->gigs_model->get_gig_by_id($item['gig_id']);
-					// $user_stripe_detail = $this->users_model->get_stripe_details($gig->user_id);
-					// array_push($user_accounts, $user_stripe_detail->stripe_account_id);
-					// $gig_owner_ids = $gig->user_id;
 				}
 				$resp = $this->bookings_model->insert_cart_data($cart_params);
 			}
-			$this->charge_and_transfer($user_id, $token, $email_to, $name, $res);
-			// $customer_id = $this->create_customer($token, $email_to, $name);
-			// $cust_param = [
-			// 	'customer_id' => $customer_id,
-			// 	'email' => $email_to,
-			// 	'user_id' => $user ? $user->id : $user_id,
-			// 	'booking_id' => $res,
-			// 	'created_on' => $created_on
-			// ];
-			// $this->customers_model->insert_customer_data($cust_param);
-			// $this->charge_amount($price, $customer_id);
+			
+			$items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
+			$ticket_bought = 0;
+			foreach ($items as $item) {
+				$ticket_bought += $item->quantity;
+			}
+			// echo json_encode($ticket_bought);
+			// die();
+			$this->create_customer($token, $email_to, $name, $res);
+			if($ticket_bought == $threshold->threshold){
+				$this->charge_and_transfer($gig_id);
+			}
 
 			$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if ($is_sent) {
@@ -307,7 +311,33 @@ class Cart extends CI_Controller
 		}
 	}
 
-	function charge_and_transfer($user_id, $token, $email, $name, $booking_id)
+	function create_customer($token, $email, $name, $booking_id)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+		\Stripe\Stripe::setApiKey($stripeSecret);
+		try {
+			$customer = \Stripe\Customer::create(array(
+				'email' => $email,
+				'name' => $name,
+				'source'  => $token,
+				'description' => 'Gigniter Customer'
+			));
+
+			echo json_encode($customer);
+			die();
+
+			$success_md = 1;
+			$error_msg = 0;
+		} catch (\Exception $e) {
+			$error0 = $e->getMessage();
+			$error_msg = $error0;
+			$success_md = 0;
+		}
+		$this->bookings_model->update_booking_data($booking_id, array('customer_stripe_id' => $customer->id));
+	}
+
+	function charge_and_transfer($gig_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
@@ -321,24 +351,24 @@ class Cart extends CI_Controller
 		$total_charged = $booking->price;
 		$success_md = 0;
 		$error_msg = '';
-		try {
-			$customer = \Stripe\Customer::create(array(
-				'email' => $email,
-				'name' => $name,
-				'source'  => $token,
-				'description' => 'Gigniter Customer'
-			));
+		// try {
+		// 	$customer = \Stripe\Customer::create(array(
+		// 		'email' => $email,
+		// 		'name' => $name,
+		// 		'source'  => $token,
+		// 		'description' => 'Gigniter Customer'
+		// 	));
 
-			// echo json_encode($customer);
-			// die();
+		// 	// echo json_encode($customer);
+		// 	// die();
 
-			$success_md = 1;
-			$error_msg = 0;
-		} catch (\Exception $e) {
-			$error0 = $e->getMessage();
-			$error_msg = $error0;
-			$success_md = 0;
-		}
+		// 	$success_md = 1;
+		// 	$error_msg = 0;
+		// } catch (\Exception $e) {
+		// 	$error0 = $e->getMessage();
+		// 	$error_msg = $error0;
+		// 	$success_md = 0;
+		// }
 		if ($success_md == 1) {
 			$currency = $this->config->item('stripe_currency');
 

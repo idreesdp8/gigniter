@@ -131,4 +131,45 @@ class Bookings extends CI_Controller
 		// echo $booking_id;
 		// die();
 	}
+
+	public function invite_friends()
+	{
+		$data = $_POST;
+		// echo json_encode($data);
+		$error = 1;
+		foreach($data['email'] as $email){
+			$send = $this->send_email($email, 'Invitation to Gigniter');
+			if($send) {
+				$error = 0;
+			} else {
+				$error = 1;
+				continue;
+			}
+		}
+		if($error){
+			$this->session->set_flashdata('error_msg', 'Error occured');
+		} else {
+			$this->session->set_flashdata('success_msg', 'Ticket are sent to your friends');
+		}
+		redirect('bookings');
+	}
+	function send_email($to_email, $subject)
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+		
+		$msg = $this->load->view('email/ticket_invitation', '', TRUE);
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
