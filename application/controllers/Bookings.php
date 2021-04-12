@@ -89,10 +89,18 @@ class Bookings extends CI_Controller
 				$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 				$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
 				$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+				$ticket_shares = $this->bookings_model->get_ticket_shares_cart_id($item->id);
 				$gig->category = $category;
 				$gig->genre = $genre;
 				// $gig->venues = explode(',', $gig->venues);
-				$item->gig = $gig;
+				// $item->gig = $gig;
+				$item->purchased = $item->quantity;
+				$item->quantity = $item->quantity - count($ticket_shares);
+				$temp = [];
+				foreach ($ticket_shares as $share) {
+					$temp[] = $share->friend_email;
+				}
+				$item->friends = $temp;
 				$item->ticket = $ticket;
 			}
 			$booking->items = $cart_items;
@@ -136,10 +144,23 @@ class Bookings extends CI_Controller
 	{
 		$data = $_POST;
 		// echo json_encode($data);
+		// die();
+		$user_id = $this->dbs_user_id;
+		$cart_id = $this->input->post('cart_id');
+		$booking_id = $this->input->post('booking_id');
+		$created_on = date('Y-m-d H:i:s', strtotime('now'));
+		$temp = [
+			'user_id' => $user_id,
+			'booking_id' => $booking_id,
+			'cart_id' => $cart_id,
+			'created_on' => $created_on,
+		];
 		$error = 1;
 		foreach($data['email'] as $email){
+			$temp['friend_email'] = $email;
 			$send = $this->send_email($email, 'Invitation to Gigniter');
 			if($send) {
+				$this->bookings_model->add_ticket_share($temp);
 				$error = 0;
 			} else {
 				$error = 1;
@@ -159,7 +180,9 @@ class Bookings extends CI_Controller
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
 		
-		$msg = $this->load->view('email/ticket_invitation', '', TRUE);
+		$data['link'] = user_base_url() . 'account/create_account?email=' . $this->general_model->safe_ci_encoder($to_email);
+		
+		$msg = $this->load->view('email/ticket_invitation', $data, TRUE);
 
 		$this->email->from($from_email, $from_name);
 		$this->email->to($to_email);

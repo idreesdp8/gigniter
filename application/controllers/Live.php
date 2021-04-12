@@ -14,6 +14,7 @@ class Live extends CI_Controller
         parent::__construct();
 
         $this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
+        $this->dbs_user_email = $vs_email = $this->session->userdata('us_email');
         $this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
         $this->load->model('user/general_model', 'general_model');
         $this->load->model('user/permissions_model', 'permissions_model');
@@ -55,13 +56,20 @@ class Live extends CI_Controller
 
     public function my_shows()
     {
-        $user_id = $this->dbs_user_id;
+        $dbs_user_email = $this->dbs_user_email;
+        $dbs_user_id = $this->dbs_user_id;
+        // $user = $this->users_model->get_user_by_email($dbs_user_email);
         // $gigs = $this->gigs_model->get_upcoming_user_gigs($user_id);
-        $bookings = $this->bookings_model->get_bookings_by_user_id($user_id);
+        // $bookings = $this->bookings_model->get_bookings_by_user_id($user->id);
+        $tickets = $this->bookings_model->get_tickets_by_user($dbs_user_email, $dbs_user_id);
+        // echo json_encode($tickets);die();
         $gigs = [];
         $now = new DateTime();
-        foreach ($bookings as $booking) {
-            $temp = $this->gigs_model->get_gig_by_id($booking->gig_id);
+        foreach ($tickets as $ticket) {
+            $cart = $this->bookings_model->get_booking_item_by_id($ticket->cart_id);
+        // echo json_encode($cart);die();
+
+            $temp = $this->gigs_model->get_gig_by_id($cart->gig_id);
             $user = $this->users_model->get_user_by_id($temp->user_id);
             $temp->user_name = $user->fname . ' ' . $user->lname;
             $args1 = [

@@ -140,27 +140,27 @@
                                                     <?php echo $item->ticket->name ?>
                                                     <?php if ($item->quantity > 2 && $booking->is_paid == 1) : ?>
                                                         <!-- data-toggle="modal" data-target="#exampleModal" -->
-                                                        <span class="float-right open_modal" data-value="<?php echo $item->quantity - 1 ?>"><small data-toggle="tooltip" data-placement="top" title="Transfer to Friend"><i class="fas fa-exchange-alt"></i></small></span>
+                                                        <span class="float-right open_modal" data-cart_id="<?php echo $item->id ?>" data-value="<?php echo $item->quantity - 1 ?>"><small data-toggle="tooltip" data-placement="top" title="Transfer to Friend"><i class="fas fa-exchange-alt"></i></small></span>
                                                     <?php endif; ?>
                                                 </h5>
                                                 <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
-                                                    <h6 class="card-subtitle mb-2 text-muted"><?php echo $item->gig->title ?></h6>
+                                                    <h6 class="card-subtitle mb-2 text-muted"><?php echo $gig->title ?></h6>
                                                 </a>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Category</span>
-                                                    <span class="card-text"><?php echo $item->gig->category->label ?></span>
+                                                    <span class="card-text"><?php echo $gig->category->label ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Genre</span>
-                                                    <span class="card-text"><?php echo $item->gig->genre->label ?></span>
+                                                    <span class="card-text"><?php echo $gig->genre->label ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Venues</span>
-                                                    <span class="card-text"><?php echo $item->gig->venues ?></span>
+                                                    <span class="card-text"><?php echo $gig->venues ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Date</span>
-                                                    <span class="card-text"><?php echo date('M d, Y h:i A', strtotime($item->gig->gig_date)) ?></span>
+                                                    <span class="card-text"><?php echo date('M d, Y h:i A', strtotime($gig->gig_date)) ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Unit Price</span>
@@ -168,8 +168,22 @@
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Quantity</span>
-                                                    <span class="card-text"><?php echo 'x' . $item->quantity ?></span>
+                                                    <span class="card-text"><?php echo 'x' . $item->purchased ?></span>
                                                 </div>
+                                                <?php
+                                                if ($item->friends) :
+                                                    echo '<div class="ticket_shared text-warning"><strong>Shared Tickets</strong>';
+                                                    foreach ($item->friends as $friend) :
+                                                ?>
+                                                        <div class="ticket_info">
+                                                            <span class="card-text"><?php echo $friend ?></span>
+                                                            <span class="card-text">x1</span>
+                                                        </div>
+                                                <?php
+                                                    endforeach;
+                                                    echo '</div>';
+                                                endif;
+                                                ?>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Total Price</span>
                                                     <span class="card-text">$<?php echo $item->price ?></span>
@@ -194,6 +208,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form role="form" method="post" action="<?php echo user_base_url() ?>bookings/invite_friends" id="basic_info_form">
+                    <input type="hidden" name="booking_id" value="<?php echo $booking->id ?>">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Invite Friends</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -220,11 +235,13 @@
         $(document).ready(function() {
             $('.open_modal').on('click', function() {
                 var qty = $(this).data('value');
+                var cart_id = $(this).data('cart_id');
                 $('.modal-body').empty();
+                $('.modal-body').append('<input type="hidden" name="cart_id" value="' + cart_id + '">');
                 for (let index = 0; index < qty; index++) {
                     $('.modal-body').append('<div class="friend-input"><input type="email" name="email[]" class="form-control" required /></div>')
                 }
-                console.log(qty);
+                // console.log(qty);
                 $('#exampleModal').modal('show');
             });
             // $('#basic_info_form').on('submit', function(e) {

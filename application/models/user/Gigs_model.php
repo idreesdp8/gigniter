@@ -260,4 +260,10 @@ class Gigs_model extends CI_Model
 		$this->db->where('id', $args1);
 		return $this->db->update('config', $data);
 	}
+
+	function update_ticket_tier($data, $id)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('ticket_tiers', $data);
+	}
 }

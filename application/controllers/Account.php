@@ -57,7 +57,7 @@ class Account extends CI_Controller
 							'us_username' => ($result->username ? ucfirst($result->username) : ''),
 							'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
 							'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-							'us_fullname' => ($result->fname ? ucfirst($result->fname) : '').' '.($result->lname ? ucfirst($result->lname) : ''),
+							'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
 							'us_email' => $result->email
 						);
 						$this->session->set_userdata($cstm_sess_data);
@@ -443,12 +443,12 @@ class Account extends CI_Controller
 						// 'us_username' => ($res->username ? ucfirst($res->username) : ''),
 						'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
 						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
-						'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '').' '.($data['lname'] ? ucfirst($data['lname']) : ''),
+						'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
 					);
 					$this->session->set_userdata($cstm_sess_data);
 					$stripe_id = $this->input->post('stripe_id');
 					$stripe_details = $this->users_model->get_user_stripe_details($data['id']);
-					if($stripe_details->stripe_id != $stripe_id) {
+					if ($stripe_details->stripe_id != $stripe_id) {
 						$this->users_model->trash_user_stripe_details($data['id']);
 						if ($stripe_id) {
 							$account = $this->create_user_stripe_account($stripe_id);
@@ -546,6 +546,69 @@ class Account extends CI_Controller
 			foreach ($links as $key => $value) {
 				$this->users_model->trash_social_link($value->id);
 			}
+		}
+	}
+
+	function create_account()
+	{
+
+		if (isset($_POST) && !empty($_POST)) {
+			// get form input
+			$email = $this->general_model->safe_ci_decoder($this->input->post("encoded_email"));
+			$encoded_email = $this->input->post("encoded_email");
+			$password = $this->input->post("password");
+
+			// $this->send_email($email);
+
+			// echo $email.' '.$password;
+			// die();
+			// form validation 
+			$this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email|is_unique[users.email]");
+			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
+
+			if ($this->form_validation->run() == FALSE) {
+				// validation fail
+				if (isset($_SESSION['error_msg'])) {
+					unset($_SESSION['error_msg']);
+				}
+				$data = [
+					'email' => $email,
+					'encoded_email' => $encoded_email,
+				];
+				$this->load->view('frontend/account/create_account', $data);
+			} else {
+				$password = $this->general_model->safe_ci_encoder($password);
+				$role = $this->roles_model->get_role_by_name('User');
+				$created_on = date('Y-m-d H:i:s');
+				$status = 0;
+				$datas = array(
+					'email' => $email,
+					'password' => $password,
+					'role_id' => $role->id,
+					'status' => $status,
+					'created_on' => $created_on
+				);
+				// echo json_encode($datas);
+				// die();
+				$insert_data = $this->users_model->insert_user_data($datas);
+				if (isset($insert_data)) {
+					$result = $this->users_model->get_user_by_id($insert_data);
+					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					if ($is_sent) {
+						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					} else {
+						$this->session->set_flashdata("error_msg", "You have encountered an error");
+					}
+					$this->load->view('frontend/account/verfication_page');
+				} else {
+					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
+					redirect('register');
+				}
+			}
+		} else {
+			$data['email'] = $this->general_model->safe_ci_decoder($this->input->get('email'));
+			$data['encoded_email'] = $this->input->get('email');
+			$this->load->view('frontend/account/create_account', $data);
 		}
 	}
 }

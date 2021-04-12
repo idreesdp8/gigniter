@@ -76,6 +76,12 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_booking_item_by_id($id)
+	{
+		$query = $this->db->get_where('cart', array('id' => $id));
+		return $query->row();
+	}
+
 	function get_all_bookings()
 	{
 		$query = $this->db->get('bookings');
@@ -166,5 +172,25 @@ class Bookings_model extends CI_Model
 	{
 		$ress = $this->db->insert('customer_charges', $data) ? $this->db->insert_id() : false;
 		return $ress;
+	}
+
+	function add_ticket_share($data)
+	{
+		$ress = $this->db->insert('ticket_share', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
+	function get_ticket_shares_cart_id($id)
+	{
+		$query = $this->db->get_where('ticket_share', array('cart_id' => $id));
+		return $query->result();
+	}
+
+	function get_tickets_by_user($email, $id)
+	{
+		$this->db->where('user_id =', $id);
+		$this->db->or_where('friend_email =', $email);
+		$query = $this->db->get('ticket_share');
+		return $query->result();
 	}
 }

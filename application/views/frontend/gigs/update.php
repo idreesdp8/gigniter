@@ -270,6 +270,7 @@
                           <h5>Tier <?php echo $tier ?> </h5>
                           <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                              <input type="hidden" name="ticket_id[]" value="<?php echo $ticket->id ?>">
                               <label>
                                 Tier Name
                                 <input type="text" name="ticket_name[]" value="<?php echo $ticket->name ?>" placeholder="">

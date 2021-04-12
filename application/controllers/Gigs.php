@@ -458,6 +458,7 @@ class Gigs extends CI_Controller
 				if (isset($res)) {
 					$this->remove_tickets($data['id']);
 					$this->add_tickets($data, $data['id']);
+					// $this->update_tickets($data);
 					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
@@ -497,6 +498,41 @@ class Gigs extends CI_Controller
 			// echo json_encode($data);
 			// die();
 			$this->load->view('frontend/gigs/update', $data);
+		}
+	}
+
+	function update_tickets($data)
+	{
+		// $data['ticket_id'] = ['239'];
+		if (isset($data["ticket_id"]) && $data['ticket_id'] != '') {
+			$length = count($data['ticket_id']);
+			// echo $length;
+			// die();
+			for ($i = 0; $i < $length; $i++) {
+				$j = $i + 1;
+				$res = false;
+				if ($data['ticket_id'][$i] != '') {
+					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($data['ticket_id'][$i]);
+					if (isset($bundles) && !empty($bundles)) {
+						foreach ($bundles as $bundle) {
+							$this->gigs_model->remove_bundle_by_id($bundle->id);
+						}
+					}
+					$tier = [
+						'name' => $data['ticket_name'][$i],
+						'price' => $data['ticket_price'][$i],
+						'quantity' => $data['ticket_quantity'][$i],
+						'description' => $data['ticket_description'][$i],
+						'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
+					];
+					$res = $this->gigs_model->update_ticket_tier($tier, $data['ticket_id'][$i]);
+				}
+				if ($res) {
+					// echo $j;
+					$this->add_ticket_bundles($data, $res, $j);
+					// die();
+				}
+			}
 		}
 	}
 
