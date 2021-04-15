@@ -193,4 +193,25 @@ class Bookings_model extends CI_Model
 		$query = $this->db->get('ticket_share');
 		return $query->result();
 	}
+
+	function get_customers_count()
+	{
+		$this->db->group_by('user_id');
+		$this->db->from('bookings');
+		// $query = $this->db->get();
+		return $this->db->count_all_results();
+	}
+
+	function get_bookings_count()
+	{
+		$query = $this->db->count_all('bookings');
+		return $query;
+	}
+
+	function get_total_admin_fee()
+	{
+		$this->db->select_sum('admin_fee');
+		$query = $this->db->get('transactions');
+		return $query->row();
+	}
 }

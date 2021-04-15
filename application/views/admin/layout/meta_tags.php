@@ -44,6 +44,10 @@
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
 
+	
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3.min.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+
 	<!-- initialization files -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
@@ -51,4 +55,6 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
 	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/form_inputs.js"></script> -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script> -->
 	<!-- /theme JS files -->

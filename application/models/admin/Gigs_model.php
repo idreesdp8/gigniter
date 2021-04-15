@@ -157,4 +157,10 @@ class Gigs_model extends CI_Model
 		$this->db->where('id', $args1);
 		return $this->db->update('config', $data);
 	}
+
+	function get_gigs_count()
+	{
+		$query = $this->db->count_all('gigs');
+		return $query;
+	}
 }

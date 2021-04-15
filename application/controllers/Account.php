@@ -49,6 +49,7 @@ class Account extends CI_Controller
 				$result = $this->users_model->get_user($email, $password);
 				if (isset($result)) {
 					if ($result->status == 1) {
+						$role = $this->roles_model->get_role_by_id($result->role_id);
 						// set session	
 						$cstm_sess_data = array(
 							'us_login' => TRUE,
@@ -58,7 +59,8 @@ class Account extends CI_Controller
 							'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
 							'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
 							'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
-							'us_email' => $result->email
+							'us_email' => $result->email,
+							'us_role_name' => $role->name,
 						);
 						$this->session->set_userdata($cstm_sess_data);
 						// echo json_encode($this->session->userdata());
@@ -186,6 +188,7 @@ class Account extends CI_Controller
 			$this->users_model->update_user_data($user->id, $data_arr);
 			$this->session->unset_userdata('verification_code');
 			$result = $this->users_model->get_user_by_id($user->id);
+			$role = $this->roles_model->get_role_by_id($result->role_id);
 			// set session	
 			$cstm_sess_data = array(
 				'us_login' => TRUE,
@@ -194,7 +197,8 @@ class Account extends CI_Controller
 				'us_username' => ($result->username ? ucfirst($result->username) : ''),
 				'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
 				'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-				'us_email' => $result->email
+				'us_email' => $result->email,
+				'us_role_name' => $role->name,
 			);
 
 			$this->session->set_userdata($cstm_sess_data);
@@ -293,6 +297,7 @@ class Account extends CI_Controller
 
 				if ($res) {
 					$result = $this->users_model->get_user_by_id($user->id);
+					$role = $this->roles_model->get_role_by_id($result->role_id);
 					// set session	
 					$cstm_sess_data = array(
 						'us_login' => TRUE,
@@ -301,7 +306,8 @@ class Account extends CI_Controller
 						'us_username' => ($result->username ? ucfirst($result->username) : ''),
 						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
 						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-						'us_email' => $result->email
+						'us_email' => $result->email,
+						'us_role_name' => $role->name,
 					);
 					$this->session->set_userdata($cstm_sess_data);
 					$this->session->set_flashdata('success_msg', 'Your Account Password has been changed successfully!');
