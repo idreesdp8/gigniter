@@ -112,6 +112,25 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Stacked lines</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+								<a class="list-icons-item" data-action="collapse"></a>
+								<a class="list-icons-item" data-action="reload"></a>
+								<a class="list-icons-item" data-action="remove"></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="card-body">
+						<div class="chart-container">
+							<div class="chart has-fixed-height" id="line_stacked"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- /content area -->
 

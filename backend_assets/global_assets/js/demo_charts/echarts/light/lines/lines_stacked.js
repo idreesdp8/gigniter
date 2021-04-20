@@ -65,7 +65,7 @@ var EchartsLinesStackedLight = function() {
 
                 // Add legend
                 legend: {
-                    data: ['Internet Explorer', 'Opera', 'Safari', 'Firefox', 'Chrome'],
+                    data: ['Internet Explorer', 'Opera'],
                     itemHeight: 8,
                     itemGap: 20
                 },
@@ -132,7 +132,7 @@ var EchartsLinesStackedLight = function() {
                     {
                         name: 'Internet Explorer',
                         type: 'line',
-                        stack: 'Total',
+                        // stack: 'Total',
                         smooth: true,
                         symbolSize: 7,
                         data: [120, 132, 101, 134, 90, 230, 210],
@@ -145,49 +145,10 @@ var EchartsLinesStackedLight = function() {
                     {
                         name: 'Opera',
                         type: 'line',
-                        stack: 'Total',
+                        // stack: 'Total',
                         smooth: true,
                         symbolSize: 7,
                         data: [220, 182, 191, 234, 290, 330, 310],
-                        itemStyle: {
-                            normal: {
-                                borderWidth: 2
-                            }
-                        }
-                    },
-                    {
-                        name: 'Safari',
-                        type: 'line',
-                        stack: 'Total',
-                        smooth: true,
-                        symbolSize: 7,
-                        data: [150, 232, 201, 154, 190, 330, 410],
-                        itemStyle: {
-                            normal: {
-                                borderWidth: 2
-                            }
-                        }
-                    },
-                    {
-                        name: 'Firefox',
-                        type: 'line',
-                        stack: 'Total',
-                        smooth: true,
-                        symbolSize: 7,
-                        data: [320, 332, 301, 334, 390, 330, 320],
-                        itemStyle: {
-                            normal: {
-                                borderWidth: 2
-                            }
-                        }
-                    },
-                    {
-                        name: 'Chrome',
-                        type: 'line',
-                        stack: 'Total',
-                        smooth: true,
-                        symbolSize: 7,
-                        data: [820, 932, 901, 934, 1290, 1330, 1320],
                         itemStyle: {
                             normal: {
                                 borderWidth: 2
@@ -239,5 +200,13 @@ var EchartsLinesStackedLight = function() {
 // ------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
+    $.ajax({
+        url: base_url + 'dashboard/line_chart',
+        method: 'get',
+        dataType: 'json',
+        success: function(resp) {
+            console.log(resp);
+        }
+    })
     EchartsLinesStackedLight.init();
 });

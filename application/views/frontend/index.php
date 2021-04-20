@@ -41,7 +41,7 @@
                                                 <p><span class="days-text">Days left</span></p>
                                             </div>
                                             <div class="book-btn ml-5">
-                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">Book Now</a>
+                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
                                             </div>
                                         </div>
                                         <div class="d-flex responsive-class">
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
                                             <div class="book-btn m-auto">
-                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">Book Now</a>
+                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -124,19 +124,20 @@
     </section>
     <!-- ==========Banner-Section========== -->
     <!-- ==========Carousel-2============== -->
-    <section class="section-02 banner-bg2 bg_img" data-background="<?php echo user_asset_url(); ?>images/home/home-bg-2.png">
-        <div class="my-5 text-center container">
-            <div class="row d-flex align-items-center">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="carousel-02-text text-left">
-                        <h2>Now Showing</h2>
-                        <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($now_showing) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
-                        </p>
-                    </div>
-                    <?php
-                    if ($now_showing) :
-                    ?>
+
+    <?php
+    if ($now_showing) :
+    ?>
+        <section class="section-02 banner-bg2 bg_img" data-background="<?php echo user_asset_url(); ?>images/home/home-bg-2.png">
+            <div class="my-5 text-center container">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="carousel-02-text text-left">
+                            <h2>Now Showing</h2>
+                            <p>Be sure not to miss these events today.
+                                <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($now_showing) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            </p>
+                        </div>
                         <div class="speaker--slider text-center" id="carousel_2">
                             <div class="speaker-slider2 owl-carousel owl-theme">
                                 <?php
@@ -145,9 +146,11 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;" alt="speaker">
-                                            <?php //if ($gig->is_exclusive) : ?>
-                                                <span class="badge badge-danger exclusive-badge">Live</span>
-                                            <?php //endif; ?>
+                                            <?php //if ($gig->is_exclusive) : 
+                                            ?>
+                                            <span class="badge badge-danger exclusive-badge">Live</span>
+                                            <?php //endif; 
+                                            ?>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <h5 class="title">
@@ -168,22 +171,16 @@
                                 <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
                             </div>
                         </div>
-                    <?php
-                    else :
-                    ?>
-                        <h6>
-                            No Record Found
-                        </h6>
-                    <?php
-                    endif;
-                    ?>
+                    </div>
+                </div>
+                <div class="divider-bar text-left mt-4">
+                    <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
                 </div>
             </div>
-            <div class="divider-bar text-left mt-4">
-                <img src="<?php echo user_asset_url(); ?>images/icons/divider-bar.png" style="width: 38%;">
-            </div>
-        </div>
-    </section>
+        </section>
+    <?php
+    endif;
+    ?>
     <!-- ==========Carousel-2============== -->
 
     <!-- ==========Carousel-3============== -->
@@ -230,8 +227,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
-                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -273,12 +270,12 @@
                         </p>
                     </div>
                     <?php
-                    if ($gigs) :
+                    if ($closing_soon) :
                     ?>
                         <div class="speaker--slider text-center" id="carousel_4">
                             <div class="speaker-slider4 owl-carousel owl-theme">
                                 <?php
-                                foreach ($gigs as $gig) :
+                                foreach ($closing_soon as $gig) :
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
@@ -305,8 +302,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
-                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -381,8 +378,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url().'cart/book_tier/'.$gig->id ?>">book now</a>
-                                            <a href="<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
                                 <?php
@@ -413,7 +410,8 @@
     <!-- ==========Carousel-5============== -->
     <!-- /page content -->
 
-    <?php //$this->load->view('frontend/gigs/book_now'); ?>
+    <?php //$this->load->view('frontend/gigs/book_now'); 
+    ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <!-- <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script> -->

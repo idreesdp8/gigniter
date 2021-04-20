@@ -117,8 +117,8 @@ class Gigs_model extends CI_Model
 
 	function get_just_in_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE status = ? ORDER BY created_on DESC limit 2";
-		$query = $this->db->query($sql, array(1));
+		$sql = "SELECT * FROM gigs WHERE status = 1 AND date(gig_date) >= CURDATE() ORDER BY created_on DESC";
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
@@ -153,6 +153,13 @@ class Gigs_model extends CI_Model
 	{
 		$sql = "SELECT * FROM gigs WHERE gig_date = CURDATE() AND CURTIME() BETWEEN start_time AND end_time AND status = ?";
 		$query = $this->db->query($sql, array(1));
+		return $query->result();
+	}
+
+	function get_closing_soon_gigs()
+	{
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() AND status = 1 ORDER BY date(gig_date) DESC";
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
 

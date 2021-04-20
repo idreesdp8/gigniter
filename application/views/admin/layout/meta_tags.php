@@ -19,6 +19,9 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/main/bootstrap.bundle.min.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/loaders/blockui.min.js"></script>
 	<!-- /core JS files -->
+	<script>
+		const base_url = '<?php echo admin_base_url() ?>';
+	</script>
 
 	<!-- Theme JS files -->
 	<!-- for radio buttons -->
@@ -44,7 +47,7 @@
 
 	<script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
 
-	
+
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3.min.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
 
@@ -53,8 +56,11 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
-	<!-- <script src="<?php //echo admin_asset_url(); ?>global_assets/js/demo_pages/form_inputs.js"></script> -->
+	<!-- <script src="<?php //echo admin_asset_url(); 
+						?>global_assets/js/demo_pages/form_inputs.js"></script> -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/echarts/light/lines/lines_stacked.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script> -->
 	<!-- /theme JS files -->

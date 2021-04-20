@@ -44,6 +44,7 @@ class Dashboard extends CI_Controller
 		// die();
 		$gigs = $this->gigs_model->get_all_active_gigs();
 		$just_in = $this->gigs_model->get_just_in_gigs();
+		$closing_soon = $this->gigs_model->get_closing_soon_gigs();
 		$featured_gigs = array();
 		$now_showing = $this->gigs_model->get_now_showing_gigs();
 		// $just_in = array();
@@ -89,6 +90,24 @@ class Dashboard extends CI_Controller
 				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
+		if ($closing_soon) {
+			foreach ($closing_soon as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args);
+				$gig->genre_name = $genre->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
+			}
+		}
 		if ($now_showing) {
 			foreach ($now_showing as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
@@ -111,6 +130,7 @@ class Dashboard extends CI_Controller
 		$data['featured_gigs'] = $featured_gigs;
 		$data['now_showing'] = $now_showing;
 		$data['just_in'] = $just_in;
+		$data['closing_soon'] = $closing_soon;
 		// $data['gigs'] = [];
 		// echo json_encode(new DateTime(date('H:i:s')));
 		// echo json_encode($data['now_showing']);

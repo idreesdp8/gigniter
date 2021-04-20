@@ -43,6 +43,7 @@ class Dashboard extends CI_Controller
 		$data['customers_count'] = $this->bookings_model->get_customers_count();
 		$data['bookings_count'] = $this->bookings_model->get_bookings_count();
 		$data['transaction'] = $this->bookings_model->get_total_admin_fee();
+		// $data['']
 		// echo json_encode($data);
 		// die();
 		$this->load->view('admin/dashboard/index', $data);
@@ -52,25 +53,7 @@ class Dashboard extends CI_Controller
 		// }
 	}
 
-
-	function view_code_data($paras1 = '')
-	{
-
-		$res_nums =  $this->general_model->check_controller_method_permission_access('Codes', 'index', $this->login_usr_role_id, '1');
-		if ($res_nums > 0) {
-			if ($paras1 > 0) {
-				$data['page_headings'] = "View Code";
-
-				$this->load->model('codes_model');
-
-				$data['record'] = $this->codes_model->get_code_with_brand_denomination_by_id($paras1);
-
-				$this->load->view('admin/dashboard/view_code_data', $data);
-			} else {
-				$this->load->view('admin/no_permission_access');
-			}
-		} else {
-			$this->load->view('admin/no_permission_access');
-		}
+	function line_chart() {
+		$gigs = $this->gigs_model->get
 	}
 }
