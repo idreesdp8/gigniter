@@ -198,7 +198,7 @@ class Bookings extends CI_Controller
 
 	function download_tickets()
 	{
-		require 'vendor/autoload.php';
+		// require 'vendor/autoload.php';
 
 		$data = $this->input->post();
 		$data['user_id'] = $this->dbs_user_id;
@@ -208,14 +208,14 @@ class Bookings extends CI_Controller
 			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
 			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);
 			$user = $this->users_model->get_user_by_id($ticket->user_id);
-			$generator = new Picqer\Barcode\BarcodeGeneratorPNG();
-			file_put_contents(barcode_relative_path() . $ticket->ticket_no . '.png', $generator->getBarcode($ticket->ticket_no, $generator::TYPE_CODE_128, 3, 50));
-			$barcode = barcode_url() . $ticket->ticket_no . '.png';
+			// $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+			// file_put_contents(barcode_relative_path() . $ticket->ticket_no . '.png', $generator->getBarcode($ticket->ticket_no, $generator::TYPE_CODE_128, 3, 50));
+			// $barcode = barcode_url() . $ticket->ticket_no . '.png';
 			$ticket->gig = $gig;
 			$ticket->ticket_tier = $ticket_tier;
 			$ticket->booking = $booking;
 			$ticket->user = $user;
-			$ticket->barcode = $barcode;
+			// $ticket->barcode = $barcode;
 		}
 		$datas['tickets'] = $tickets;
 		// echo json_encode($datas);
