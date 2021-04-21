@@ -167,7 +167,7 @@
                   </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Goal"><i class="fas fa-question-circle"></i></span>
+                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Goal"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
@@ -179,6 +179,14 @@
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <label>
+                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
+                      <input type="text" id="goal_amount" name="goal_amount" required="required" onchange="preview(this)">
+                      <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
+                    </label>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                   <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>

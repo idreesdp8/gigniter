@@ -28,11 +28,11 @@ class Gigs_model extends CI_Model
 		// 		$whrs .= " AND ( title LIKE '%$search%' /* OR subtitle LIKE '%$search%' OR address LIKE '%$search%' */ ) ";
 		// 	}
 		// }
-		if(array_key_exists("category", $params)) {
+		if (array_key_exists("category", $params)) {
 			$category = $params["category"];
 			$whrs .= " AND category='$category'";
 		}
-		if(array_key_exists("genre", $params)) {
+		if (array_key_exists("genre", $params)) {
 			$genre = $params["genre"];
 			$whrs .= " AND genre='$genre'";
 		}
@@ -70,19 +70,19 @@ class Gigs_model extends CI_Model
 				$whrs .= " AND ( title LIKE '%$search%' /* OR subtitle LIKE '%$search%' OR address LIKE '%$search%' */ ) ";
 			}
 		}
-		if(array_key_exists("category", $params)) {
+		if (array_key_exists("category", $params)) {
 			$category = $params["category"];
 			$whrs .= " AND category='$category'";
 		}
-		if(array_key_exists("genre", $params)) {
+		if (array_key_exists("genre", $params)) {
 			$genre = $params["genre"];
 			$whrs .= " AND genre='$genre'";
 		}
-		if(array_key_exists("status", $params)) {
+		if (array_key_exists("status", $params)) {
 			$status = $params["status"];
 			$whrs .= " AND status='$status'";
 		}
-		if(array_key_exists("user_id", $params)) {
+		if (array_key_exists("user_id", $params)) {
 			$user_id = $params["user_id"];
 			$whrs .= " AND user_id='$user_id'";
 		}
@@ -111,6 +111,13 @@ class Gigs_model extends CI_Model
 	function get_all_active_gigs()
 	{
 		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() AND status = 1";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
+	function get_featured_gigs()
+	{
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() AND status = 1 AND is_featured = 1";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -163,6 +170,13 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_popular_gigs()
+	{
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() AND status = 1 ORDER BY popularity DESC";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
 	function get_gig_by_id($args1)
 	{
 		$query = $this->db->get_where('gigs', array('id' => $args1));
@@ -186,6 +200,21 @@ class Gigs_model extends CI_Model
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;
 		return $ress;
+	}
+
+	function get_gig_campaign_date_diff($id)
+	{
+		$sql = "SELECT DATEDIFF(campaign_date, CURDATE()) AS diff FROM gigs WHERE id = ?";
+		$query = $this->db->query($sql, array($id));
+		return $query->row();
+	}
+
+	function get_gig_goal_amount($id)
+	{
+		$this->db->select('goal_amount');
+		$this->db->where('id', $id);
+		$query = $this->db->get('gigs');
+		return $query->row();
 	}
 
 	function add_ticket_tier($data)
@@ -250,27 +279,29 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
-	function get_config_by_id($args1)
-	{
-		$query = $this->db->get_where('config', array('id' => $args1));
-		return $query->row();
-	}
-
-	function insert_config_data($data)
-	{
-		$ress = $this->db->insert('config', $data);
-		return $ress;
-	}
-
-	function update_config_data($args1, $data)
-	{
-		$this->db->where('id', $args1);
-		return $this->db->update('config', $data);
-	}
-
 	function update_ticket_tier($data, $id)
 	{
 		$this->db->where('id', $id);
 		return $this->db->update('ticket_tiers', $data);
+	}
+
+	function insert_tickets_data($data)
+	{
+		$ress = $this->db->insert_batch('tickets', $data);
+		return $ress;
+	}
+
+	function get_tickets($data)
+	{
+		$query = $this->db->get_where(
+			'tickets',
+			array(
+				'booking_id' => $data['booking_id'],
+				'gig_id' => $data['gig_id'],
+				'ticket_tier_id' => $data['ticket_tier_id'],
+				'user_id' => $data['user_id'],
+			)
+		);
+		return $query->result();
 	}
 }

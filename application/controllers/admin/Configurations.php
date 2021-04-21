@@ -37,9 +37,10 @@ class Configurations extends CI_Controller
 		// $res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Permissions','index',$this->dbs_role_id,'1'); 
 		// if($res_nums>0){ 
 		$param = [
-			'gig_status' => 'gig-status',
-			'gig_genre' => 'genre',
-			'gig_category' => 'category',
+			'key1' => 'gig-status',
+			'key2' => 'genre',
+			'key3' => 'category',
+			'key4' => 'popularity_weightage'
 		];
 		$data['records'] = $this->configurations_model->get_all_configurations_except($param);
 		// echo json_encode($data);
@@ -50,6 +51,49 @@ class Configurations extends CI_Controller
 		// }else{ 
 		// 	$this->load->view('admin/no_permission_access'); 
 		// } 
+	}
+
+	function popularity_weightage()
+	{
+		if(isset($_POST) && !empty($_POST)){
+			$data = $this->input->post();
+			$created_on = date('Y-m-d H:i:s');
+			foreach($data as $key => $value){
+				$params[] = [
+					'key' => 'popularity_weightage',
+					'value' => $value,
+					'label' => $key,
+					'created_on' => $created_on
+				];
+			}
+			// echo json_encode($params);
+			// die();
+			
+			$weightages = $this->configurations_model->get_all_configurations_by_key('popularity_weightage');
+			foreach($weightages as $weight) {
+				$this->configurations_model->trash_configuration($weight->id);
+			}
+
+			$res = $this->configurations_model->insert_batch_configuration_data($params);
+			if (isset($res)) {
+				$this->session->set_flashdata('success_msg', 'Popularity Weightages added successfully!');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Error while adding Popularity Weightages!');
+			}
+			redirect("admin/configurations/popularity_weightage");
+
+		} else {
+			$weightages = $this->configurations_model->get_all_configurations_by_key('popularity_weightage');
+			$data = array();
+			if($weightages){
+				foreach($weightages as $weight) {
+					$data[$weight->label] = $weight->value;
+				}
+			}
+			// echo json_encode($data);
+			// die();
+			$this->load->view('admin/configurations/popularity_weightage', $data);
+		}
 	}
 
 	function trash($id)

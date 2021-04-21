@@ -95,6 +95,13 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_bookings_by_gig_id($gig_id)
+	{
+		$sql = "SELECT * FROM bookings WHERE gig_id = ? AND is_paid = 0";
+		$query = $this->db->query($sql, array($gig_id));
+		return $query->result();
+	}
+
 	function get_user_cart_items($user_id)
 	{
 		$sql = "SELECT * FROM cart WHERE user_id = ? ORDER BY created_on";
@@ -212,6 +219,14 @@ class Bookings_model extends CI_Model
 	{
 		$this->db->select_sum('admin_fee');
 		$query = $this->db->get('transactions');
+		return $query->row();
+	}
+
+	function get_gig_amount_raised($gig_id)
+	{
+		$this->db->select_sum('price');
+		$this->db->where('gig_id =', $gig_id);
+		$query = $this->db->get('cart');
 		return $query->row();
 	}
 }

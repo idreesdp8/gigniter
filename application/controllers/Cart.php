@@ -207,7 +207,7 @@ class Cart extends CI_Controller
 		foreach ($cart_items as $item) {
 			$gig_id = $item['gig_id'];
 		}
-		// echo json_encode($gig_id);
+		// echo json_encode($cart_items);
 		// die();
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
 
@@ -262,6 +262,7 @@ class Cart extends CI_Controller
 			// $user_accounts = [];
 			if ($res) {
 				foreach ($cart_items as $item) {
+					$i = 1;
 					$cart_params[] = [
 						'gig_id' => $item['gig_id'],
 						'ticket_tier_id' => $item['ticket_tier_id'],
@@ -271,8 +272,20 @@ class Cart extends CI_Controller
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
+					while($item['qty']){
+						$ticket_params[] = [
+							'ticket_no' => $user_id.'_'.$item['gig_id'].'_'.$res.'_'.$item['ticket_tier_id'].'_'.$i,
+							'gig_id' => $item['gig_id'],
+							'ticket_tier_id' => $item['ticket_tier_id'],
+							'booking_id' => $res,
+							'user_id' => $user_id,
+						];
+						$item['qty']--;
+						$i++;
+					}
 				}
 				$resp = $this->bookings_model->insert_cart_data($cart_params);
+				$this->gigs_model->insert_tickets_data($ticket_params);
 			}
 			
 			$items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
@@ -282,11 +295,12 @@ class Cart extends CI_Controller
 			}
 			// echo json_encode($ticket_bought);
 			// die();
+
 			$this->create_customer($token, $email_to, $name, $res);
-			if($ticket_bought == $threshold->threshold){
+			if($ticket_bought > $threshold->threshold){
 				$this->charge_and_transfer($gig_id);
 			}
-
+			$this->calculate_popularity($gig_id, $ticket_bought);
 			$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if ($is_sent) {
 				$this->cart->destroy();
@@ -324,8 +338,8 @@ class Cart extends CI_Controller
 				'description' => 'Gigniter Customer'
 			));
 
-			echo json_encode($customer);
-			die();
+			// echo json_encode($customer);
+			// die();
 
 			$success_md = 1;
 			$error_msg = 0;
@@ -343,66 +357,35 @@ class Cart extends CI_Controller
 		$stripeSecret = $this->config->item('stripe_api_key');
 		\Stripe\Stripe::setApiKey($stripeSecret);
 
-		$booking = $this->bookings_model->get_booking_by_id($booking_id);
-		$cart_items = $this->bookings_model->get_booking_items($booking_id);
-		// echo json_encode($booking);
-		// echo json_encode($cart_items);
-		// die();
-		$total_charged = $booking->price;
-		$success_md = 0;
-		$error_msg = '';
-		// try {
-		// 	$customer = \Stripe\Customer::create(array(
-		// 		'email' => $email,
-		// 		'name' => $name,
-		// 		'source'  => $token,
-		// 		'description' => 'Gigniter Customer'
-		// 	));
-
-		// 	// echo json_encode($customer);
-		// 	// die();
-
-		// 	$success_md = 1;
-		// 	$error_msg = 0;
-		// } catch (\Exception $e) {
-		// 	$error0 = $e->getMessage();
-		// 	$error_msg = $error0;
-		// 	$success_md = 0;
-		// }
-		if ($success_md == 1) {
-			$currency = $this->config->item('stripe_currency');
-
-			// sleep(20);
-			//charge a credit or a debit card
+		$currency = $this->config->item('stripe_currency');
+		$bookings = $this->bookings_model->get_bookings_by_gig_id($gig_id);
+		foreach($bookings as $booking){
+			// echo $booking->customer_stripe_id;
+			// die();
+			$total_charged = $booking->price;
 			$charge = \Stripe\Charge::create([
 				"amount" => $total_charged * 100,
 				"currency" => $currency,
-				"customer" => $customer->id,
+				"customer" => $booking->customer_stripe_id,
 				"description" => "Thank you for purchasing Tickets from Gigniter!",
 				'metadata' => array(
-					'order_id' => $booking_id
+					'order_id' => $booking->booking_no
 				)
 			]);
-
-			//retrieve charge details
+			
 			$chargeJson = $charge->jsonSerialize();
-
-			// echo json_encode($charge);
-			// die();
-
-			//check whether the charge is successful
 			if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 				//order details
-				$this->bookings_model->update_booking_data($booking_id, array('is_paid' => 1));
+				$this->bookings_model->update_booking_data($booking->id, array('is_paid' => 1));
 				$txn_id = $chargeJson['balance_transaction'];
 				$amount = $chargeJson['amount'];
 				$payment_currency = $chargeJson['currency'];
 				$payment_status = $chargeJson['status'];
 				$charge_param = [
-					'booking_id' => $booking_id,
+					'booking_id' => $booking->id,
 					'charge_id' => $chargeJson['id'],
 					'transaction_id' => $txn_id,
-					'user_send' => $user_id,
+					'user_send' => $booking->user_id,
 					'amount' => $amount / 100,
 					'type' => $chargeJson['object'],
 					'customer_id' => $chargeJson['customer'],
@@ -411,6 +394,7 @@ class Cart extends CI_Controller
 
 				$this->bookings_model->insert_transaction_data($charge_param);
 
+				$cart_items = $this->bookings_model->get_booking_items($booking->id);
 				//if order inserted successfully
 				if ($payment_status == 'succeeded') {
 					foreach ($cart_items as $item) {
@@ -426,7 +410,7 @@ class Cart extends CI_Controller
 						$transferJson = $transfer->jsonSerialize();
 						if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
 							$transfer_param = [
-								'booking_id' => $booking_id,
+								'booking_id' => $booking->id,
 								'transfer_id' => $transferJson['id'],
 								'transaction_id' => $transferJson['balance_transaction'],
 								'amount' => $transferJson['amount'] / 100,
@@ -441,38 +425,76 @@ class Cart extends CI_Controller
 						// echo json_encode($transfer);
 						// die();
 					}
-				} else {
+				} 
+				// else {
 
-					$out['status'] = '2';
-					$out['message'] = 'Error: Customer Charge has been failed!';
-					// $out['txn_id'] = $txn_id;
-					// $out['amount'] = $amount;
-					// $out['currency'] = $payment_currency;
-					// $out['payment_status'] = $payment_status;
-					// $out['transfer'] = '';
-					$this->session->set_flashdata('error_msg', $out['message']);
-					redirect('cart/checkout');
-					echo json_encode($out);
-					die();
-				}
-			} else {
+				// 	$out['status'] = '2';
+				// 	$out['message'] = 'Error: Customer Charge has been failed!';
+				// 	// $out['txn_id'] = $txn_id;
+				// 	// $out['amount'] = $amount;
+				// 	// $out['currency'] = $payment_currency;
+				// 	// $out['payment_status'] = $payment_status;
+				// 	// $out['transfer'] = '';
+				// 	$this->session->set_flashdata('error_msg', $out['message']);
+				// 	redirect('cart/checkout');
+				// 	echo json_encode($out);
+				// 	die();
+				// }
+			} 
+			// else {
 
-				$out['status'] = '3';
-				$out['message'] = 'Error: Transaction has been failed!';
-				$this->session->set_flashdata('error_msg', $out['message']);
-				redirect('cart/checkout');
-				echo json_encode($out);
-				die();
-			}
-		} else {
-
-			$out['status'] = '5';
-			$out['message'] = "$error_msg";
-			$this->session->set_flashdata('error_msg', $out['message']);
-			redirect('cart/checkout');
-			echo json_encode($out);
-			die();
+			// 	$out['status'] = '3';
+			// 	$out['message'] = 'Error: Transaction has been failed!';
+			// 	$this->session->set_flashdata('error_msg', $out['message']);
+			// 	redirect('cart/checkout');
+			// 	echo json_encode($out);
+			// 	die();
+			// }
 		}
+		// echo json_encode($bookings);
+		// die();
+	}
+
+	function calculate_popularity($gig_id, $backers)
+	{
+		$weightages = $this->configurations_model->get_all_configurations_by_key('popularity_weightage');
+		$data = array();
+		$data = [
+			'backers_per_day_weightage' => 0,
+			'percentage_funded_weightage' => 0,
+			'percentage_per_day_weightage' => 0,
+			'amount_raised_weightage' => 0,
+		];
+		if($weightages){
+			foreach($weightages as $weight) {
+				$data[$weight->label.'_weightage'] = $weight->value;
+			}
+		}
+		// echo json_encode($data);
+		// die();
+		$popularity = 0;
+
+		$campaign_date = $this->gigs_model->get_gig_campaign_date_diff($gig_id);
+		$backers_score = ($backers / abs($campaign_date->diff)) * $data['backers_per_day_weightage'];
+		$popularity += $backers_score;
+
+		$amount_raised = $this->bookings_model->get_gig_amount_raised($gig_id);
+		$goal_amount = $this->gigs_model->get_gig_goal_amount($gig_id);
+		$percentage_funded = (100 * $amount_raised->price / $goal_amount->goal_amount);
+		$percentage_funded_score = $percentage_funded * $data['percentage_funded_weightage'];
+		$popularity += $percentage_funded_score;
+
+		$percentage_per_day_score = ($percentage_funded / abs($campaign_date->diff)) * $data['percentage_per_day_weightage'];
+		$popularity += $percentage_per_day_score;
+
+		$amount_raised_score = $amount_raised->price * $data['amount_raised_weightage'];
+		$popularity += $amount_raised_score;
+
+		$param = [
+			'popularity' => $popularity
+		];
+
+		$this->gigs_model->update_gig_data($gig_id, $param);
 	}
 
 	function send_email($to_email, $subject, $email_for)

@@ -191,16 +191,16 @@
                     <div class="carousel-02-text text-left">
                         <h2>Most Popular</h2>
                         <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($gigs) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($popular) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                         </p>
                     </div>
                     <?php
-                    if ($gigs) :
+                    if ($popular) :
                     ?>
                         <div class="speaker--slider text-center" id="carousel_3">
                             <div class="speaker-slider3 owl-carousel owl-theme">
                                 <?php
-                                foreach ($gigs as $gig) :
+                                foreach ($popular as $gig) :
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
@@ -266,7 +266,7 @@
                     <div class="carousel-02-text text-left">
                         <h2>Closing Soon</h2>
                         <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($gigs) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($closing_soon) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                         </p>
                     </div>
                     <?php

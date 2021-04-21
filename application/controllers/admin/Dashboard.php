@@ -53,7 +53,7 @@ class Dashboard extends CI_Controller
 		// }
 	}
 
-	function line_chart() {
-		$gigs = $this->gigs_model->get
-	}
+	// function line_chart() {
+	// 	$gigs = $this->gigs_model->get
+	// }
 }

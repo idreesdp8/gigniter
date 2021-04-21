@@ -28,8 +28,8 @@ class Configurations_model extends CI_Model
 
 	function get_all_configurations_except($data)
 	{
-		$sql = "SELECT * FROM configurations WHERE `key` != ? AND `key` != ? AND `key` != ? ORDER BY created_on";
-		$query = $this->db->query($sql, array($data['gig_status'], $data['gig_genre'], $data['gig_category']));
+		$sql = "SELECT * FROM configurations WHERE `key` != ? AND `key` != ? AND `key` != ? AND `key` != ? ORDER BY created_on";
+		$query = $this->db->query($sql, array($data['key1'], $data['key2'], $data['key3'], $data['key4']));
 		//    $query = $this->db->get('configurations');
 		return $query->result();
 	}
@@ -55,6 +55,12 @@ class Configurations_model extends CI_Model
 	function insert_configuration_data($data)
 	{
 		return $this->db->insert('configurations', $data) ? $this->db->insert_id() : false;
+	}
+
+	function insert_batch_configuration_data($data)
+	{
+		$ress = $this->db->insert_batch('configurations', $data);
+		return $ress;
 	}
 
 	function update_configuration_data($args1, $data)

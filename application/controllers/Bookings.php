@@ -114,7 +114,7 @@ class Bookings extends CI_Controller
 				$ticket_bought += $item->quantity;
 			}
 			$gig->ticket_left = $gig->threshold - $ticket_bought;
-			$gig->booked = $ticket_bought / $gig->goal * 100;
+			$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
 			$data['gig'] = $gig;
 			// echo json_encode($data);
 			// die();
@@ -194,5 +194,32 @@ class Bookings extends CI_Controller
 		} else {
 			return false;
 		}
+	}
+
+	function download_tickets()
+	{
+		require 'vendor/autoload.php';
+
+		$data = $this->input->post();
+		$data['user_id'] = $this->dbs_user_id;
+		$tickets = $this->gigs_model->get_tickets($data);
+		foreach($tickets as $ticket) {
+			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
+			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
+			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);
+			$user = $this->users_model->get_user_by_id($ticket->user_id);
+			$generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+			file_put_contents(barcode_relative_path() . $ticket->ticket_no . '.png', $generator->getBarcode($ticket->ticket_no, $generator::TYPE_CODE_128, 3, 50));
+			$barcode = barcode_url() . $ticket->ticket_no . '.png';
+			$ticket->gig = $gig;
+			$ticket->ticket_tier = $ticket_tier;
+			$ticket->booking = $booking;
+			$ticket->user = $user;
+			$ticket->barcode = $barcode;
+		}
+		$datas['tickets'] = $tickets;
+		// echo json_encode($datas);
+		// die();
+		$this->load->view('frontend/bookings/download_tickets', $datas);
 	}
 }

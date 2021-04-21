@@ -138,7 +138,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">
                                                     <?php echo $item->ticket->name ?>
-                                                    <?php if ($item->quantity > 2 && $booking->is_paid == 1) : ?>
+                                                    <?php if ($item->quantity > 1 && $booking->is_paid == 1) : ?>
                                                         <!-- data-toggle="modal" data-target="#exampleModal" -->
                                                         <span class="float-right open_modal" data-cart_id="<?php echo $item->id ?>" data-value="<?php echo $item->quantity - 1 ?>"><small data-toggle="tooltip" data-placement="top" title="Transfer to Friend"><i class="fas fa-exchange-alt"></i></small></span>
                                                     <?php endif; ?>
@@ -188,6 +188,20 @@
                                                     <span class="card-text">Total Price</span>
                                                     <span class="card-text">$<?php echo $item->price ?></span>
                                                 </div>
+                                                <?php
+                                                if ($booking->is_paid == 1) :
+                                                ?>
+                                                    <div class="text-center">
+                                                        <form target="_blank" action="<?php echo user_base_url() ?>bookings/download_tickets" method="post">
+                                                            <input type="hidden" name="booking_id" value="<?php echo $item->booking_id ?>">
+                                                            <input type="hidden" name="gig_id" value="<?php echo $item->gig_id ?>">
+                                                            <input type="hidden" name="ticket_tier_id" value="<?php echo $item->ticket_tier_id ?>">
+                                                            <button type="submit" class="btn btn-success">Download Tickets</button>
+                                                        </form>
+                                                    </div>
+                                                <?php
+                                                endif;
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

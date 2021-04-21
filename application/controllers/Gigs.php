@@ -90,6 +90,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
 			$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
+			$this->form_validation->set_rules("goal_amount", "Goal Amount", "trim|required|xss_clean");
 			// $this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 			// $this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			if ($this->form_validation->run() == FALSE) {
@@ -144,7 +145,8 @@ class Gigs extends CI_Controller
 					'genre' => $data['genre'] ?? null,
 					'address' => $data['address'] ?? null,
 					'poster' => $imagename,
-					'goal' => $data['goal'] ?? null,
+					'ticket_limit' => $data['goal'] ?? null,
+					'goal_amount' => $data['goal_amount'] ?? null,
 					'threshold' => $data['threshold'] ?? null,
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
@@ -398,7 +400,8 @@ class Gigs extends CI_Controller
 					'category' => $data['category'],
 					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
-					'goal' => $data['goal'],
+					'ticket_limit' => $data['goal'],
+					'goal_amount' => $data['goal_amount'],
 					'threshold' => $data['threshold'],
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
@@ -755,8 +758,8 @@ class Gigs extends CI_Controller
 				foreach ($cart_items as $item) {
 					$ticket_bought += $item->quantity;
 				}
-				$gig->ticket_left = $gig->goal - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->goal * 100;
+				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
 			}
 		}
 		$data['gigs'] = $gigs;

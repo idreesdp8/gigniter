@@ -74,6 +74,7 @@ $(document).ready(function () {
     var error_gig_address = false;
     var error_goal = false;
     var error_threshold = false;
+    var error_goal_amount = false;
     var error_gig_date = false;
     var error_campaign_date = false;
     var error_start_time = false;
@@ -134,6 +135,20 @@ $(document).ready(function () {
         } else {
             $("#goal").removeClass("good").addClass("error");
             error_goal = true;
+        }
+    }
+    $("#goal_amount").focusout(function () {
+        check_goal_amount();
+        $('#gig_goal_amount').html($(this).val());
+    });
+    function check_goal_amount() {
+        var pattern = /^[0-9]*$/;
+        var goal_amount = $("#goal_amount").val();
+        if (pattern.test(goal_amount) && goal_amount !== '') {
+            $("#goal_amount").removeClass("error").addClass("good");
+        } else {
+            $("#goal_amount").removeClass("good").addClass("error");
+            error_goal_amount = true;
         }
     }
     $("#threshold").focusout(function () {

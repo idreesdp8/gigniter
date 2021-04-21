@@ -42,17 +42,16 @@ class Dashboard extends CI_Controller
 	{
 		// echo date_default_timezone_get();
 		// die();
-		$gigs = $this->gigs_model->get_all_active_gigs();
+		// $gigs = $this->gigs_model->get_all_active_gigs();
 		$just_in = $this->gigs_model->get_just_in_gigs();
 		$closing_soon = $this->gigs_model->get_closing_soon_gigs();
-		$featured_gigs = array();
+		$popular = $this->gigs_model->get_popular_gigs();
 		$now_showing = $this->gigs_model->get_now_showing_gigs();
+		$featured_gigs = $this->gigs_model->get_featured_gigs();
 		// $just_in = array();
 		$now = new DateTime();
-		if ($gigs) {
-			// $today = strtotime('Today');
-			// echo $now;die();
-			foreach ($gigs as $gig) {
+		if ($featured_gigs) {
+			foreach ($featured_gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
 				$gig->user_name = $user->fname . ' ' . $user->lname;
 				$args = [
@@ -67,9 +66,6 @@ class Dashboard extends CI_Controller
 				$res = $this->get_tickets_booked_and_left($gig);
 				$gig->booked = $res['booked'];
 				$gig->ticket_left = $res['ticket_left'];
-				if ($gig->is_featured) {
-					$featured_gigs[] = $gig;
-				}
 			}
 		}
 		if ($just_in) {
@@ -126,9 +122,28 @@ class Dashboard extends CI_Controller
 				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
-		$data['gigs'] = $gigs;
+		if ($popular) {
+			foreach ($popular as $gig) {
+				$user = $this->users_model->get_user_by_id($gig->user_id);
+				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$args = [
+					'key' => $this->genre_key,
+					'value' => $gig->genre
+				];
+				$genre = $this->configurations_model->get_configuration_by_key_value($args);
+				$gig->genre_name = $genre->label;
+				$gig_date = new DateTime($gig->gig_date);
+				$interval = $gig_date->diff($now);
+				$gig->days_left = $interval->format('%a');
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
+			}
+		}
+		// $data['gigs'] = $gigs;
 		$data['featured_gigs'] = $featured_gigs;
 		$data['now_showing'] = $now_showing;
+		$data['popular'] = $popular;
 		$data['just_in'] = $just_in;
 		$data['closing_soon'] = $closing_soon;
 		// $data['gigs'] = [];
@@ -142,13 +157,15 @@ class Dashboard extends CI_Controller
 
 	function get_tickets_booked_and_left($gig)
 	{
+		// echo json_encode($gig);
+		// die();
 		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
 		$ticket_bought = 0;
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$param['ticket_left'] = $gig->goal - $ticket_bought;
-		$param['booked'] = $ticket_bought / $gig->goal * 100;
+		$param['ticket_left'] = $gig->ticket_limit - $ticket_bought;
+		$param['booked'] = $ticket_bought / $gig->ticket_limit * 100;
 		return $param;
 	}
 }

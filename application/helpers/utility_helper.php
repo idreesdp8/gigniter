@@ -75,5 +75,13 @@
 	function bundle_thumbnail_url(){
 		return base_url().bundle_thumbnail_relative_path();
 	}
+
+	function barcode_relative_path(){
+		return 'downloads/barcodes/';
+	}
+
+	function barcode_url(){
+		return base_url().barcode_relative_path();
+	}
 	
 ?>
