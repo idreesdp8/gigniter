@@ -31,9 +31,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="title"><?php echo $ticket->ticket_no ?></div>
-                        <div>
+                        <!-- <div>
                             <img src="<?php echo $ticket->barcode ?>" alt="">
-                        </div>
+                        </div> -->
                         <div>
                             <?php echo $ticket->gig->title; ?>
                         </div>
