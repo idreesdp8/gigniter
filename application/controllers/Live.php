@@ -54,6 +54,12 @@ class Live extends CI_Controller
         $this->load->view('frontend/stream/index');
     }
 
+    public function agora($host = '')
+    {
+        $data['host'] = $host;
+        $this->load->view('frontend/stream/agora', $data);
+    }
+
     public function my_shows()
     {
         $dbs_user_email = $this->dbs_user_email;
