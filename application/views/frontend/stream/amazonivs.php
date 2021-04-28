@@ -15,7 +15,8 @@
         if (IVSPlayer.isPlayerSupported) {
             const player = IVSPlayer.create();
             player.attachHTMLVideoElement(document.getElementById('video-player'));
-            player.load('https://8549aae23beb.us-east-1.playback.live-video.net/api/video/v1/us-east-1.305842570590.channel.YdcRatUHOYg1.m3u8');
+            // player.load('https://8549aae23beb.us-east-1.playback.live-video.net/api/video/v1/us-east-1.305842570590.channel.YdcRatUHOYg1.m3u8');
+            player.load('https://ccf3786b925ee51c.mediapackage.us-east-1.amazonaws.com/out/v1/a1cdfe9075534fa2a2b818d74b27b8c6/index.m3u8');
             player.play();
         }
     </script>
