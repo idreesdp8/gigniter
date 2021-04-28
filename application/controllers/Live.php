@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
 class Live extends CI_Controller
 {
 
@@ -60,6 +63,35 @@ class Live extends CI_Controller
         $this->load->view('frontend/stream/agora', $data);
     }
 
+    public function amazonivs()
+    {
+        // $s3Client = new S3Client([
+        //     'region' => REGION,
+        //     'version' => '2006-03-01',
+        // ]);
+        // require 'amazonivs/aws-autoloader.php';
+        // $s3 = new Aws\IVS\IVSClient([
+        //     'version' => 'latest',
+        //     'region' => 'us-east-1',
+        //     'credentials' => [
+        //         'key'    => '305842570590',
+        //         'secret' => 'sk_us-east-1_FwcWEc9a2mJR_BAn47Qr37ryLWiAL3jo7P0FtfzrlWH',
+        //     ],
+        // ]);
+        // // echo json_encode($s3);
+        // // die();
+
+        // // $result = $s3->listChannels();
+        // $result = $s3->getChannel([
+        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:channel/YdcRatUHOYg1', // REQUIRED
+        // ]);
+        // echo json_encode($result);
+        // die();
+
+        $data = array();
+        $this->load->view('frontend/stream/amazonivs', $data);
+    }
+
     public function my_shows()
     {
         $dbs_user_email = $this->dbs_user_email;
@@ -73,7 +105,7 @@ class Live extends CI_Controller
         $now = new DateTime();
         foreach ($tickets as $ticket) {
             $cart = $this->bookings_model->get_booking_item_by_id($ticket->cart_id);
-        // echo json_encode($cart);die();
+            // echo json_encode($cart);die();
 
             $temp = $this->gigs_model->get_gig_by_id($cart->gig_id);
             $user = $this->users_model->get_user_by_id($temp->user_id);
