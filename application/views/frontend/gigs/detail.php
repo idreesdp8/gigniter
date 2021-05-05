@@ -65,6 +65,9 @@
                             <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left; ?> days left</p>
                         </div>
                         <div class="custom-item3">
+                            <a type="button" class="btn btn-warning btn-booking show_modal" href="<?php echo user_base_url() . 'gigs/live/' . $gig->id; ?>">view live</a>
+                        </div>
+                        <div class="custom-item3">
                             <button type="button" class="btn btn-warning btn-booking show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                         </div>
                     </div>
@@ -80,6 +83,24 @@
     <!-- ==========photo-Section========== -->
     <section class="section-margin-top">
         <div class="container">
+            <?php
+            if ($gig->user_id == $this->session->userdata('us_id')) :
+            ?>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="photo-heading">
+                            <h3>Stream Details</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row"> -->
+                    <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details->stream_url ?></p>
+                    <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details->stream_key ?></p>
+                <!-- </div> -->
+            <?php
+            endif;
+            ?>
+
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="photo-heading">

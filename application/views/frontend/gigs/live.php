@@ -4,6 +4,7 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <script src="https://player.live-video.net/1.2.0/amazon-ivs-player.min.js"></script>
 </head>
 
 <body>
@@ -25,7 +26,8 @@
             </div>
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12 mb-2">
-                    <iframe src="https://iframe.dacast.com/live/f3834221-e170-26ff-318f-79bb11347580/638247f1-aefa-2baf-9aa2-d91f86e5b126" width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+                    <video id="video-player" playsinline controls width="100%" height="100%"></video>
+                    <!-- <iframe src="https://iframe.dacast.com/live/f3834221-e170-26ff-318f-79bb11347580/638247f1-aefa-2baf-9aa2-d91f86e5b126" width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <img src="<?php echo user_asset_url(); ?>images/detail-page/custom-text-box.png" class="w-100">
@@ -272,6 +274,14 @@
 
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script>
+        if (IVSPlayer.isPlayerSupported) {
+            const player = IVSPlayer.create();
+            player.attachHTMLVideoElement(document.getElementById('video-player'));
+            player.load('<?php echo $playback_url ?>');
+            player.play();
+        }
+    </script>
 </body>
 
 </html>

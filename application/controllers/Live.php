@@ -66,27 +66,50 @@ class Live extends CI_Controller
     public function amazonivs()
     {
         // $s3Client = new S3Client([
-        //     'region' => REGION,
+        //     'region' => 'REGION',
         //     'version' => '2006-03-01',
         // ]);
-        // require 'amazonivs/aws-autoloader.php';
-        // $s3 = new Aws\IVS\IVSClient([
-        //     'version' => 'latest',
-        //     'region' => 'us-east-1',
-        //     'credentials' => [
-        //         'key'    => '305842570590',
-        //         'secret' => 'sk_us-east-1_FwcWEc9a2mJR_BAn47Qr37ryLWiAL3jo7P0FtfzrlWH',
-        //     ],
-        // ]);
-        // // echo json_encode($s3);
-        // // die();
-
-        // // $result = $s3->listChannels();
-        // $result = $s3->getChannel([
-        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:channel/YdcRatUHOYg1', // REQUIRED
-        // ]);
-        // echo json_encode($result);
+        require 'amazonivs/aws-autoloader.php';
+        $ivs = new Aws\IVS\IVSClient([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key'    => $this->config->item('amazon_key'),
+                'secret' => $this->config->item('amazon_secret'),
+            ],
+        ]);
+        // echo json_encode($s3);
         // die();
+
+        // $result = $ivs->getChannel([
+        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:channel/LYGvkLgTYiYe'
+        // ]);
+        // $result = $ivs->listStreamKeys([
+        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/LYGvkLgTYiYe'
+        // ]);
+        // $stream_keys = $result->get('streamKeys');
+        // $stream_arn = '';
+        // foreach($stream_keys as $stream_key) {
+        //     $stream_arn = $stream_key['arn'];
+        // }
+        // // echo $stream_arn;
+        // $result = $ivs->getStreamKey([
+        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:stream-key/zV5zpiUyxLPy'
+        // ]);
+        // $result = $ivs->getStream([
+        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/l8VkxGC66GJN'
+        // ]);
+        // $result = $ivs->stopStream([
+        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/l8VkxGC66GJN'
+        // ]);
+        $result = $ivs->createChannel([
+            'name' => 'Gigniter_2'
+        ]);
+        // echo json_encode($result->get('channel'));
+        
+        echo $result;
+        die();
+        
 
         $data = array();
         $this->load->view('frontend/stream/amazonivs', $data);

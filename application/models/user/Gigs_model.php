@@ -304,4 +304,14 @@ class Gigs_model extends CI_Model
 		);
 		return $query->result();
 	}
+	function add_channel($data)
+	{
+		$ress = $this->db->insert('gig_stream', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+	function get_stream_details($gig_id)
+	{
+		$query = $this->db->get_where('gig_stream', array('gig_id' => $gig_id));
+		return $query->row();
+	}
 }

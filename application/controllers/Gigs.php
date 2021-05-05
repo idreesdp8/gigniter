@@ -65,9 +65,10 @@ class Gigs extends CI_Controller
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$gig->ticket_left = $gig->goal - $ticket_bought;
-		$gig->booked = $ticket_bought / $gig->goal * 100;
+		$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
+		$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
 		$data['gig'] = $gig;
+		$data['stream_details'] = $this->gigs_model->get_stream_details($id);
 		// echo json_encode($gig);die();
 		$this->load->view('frontend/gigs/detail', $data);
 	}
@@ -167,6 +168,7 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
+					$this->create_channel($data['title'], $res);
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
@@ -216,6 +218,32 @@ class Gigs extends CI_Controller
 				redirect('login');
 			}
 		}
+	}
+
+	function create_channel($title, $gig_id)
+	{
+		$channel_name = str_replace(' ', '_', $title);
+        require 'amazonivs/aws-autoloader.php';
+        $ivs = new Aws\IVS\IVSClient([
+            'version' => $this->config->item('version'),
+            'region' => $this->config->item('region'),
+            'credentials' => [
+                'key'    => $this->config->item('amazon_key'),
+                'secret' => $this->config->item('amazon_secret'),
+            ],
+        ]);
+		$result = $ivs->createChannel([
+			'name' => $channel_name
+		]);
+		$channel = $result->get('channel');
+		$streamKey = $result->get('streamKey');
+		$data['channel_arn'] = $channel['arn'];
+		$data['playback_url'] = $channel['playbackUrl'];
+		$data['stream_url'] = 'rtmps://'.$channel['ingestEndpoint'].':443/app/';
+		$data['stream_arn'] = $streamKey['arn'];
+		$data['stream_key'] = $streamKey['value'];
+		$data['gig_id'] = $gig_id;
+		$this->gigs_model->add_channel($data);
 	}
 
 	function update_user_data($data, $file, $user_id = '')
@@ -559,9 +587,13 @@ class Gigs extends CI_Controller
 		}
 	}
 
-	public function live()
+	public function live($gig_id)
 	{
-		$this->load->view('frontend/gigs/live');
+		$stream_details = $this->gigs_model->get_stream_details($gig_id);
+		// echo json_encode($stream_details);
+		// die();
+		$data['playback_url'] = $stream_details->playback_url;
+		$this->load->view('frontend/gigs/live', $data);
 	}
 
 	public function explore()
