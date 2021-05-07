@@ -78,33 +78,44 @@ class Live extends CI_Controller
                 'secret' => $this->config->item('amazon_secret'),
             ],
         ]);
+        $s3 = new Aws\S3\S3Client([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key'    => $this->config->item('amazon_key'),
+                'secret' => $this->config->item('amazon_secret'),
+            ],
+        ]);
+        $result = $s3->createBucket([
+            'Bucket' => 'gigniter_bucket', // REQUIRED
+        ]);
         // echo json_encode($s3);
         // die();
 
         // $result = $ivs->getChannel([
-        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:channel/LYGvkLgTYiYe'
+        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:channel/rXHpeVV22c6C'
         // ]);
         // $result = $ivs->listStreamKeys([
-        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/LYGvkLgTYiYe'
+        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/rXHpeVV22c6C'
         // ]);
         // $stream_keys = $result->get('streamKeys');
         // $stream_arn = '';
         // foreach($stream_keys as $stream_key) {
         //     $stream_arn = $stream_key['arn'];
         // }
-        // // echo $stream_arn;
+        // // // echo $stream_arn;
         // $result = $ivs->getStreamKey([
-        //     'arn' => 'arn:aws:ivs:us-east-1:305842570590:stream-key/zV5zpiUyxLPy'
+        //     'arn' => $stream_arn
         // ]);
         // $result = $ivs->getStream([
-        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/l8VkxGC66GJN'
+        //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/rXHpeVV22c6C'
         // ]);
         // $result = $ivs->stopStream([
         //     'channelArn' => 'arn:aws:ivs:us-east-1:305842570590:channel/l8VkxGC66GJN'
         // ]);
-        $result = $ivs->createChannel([
-            'name' => 'Gigniter_2'
-        ]);
+        // $result = $ivs->createChannel([
+        //     'name' => 'Gigniter_2'
+        // ]);
         // echo json_encode($result->get('channel'));
         
         echo $result;
