@@ -2,7 +2,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use Aws\S3\S3Client;
+use Aws\IVS\IVSClient;
 use Aws\Exception\AwsException;
+use Aws\S3\Exception\S3Exception;
+// use Monolog\Handler\StreamHandler;
+// use Monolog\Logger;
 
 class Live extends CI_Controller
 {
@@ -57,10 +61,115 @@ class Live extends CI_Controller
         $this->load->view('frontend/stream/index');
     }
 
+    public function record()
+    {
+        $this->load->view('frontend/stream/record');
+    }
+    public function record2()
+    {
+        $this->load->view('frontend/stream/record2');
+    }
+
     public function agora($host = '')
     {
         $data['host'] = $host;
         $this->load->view('frontend/stream/agora', $data);
+    }
+
+    public function fetch_stream()
+    {
+        // require 'vendor/autoload.php';
+        require 'amazonivs/aws-autoloader.php';
+
+        $bucket = 'gigniter-bucket-122';
+        $keyname = 'gigniter-bucket-122';
+        $ivs = new Aws\IVS\IVSClient([
+            'version' => 'latest',
+            'region' => 'us-east-1',
+            'credentials' => [
+                'key'    => $awskey, //'<MYKEY>',
+                'secret' => $awssecret, //'<MYSECRET>'
+                //'key'    => $this->config->item('amazon_key'),
+                //'secret' => $this->config->item('amazon_secret'),
+            ],
+        ]);
+
+        $result1 = $ivs->listChannels(['filterByName' => 'Gigniter_2']); //['filterByName' => 'Gigniter_2']	
+
+
+        //$result = $ivs->getRecordingConfiguration([/* ... */]);
+
+        /*[
+            'maxResults' => <integer>,
+            'nextToken' => '<string>',
+        ]
+        */
+
+        $video_url = '';
+
+        if (isset($result1["channels"][0]["arn"])) {
+
+            $arn = $result1["channels"][0]["arn"];
+            $name = $result1["channels"][0]["name"];
+            $latencyMode = $result1["channels"][0]["latencyMode"];
+            $authorized = $result1["channels"][0]["authorized"];
+            $recordingConfigurationArn  = $result1["channels"][0]["recordingConfigurationArn"];
+
+
+            $result2 = $ivs->listRecordingConfigurations([
+                'recordingConfigurations' => [
+                    [
+                        'arn' => "$recordingConfigurationArn",
+                        'state' => 'ACTIVE',
+                    ],
+                ],
+            ]);
+            //print_r($result);  
+
+            $recording_name = ($result2["recordingConfigurations"][0]["name"]);
+            $recording_bucket_name =  ($result2["recordingConfigurations"][0]["destinationConfiguration"]["s3"]["bucketName"]);
+
+            $client = new Aws\S3\S3Client([
+                'version' => 'latest',
+                'region' => 'us-east-1',
+                'credentials' => [
+                    'key'    => $awskey, //'<MYKEY>',
+                    'secret' => $awssecret, //'<MYSECRET>' 
+                ],
+            ]);
+
+            $object = "test-video.mp4";
+            $data['video_url'] = $client->getObjectUrl("$recording_bucket_name", $object);
+
+            /*echo "<pre>";
+            print_r($result3);
+            echo "<pre>";
+            
+            exit;
+            
+            
+            $result3 = $client->listObjects([
+            'Bucket' => "$recording_bucket_name", //'gigniter-bucket-122', // REQUIRED
+                'Delimiter' => '<string>',
+                'EncodingType' => 'url',
+                'ExpectedBucketOwner' => '<string>',
+                'Marker' => '<string>',
+                'MaxKeys' => <integer>,
+                'Prefix' => '<string>',
+                'RequestPayer' => 'requester',
+            ]);
+            
+            echo "<pre>";
+            print_r($result3);
+            echo "<pre>";
+            
+            exit;*/
+
+            //$object = "test-video.mp4";
+            //echo $url = $client->getObjectUrl('gigniter-bucket-122', $object, "+10 minutes");
+            //exit; 
+        $this->load->view('frontend/stream/fetch', $data);
+        }
     }
 
     public function amazonivs()
@@ -117,10 +226,10 @@ class Live extends CI_Controller
         //     'name' => 'Gigniter_2'
         // ]);
         // echo json_encode($result->get('channel'));
-        
+
         echo $result;
         die();
-        
+
 
         $data = array();
         $this->load->view('frontend/stream/amazonivs', $data);
