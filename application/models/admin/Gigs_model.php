@@ -163,4 +163,11 @@ class Gigs_model extends CI_Model
 		$query = $this->db->count_all('gigs');
 		return $query;
 	}
+
+	function remove_gig_stream($gig_id)
+	{
+		$this->db->where('gig_id', $gig_id);
+		$this->db->delete('gig_stream');
+		return true;
+	}
 }

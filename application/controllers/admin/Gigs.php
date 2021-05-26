@@ -71,6 +71,7 @@ class Gigs extends CI_Controller
 		@unlink("downloads/posters/thumb/$gig->poster");
 		@unlink("downloads/posters/$gig->poster");
 		$this->remove_tickets($args2);
+		$this->remove_gig_stream($args2);
 		$this->gigs_model->trash_gig($args2);
 		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
 		redirect('admin/gigs');
@@ -514,6 +515,11 @@ class Gigs extends CI_Controller
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
+	}
+
+	function remove_gig_stream($gig_id)
+	{
+		$this->gigs_model->remove_gig_stream($gig_id);
 	}
 
 	/* users functions ends */

@@ -159,7 +159,7 @@ $(document).ready(function () {
         var pattern = /^[0-9]*$/;
         var threshold = $("#threshold").val();
         var goal = $("#goal").val();
-        if (pattern.test(threshold) && threshold !== '' && threshold<goal) {
+        if (pattern.test(threshold) && threshold !== '' && threshold < goal) {
             $("#threshold").removeClass("error").addClass("good");
         } else {
             $("#threshold").removeClass("good").addClass("error");
@@ -242,11 +242,16 @@ $(document).ready(function () {
     });
     function check_end_time() {
         var end_time = $("#end_time").val();
+        var input = document.getElementById('end_time');
         if (end_time == '') {
             $("#end_time").addClass("error").removeClass("good");
         } if (end_time !== '') {
-            $("#end_time").removeClass("error").addClass("good");
-            error_end_time = true;
+            if (input.validity.valid && input.type === 'time') {
+                $("#end_time").removeClass("error").addClass("good");
+                error_end_time = true;
+            } else {
+                $("#end_time").addClass("error").removeClass("good");
+            }
         }
     }
 

@@ -145,7 +145,7 @@
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
                       <div>
-                        <img id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_for_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" />
                       </div>
@@ -167,7 +167,7 @@
                   </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Goal"><i class="fas fa-question-circle"></i></span>
+                    Target audience number <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target audience number"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
@@ -181,7 +181,7 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
+                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal_amount" name="goal_amount" required="required" onchange="preview(this)">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>

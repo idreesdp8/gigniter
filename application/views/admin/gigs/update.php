@@ -79,39 +79,26 @@
                                                 <label>Subtitle</label>
                                                 <textarea name="subtitle" id="subtitle" cols="30" rows="3" class="form-control" placeholder="Enter subtitle"><?php echo $gig->subtitle ?></textarea>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Category <span class="text-danger">*</span></label>
-                                                <select name="category" id="category" class="form-control select" data-error="#category1">
-                                                    <option value="">Select Category</option>
-                                                    <?php
-                                                    if (isset($categories)) :
-                                                        foreach ($categories as $category) :
-                                                    ?>
-                                                            <option value="<?php echo $category->value ?>" <?php echo $gig->category == $category->value ? 'selected' : '' ?>><?php echo $category->label ?></option>
-                                                    <?php
-                                                        endforeach;
-                                                    endif;
-                                                    ?>
-                                                </select>
-                                                <span id="category1" class="text-danger" generated="true"><?php echo form_error('category'); ?></span>
-                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Genre <span class="text-danger">*</span></label>
-                                                        <select name="genre" id="genre" class="form-control select" data-error="#genre1">
-                                                            <option value="">Select Genre</option>
-                                                            <?php
-                                                            if (isset($genres)) :
-                                                                foreach ($genres as $genre) :
-                                                            ?>
-                                                                    <option value="<?php echo $genre->value ?>" <?php echo $gig->genre == $genre->value ? 'selected' : '' ?>><?php echo $genre->label ?></option>
-                                                            <?php
-                                                                endforeach;
-                                                            endif;
-                                                            ?>
-                                                        </select>
-                                                        <span id="genre1" class="text-danger" generated="true"><?php echo form_error('genre'); ?></span>
+                                                        <label>Audience Goal <span class="text-danger">*</span></label>
+                                                        <input type="number" name="ticket_limit" id="ticket_limit" class="form-control" value="<?php echo $gig->ticket_limit ?>" min="0" data-error="#ticket_limit1">
+                                                        <span id="ticket_limit1" class="text-danger" generated="true"><?php echo form_error('ticket_limit'); ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Ticket Threshold <span class="text-danger">*</span></label>
+                                                        <input type="number" name="threshold" id="threshold" class="form-control" min="0" value="<?php echo $gig->threshold ?>" min="0" data-error="#threshold1">
+                                                        <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Target Goal Amount <span class="text-danger">*</span></label>
+                                                        <input type="number" name="goal_amount" id="goal_amount" class="form-control" min="0" value="<?php echo $gig->goal_amount ?>" data-error="#goal_amount1">
+                                                        <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -132,10 +119,43 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-9">
-                                                    <div class="form-group">
-                                                        <label>Goal <span class="text-danger">*</span></label>
-                                                        <input type="number" name="goal" id="goal" class="form-control" value="<?php echo $gig->goal ?>" min="0" data-error="#goal1">
-                                                        <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Category <span class="text-danger">*</span></label>
+                                                                <select name="category" id="category" class="form-control select" data-error="#category1">
+                                                                    <option value="">Select Category</option>
+                                                                    <?php
+                                                                    if (isset($categories)) :
+                                                                        foreach ($categories as $category) :
+                                                                    ?>
+                                                                            <option value="<?php echo $category->value ?>" <?php echo $gig->category == $category->value ? 'selected' : '' ?>><?php echo $category->label ?></option>
+                                                                    <?php
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                                <span id="category1" class="text-danger" generated="true"><?php echo form_error('category'); ?></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Genre <span class="text-danger">*</span></label>
+                                                                <select name="genre" id="genre" class="form-control select" data-error="#genre1">
+                                                                    <option value="">Select Genre</option>
+                                                                    <?php
+                                                                    if (isset($genres)) :
+                                                                        foreach ($genres as $genre) :
+                                                                    ?>
+                                                                            <option value="<?php echo $genre->value ?>" <?php echo $gig->genre == $genre->value ? 'selected' : '' ?>><?php echo $genre->label ?></option>
+                                                                    <?php
+                                                                        endforeach;
+                                                                    endif;
+                                                                    ?>
+                                                                </select>
+                                                                <span id="genre1" class="text-danger" generated="true"><?php echo form_error('genre'); ?></span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -738,7 +758,13 @@
                     genre: {
                         required: true,
                     },
-                    goal: {
+                    ticket_limit: {
+                        required: true,
+                    },
+                    ticket_limit: {
+                        required: true,
+                    },
+                    threshold: {
                         required: true,
                     },
                     campaign_date: {
@@ -786,8 +812,14 @@
                     genre: {
                         required: "Genre is required field",
                     },
-                    goal: {
-                        required: "Goal is required field",
+                    ticket_limit: {
+                        required: "Ticket Goal is required field",
+                    },
+                    threshold: {
+                        required: "Ticket Threshold is required field",
+                    },
+                    goal_amount: {
+                        required: "Goal Amount is required field",
                     },
                     start_time: {
                         required: "Start Time is required field",

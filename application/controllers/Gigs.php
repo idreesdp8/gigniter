@@ -624,8 +624,8 @@ class Gigs extends CI_Controller
 				foreach ($cart_items as $item) {
 					$ticket_bought += $item->quantity;
 				}
-				$gig->ticket_left = $gig->goal - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->goal * 100;
+				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
+				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -840,5 +840,12 @@ class Gigs extends CI_Controller
 		$this->session->set_userdata($param);
 		redirect('gigs/checkout');
 		// echo json_encode('Tier: '.$tier.' Quantity: '.$quantity.' Gig_id: '.$gig_id);
+	}
+
+	function launch_campaign()
+	{
+		$id = $this->input->post("gig_id");
+		$res = $this->gigs_model->launch_gig_campaign($id);
+		echo $res;
 	}
 }

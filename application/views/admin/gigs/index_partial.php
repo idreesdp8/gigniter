@@ -8,7 +8,7 @@
                 <th>Category</th>
                 <th>Genre</th>
                 <th>Address</th>
-                <th>Goal</th>
+                <th>Audience Goal</th>
                 <th>Concert Date</th>
                 <th>Satus</th>
                 <th>Added on</th>
@@ -27,7 +27,7 @@
                     <td><?php echo $record->category ?></td>
                     <td><?php echo $record->genre ?></td>
                     <td><?php echo $record->address ?></td>
-                    <td><?php echo $record->goal ?></td>
+                    <td><?php echo $record->ticket_limit ?></td>
                     <td><?php echo date('M d, Y', strtotime($record->gig_date)) ?></td>
                     <td>
                         <?php

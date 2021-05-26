@@ -69,6 +69,10 @@ class Live extends CI_Controller
     {
         $this->load->view('frontend/stream/record2');
     }
+    public function record3()
+    {
+        $this->load->view('frontend/stream/uploads3');
+    }
 
     public function agora($host = '')
     {
@@ -178,26 +182,26 @@ class Live extends CI_Controller
         //     'region' => 'REGION',
         //     'version' => '2006-03-01',
         // ]);
-        require 'amazonivs/aws-autoloader.php';
-        $ivs = new Aws\IVS\IVSClient([
-            'version' => 'latest',
-            'region' => 'us-east-1',
-            'credentials' => [
-                'key'    => $this->config->item('amazon_key'),
-                'secret' => $this->config->item('amazon_secret'),
-            ],
-        ]);
-        $s3 = new Aws\S3\S3Client([
-            'version' => 'latest',
-            'region' => 'us-east-1',
-            'credentials' => [
-                'key'    => $this->config->item('amazon_key'),
-                'secret' => $this->config->item('amazon_secret'),
-            ],
-        ]);
-        $result = $s3->createBucket([
-            'Bucket' => 'gigniter_bucket', // REQUIRED
-        ]);
+        // require 'amazonivs/aws-autoloader.php';
+        // $ivs = new Aws\IVS\IVSClient([
+        //     'version' => 'latest',
+        //     'region' => 'us-east-1',
+        //     'credentials' => [
+        //         'key'    => $this->config->item('amazon_key'),
+        //         'secret' => $this->config->item('amazon_secret'),
+        //     ],
+        // ]);
+        // $s3 = new Aws\S3\S3Client([
+        //     'version' => 'latest',
+        //     'region' => 'us-east-1',
+        //     'credentials' => [
+        //         'key'    => $this->config->item('amazon_key'),
+        //         'secret' => $this->config->item('amazon_secret'),
+        //     ],
+        // ]);
+        // $result = $s3->createBucket([
+        //     'Bucket' => 'gigniter_bucket', // REQUIRED
+        // ]);
         // echo json_encode($s3);
         // die();
 
@@ -227,8 +231,8 @@ class Live extends CI_Controller
         // ]);
         // echo json_encode($result->get('channel'));
 
-        echo $result;
-        die();
+        // echo $result;
+        // die();
 
 
         $data = array();

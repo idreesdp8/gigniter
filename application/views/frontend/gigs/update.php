@@ -89,7 +89,7 @@
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
             <form role="form" method="post" action="<?php echo user_base_url() ?>gigs/update" id="basic_info_form" enctype="multipart/form-data">
               <!-- <div class=""> -->
-              <input type="hidden" name="id" value="<?php echo $gig->id ?>">
+              <input type="hidden" name="id" id="gig_id" value="<?php echo $gig->id ?>">
               <div class="panel panel-primary setup-content" id="step-1">
                 <!-- <form id="form_step_1" enctype="multipart/form-data"> -->
                 <div class="step-form-heading">
@@ -171,7 +171,7 @@
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small>
                       <!-- or Pitch Video -->
                       <div>
-                        <img id="img" src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
+                        <img class="object-fit-cover" id="img" src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                         <a><img src="<?php echo $gig->poster ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" />
                       </div>
@@ -193,14 +193,14 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                    Target Number of Tickets
+                      Target Number of Tickets
                       <input type="text" id="goal" name="goal" value="<?php echo $gig->ticket_limit ?>" required="required">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                    Ticket Threshold
+                      Ticket Threshold
                       <input type="text" id="threshold" name="threshold" value="<?php echo $gig->threshold ?>" required="required">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
@@ -216,8 +216,24 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Campaign Launch Date
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
-                      <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
+                      <?php
+                      if (strtotime($gig->campaign_date) < strtotime('now')) :
+                      ?>
+                        <div style="margin: 10px 0px;"><strong style="color: #69d7aa;">Campaign is launched already!</strong></div>
+                      <?php
+                      else :
+                      ?>
+                        <div id="campaign-date-button">
+                          <a type="button" class="btn btn-primary btn-step-continue btn-sm" id="launch-campaign">Launch Now</a>
+                          <span> OR <strong class="logo-color" id="set-campaign-date">Set Date</strong></span>
+                        </div>
+                        <div id="campaign-date-input" style="display: none;">
+                          <input type="date" id="campaign_date" class="date" name="campaign_date" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                          <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
+                        </div>
+                      <?php
+                      endif;
+                      ?>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -692,7 +708,56 @@
         var div = $(this).parents('.col-md-4');
         div.remove();
       });
+      $('#set-campaign-date').click(function() {
+        $('#campaign-date-input').show();
+        $('#campaign-date-button').hide();
+      })
+      $('#launch-campaign').click(function() {
+        var gig_id = $('#gig_id').val();
+        $.ajax({
+          url: base_url + 'gigs/launch_campaign',
+          method: 'post',
+          data: {
+            'gig_id': gig_id,
+          },
+          success: function(result) {
+            if (result == '1') {
+              swal({
+                icon: 'success',
+                title: 'Campaign is Launched!',
+              });
+
+            } else {
+              alert('Error: Campaign is not Launched');
+            }
+          }
+        });
+      })
+      $('#start_time').change(function() {
+        var time = $(this).val();
+        $('#end_time').attr('min', time);
+        $('#end_time').attr('max', '23:59');
+      })
+      // $('#end_time').change(function() {
+      //   var input = document.getElementById('end_time');
+      //   if (input.validity.valid && input.type === 'time') {
+      //     console.log('valid');
+      //   } else {
+      //     console.log('Invalid');
+      //   }
+      // })
     });
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#img').attr('src', e.target.result);
+          $('#gig_poster').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
   </script>
 </body>
 

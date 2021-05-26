@@ -197,57 +197,58 @@
     <div id="results">
     </div>
     <script type="text/javascript">
-         AWS.config.region = 'us-east-1'; // 1. Enter your region
-            AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: '' // 2. Enter your identity pool
-            });
-            AWS.config.credentials.get(function(err) {
-                if (err) alert(err);
-                console.log(AWS.config.credentials);
-            });
-            var bucketName = 'gigniter-bucket-122'; // Enter your bucket name
-            var bucket = new AWS.S3({
-                params: {
-                    Bucket: bucketName
-                }
-            });
-            var fileChooser = document.getElementById('file-chooser');
-            var button = document.getElementById('upload-button');
-            var results = document.getElementById('results');
-            var percentage = document.getElementById('percentage');
-            listObjs();
-    button.addEventListener('click', function() {
-        var file = fileChooser.files[0];
-        if (url_file) {
-            results.innerHTML = '';
-            var objKey = 'testing/' + url_file.name;
-            var params = {
-                Key: objKey,
-                ContentType: url_file.type,
-                Body: url_file,
-                ACL: 'public-read'
-            };
-            // bucket.putObject(params, function(err, data) {
-            //     if (err) {
-            //         results.innerHTML = 'ERROR: ' + err;
-            //     } else {
-            //         listObjs();
-            //     }
-            // });
-            var request = bucket.putObject(params);
-            request.on('httpUploadProgress', function (progress) {
-                percentage.innerHTML = parseInt((progress.loaded * 100) / progress.total)+'%'; 
-                console.log("Uploaded :: " + parseInt((progress.loaded * 100) / progress.total)+'%');
-               // console.log(progress.loaded + " of " + progress.total + " bytes");
-            }).send(function(err, data){
-                percentage.innerHTML = "File has been uploaded successfully.";
-                listObjs();
-            });
-         
-        } else {
-            results.innerHTML = 'Nothing to upload.';
-        }
-    }, false);
+        AWS.config.region = 'us-east-1'; // 1. Enter your region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-east-1:a5fa8f41-d372-4e8a-8a5d-6955c9a7deeb' // 2. Enter your identity pool
+        });
+        AWS.config.credentials.get(function(err) {
+            if (err) alert(err);
+            console.log(AWS.config.credentials);
+        });
+        var bucketName = 'gigniter-bucket-122'; // Enter your bucket name
+        var bucket = new AWS.S3({
+            params: {
+                Bucket: bucketName
+            }
+        });
+        var fileChooser = document.getElementById('file-chooser');
+        var button = document.getElementById('upload-button');
+        var results = document.getElementById('results');
+        var percentage = document.getElementById('percentage');
+        listObjs();
+        button.addEventListener('click', function() {
+            var file = fileChooser.files[0];
+            if (url_file) {
+                results.innerHTML = '';
+                var objKey = 'testing/' + url_file.name;
+                var params = {
+                    Key: objKey,
+                    ContentType: url_file.type,
+                    Body: url_file,
+                    ACL: 'public-read'
+                };
+                // bucket.putObject(params, function(err, data) {
+                //     if (err) {
+                //         results.innerHTML = 'ERROR: ' + err;
+                //     } else {
+                //         listObjs();
+                //     }
+                // });
+                var request = bucket.putObject(params);
+                request.on('httpUploadProgress', function(progress) {
+                    percentage.innerHTML = parseInt((progress.loaded * 100) / progress.total) + '%';
+                    console.log("Uploaded :: " + parseInt((progress.loaded * 100) / progress.total) + '%');
+                    // console.log(progress.loaded + " of " + progress.total + " bytes");
+                }).send(function(err, data) {
+                    percentage.innerHTML = "File has been uploaded successfully.";
+                    listObjs();
+                });
+
+            } else {
+                results.innerHTML = 'Nothing to upload.';
+            }
+        }, false);
+
         function listObjs() {
             var prefix = 'testing';
             bucket.listObjects({

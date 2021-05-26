@@ -243,6 +243,54 @@
                             </div>
                         </div>
                     <?php
+                    elseif ($FE_gigs) :
+                    ?>
+                        <div class="speaker--slider text-center" id="carousel_3">
+                            <div class="speaker-slider3 owl-carousel owl-theme">
+                                <?php
+                                foreach ($FE_gigs as $gig) :
+                                ?>
+                                    <div class="speaker-item1 card">
+                                        <div class="speaker-thumb card-header">
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
+                                        </div>
+                                        <div class="speaker-content card-footer">
+                                            <div class="d-flex">
+                                                <div class="footer-text">
+                                                    <h5><?php echo $gig->title ?></h5>
+                                                    <h6><?php echo $gig->user_name ?></h6>
+                                                    <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                </div>
+                                                <div class="circlebar">
+                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">Booked</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach;
+                                ?>
+                            </div>
+                            <div class="speaker-prev3 speaker-prev">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
+                            </div>
+                            <div class="speaker-next3 speaker-next">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
+                            </div>
+                        </div>
+                    <?php
                     else :
                     ?>
                         <h6>
@@ -276,6 +324,54 @@
                             <div class="speaker-slider4 owl-carousel owl-theme">
                                 <?php
                                 foreach ($closing_soon as $gig) :
+                                ?>
+                                    <div class="speaker-item1 card">
+                                        <div class="speaker-thumb card-header">
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
+                                        </div>
+                                        <div class="speaker-content card-footer">
+                                            <div class="d-flex">
+                                                <div class="footer-text">
+                                                    <h5><?php echo $gig->title ?></h5>
+                                                    <h6><?php echo $gig->user_name ?></h6>
+                                                    <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                </div>
+                                                <div class="circlebar">
+                                                    <div class="pie_progress booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">Booked</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach;
+                                ?>
+                            </div>
+                            <div class="speaker-prev4 speaker-prev">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
+                            </div>
+                            <div class="speaker-next4 speaker-next">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
+                            </div>
+                        </div>
+                    <?php
+                    elseif ($FE_gigs) :
+                    ?>
+                        <div class="speaker--slider text-center" id="carousel_4">
+                            <div class="speaker-slider4 owl-carousel owl-theme">
+                                <?php
+                                foreach ($FE_gigs as $gig) :
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
@@ -352,6 +448,54 @@
                             <div class="speaker-slider5 owl-carousel owl-theme">
                                 <?php
                                 foreach ($just_in as $gig) :
+                                ?>
+                                    <div class="speaker-item1 card">
+                                        <div class="speaker-thumb card-header">
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                                <?php if ($gig->is_exclusive) : ?>
+                                                    <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                <?php endif; ?>
+                                            </a>
+                                        </div>
+                                        <div class="speaker-content card-footer">
+                                            <div class="d-flex">
+                                                <div class="footer-text">
+                                                    <h5><?php echo $gig->title ?></h5>
+                                                    <h6><?php echo $gig->user_name ?></h6>
+                                                    <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                                    <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                                </div>
+                                                <div class="circlebar">
+                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                        <div class="pie_progress__number">0%</div>
+                                                        <div class="pie_progress__label">Booked</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                        </div>
+                                    </div>
+                                <?php
+                                endforeach;
+                                ?>
+                            </div>
+                            <div class="speaker-prev5 speaker-prev">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
+                            </div>
+                            <div class="speaker-next5 speaker-next">
+                                <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
+                            </div>
+                        </div>
+                    <?php
+                    elseif ($FE_gigs) :
+                    ?>
+                        <div class="speaker--slider text-center" id="carousel_5">
+                            <div class="speaker-slider5 owl-carousel owl-theme">
+                                <?php
+                                foreach ($FE_gigs as $gig) :
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">

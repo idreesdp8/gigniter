@@ -47,3 +47,14 @@ textarea {
 .cursor-pointer {
 	cursor: pointer;
 }
+
+.object-fit-cover {
+	object-fit: cover;
+}
+.object-fit-contain {
+	object-fit: contain;
+}
+
+.logo-color {
+    color: #f1c40c;
+}
