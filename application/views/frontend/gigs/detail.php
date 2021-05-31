@@ -126,7 +126,7 @@
                             ?>
                                 <div class="cast-item">
                                     <div class="cast-thumb" style="border-radius: 0;">
-                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" style="border-radius: 0;" alt="cast">
+                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" style="border-radius: 0;" alt="gig_images">
                                     </div>
                                 </div>
                                 <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="w-100"></div> -->

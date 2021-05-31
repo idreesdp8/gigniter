@@ -874,8 +874,12 @@ class Gigs extends CI_Controller
 						];
 					}
 				}
+				$prev_images = $this->gigs_model->get_gig_gallery_images($id);
+				foreach($prev_images as $prev) {
+					@unlink("downloads/gig_images/$prev->image");
+				}
+				$this->gigs_model->remove_gig_gallery_images($id);
 			}
-			$this->gigs_model->remove_gig_gallery_images($id);
 			$res = $this->gigs_model->add_gig_gallery_images($data);
 			if($res) {
 				$this->session->set_flashdata('success_msg', 'Gig images uploaded successfully!');
