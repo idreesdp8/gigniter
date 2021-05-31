@@ -106,14 +106,19 @@
             <?php
             endif;
             ?>
-
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="photo-heading">
-                        <h3>Photos</h3>
+            <?php
+            if ($gig->images) :
+            ?>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="photo-heading">
+                            <h3>Photos</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php
+            endif;
+            ?>
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                     <?php

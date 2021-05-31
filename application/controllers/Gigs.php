@@ -874,11 +874,14 @@ class Gigs extends CI_Controller
 						];
 					}
 				}
-				$prev_images = $this->gigs_model->get_gig_gallery_images($id);
+				$prev_images = $this->gigs_model->get_gig_gallery_images($gig_id);
+				// echo json_encode($prev_images);
+				// echo json_encode($gig_id);
+				// die();
 				foreach($prev_images as $prev) {
 					@unlink("downloads/gig_images/$prev->image");
 				}
-				$this->gigs_model->remove_gig_gallery_images($id);
+				$this->gigs_model->remove_gig_gallery_images($gig_id);
 			}
 			$res = $this->gigs_model->add_gig_gallery_images($data);
 			if($res) {
