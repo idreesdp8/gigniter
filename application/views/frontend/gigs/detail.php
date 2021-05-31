@@ -16,8 +16,9 @@
         }
 
         .gallery_image {
-            width: 100%;
+            width: 100% !important;
             height: 100%;
+            border-radius: 0 !important;
             object-fit: cover;
         }
     </style>
