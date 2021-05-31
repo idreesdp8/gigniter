@@ -14,6 +14,12 @@
         .detail_image_holder img {
             height: 100%;
         }
+
+        .gallery_image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -131,7 +137,7 @@
                             ?>
                                 <div class="cast-item">
                                     <div class="cast-thumb" style="border-radius: 0;">
-                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" style="border-radius: 0;" alt="gig_images">
+                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="gallery_image" alt="gig_images">
                                     </div>
                                 </div>
                                 <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="w-100"></div> -->
