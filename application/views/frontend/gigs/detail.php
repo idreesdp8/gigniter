@@ -64,9 +64,15 @@
                             <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left; ?> tickets left</p>
                             <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left; ?> days left</p>
                         </div>
-                        <div class="custom-item3">
-                            <a type="button" class="btn btn-warning btn-booking show_modal" href="<?php echo user_base_url() . 'gigs/live/' . $gig->id; ?>">view live</a>
-                        </div>
+                        <?php
+                        if ($stream_details) :
+                        ?>
+                            <div class="custom-item3">
+                                <a type="button" class="btn btn-warning btn-booking show_modal" href="<?php echo user_base_url() . 'gigs/live/' . $gig->id; ?>">view live</a>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
                         <div class="custom-item3">
                             <button type="button" class="btn btn-warning btn-booking show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
                         </div>
@@ -94,8 +100,8 @@
                     </div>
                 </div>
                 <!-- <div class="row"> -->
-                    <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details->stream_url ?></p>
-                    <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details->stream_key ?></p>
+                <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details ? $stream_details->stream_url : 'NA' ?></p>
+                <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details ? $stream_details->stream_key : 'NA' ?></p>
                 <!-- </div> -->
             <?php
             endif;
@@ -110,29 +116,45 @@
             </div>
             <div class="row">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12">
-
-                    <div class="row photos">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo user_asset_url(); ?>images/explore/photo-1.png" class="w-100"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12 resp-margin"><img src="<?php echo user_asset_url(); ?>images/explore/photo-2.png" class="w-100"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo user_asset_url(); ?>images/explore/photo-3.png" class="w-100"></div>
-                    </div>
+                    <?php
+                    if ($gig->images) :
+                    ?>
+                        <!-- <div class="row photos"> -->
+                        <div class="casting-slider-two owl-carousel">
+                            <?php
+                            foreach ($gig->images as $gig_gallery) :
+                            ?>
+                                <div class="cast-item">
+                                    <div class="cast-thumb" style="border-radius: 0;">
+                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" style="border-radius: 0;" alt="cast">
+                                    </div>
+                                </div>
+                                <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="w-100"></div> -->
+                            <?php
+                            endforeach;
+                            ?>
+                        </div>
+                        <!-- </div> -->
+                    <?php
+                    endif;
+                    ?>
 
                     <div class="tab summery-review">
                         <ul class="tab-menu">
                             <li class="tab-1 active">
                                 Summary
                             </li>
-                            <li class="tab-1">
+                            <!-- <li class="tab-1">
                                 user review <span>147</span>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="tab-area">
                             <div class="tab-item active">
                                 <div class="item">
-                                    <h5 class="sub-title"><?php echo $gig->subtitle ?></h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula eros sit amet est tincidunt aliquet. Fusce laoreet ligula ac ultrices eleifend. Donec hendrerit fringilla odio, ut feugiat mi convallis nec. Fusce elit ex, blandit vitae mattis sit amet, iaculis ac elit. Ut diam mauris, viverra sit amet dictum vel, aliquam ac quam. Ut mi nisl, fringilla sit amet erat et, convallis porttitor ligula. Sed auctor, orci id luctus venenatis, dui dolor euismod risus, et pharetra orci lectus quis sapien. Duis blandit ipsum ac consectetur scelerisque. </p>
+                                    <h5 class="sub-title">Summary</h5>
+                                    <p><?php echo $gig->subtitle ?></p>
                                 </div>
-                                <div class="item slider-item">
+                                <!-- <div class="item slider-item">
                                     <div class="header">
                                         <h5 class="sub-title">Performers</h5>
 
@@ -183,9 +205,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="tab-item">
+                            <!-- <div class="tab-item">
                                 <div class="movie-review-item">
                                     <div class="author">
                                         <div class="thumb">
@@ -333,7 +355,7 @@
                                 <div class="load-more text-center">
                                     <a href="#0" class="custom-button transparent">load more</a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

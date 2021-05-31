@@ -58,3 +58,17 @@ textarea {
 .logo-color {
     color: #f1c40c;
 }
+
+.add-gallery {
+    position: absolute;
+    right: 2rem;
+    bottom: 21rem;
+}
+
+.add-gallery a {
+	color: white;
+}
+
+.add-gallery a:hover {
+	transform: scale(1.2);
+}

@@ -28,7 +28,7 @@
                     <td><?php echo $record->genre ?></td>
                     <td><?php echo $record->address ?></td>
                     <td><?php echo $record->ticket_limit ?></td>
-                    <td><?php echo date('M d, Y', strtotime($record->gig_date)) ?></td>
+                    <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
                     <td>
                         <?php
                         if ($record->status == 0) :

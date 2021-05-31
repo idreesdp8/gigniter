@@ -99,7 +99,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig Title
-                      <input type="text" id="title" name="title" value="<?php echo $gig->title; ?>" required="required">
+                      <input type="text" id="title" name="title" value="<?php echo $gig->title; ?>" required="required" <?php echo $gig->status ? 'disabled' : '' ?>>
                       <span id="title1" class="text-danger" generated="true"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
@@ -194,7 +194,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets
-                      <input type="text" id="goal" name="goal" value="<?php echo $gig->ticket_limit ?>" required="required">
+                      <input type="text" id="goal" name="goal" value="<?php echo $gig->ticket_limit ?>" required="required" <?php echo $gig->status ? 'disabled' : '' ?>>
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
@@ -217,7 +217,7 @@
                     <label>
                       Campaign Launch Date
                       <?php
-                      if (strtotime($gig->campaign_date) < strtotime('now')) :
+                      if ($gig->campaign_date && (strtotime($gig->campaign_date) < strtotime('now'))) :
                       ?>
                         <div style="margin: 10px 0px;"><strong style="color: #69d7aa;">Campaign is launched already!</strong></div>
                       <?php
@@ -228,7 +228,7 @@
                           <span> OR <strong class="logo-color" id="set-campaign-date">Set Date</strong></span>
                         </div>
                         <div id="campaign-date-input" style="display: none;">
-                          <input type="date" id="campaign_date" class="date" name="campaign_date" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                          <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime('now')) ?>" required="required">
                           <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                         </div>
                       <?php
@@ -239,21 +239,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date
-                      <input type="date" id="gig_date" class="date" name="gig_date" value="<?php echo date('Y-m-d', strtotime($gig->gig_date)) ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" value="<?php echo $gig->gig_date ? date('Y-m-d', strtotime($gig->gig_date)) : '' ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" required="required">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time
-                      <input type="time" id="start_time" class="time" name="start_time" value="<?php echo date('H:i:s', strtotime($gig->start_time)) ?>" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="start_time" class="time" name="start_time" value="<?php echo $gig->start_time ? date('H:i:s', strtotime($gig->start_time)) : '' ?>" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time
-                      <input type="time" id="end_time" class="time" name="end_time" value="<?php echo date('H:i:s', strtotime($gig->end_time)) ?>" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="end_time" class="time" name="end_time" value="<?php echo $gig->end_time ? date('H:i:s', strtotime($gig->end_time)) : '' ?>" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -585,16 +585,16 @@
                       <input type="text" id="meeting_url" name="meeting_url" value="<?php echo $gig->meeting_url ?>">
                     </label>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                  <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button class="btn btn-primary btn-step-launch">Launch campaign</button>
-                  </div>
+                  </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button class="btn btn-primary btn-step-test">test</button>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>

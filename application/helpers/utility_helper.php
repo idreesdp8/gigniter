@@ -55,9 +55,14 @@
 	function bundle_relative_path(){
 		return 'downloads/bundles/';
 	}
-
+	
+	
 	function bundle_thumbnail_relative_path(){
 		return 'downloads/bundles/thumb/';
+	}
+	
+	function gig_images_relative_path(){
+		return 'downloads/gig_images/';
 	}
 
 	function poster_url(){
@@ -70,6 +75,10 @@
 
 	function bundle_url(){
 		return base_url().bundle_relative_path();
+	}
+
+	function gig_images_url(){
+		return base_url().gig_images_relative_path();
 	}
 
 	function bundle_thumbnail_url(){

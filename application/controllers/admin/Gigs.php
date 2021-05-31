@@ -110,9 +110,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
-			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
-			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
-			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
+			$this->form_validation->set_rules("ticket_limit", "Goal", "trim|required|xss_clean");
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				// $this->load->view('admin/users/add', $data);
@@ -163,7 +161,9 @@ class Gigs extends CI_Controller
 					'genre' => $data['genre'] ?? null,
 					'address' => $data['address'] ?? null,
 					'poster' => $imagename,
-					'goal' => $data['goal'] ?? null,
+					'ticket_limit' => $data['ticket_limit'] ?? null,
+					'goal_amount' => $data['goal_amount'],
+					'threshold' => $data['threshold'],
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
 					'campaign_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['campaign_date'])) : $created_on,
 					'gig_date' => $data['campaign_date'] ? date('Y-m-d H:i:s', strtotime($data['gig_date'])) : $created_on,
@@ -396,9 +396,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
-			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
-			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
-			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
+			$this->form_validation->set_rules("ticket_limit", "Goal", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
@@ -411,15 +409,17 @@ class Gigs extends CI_Controller
 					'category' => $data['category'],
 					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
-					'goal' => $data['goal'],
+					'ticket_limit' => $data['ticket_limit'],
+					'goal_amount' => $data['goal_amount'],
+					'threshold' => $data['threshold'],
 					'is_overshoot' => $data['is_overshoot'] ?? 0,
 					'is_featured' => $data['is_featured'],
 					'is_draft' => $data['is_draft'],
 					'is_exclusive' => $data['is_exclusive'],
-					'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
-					'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
-					'start_time' => date('H:i:s', strtotime($data['start_time'])),
-					'end_time' => date('H:i:s', strtotime($data['end_time'])),
+					'campaign_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['campaign_date'])) : null,
+					'gig_date' => $data['gig_date'] ? date('Y-m-d', strtotime($data['gig_date'])) : null,
+					'start_time' => $data['start_time'] ? date('H:i:s', strtotime($data['start_time'])) : null,
+					'end_time' => $data['end_time'] ? date('H:i:s', strtotime($data['end_time'])) : null,
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 					'status' => $data['status'] ?? null,
 				);

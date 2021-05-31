@@ -67,9 +67,10 @@ class Gigs extends CI_Controller
 		}
 		$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
 		$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+		$gig->images = $this->gigs_model->get_gig_gallery_images($id);
 		$data['gig'] = $gig;
 		$data['stream_details'] = $this->gigs_model->get_stream_details($id);
-		// echo json_encode($gig);die();
+		// echo json_encode($data);die();
 		$this->load->view('frontend/gigs/detail', $data);
 	}
 
@@ -168,7 +169,7 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
-					$this->create_channel($data['title'], $res);
+					// $this->create_channel($data['title'], $res);
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
@@ -404,15 +405,13 @@ class Gigs extends CI_Controller
 		if (isset($_POST) && !empty($_POST)) {
 			// get form input
 			$data = $_POST;
-			// echo json_encode($data);
 			// echo json_encode($_FILES);
+			// echo json_encode($data);
 			// die();
 
 			// form validation
-			$this->form_validation->set_rules("title", "Title", "trim|required|xss_clean");
 			$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
-			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
 			$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
 			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
@@ -423,12 +422,10 @@ class Gigs extends CI_Controller
 			} else {
 
 				$datas = array(
-					'title' => $data['title'],
 					'subtitle' => $data['subtitle'] ?? null,
 					'category' => $data['category'],
 					'genre' => $data['genre'],
 					'address' => $data['address'] ?? null,
-					'ticket_limit' => $data['goal'],
 					'goal_amount' => $data['goal_amount'],
 					'threshold' => $data['threshold'],
 					'meeting_platform' => $data['meeting_platform'] ?? null,
@@ -440,6 +437,12 @@ class Gigs extends CI_Controller
 					'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 				);
+				if($data['goal']){
+					$datas['ticket_limit'] = $data['goal'];
+				}
+				if($data['title']){
+					$datas['title'] = $data['title'];
+				}
 
 				$prof_poster_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
@@ -782,9 +785,13 @@ class Gigs extends CI_Controller
 				];
 				$category = $this->configurations_model->get_configuration_by_key_value($args2);
 				$gig->category_name = $category->label;
-				$gig_date = new DateTime($gig->gig_date);
-				$interval = $gig_date->diff($now);
-				$gig->days_left = $interval->format('%a');
+				if($gig->gig_date){
+					$gig_date = new DateTime($gig->gig_date);
+					$interval = $gig_date->diff($now);
+					$gig->days_left = $interval->format('%a');
+				} else {
+					$gig->days_left = 'NA';
+				}
 				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
 				$ticket_bought = 0;
 				foreach ($cart_items as $item) {
@@ -847,5 +854,42 @@ class Gigs extends CI_Controller
 		$id = $this->input->post("gig_id");
 		$res = $this->gigs_model->launch_gig_campaign($id);
 		echo $res;
+	}
+
+	function add_gallery($id = '')
+	{
+		if($_POST || $_FILES) {
+			$gig_id = $this->input->post('id');
+			if($_FILES) {
+				foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
+					if($_FILES["images"]["tmp_name"][$key] !== ''){
+						$image_path = gig_images_relative_path();
+						$imagename = $gig_id . hrtime(true) . $this->general_model->fileExists($_FILES["images"]["name"][$key], $image_path);
+						$target_file = $image_path . $imagename;
+						@move_uploaded_file($_FILES["images"]["tmp_name"][$key], $target_file);
+						
+						$data[] = [
+							'gig_id' => $gig_id,
+							'image'=>$imagename
+						];
+					}
+				}
+			}
+			$this->gigs_model->remove_gig_gallery_images($id);
+			$res = $this->gigs_model->add_gig_gallery_images($data);
+			if($res) {
+				$this->session->set_flashdata('success_msg', 'Gig images uploaded successfully!');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Error: Gig images could not be uploaded!');
+			}
+
+			redirect("my_gigs");
+			// echo json_encode($data);
+			// echo json_encode($_FILES);
+			// die();
+		} else {
+			$data['gig'] = $this->gigs_model->get_gig_by_id($id);
+			$this->load->view('frontend/gigs/add_gallery', $data);
+		}
 	}
 }

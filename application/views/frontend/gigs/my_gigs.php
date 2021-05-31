@@ -9,7 +9,8 @@
             margin-top: 3rem;
         }
 
-        input[type="text"],select {
+        input[type="text"],
+        select {
             color: black;
             padding: 5px !important;
         }
@@ -39,7 +40,9 @@
                 <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <?php $this->load->view('alert/alert'); ?>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 m-auto">
+                            <a class="btn btn-primary" type="button" href="<?php echo user_base_url() . 'gigs/add' ?>">Create new Gig</a>
+                        </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
                             Status: <select id="status">
                                 <option value="">Choose Status</option>
@@ -53,6 +56,8 @@
                             Search: <input type="text" id="search">
                         </div>
                     </div>
+                    <!-- <div>
+                    </div> -->
                     <div id="partial_view">
                         <?php $this->load->view('frontend/gigs/partial_my_gigs'); ?>
                     </div>

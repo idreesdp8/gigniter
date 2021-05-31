@@ -170,7 +170,7 @@ class Dashboard extends CI_Controller
 		// echo json_encode(new DateTime(date('H:i:s')));
 		// echo json_encode($data['now_showing']);
 		// echo json_encode($time_spanned);
-		// echo json_encode($data['now_showing']);
+		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/index', $data);
 	}

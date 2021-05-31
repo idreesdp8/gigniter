@@ -274,10 +274,29 @@ class Gigs_model extends CI_Model
 		return true;
 	}
 
+	function remove_gig_gallery_images($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('gig_images');
+		return true;
+	}
+
+	function add_gig_gallery_images($data)
+	{
+		$ress = $this->db->insert_batch('gig_images', $data);
+		return $ress;
+	}
+
 	function update_gig_data($args1, $data)
 	{
 		$this->db->where('id', $args1);
 		return $this->db->update('gigs', $data);
+	}
+
+	function get_gig_gallery_images($gig_id)
+	{
+		$query = $this->db->get_where('gig_images', array('gig_id' => $gig_id));
+		return $query->result();
 	}
 
 	function get_gig_custom_data($data_arr)

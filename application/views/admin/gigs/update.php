@@ -176,28 +176,28 @@
                                                         <!-- min="<?php //echo $curr_date 
                                                                     ?>" -->
                                                         <label>Campaign Launch Date <span class="text-danger">*</span></label>
-                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" value="<?php echo date('Y-m-d', strtotime($gig->campaign_date)) ?>">
+                                                        <input type="date" name="campaign_date" id="campaign_date" class="form-control" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : null ?>">
                                                         <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Gig Date <span class="text-danger">*</span></label>
-                                                        <input type="date" name="gig_date" id="gig_date" class="form-control" value="<?php echo date('Y-m-d', strtotime($gig->gig_date)) ?>">
+                                                        <input type="date" name="gig_date" id="gig_date" class="form-control" value="<?php echo $gig->gig_date ? date('Y-m-d', strtotime($gig->gig_date)) : null ?>">
                                                         <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Start Time <span class="text-danger">*</span></label>
-                                                        <input type="time" name="start_time" id="start_time" class="form-control" value="<?php echo date('H:i:s', strtotime($gig->start_time)) ?>">
+                                                        <input type="time" name="start_time" id="start_time" class="form-control" value="<?php echo $gig->gig_date ? date('H:i:s', strtotime($gig->start_time)) : null ?>">
                                                         <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>End Time <span class="text-danger">*</span></label>
-                                                        <input type="time" name="end_time" id="end_time" class="form-control" value="<?php echo date('H:i:s', strtotime($gig->end_time)) ?>">
+                                                        <input type="time" name="end_time" id="end_time" class="form-control" value="<?php echo $gig->gig_date ? date('H:i:s', strtotime($gig->end_time)) : null ?>">
                                                         <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                                                     </div>
                                                 </div>
@@ -767,20 +767,6 @@
                     threshold: {
                         required: true,
                     },
-                    campaign_date: {
-                        required: true,
-                        date: true
-                    },
-                    gig_date: {
-                        required: true,
-                        date: true
-                    },
-                    start_time: {
-                        required: true,
-                    },
-                    end_time: {
-                        required: true,
-                    },
                     poster: {
                         required: false,
                         accept: "gif|png|jpg|jpeg"
@@ -820,20 +806,6 @@
                     },
                     goal_amount: {
                         required: "Goal Amount is required field",
-                    },
-                    start_time: {
-                        required: "Start Time is required field",
-                    },
-                    end_time: {
-                        required: "End Time is required field",
-                    },
-                    campaign_date: {
-                        required: "Campaign Date is required field",
-                        date: "Please enter a valid date",
-                    },
-                    gig_date: {
-                        required: "Gig Date is required field",
-                        date: "Please enter a valid date",
                     },
                     poster: {
                         required: "This is required field",
