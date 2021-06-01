@@ -148,6 +148,13 @@
                             endforeach;
                             ?>
                         </div>
+                        <div class="speaker-prev3 speaker-prev">
+                            <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
+                        </div>
+                        <div class="speaker-next3 speaker-next">
+                            <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
+                        </div>
+                        
                         <!-- </div> -->
                     <?php
                     endif;
@@ -387,6 +394,18 @@
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
+    <script>
+        // $('.owl-carousel').owlCarousel({
+        //     loop: ($(this).find('.owl-item')).length > 2,
+        //     rewind: true,
+        //     autoplay: true,
+        //     dots: false,
+        //     nav: true,
+        //     autoplayTimeout: 2000,
+        //     margin: 30,
+        //     autoplayHoverPause: true
+        // });
+    </script>
 </body>
 
 </html>
