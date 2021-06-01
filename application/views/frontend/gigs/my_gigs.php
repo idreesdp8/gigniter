@@ -41,7 +41,7 @@
                     <?php $this->load->view('alert/alert'); ?>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12 m-auto">
-                            <a class="btn btn-primary" type="button" href="<?php echo user_base_url() . 'gigs/add' ?>">Create new Gig</a>
+                            <a class="btn btn-theme-primary" type="button" href="<?php echo user_base_url() . 'gigs/add' ?>">Create new Gig</a>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4">
                             Status: <select id="status">

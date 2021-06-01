@@ -18,7 +18,7 @@
                 <div class="account-area">
                     <?php $this->load->view('alert/alert'); ?>
                     <div class="section-header-3">
-                        <span class="cate">hello</span>
+                        <span class="theme-primary-color cate">hello</span>
                         <h2 class="title">welcome back</h2>
                     </div>
                     <form class="account-form" id="datas_form" action="<?php echo site_url('account/signin'); ?>" method="post">
@@ -45,7 +45,7 @@
                         </div>
                     </form>
                     <div class="option">
-                        Don't have an account? <a href="<?php echo user_base_url() ?>register">sign up now</a>
+                        Don't have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>register">sign up now</a>
                     </div>
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">

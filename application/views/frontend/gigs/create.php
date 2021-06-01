@@ -48,7 +48,7 @@
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4">4</a>
-                  <p><small>Test link</small></p>
+                  <p ><small>Test link</small></p>
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5">5</a>
@@ -419,7 +419,7 @@
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
-                      <h6>Test Links</h6>
+                      <h6 class="theme-primary-color">Test Links</h6>
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">

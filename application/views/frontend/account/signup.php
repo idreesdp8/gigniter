@@ -18,7 +18,7 @@
                 <div class="account-area">
                     <?php $this->load->view('alert/alert'); ?>
                     <div class="section-header-3">
-                        <span class="cate">welcome</span>
+                        <span class="theme-primary-color cate">welcome</span>
                         <h2 class="title">to Gigniter </h2>
                     </div>
                     <form class="account-form" id="datas_form" action="<?php echo site_url('account/signup'); ?>" method="post">
@@ -40,7 +40,7 @@
                         <div class="form-group checkgroup">
                             <div class="agree_box">
                                 <input id="agree_box" type="checkbox" checked>
-                                <label for="agree_box" class="agree_label">I agree to the <a href="#0">Terms, Privacy Policy</a> and <a href="#0">Fees</a></label>
+                                <label for="agree_box" class="agree_label">I agree to the <a class="theme-primary-color" href="#0">Terms, Privacy Policy</a> and <a class="theme-primary-color" href="#0">Fees</a></label>
                                 <span></span>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                         </div>
                     </form>
                     <div class="option">
-                        Already have an account? <a href="<?php echo user_base_url() ?>login">Login</a>
+                        Already have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>login">Login</a>
                     </div>
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">

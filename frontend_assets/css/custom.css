@@ -65,6 +65,17 @@ textarea {
     right: 2rem;
     bottom: 21rem;
 }
+.btn-theme-primary {
+    color: #000;
+    text-transform: uppercase;
+    background-color: #f1c500;
+}
+.btn-theme-primary:hover {
+    color: #fff;
+    text-transform: uppercase;
+		border: 1px solid #fff;
+    background-color: transparent;
+}
 
 .add-gallery a {
 	color: white;
@@ -94,6 +105,7 @@ textarea {
 .theme-primary-color {
 	color: #f1c500 !important;
 }
+
 .btn-circle.active, .btn-success-circle, .btn-success-circle p {
     background-color: #efc400 !important;
 
