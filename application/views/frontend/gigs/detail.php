@@ -132,7 +132,7 @@
                     if ($gig->images) :
                     ?>
                         <!-- <div class="row photos"> -->
-                        <div class="casting-slider-two owl-carousel">
+                        <div class="casting-slider-two owl-carousel detailpage-crousal">
                             <?php
                             foreach ($gig->images as $gig_gallery) :
                             ?>
@@ -148,13 +148,13 @@
                             endforeach;
                             ?>
                         </div>
-                        <div class="speaker-prev3 speaker-prev">
+                        <!-- <div class="speaker-prev3 speaker-prev">
                             <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
                         </div>
                         <div class="speaker-next3 speaker-next">
                             <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
-                        </div>
-                        
+                        </div> -->
+
                         <!-- </div> -->
                     <?php
                     endif;
@@ -395,16 +395,35 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
-        // $('.owl-carousel').owlCarousel({
-        //     loop: ($(this).find('.owl-item')).length > 2,
-        //     rewind: true,
-        //     autoplay: true,
-        //     dots: false,
-        //     nav: true,
-        //     autoplayTimeout: 2000,
-        //     margin: 30,
-        //     autoplayHoverPause: true
-        // });
+
+    $('.detailpage-crousal').owlCarousel({
+        loop: ($(this).find('.owl-item')).length > 2,
+      rewind: true,
+        autoplay: true,
+        dots: false,
+
+        autoplayTimeout: 2000,
+        margin: 30,
+       autoplayHoverPause: true,
+       responsiveClass:true,
+       responsive:{
+           0:{
+               items:1,
+               nav:true
+           },
+           600:{
+               items:3,
+               nav:ture
+           },
+           1000:{
+               items:5,
+               nav:true,
+               loop:false
+           }
+       }
+
+
+    });
     </script>
 </body>
 

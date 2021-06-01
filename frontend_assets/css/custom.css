@@ -151,6 +151,27 @@ a.btn-success-circle ~ p {
 .step-container label input.time {
     background: url(../images/icons/clock.png) #021245 no-repeat calc(100% - 15px) !important;
 }
+.detailpage-crousal .owl-nav.disabled {
+	display: block !important;
+}
+.detailpage-crousal .owl-nav .owl-prev {
+	width: 50px;
+    top: 30%;
+    left: -10px;
+    z-index: 999;
+    position: absolute;
+    padding: 5px 20px !important;
+    border: 1px solid #fff !important;
+}
+.detailpage-crousal .owl-nav .owl-next {
+	width: 50px;
+    top: 30%;
+    right: -10px;
+    z-index: 999;
+    position: absolute;
+    padding: 5px 20px !important;
+    border: 1px solid #fff !important;
+}
 input[type="date"]::-webkit-calendar-picker-indicator {
   color: transparent;
   background: none;
