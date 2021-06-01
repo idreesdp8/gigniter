@@ -475,7 +475,7 @@ class Cart extends CI_Controller
 		$popularity = 0;
 
 		$campaign_date = $this->gigs_model->get_gig_campaign_date_diff($gig_id);
-		$backers_score = ($backers / abs($campaign_date->diff)) * $data['backers_per_day_weightage'];
+		$backers_score = ($backers / (abs($campaign_date->diff) ?? 1)) * $data['backers_per_day_weightage'];
 		$popularity += $backers_score;
 
 		$amount_raised = $this->bookings_model->get_gig_amount_raised($gig_id);
