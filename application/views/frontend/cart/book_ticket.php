@@ -41,9 +41,12 @@
         <div class="container">
             <div class="details-banner-wrapper">
                 <div class="details-banner-content style-two">
-                    <h3 class="title"><span class="d-block"><?php echo $gig->title ?></span>
-                        <span class="d-block"><?php echo date('M d, Y', strtotime($gig->gig_date)) ?></span>
+                    <h3 class="title">
+                        <span class="d-block"><?php echo $gig->title ?></span>
                     </h3>
+                    <div class="tags">
+                        <span><?php echo date('M d, Y', strtotime($gig->gig_date)) ?></span>
+                    </div>
                     <div class="tags">
                         <?php
                         if ($venues) :
@@ -66,7 +69,7 @@
         <form method="post" action="<?php echo user_base_url() ?>cart/add">
             <input type="hidden" name="gig_id" value="<?php echo $gig->id ?>" />
             <div class="container">
-        <?php $this->load->view('alert/alert'); ?>
+                <?php $this->load->view('alert/alert'); ?>
                 <div class="section-header-3">
                     <span class="cate">simple pricing</span>
                     <h2 class="title">Choose package</h2>

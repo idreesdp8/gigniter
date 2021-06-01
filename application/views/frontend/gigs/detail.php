@@ -81,7 +81,7 @@
                         endif;
                         ?>
                         <div class="custom-item3">
-                            <button type="button" class="btn btn-warning btn-booking show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">book now</button>
+                            <a type="button" class="btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                         </div>
                     </div>
                 </div>
@@ -137,9 +137,11 @@
                             foreach ($gig->images as $gig_gallery) :
                             ?>
                                 <div class="cast-item">
-                                    <div class="cast-thumb" style="border-radius: 0;">
-                                        <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="gallery_image" alt="gig_images">
-                                    </div>
+                                    <a href="<?php echo gig_images_url() . $gig_gallery->image ?>" class="img-pop">
+                                        <div class="cast-thumb" style="border-radius: 0;">
+                                            <img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="gallery_image" alt="image">
+                                        </div>
+                                    </a>
                                 </div>
                                 <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12"><img src="<?php echo gig_images_url() . $gig_gallery->image ?>" class="w-100"></div> -->
                             <?php
