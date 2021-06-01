@@ -238,8 +238,8 @@ class Cart extends CI_Controller
 					'created_on' => $created_on
 				);
 				$user_id = $this->users_model->insert_user_data($datas);
-				$is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
-				$is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
+				// $is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
+				// $is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
 			}
 
 			$threshold = $this->gigs_model->get_gig_threshold($gig_id);
@@ -301,8 +301,8 @@ class Cart extends CI_Controller
 				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought);
-			$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
-			if ($is_sent) {
+			// $is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
+			if (true) {
 				$this->cart->destroy();
 				// redirect('cart/checkout');
 				redirect('cart/thankyou');

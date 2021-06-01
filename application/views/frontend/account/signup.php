@@ -23,6 +23,16 @@
                     </div>
                     <form class="account-form" id="datas_form" action="<?php echo site_url('account/signup'); ?>" method="post">
                         <div class="form-group">
+                            <label for="fname1">First Name<span>*</span></label>
+                            <input type="text" placeholder="Enter Your First Name" name="fname" id="fname" data-error="#fname1" required>
+                            <span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lname1">Last Name<span>*</span></label>
+                            <input type="text" placeholder="Enter Your Last Name" name="lname" id="lname" data-error="#lname1" required>
+                            <span id="lname1" class="text-danger"><?php echo form_error('lname'); ?></span>
+                        </div>
+                        <div class="form-group">
                             <label for="email1">Email<span>*</span></label>
                             <input type="text" placeholder="Enter Your Email" name="email" id="email" data-error="#email1" required>
                             <span id="email1" class="text-danger"><?php echo form_error('email'); ?></span>
@@ -86,6 +96,12 @@
                     password: {
                         required: true
                     },
+                    fname: {
+                        required: true
+                    },
+                    lname: {
+                        required: true
+                    },
                     email: {
                         required: true,
                         email: true
@@ -98,6 +114,12 @@
                 messages: {
                     password: {
                         required: "Password is required field"
+                    },
+                    lname: {
+                        required: "First Name is required field"
+                    },
+                    fname: {
+                        required: "Last Name is required field"
                     },
                     email: {
                         required: "Email is required field",

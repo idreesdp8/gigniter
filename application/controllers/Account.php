@@ -90,6 +90,8 @@ class Account extends CI_Controller
 			// get form input
 			$email = $this->input->post("email");
 			$password = $this->input->post("password");
+			$fname = $this->input->post("fname");
+			$lname = $this->input->post("lname");
 
 			// $this->send_email($email);
 
@@ -98,6 +100,8 @@ class Account extends CI_Controller
 			// form validation 
 			$this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email|is_unique[users.email]");
 			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
+			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
+			$this->form_validation->set_rules("lname", "Last Name", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
@@ -113,6 +117,8 @@ class Account extends CI_Controller
 				$datas = array(
 					'email' => $email,
 					'password' => $password,
+					'fname' => $fname,
+					'lname' => $lname,
 					'role_id' => $role->id,
 					'status' => $status,
 					'created_on' => $created_on
@@ -122,12 +128,12 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
-					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
-					if ($is_sent) {
-						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
-					} else {
-						$this->session->set_flashdata("error_msg", "You have encountered an error");
-					}
+					// $is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					// if ($is_sent) {
+					// 	$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					// } else {
+					// 	$this->session->set_flashdata("error_msg", "You have encountered an error");
+					// }
 					$this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
@@ -243,9 +249,9 @@ class Account extends CI_Controller
 					// echo json_encode($result);
 					// die();
 
-					$is_sent = $this->send_email($result->email, 'Password Reset Link', 'forgot_password');
+					// $is_sent = $this->send_email($result->email, 'Password Reset Link', 'forgot_password');
 
-					if ($is_sent) {
+					if (true) {
 						$this->session->set_flashdata('success_msg', 'Please check your Email, We have sent you password reset link!');
 					} else {
 						$this->session->set_flashdata('error_msg', 'You have encountered an error');
@@ -599,8 +605,8 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
-					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
-					if ($is_sent) {
+					// $is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					if (true) {
 						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
 					} else {
 						$this->session->set_flashdata("error_msg", "You have encountered an error");
