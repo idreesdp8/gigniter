@@ -50,6 +50,7 @@ textarea {
 
 .object-fit-cover {
 	object-fit: cover;
+
 }
 .object-fit-contain {
 	object-fit: contain;
@@ -71,4 +72,98 @@ textarea {
 
 .add-gallery a:hover {
 	transform: scale(1.2);
+}
+#img {
+	height: 150px;
+	width: 100% !important;
+}
+#icons_upload {
+	left: 50%;
+	position: absolute;
+  top: 46%;
+}
+.btn.btn-primary.btn-step-continue {
+	background-color: #f1c500;
+	border: 1px solid #f1c600;
+}
+.btn.btn-primary.btn-step-continue:hover {
+    background-color: transparent;
+    color: #f1c500;
+    border: 1px solid #f1c500;
+}
+.theme-primary-color {
+	color: #f1c500 !important;
+}
+.btn-circle.active, .btn-success-circle, .btn-success-circle p {
+    background-color: #efc400 !important;
+
+}
+a.btn-success-circle.line:before {
+    background-color: #efc500 !important;
+}
+a.btn-success-circle ~ p {
+    color: #efc500;
+}
+.image_div {
+	border: 1px solid rgba(85, 96, 255, 0.5);
+}
+.step-container .gig-details label {
+    width: 23%;
+    padding: 30px;
+}
+.category-select {
+    width: 185px !important;
+}
+.genre-select {
+	width: 165px !important;
+}
+.show-select {
+    width: 55px !important;
+}
+.sort-select {
+    width: 180px !important;
+}
+.limit-single-line {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.content-bar select {
+	margin: 0 10px !important;
+}
+.content-bar p {
+    margin: 7px 10px !important;
+}
+.step-container label input.time {
+    background: url(../images/icons/clock.png) #021245 no-repeat calc(100% - 15px) !important;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: transparent;
+  background: none;
+  z-index: 1;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+}
+.btn.btn-primary.btn-step-test {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #FFF;
+}
+.btn.btn-primary.btn-step-test:hover {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+@media only screen and (max-width: 600px) {
+	.genre-select, .category-select, .sort-select, .show-select   {
+    width: 100% !important;
+    margin: 0 !important;
+}
+	#icon_for_upload {
+		left: 45%;
+	}
 }

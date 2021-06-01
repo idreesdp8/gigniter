@@ -13,9 +13,10 @@ if ($gigs) :
                         </a>
                     </div>
                     <div class="card-footer grid-footer">
+                        <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                         <div class="d-flex">
                             <div class="footer-text">
-                                <h5><?php echo $gig->title ?></h5>
+
                                 <h6><?php echo $gig->user_name ?></h6>
                                 <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                 <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -28,9 +29,9 @@ if ($gigs) :
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex">
+                        <div class="d-flex" style="align-items: flex-start;">
                             <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
-                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
+                            <a  style="margin-left:10px" href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
                         </div>
                     </div>
                 </div>

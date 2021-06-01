@@ -56,6 +56,11 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] = 'Account/signin';
 $route['register'] = 'Account/signup';
 $route['profile'] = 'Account/profile';
+$route['contact'] = 'Pages/contact';
+$route['terms'] = 'Pages/terms';
+$route['privacy_policy'] = 'Pages/privacy_policy';
+$route['faq'] = 'Pages/faq';
+$route['about'] = 'Pages/about';
 $route['recover_password'] = 'Account/forgot_password';
 
 $route['my_gigs'] = 'Gigs/my_gigs';

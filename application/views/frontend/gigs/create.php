@@ -67,7 +67,7 @@
               <div class="panel panel-primary setup-content" id="step-1">
                 <!-- <form id="form_step_1" enctype="multipart/form-data"> -->
                 <div class="step-form-heading">
-                  <h6>Enter Gig Details</h6>
+                  <h6 class="theme-primary-color">Enter Gig Details</h6>
                 </div>
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -140,13 +140,13 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
-                      <div>
-                        <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
-                        <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_for_upload"></a>
+                      <div class="gig-poster-wrapper">
+                        <img class="object-fit-cover" id="img"  src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" />
                       </div>
                     </label>
@@ -245,7 +245,7 @@
                 <div class="row" id="ticket_tiers">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div id="tier1">
-                      <h5>Tier 1</h5>
+                      <h5 class="theme-primary-color">Tier 1</h5>
                       <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
@@ -315,7 +315,7 @@
               <div class="panel panel-primary setup-content" id="step-3">
                 <!-- <form id="form_step_3" enctype="multipart/form-data"> -->
                 <div class="step-form-heading">
-                  <h6>Build Your Profile</h6>
+                  <h6 class="theme-primary-color">Build Your Profile</h6>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
@@ -460,6 +460,8 @@
                     <div class="step-form-heading">
                       <div class="gig-details">
                         <h2>Gig Details</h2>
+
+
                         <ul>
                           <li>
                             <label class="m-0 font-weight-bold">Gig Title
@@ -527,7 +529,7 @@
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 poster-img font-weight-bold">Gig Poster
+                            <label style="width: 100%;" class="m-0 poster-img font-weight-bold">Gig Poster
                               <img id="gig_poster" src="" width="100%">
                             </label>
                           </li>
@@ -556,7 +558,7 @@
                                   </label>
                                 </li>
                                 <li>
-                                  <label class="m-0 font-weight-bold">Tier Description
+                                  <label style="width: 50%;" class="m-0 font-weight-bold">Tier Description
                                     <p class="ticket_description"></p>
                                   </label>
                                 </li>
@@ -610,8 +612,8 @@
                             </label>
                           </li>
                           <li>
-                            <label class="m-0 profile-img font-weight-bold">Profile Image
-                              <img id="gig_user_iamge" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" width="100%">
+                            <label style="width: 50%;margin-left: 30px;" class="m-0 profile-img font-weight-bold">Profile Image
+                              <img style="width: 100px;margin-left: 30px;" id="gig_user_iamge" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" width="100%">
                             </label>
                           </li>
                         </ul>

@@ -50,7 +50,7 @@
                                 <a href="<?php echo user_base_url() ?>my_gigs">My Gigs</a>
                             </li>
                             <li>
-                                <a href="<?php echo user_base_url() ?>bookings">My Orders</a>
+                                <a href="<?php echo user_base_url() ?>bookings">My Bookings</a>
                             </li>
                             <li>
                                 <a href="<?php echo user_base_url() ?>live/my_shows">My Shows</a>

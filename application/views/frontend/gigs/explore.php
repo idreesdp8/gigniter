@@ -54,6 +54,33 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="content-bar">
+                      <p>
+                        Genre:
+                        <select class="genre-select" id="genre">
+                            <option value="">Select Genre</option>
+                            <?php
+                            foreach ($genres as $genre) :
+                            ?>
+                                <option value="<?php echo $genre->value ?>"><?php echo $genre->label ?></option>
+                            <?php
+                            endforeach;
+                            ?>
+                        </select>
+                      </p>
+                      <p>
+                        Category:
+                        <!-- class="select-bar" -->
+                        <select class="category-select" id="category">
+                            <option value="">Select Category</option>
+                            <?php
+                            foreach ($categories as $category) :
+                            ?>
+                                <option value="<?php echo $category->value ?>"><?php echo $category->label ?></option>
+                            <?php
+                            endforeach;
+                            ?>
+                        </select>
+                      </p>
                         <p>Show:
                             <select class="show-select">
                                 <option value="1" active>1</option>
@@ -73,14 +100,14 @@
                         </div> -->
                     </div>
 
-                    <div class="row">
+  <!--                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                     <div class="language-box">
-                                        <h3>Category</h3>
+                                        <h3>Category</h3> -->
                                         <!-- class="select-bar" -->
-                                        <select class="category-genre-select" id="category">
+                                <!--            <select class="category-genre-select" id="category">
                                             <option value="">Select Category</option>
                                             <?php
                                             foreach ($categories as $category) :
@@ -89,7 +116,7 @@
                                             <?php
                                             endforeach;
                                             ?>
-                                        </select>
+                                        </select> -->
                                         <!-- <div class="grid">
                                             <div class="custom-form bg">
                                                 <div class="checkbox-contain">
@@ -133,7 +160,7 @@
                                             </div>
                                             <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
                                         </div> -->
-                                    </div>
+                          <!--                 </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                                     <div class="experience-box">
@@ -147,7 +174,7 @@
                                             <?php
                                             endforeach;
                                             ?>
-                                        </select>
+                                        </select> -->
                                         <!-- <div class="grid">
                                             <div class="custom-form bg">
                                                 <div class="checkbox-contain">
@@ -191,10 +218,10 @@
                                             </div>
                                             <a href="#" class="explore-view-btn">View more <span class="float-right"><img src="<?php echo user_asset_url(); ?>images/icons/plus.png"></span></a>
                                         </div> -->
-                                    </div>
+                <!--                           </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- <div id="list_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <?php //$this->load->view('frontend/gigs/partial_explore_list'); ?>

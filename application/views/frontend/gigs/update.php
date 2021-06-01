@@ -93,7 +93,7 @@
               <div class="panel panel-primary setup-content" id="step-1">
                 <!-- <form id="form_step_1" enctype="multipart/form-data"> -->
                 <div class="step-form-heading">
-                  <h6>Enter Gig Details</h6>
+                  <h6 class="theme-primary-color">Enter Gig Details</h6>
                 </div>
                 <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -188,7 +188,7 @@
                   <!-- <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
-                      <h6>Enter Gig Details</h6>
+                      <h6 class="theme-primary-color">Enter Gig Details</h6>
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -219,7 +219,7 @@
                       <?php
                       if ($gig->campaign_date && (strtotime($gig->campaign_date) < strtotime('now'))) :
                       ?>
-                        <div style="margin: 10px 0px;"><strong style="color: #69d7aa;">Campaign is launched already!</strong></div>
+                        <div style="margin: 10px 0px;"><strong  class="theme-primary-color">Campaign is launched already!</strong></div>
                       <?php
                       else :
                       ?>
@@ -462,7 +462,7 @@
               <div class="panel panel-primary setup-content" id="step-3">
                 <!-- <form id="form_step_3" enctype="multipart/form-data"> -->
                 <div class="step-form-heading">
-                  <h6>Build Your Profile</h6>
+                  <h6 class="theme-primary-color">Build Your Profile</h6>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
@@ -567,7 +567,7 @@
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
-                      <h6>Test Links</h6>
+                      <h6 class="theme-primary-color">Test Links</h6>
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -594,7 +594,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
