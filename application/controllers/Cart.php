@@ -476,6 +476,8 @@ class Cart extends CI_Controller
 
 		$campaign_date = $this->gigs_model->get_gig_campaign_date_diff($gig_id);
 		$diff = abs($campaign_date->diff) == 0 ? 1 : abs($campaign_date->diff);
+		// echo $diff;
+		// die();
 		$backers_score = ($backers / $diff) * $data['backers_per_day_weightage'];
 		$popularity += $backers_score;
 
@@ -485,7 +487,7 @@ class Cart extends CI_Controller
 		$percentage_funded_score = $percentage_funded * $data['percentage_funded_weightage'];
 		$popularity += $percentage_funded_score;
 
-		$percentage_per_day_score = ($percentage_funded / abs($campaign_date->diff)) * $data['percentage_per_day_weightage'];
+		$percentage_per_day_score = ($percentage_funded / $diff) * $data['percentage_per_day_weightage'];
 		$popularity += $percentage_per_day_score;
 
 		$amount_raised_score = $amount_raised->price * $data['amount_raised_weightage'];
