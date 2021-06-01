@@ -146,10 +146,10 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
                                             <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;" alt="speaker">
-                                            <?php //if ($gig->is_exclusive) : 
+                                            <?php //if ($gig->is_exclusive) :
                                             ?>
                                             <span class="badge badge-danger exclusive-badge">Live</span>
-                                            <?php //endif; 
+                                            <?php //endif;
                                             ?>
                                         </div>
                                         <div class="speaker-content card-footer">
@@ -554,7 +554,7 @@
     <!-- ==========Carousel-5============== -->
     <!-- /page content -->
 
-    <?php //$this->load->view('frontend/gigs/book_now'); 
+    <?php //$this->load->view('frontend/gigs/book_now');
     ?>
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
@@ -585,8 +585,29 @@
             dots: false,
             autoplayTimeout: 2000,
             margin: 30,
-            autoplayHoverPause: true
+            autoplayHoverPause: true,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                    nav:true
+                },
+                600:{
+                    items:3,
+                    nav:ture
+                },
+                1000:{
+                    items:5,
+                    nav:true,
+                    loop:false
+                }
+            }
         });
+
+
+
+
+  
     </script>
 </body>
 
