@@ -191,7 +191,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     border: 1px solid #fff;
 }
 
+
 @media only screen and (max-width: 600px) {
+	.card.grid-card .card-header {
+		width: 100% !important;
+	}
 	.genre-select, .category-select, .sort-select, .show-select   {
     width: 100% !important;
     margin: 0 !important;
