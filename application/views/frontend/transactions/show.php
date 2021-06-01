@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <h6>Quantity</h6>
-                                        <p><?php echo $gig->goal ?></p>
+                                        <p><?php echo $gig->ticket_limit ?></p>
                                     </div>
                                     <div class="col-lg-4">
                                         <h6>Tickets Left</h6>
