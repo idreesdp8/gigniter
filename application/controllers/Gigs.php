@@ -606,7 +606,7 @@ class Gigs extends CI_Controller
 			$now = new DateTime();
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname ?? '' . ' ' . $user->lname ?? '';
+				$gig->user_name = ($user->fname ?? '') . ' ' . ($user->lname ?? '');
 				$args1 = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
