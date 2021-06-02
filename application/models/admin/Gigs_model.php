@@ -29,11 +29,11 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){
-				$sort_by = 'created_on ASC';
+				$sort_by = 'ORDER BY created_on ASC';
 			} else if($params['sort_by'] == 'most_popular'){
-				$sort_by = 'popularity DESC';
+				$sort_by = 'ORDER BY popularity DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
-				$sort_by = 'date(gig_date) ASC';
+				$sort_by = 'ORDER BY date(gig_date) ASC';
 			}
 		}
 		if (array_key_exists("status", $params)) {
@@ -51,7 +51,7 @@ class Gigs_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE id >'0' $whrs ORDER BY $sort_by $limits ");
+		$query = $this->db->query("SELECT * FROM gigs WHERE id >'0' $whrs $sort_by $limits ");
 		return $query->result();
 	}
 

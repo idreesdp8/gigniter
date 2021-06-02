@@ -40,64 +40,69 @@ class Gigs extends CI_Controller
 
 	function reload_datatable()
 	{
-		// echo json_encode($_POST);
-		if ($this->input->post('sort_by')) {
+		$data = array();
+		if ($this->input->post('sort_by') && $this->input->post('sort_by') != '') {
 			$data['sort_by'] = $this->input->post('sort_by');
 		}
-		if ($this->input->post('status')) {
+		if ($this->input->post('status') > -1 && $this->input->post('status') != '') {
 			$data['status'] = $this->input->post('status');
 		}
+		// echo json_encode($data);
 		$gigs = $this->gigs_model->get_all_filter_gigs($data);
-		foreach ($gigs as $key => $value) {
-			$user = $this->users_model->get_user_by_id($value->user_id);
-			$temp = ['key' => $this->key, 'value' => $value->status];
-			$status = $this->configurations_model->get_configuration_by_key_value($temp);
-			if ($value->status == 0) {
-				$badge_class = 'badge-danger';
-			} elseif ($value->status == 1) {
-				$badge_class = 'badge-success';
-			} elseif ($value->status == 2) {
-				$badge_class = 'badge-primary';
-			} elseif ($value->status == 3) {
-				$badge_class = 'badge-secondary';
+		if($gigs) {
+			foreach ($gigs as $key => $value) {
+				$user = $this->users_model->get_user_by_id($value->user_id);
+				$temp = ['key' => $this->key, 'value' => $value->status];
+				$status = $this->configurations_model->get_configuration_by_key_value($temp);
+				if ($value->status == 0) {
+					$badge_class = 'badge-danger';
+				} elseif ($value->status == 1) {
+					$badge_class = 'badge-success';
+				} elseif ($value->status == 2) {
+					$badge_class = 'badge-primary';
+				} elseif ($value->status == 3) {
+					$badge_class = 'badge-secondary';
+				}
+				if ($value->is_featured) {
+					$feature_html = '<span class="badge badge-success">Yes</span>';
+				} else {
+					$feature_html = '<span class="badge badge-danger">No</span>';
+				}
+				$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $value->category]);
+				$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $value->genre]);
+				$value->status_label = $status->label;
+				$status_html = '<span class="badge ' . $badge_class . '">' . $value->status_label . '</span>';
+				$category_label = $category->label;
+				$genre_label = $genre->label;
+				$user_name = $user->fname . ' ' . $user->lname;
+				$res = $this->get_tickets_booked_and_left($value);
+				$value->booked = $res['booked'];
+				$value->ticket_left = $res['ticket_left'];
+				$buttons = '
+						<div class="d-flex">
+							<a href="' . admin_base_url() . 'gigs/update/' . $value->id . '" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+							<form action="' . admin_base_url() . 'gigs/trash/' . $value->id . '">
+								<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+							</form>
+						</div>';
+				$result['data'][$key] = array(
+					$key,
+					$user_name,
+					$value->title,
+					$category_label,
+					$genre_label,
+					$value->popularity,
+					$value->gig_date ? date('M d, Y', strtotime($value->gig_date)) : 'NA',
+					$status_html,
+					$feature_html,
+					round($res['booked'], 0) . '%',
+					date('M d, Y', strtotime($value->created_on)),
+					// $paid_status,
+					$buttons
+				);
 			}
-			if ($value->is_featured) {
-				$feature_html = '<span class="badge badge-success">Yes</span>';
-			} else {
-				$feature_html = '<span class="badge badge-danger">No</span>';
-			}
-			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $value->category]);
-			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $value->genre]);
-			$value->status_label = $status->label;
-			$status_html = '<span class="badge ' . $badge_class . '">' . $value->status_label . '</span>';
-			$category_label = $category->label;
-			$genre_label = $genre->label;
-			$user_name = $user->fname . ' ' . $user->lname;
-			$res = $this->get_tickets_booked_and_left($value);
-			$value->booked = $res['booked'];
-			$value->ticket_left = $res['ticket_left'];
-			$buttons = '
-					<div class="d-flex">
-						<a href="' . admin_base_url() . 'gigs/update/' . $value->id . '" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
-						<form action="' . admin_base_url() . 'gigs/trash/' . $value->id . '">
-							<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
-						</form>
-					</div>';
-			$result['data'][$key] = array(
-				$key,
-				$user_name,
-				$value->title,
-				$category_label,
-				$genre_label,
-				$value->popularity,
-				$value->gig_date ? date('M d, Y', strtotime($value->gig_date)) : 'NA',
-				$status_html,
-				$feature_html,
-				round($res['booked'], 0) . '%',
-				date('M d, Y', strtotime($value->created_on)),
-				// $paid_status,
-				$buttons
-			);
+		} else {
+			$result['data'] = [];
 		}
 		echo json_encode($result);
 	}
