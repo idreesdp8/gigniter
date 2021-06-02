@@ -93,7 +93,7 @@
                                 if ($statuses) :
                                     foreach ($statuses as $status) :
                                 ?>
-                                        <option value="<?php echo $status->label ?>"><?php echo $status->label ?></option>
+                                        <option value="<?php echo $status->value ?>"><?php echo $status->label ?></option>
                                 <?php
                                     endforeach;
                                 endif;
