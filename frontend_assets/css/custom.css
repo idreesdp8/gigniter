@@ -201,7 +201,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	    float: right;
 	    margin: 25px 0;
 }
-
+#file-upload1 {
+	display: none;
+}
+#icon_upload1 {
+    left: 45%;
+    position: absolute;
+    top: 55%;
+}
 @media only screen and (max-width: 600px) {
 	.teir-button {
 		max-width: 100%;
