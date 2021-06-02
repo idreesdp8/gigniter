@@ -339,13 +339,13 @@
                       <input type="text" id="lname" name="lname" value="<?php echo $user->lname ?>">
                     </label>
                   </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Bio
-                      <textarea type="text" id="description" name="description" class="textarea" rows="3"><?php echo $user->description ?></textarea>
+                      <textarea  style="height:150px;" type="text" id="description" name="description" class="textarea" rows="2"><?php echo $user->description ?></textarea>
                     </label>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12"></div>
+
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Address
