@@ -338,7 +338,7 @@
                                         <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
-                                        <div class="image_div">
+                                        <div class="image_div mb-0">
                                           <img src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
                                         </div>
                                         <input type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
@@ -365,7 +365,7 @@
                               ?>
                             </div>
                             <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                              <button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
+                              <button  id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <div class="mycheckbox-contain">
@@ -416,14 +416,13 @@
                             </label>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
-                            <label class="d-none">
+                            <label class="d-none mb-0">
                               Products
-                              <div class="row mb-2">
-                              </div>
+
                             </label>
                           </div>
                           <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                            <button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
+                            <button  id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="mycheckbox-contain">
@@ -660,7 +659,7 @@
           '<label class="d-none">Products<div class="row mb-2"></div></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-4 col-sm-12 col-12">' +
-          '<button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
+          '<button  id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +
@@ -689,13 +688,13 @@
         '<div class="form-group">' +
         '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
         '</div>' +
-        '<div class="image_div">' +
+        '<div class="image_div mb-0">' +
         '<img alt="your image" class="d-none" />' +
         '</div>' +
-        '<label for="file-upload1" class="custom-file-upload">' +
-        '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_upload1">' +
+        '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
+        '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
         '</label>' +
-        '<input id="file-upload1" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+        '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
         '</div>');
         i++;
         $(this).attr('data-bundle', i);

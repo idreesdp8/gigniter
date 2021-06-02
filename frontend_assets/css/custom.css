@@ -196,16 +196,20 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .section-04 .my-5.text-center.container {
 	margin-top: 0px !important;
 }
+.section-05 .my-5.text-center.container {
+	margin-top: 0px !important;
+}
 .teir-button {
 	max-width: 30%;
 	    float: right;
 	    margin: 25px 0;
 }
+
 #gig_poster {
-	min-width: 100%;
+	width: auto;
     height: 350px;
 }
-#file-upload1 {
+#file-upload2 {
 	display: none;
 }
 #icon_upload1 {
@@ -213,7 +217,15 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     position: absolute;
     top: 55%;
 }
+.file-dimension {
+	margin-bottom: 0 !important;
+}
+
 @media only screen and (max-width: 600px) {
+	#gig_poster {
+		width: 100%;
+			height: auto;
+	}
 	#step-5 .step-form-buttons {
 		width: 100%;
 	}

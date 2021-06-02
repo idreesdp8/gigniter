@@ -272,7 +272,7 @@
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
-                          <label class="d-none">
+                          <label class="d-none mb-0">
                             Products
                             <div class="row mb-2">
                             </div>
@@ -688,10 +688,10 @@
           '<label>Description<textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">' +
-          '<label class="d-none">Products<div class="row mb-2"></div></label>' +
+          '<label class="d-none mb-0">Products<div class="row mb-2"></div></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-4 col-sm-12 col-12">' +
-          '<button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
+          '<button id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +
@@ -733,16 +733,16 @@
         div.append(
           '<div class="col-md-4">' +
           '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>' +
-          '<div class="form-group">' +
+          '<div class="form-group mt-3">' +
           '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
           '</div>' +
-          '<div class="image_div">' +
+          '<div class="image_div mb-1">' +
           '<img alt="your image" class="d-none" />' +
           '</div>' +
-          '<label for="file-upload1" class="custom-file-upload">' +
-          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_upload1">' +
+          '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
+          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_upload2">' +
           '</label>' +
-          '<input id="file-upload1" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+          '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
