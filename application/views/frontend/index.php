@@ -212,9 +212,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -260,9 +261,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -335,9 +337,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -383,9 +386,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -459,9 +463,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -507,9 +512,10 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
-                                                    <h5><?php echo $gig->title ?></h5>
+
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
                                                     <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
@@ -607,7 +613,7 @@
 
 
 
-  
+
     </script>
 </body>
 

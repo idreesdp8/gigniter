@@ -136,12 +136,14 @@ a.btn-success-circle ~ p {
     width: 180px !important;
 }
 .limit-single-line {
-	overflow: hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    min-height: 62px;
 }
+
 .content-bar select {
 	margin: 0 10px !important;
 }
