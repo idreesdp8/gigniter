@@ -214,6 +214,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     top: 55%;
 }
 @media only screen and (max-width: 600px) {
+	#step-5 .step-form-buttons {
+		width: 100%;
+	}
 	.teir-button {
 		max-width: 100%;
 	}
