@@ -38,7 +38,7 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("status", $params)) {
 			$status = $params['status'];
-			$whrs .= " status='$status'";
+			$whrs .= " AND status='$status'";
 		}
 
 		$limits = '';
