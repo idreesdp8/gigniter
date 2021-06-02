@@ -29,12 +29,15 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){
-				$sort_by = 'created_on DESC';
+				$sort_by = 'created_on ASC';
 			} else if($params['sort_by'] == 'most_popular'){
 				$sort_by = 'popularity DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
-				$sort_by = 'gig_date ASC';
+				$sort_by = 'date(gig_date) ASC';
 			}
+		}
+		if (array_key_exists("status", $params)) {
+			$whrs .= " status=$params['status']";
 		}
 
 		$limits = '';

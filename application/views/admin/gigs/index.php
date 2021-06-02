@@ -128,14 +128,19 @@
     </div>
 
     <script>
-        function reload_datatable(sort_by) {
+        function reload_datatable() {
+            var sort_by = $('#sort').val();
+            var status = $('#status').val();
+            console.log('Status '+ status);
+            console.log('Sort '+ sort_by);
             $('.datatable-custom').DataTable({
                 "destroy": true,
                 "ajax": {
                     "url": base_url + 'gigs/reload_datatable',
                     "type": "POST",
                     "data": {
-                        sort_by: sort_by
+                        sort_by: sort_by,
+                        status: status,
                     },
                     dataType: 'json',
                 },
@@ -181,12 +186,10 @@
                 }
             });
             $('#status', this).change(function() {
-                if (manageTable.column(7).search() !== this.value) {
-                    manageTable.column(7).search(this.value).draw();
-                }
+                reload_datatable();
             });
             $('#sort', this).change(function() {
-                reload_datatable(this.value);
+                reload_datatable();
             });
         });
     </script>
