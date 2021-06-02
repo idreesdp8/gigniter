@@ -26,8 +26,10 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                                         <p class="custom-badge"><?php echo $gig->genre_name ?></p>
-                                        <h3 class="mt-2"><?php echo $gig->title ?>
-                                            <!-- <span class="custom-heading">Studio</span> -->
+                                        <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                            <h3 class="mt-2"><?php echo $gig->title ?>
+                                        </a>
+                                        <!-- <span class="custom-heading">Studio</span> -->
                                         </h3>
                                         <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                         <div class="counter text-center mt-5 d-flex">
@@ -81,8 +83,10 @@
                                             <p class="custom-badge"><?php echo $gig->genre ?></p>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                            <h3 class="mt-2"><?php echo $gig->title ?>
-                                                <!-- <span class="custom-heading">Studio</span> -->
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <h3 class="mt-2"><?php echo $gig->title ?>
+                                            </a>
+                                            <!-- <span class="custom-heading">Studio</span> -->
                                             </h3>
                                             <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                             <div class="counter text-center d-flex">
@@ -212,7 +216,7 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
 
@@ -337,7 +341,7 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
 
@@ -386,7 +390,7 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
 
@@ -463,7 +467,7 @@
                                             </a>
                                         </div>
                                         <div class="speaker-content card-footer">
-                                          <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
+                                            <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
                                             <div class="d-flex">
                                                 <div class="footer-text">
 
@@ -632,11 +636,6 @@
         //         }
         //     }
         // });
-
-
-
-
-
     </script>
 </body>
 
