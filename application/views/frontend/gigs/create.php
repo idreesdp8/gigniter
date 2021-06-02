@@ -621,7 +621,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn btn-secondary" onclick="submit_form(1)">Save as Draft</button>
+                      <button type="submit" class="btn-theme-primary btn btn-secondary" onclick="submit_form(1)">Save as Draft</button>
                       <?php
                       if (!$gig) :
                       ?>
