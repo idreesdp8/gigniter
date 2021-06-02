@@ -197,6 +197,16 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	margin-top: 0px !important;
 }
 @media only screen and (max-width: 600px) {
+	.content-bar p span {
+    width: 30% !important;
+}
+.content-bar p {
+    display: flex;
+    align-items: baseline;
+}
+	.content-bar select {
+    width: 70% !important;
+}
 	.card.grid-card .card-header {
 		width: 100% !important;
 	}

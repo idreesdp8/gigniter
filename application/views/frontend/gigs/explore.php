@@ -55,7 +55,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="content-bar">
                       <p>
-                        Genre:
+                        <span>Genre:</span>
                         <select class="genre-select" id="genre">
                             <option value="">Select Genre</option>
                             <?php
@@ -68,7 +68,7 @@
                         </select>
                       </p>
                       <p>
-                        Category:
+                      <span>Category:</span>
                         <!-- class="select-bar" -->
                         <select class="category-select" id="category">
                             <option value="">Select Category</option>
@@ -81,13 +81,13 @@
                             ?>
                         </select>
                       </p>
-                        <p>Show:
+                        <p><span>Show:</span>
                             <select class="show-select">
                                 <option value="1" active>1</option>
                                 <option value="2">2</option>
                             </select>
                         </p>
-                        <p>Sort By:
+                        <p><span>Sort By:</span>
                             <select class="sort-select">
                                 <option value="1" active>Most Popular</option>
                                 <option value="2">2</option>
