@@ -335,14 +335,14 @@
                                         <div class="form-group">
                                           <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
                                         </div>
-                                        <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image 
+                                        <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
                                         <div class="image_div">
                                           <img src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
                                         </div>
                                         <input type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
-                                        <!-- <input type="file" name="bundle_image_tier<?php //echo $tier 
+                                        <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>
                                     <?php
@@ -365,7 +365,7 @@
                               ?>
                             </div>
                             <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                              <button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
+                              <button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <div class="mycheckbox-contain">
@@ -423,7 +423,7 @@
                             </label>
                           </div>
                           <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                            <button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="1">Add Product</button>
+                            <button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="mycheckbox-contain">
@@ -446,8 +446,8 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button>
+                  <div class="col-lg-3 order-first order-md-last col-md-3 col-sm-12 col-12">
+                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button>
                   </div>
                 </div>
                 <div class="row">
@@ -660,7 +660,7 @@
           '<label class="d-none">Products<div class="row mb-2"></div></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-4 col-sm-12 col-12">' +
-          '<button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
+          '<button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +

@@ -279,7 +279,7 @@
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                          <button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="1">Add Product</button>
+                          <button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <div class="mycheckbox-contain">
@@ -297,17 +297,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
-                  </div>
-                </div>
+
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
                   </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
+                  <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12">
+                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
+                  </div>
                 </div>
                 <!-- </form> -->
               </div>
@@ -692,7 +689,7 @@
           '<label class="d-none">Products<div class="row mb-2"></div></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-4 col-sm-12 col-12">' +
-          '<button type="button" class="btn btn-secondary add_tier_bundle w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
+          '<button type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="' + tier + '">Add Product</button>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +

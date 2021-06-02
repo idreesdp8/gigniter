@@ -196,7 +196,23 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .section-04 .my-5.text-center.container {
 	margin-top: 0px !important;
 }
+.teir-button {
+	max-width: 30%;
+	    float: right;
+	    margin: 25px 0;
+}
+
 @media only screen and (max-width: 600px) {
+	.teir-button {
+		max-width: 100%;
+	}
+	.mob-width {
+		width: 100% !important;
+	}
+	.explore-banner-section {
+    min-height: 400px;
+    padding: 150px 0 0;
+}
 	.content-bar p span {
     width: 30% !important;
 }
