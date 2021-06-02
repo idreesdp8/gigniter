@@ -59,110 +59,66 @@
 					</div> -->
 
                     <div class="table-responsive">
+                        <div class="form-group m-auto d-inline-flex align-items-center" style="padding: 20px 20px 0px;">
+                            <span class="mr-1">Category:</span>
+                            <select name="category" id="category" class="form-control mr-1">
+                                <option value="">Select Option</option>
+                                <?php
+                                if ($categories) :
+                                    foreach ($categories as $category) :
+                                ?>
+                                        <option value="<?php echo $category->label ?>"><?php echo $category->label ?></option>
+                                <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </select>
+                            <span class="mr-1">Genre:</span>
+                            <select name="genre" id="genre" class="form-control mr-1">
+                                <option value="">Select Option</option>
+                                <?php
+                                if ($genres) :
+                                    foreach ($genres as $genre) :
+                                ?>
+                                        <option value="<?php echo $genre->label ?>"><?php echo $genre->label ?></option>
+                                <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </select>
+                            <span class="mr-1">Status:</span>
+                            <select name="status" id="status" class="form-control mr-1">
+                                <option value="">Select Option</option>
+                                <?php
+                                if ($statuses) :
+                                    foreach ($statuses as $status) :
+                                ?>
+                                        <option value="<?php echo $status->label ?>"><?php echo $status->label ?></option>
+                                <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </select>
+                            <span class="mr-1">Featured:</span>
+                            <select name="is_featured" id="is_featured" class="form-control mr-1">
+                                <option value="">Select Option</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            <span class="mr-1">Sort by:</span>
+                            <select name="sort" id="sort" class="form-control">
+                                <option value="">Select Option</option>
+                                <option value="most_popular">Most Popular</option>
+                                <option value="just_in">Just In</option>
+                                <option value="closing_soon">Closing Soon</option>
+                            </select>
+                        </div>
                         <div id="table">
                             <?php $this->load->view('admin/gigs/index_partial'); ?>
                         </div>
                     </div>
                 </div>
                 <!-- /striped rows -->
-
-                <!-- Vertical form modal -->
-                <!-- <div id="showModal" class="modal fade" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Gig</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <form action="<?php //echo admin_base_url() 
-                                                ?>permissions/update" method="post">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Title</label>
-                                    <input type="text" class="form-control" placeholder="Enter title" name="title" id="title" value="Taylor Swift">
-                                </div>
-                                <div class="form-group">
-                                    <label>Subtitle</label>
-                                    <textarea name="subtitle" id="subtitle" cols="30" rows="3" class="form-control" placeholder="Enter subtitle">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Category</label>
-                                            <select name="category" id="category" class="form-control select">
-                                                <option value="">Select category</option>
-                                                <option value="1" selected>Option 1</option>
-                                                <option value="2">Option 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Genre</label>
-                                            <select name="genre" id="genre" class="form-control select">
-                                                <option value="">Select genre</option>
-                                                <option value="1" selected>Option 1</option>
-                                                <option value="2">Option 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Address</label>
-                                            <textarea name="address" id="address" cols="30" rows="4" class="form-control" placeholder="Enter address">121 Worcester Rd, Framingham MA 1701</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Goal</label>
-                                            <input type="text" class="form-control" placeholder="Enter goal" name="goal" id="goal" value="200">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Poster</label>
-                                            <div class="media mt-0 p-1" style="border: 2px dashed #ccc; height: 350px">
-                                                <img src="<?php //echo poster_url() ?>WD_Poster_2018.jpg" alt="" class="m-auto h-100">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Campaign Date</label>
-                                            <input type="date" class="form-control" placeholder="Enter campaign date" name="campaign_date" id="campaign_date" value="2020-12-10">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Concert Date</label>
-                                            <input type="date" class="form-control" placeholder="Enter concert date" name="gig_date" id="gig_date" value="2020-12-30">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Venue</label>
-                                            <input type="text" class="form-control" placeholder="Enter venue" name="venue" id="venue" value="Physical">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <select name="status" id="status" class="form-control select">
-                                                <option value="">Select Status</option>
-                                                <option value="1">Live</option>
-                                                <option value="2" selected>Draft</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                            </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /vertical form modal -->
 
             </div>
 
@@ -172,10 +128,66 @@
     </div>
 
     <script>
+        function reload_datatable(sort_by) {
+            $('.datatable-custom').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": base_url + 'gigs/reload_datatable',
+                    "type": "POST",
+                    "data": {
+                        sort_by: sort_by
+                    },
+                    dataType: 'json',
+                },
+                dataSrc: function(json) {
+                    console.log(json);
+                    if (json.tableData === null) {
+                        return [];
+                    }
+                    return json.tableData;
+                }
+            }).ajax.reload();
+        }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_gig_view a').addClass('active');
+
+            // $('#is_featured').change(function() {
+            //     console.log($(this).val());
+            //     console.log($('.datatable-basic'));
+            //     // $('.datatable-basic').draw();
+            // });
+
+            manageTable = $('.datatable-custom').DataTable({
+                // 'bFilter': false,
+                // 'searching': true,
+                // "sDom":"ltipr"
+            });
+
+            $('#is_featured', this).change(function() {
+                if (manageTable.column(8).search() !== this.value) {
+                    manageTable.column(8).search(this.value).draw();
+                }
+            });
+            $('#category', this).change(function() {
+                if (manageTable.column(3).search() !== this.value) {
+                    manageTable.column(3).search(this.value).draw();
+                }
+            });
+            $('#genre', this).change(function() {
+                if (manageTable.column(4).search() !== this.value) {
+                    manageTable.column(4).search(this.value).draw();
+                }
+            });
+            $('#status', this).change(function() {
+                if (manageTable.column(7).search() !== this.value) {
+                    manageTable.column(7).search(this.value).draw();
+                }
+            });
+            $('#sort', this).change(function() {
+                reload_datatable(this.value);
+            });
         });
     </script>
 </body>

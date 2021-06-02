@@ -1,4 +1,4 @@
-<table class="table table-striped datatable-basic">
+<table class="table table-striped datatable-custom">
     <?php if (isset($records) && count($records) > 0) { ?>
         <thead>
             <tr>
@@ -7,10 +7,11 @@
                 <th>Title</th>
                 <th>Category</th>
                 <th>Genre</th>
-                <th>Address</th>
-                <th>Audience Goal</th>
+                <th>Popularity</th>
                 <th>Concert Date</th>
                 <th>Satus</th>
+                <th>Featured</th>
+                <th>Booked</th>
                 <th>Added on</th>
                 <th>Actions</th>
             </tr>
@@ -24,10 +25,9 @@
                     <td><?php echo $i ?></td>
                     <td><?php echo $record->user_name ?></td>
                     <td><?php echo $record->title ?></td>
-                    <td><?php echo $record->category ?></td>
-                    <td><?php echo $record->genre ?></td>
-                    <td><?php echo $record->address ?></td>
-                    <td><?php echo $record->ticket_limit ?></td>
+                    <td><?php echo $record->category_label ?></td>
+                    <td><?php echo $record->genre_label ?></td>
+                    <td><?php echo $record->popularity ?></td>
                     <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
                     <td>
                         <?php
@@ -43,6 +43,20 @@
                         ?>
                         <span class="badge <?php echo $badge_class ?>"><?php echo $record->status_label ?></span>
                     </td>
+                    <td>
+                        <?php
+                        if ($record->is_featured) :
+                        ?>
+                            <span class="badge badge-success">Yes</span>
+                        <?php
+                        else :
+                        ?>
+                            <span class="badge badge-danger">No</span>
+                        <?php
+                        endif;
+                        ?>
+                    </td>
+                    <td><?php echo round($record->booked, 0) ?>%</td>
                     <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                     <td>
                         <div class="d-flex">

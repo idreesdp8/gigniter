@@ -20,10 +20,20 @@ class Gigs_model extends CI_Model
 	function get_all_filter_gigs($params = array())
 	{
 		$whrs = '';
+		$sort_by = '';
 		if (array_key_exists("q_val", $params)) {
 			$q_val = $params['q_val'];
 			if (strlen($q_val) > 0) {
 				$whrs .= " AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
+			}
+		}
+		if (array_key_exists("sort_by", $params)) {
+			if($params['sort_by'] == 'just_in'){
+				$sort_by = 'created_on DESC';
+			} else if($params['sort_by'] == 'most_popular'){
+				$sort_by = 'popularity DESC';
+			} else if($params['sort_by'] == 'closing_soon'){
+				$sort_by = 'gig_date ASC';
 			}
 		}
 
@@ -37,14 +47,29 @@ class Gigs_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE id >'0' $whrs ORDER BY created_on DESC $limits ");
+		$query = $this->db->query("SELECT * FROM gigs WHERE id >'0' $whrs ORDER BY $sort_by $limits ");
 		return $query->result();
 	}
 
 
 	function get_all_gigs()
 	{
+		$this->db->order_by('created_on', 'DESC');
 		$query = $this->db->get('gigs');
+		return $query->result();
+	}
+	
+	function get_featured_gigs()
+	{
+		$sql = "SELECT * FROM gigs WHERE is_featured = 1 ORDER BY created_on DESC";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
+	function get_popular_gigs()
+	{
+		$sql = "SELECT * FROM gigs ORDER BY popularity DESC, created_on DESC";
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
 

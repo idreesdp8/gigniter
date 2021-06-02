@@ -28,11 +28,76 @@ class Gigs extends CI_Controller
 		$this->load->model('admin/configurations_model', 'configurations_model');
 		$this->load->model('admin/countries_model', 'countries_model');
 		$this->load->model('admin/gigs_model', 'gigs_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		$this->key = 'gig-status';
+		$this->category_key = 'category';
+		$this->genre_key = 'genre';
 
 		$this->load->library('Ajax_pagination');
 		$this->perPage = 25;
+	}
+
+	function reload_datatable()
+	{
+		// echo json_encode($_POST);
+		if ($this->input->post('sort_by')) {
+			$sort_by = $this->input->post('sort_by');
+			$data['sort_by'] = $sort_by;
+			$gigs = $this->gigs_model->get_all_filter_gigs($data);
+			foreach ($gigs as $key => $value) {
+				$user = $this->users_model->get_user_by_id($value->user_id);
+				$temp = ['key' => $this->key, 'value' => $value->status];
+				$status = $this->configurations_model->get_configuration_by_key_value($temp);
+				if ($value->status == 0) {
+					$badge_class = 'badge-danger';
+				} elseif ($value->status == 1) {
+					$badge_class = 'badge-success';
+				} elseif ($value->status == 2) {
+					$badge_class = 'badge-primary';
+				} elseif ($value->status == 3) {
+					$badge_class = 'badge-secondary';
+				}
+				if ($value->is_featured) {
+					$feature_html = '<span class="badge badge-success">Yes</span>';
+				} else {
+					$feature_html = '<span class="badge badge-danger">No</span>';
+				}
+				$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $value->category]);
+				$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $value->genre]);
+				$value->status_label = $status->label;
+				$status_html = '<span class="badge '.$badge_class.'">'.$value->status_label.'</span>';
+				$category_label = $category->label;
+				$genre_label = $genre->label;
+				$user_name = $user->fname . ' ' . $user->lname;
+				$res = $this->get_tickets_booked_and_left($value);
+				$value->booked = $res['booked'];
+				$value->ticket_left = $res['ticket_left'];
+				$buttons = '
+					<div class="d-flex">
+						<a href="'.admin_base_url().'gigs/update/'.$value->id.'" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+						<form action="'.admin_base_url().'gigs/trash/'.$value->id.'">
+							<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+						</form>
+					</div>';
+				$result['data'][$key] = array(
+					$key,
+					$user_name,
+					$value->title,
+					$category_label,
+					$genre_label,
+					$value->popularity,
+					$value->gig_date ? date('M d, Y', strtotime($value->gig_date)) : 'NA',
+					$status_html,
+					$feature_html,
+					round($res['booked'], 0).'%',
+					date('M d, Y', strtotime($value->created_on)),
+					// $paid_status,
+					$buttons
+				);
+			}
+			echo json_encode($result);
+		}
 	}
 
 	/* users functions starts */
@@ -41,19 +106,92 @@ class Gigs extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
+		$categories = $this->configurations_model->get_all_configurations_by_key($this->category_key);
+		$genres = $this->configurations_model->get_all_configurations_by_key($this->genre_key);
+		$statuses = $this->configurations_model->get_all_configurations_by_key($this->key);
+		// echo json_encode($categories);
+		// die();
 		$gigs = $this->gigs_model->get_all_gigs();
 		foreach ($gigs as $gig) {
 			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$temp = ['key' => $this->key, 'value' => $gig->status];
 			$status = $this->configurations_model->get_configuration_by_key_value($temp);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
 			$gig->status_label = $status->label;
-			$gig->user_name = $user->fname.' '.$user->lname;
+			$gig->category_label = $category->label;
+			$gig->genre_label = $genre->label;
+			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
+		}
+		$data['records'] = $gigs;
+		$data['categories'] = $categories;
+		$data['genres'] = $genres;
+		$data['statuses'] = $statuses;
+		// echo json_encode($data);
+		// die();
+		// $data['page_headings'] = "Users List";
+		$this->load->view('admin/gigs/index', $data);
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
+	}
+	function featured_gigs()
+	{
+		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
+		// if ($res_nums > 0) {
+
+		$gigs = $this->gigs_model->get_featured_gigs();
+		foreach ($gigs as $gig) {
+			$user = $this->users_model->get_user_by_id($gig->user_id);
+			$temp = ['key' => $this->key, 'value' => $gig->status];
+			$status = $this->configurations_model->get_configuration_by_key_value($temp);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+			$gig->status_label = $status->label;
+			$gig->category_label = $category->label;
+			$gig->genre_label = $genre->label;
+			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
 		}
 		$data['records'] = $gigs;
 		// echo json_encode($data);
 		// die();
 		// $data['page_headings'] = "Users List";
-		$this->load->view('admin/gigs/index', $data);
+		$this->load->view('admin/gigs/featured_gigs', $data);
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
+	}
+	function popular_gigs()
+	{
+		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
+		// if ($res_nums > 0) {
+
+		$gigs = $this->gigs_model->get_popular_gigs();
+		foreach ($gigs as $gig) {
+			$user = $this->users_model->get_user_by_id($gig->user_id);
+			$temp = ['key' => $this->key, 'value' => $gig->status];
+			$status = $this->configurations_model->get_configuration_by_key_value($temp);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+			$gig->status_label = $status->label;
+			$gig->category_label = $category->label;
+			$gig->genre_label = $genre->label;
+			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
+		}
+		$data['records'] = $gigs;
+		// echo json_encode($data);
+		// die();
+		// $data['page_headings'] = "Users List";
+		$this->load->view('admin/gigs/popular_gigs', $data);
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -522,5 +660,18 @@ class Gigs extends CI_Controller
 		$this->gigs_model->remove_gig_stream($gig_id);
 	}
 
+	function get_tickets_booked_and_left($gig)
+	{
+		// echo json_encode($gig);
+		// die();
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$param['ticket_left'] = $gig->ticket_limit - $ticket_bought;
+		$param['booked'] = $ticket_bought / $gig->ticket_limit * 100;
+		return $param;
+	}
 	/* users functions ends */
 }

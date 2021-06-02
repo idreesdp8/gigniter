@@ -62,5 +62,7 @@ $route['privacy_policy'] = 'Pages/privacy_policy';
 $route['faq'] = 'Pages/faq';
 $route['about'] = 'Pages/about';
 $route['recover_password'] = 'Account/forgot_password';
+$route['admin/featured_gigs'] = 'admin/Gigs/featured_gigs';
+$route['admin/popular_gigs'] = 'admin/Gigs/popular_gigs';
 
 $route['my_gigs'] = 'Gigs/my_gigs';

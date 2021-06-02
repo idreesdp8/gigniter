@@ -222,7 +222,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -271,7 +271,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -347,7 +347,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -396,7 +396,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -473,7 +473,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -522,7 +522,7 @@
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
-                                                    <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                    <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                         <div class="pie_progress__number">0%</div>
                                                         <div class="pie_progress__label">Booked</div>
                                                     </div>
@@ -585,30 +585,53 @@
             });
         });
         $('.owl-carousel').owlCarousel({
-            loop: ($(this).find('.owl-item')).length > 2,
             rewind: true,
             autoplay: true,
             dots: false,
             autoplayTimeout: 2000,
             margin: 30,
             autoplayHoverPause: true,
-            responsiveClass:true,
-            responsive:{
-                0:{
-                    items:1,
-                    nav:true
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    loop: ($(this).find('.owl-item')).length > 0
                 },
-                600:{
-                    items:3,
-                    nav:ture
+                600: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 0
                 },
-                1000:{
-                    items:5,
-                    nav:true,
-                    loop:false
+                1000: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 0
                 }
             }
         });
+        // $('.owl-carousel').owlCarousel({
+        //     loop: ($(this).find('.owl-item')).length > 2,
+        //     rewind: true,
+        //     autoplay: true,
+        //     dots: false,
+        //     autoplayTimeout: 2000,
+        //     margin: 30,
+        //     autoplayHoverPause: true,
+        //     responsiveClass:true,
+        //     responsive:{
+        //         0:{
+        //             items:1,
+        //             nav:true
+        //         },
+        //         600:{
+        //             items:3,
+        //             nav:ture
+        //         },
+        //         1000:{
+        //             items:5,
+        //             nav:true,
+        //             loop:false
+        //         }
+        //     }
+        // });
 
 
 

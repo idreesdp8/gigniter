@@ -53,6 +53,12 @@ foreach ($role_permissions as $role_permission) {
                             <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
                                 <li class="nav-item" id="sidebar_gig_view"><a href="<?php echo admin_base_url(); ?>gigs" class="nav-link">All Gigs</a></li>
                             <?php endif; ?>
+                            <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
+                                <li class="nav-item" id="sidebar_featured_gig_view"><a href="<?php echo admin_base_url(); ?>featured_gigs" class="nav-link">Featured Gigs</a></li>
+                            <?php endif; ?>
+                            <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
+                                <li class="nav-item" id="sidebar_popular_gig_view"><a href="<?php echo admin_base_url(); ?>popular_gigs" class="nav-link">Popular Gigs</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 <?php endif; ?>
