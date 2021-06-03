@@ -21,6 +21,17 @@
             border-radius: 0 !important;
             object-fit: cover;
         }
+
+        .social-share li {
+            display: inline;
+            padding: 5px 10px;
+        }
+        .tier-cast-thumb {
+            width: 200px !important;
+        }
+        .owl-nav.disabled {
+            display: none;
+        }
     </style>
 </head>
 
@@ -46,7 +57,24 @@
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
                         </p>
                         <!-- <p>Music <span>|</span> Show <span>|</span> English</p> -->
-                        <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p>
+                        <!-- <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p> -->
+                        <div class="social-and-duration">
+                            <div class="duration-area d-flex">
+                                <div class="item mr-3">
+                                    <i class="fas fa-calendar-alt mr-2"></i><span><?php echo date('d M, Y', strtotime($gig->gig_date)); ?></span>
+                                </div>
+                                <div class="item">
+                                    <i class="far fa-clock mr-2"></i><span><?php echo $gig->duration ?></span>
+                                </div>
+                            </div>
+                            <!-- <ul class="social-share">
+                                <li><a href="#0"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#0"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#0"><i class="fab fa-pinterest-p"></i></a></li>
+                                <li><a href="#0"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li><a href="#0"><i class="fab fa-google-plus-g"></i></a></li>
+                            </ul> -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12"></div>
@@ -60,7 +88,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-12"></div>
                     <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="custom-item">
-                            <div class="pie_progress booked-color-1" role="progressbar" data-goal="<?php echo $gig->booked; ?>">
+                            <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked; ?>">
                                 <div class="pie_progress__number"><?php echo $gig->booked; ?>%</div>
                                 <div class="pie_progress__label">Booked</div>
                             </div>
@@ -160,14 +188,71 @@
                     endif;
                     ?>
 
-                    <div class="tab summery-review">
+                    <div class="post-item post-details">
+                        <div class="post-thumb">
+                            <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <ul class="social-share">
+                            <li><a href="#0"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#0"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#0"><i class="fab fa-pinterest-p"></i></a></li>
+                            <li><a href="#0"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#0"><i class="fab fa-google-plus-g"></i></a></li>
+                        </ul>
+                    </div>
+                    <?php
+                    if ($tiers) :
+                    ?>
+                        <div class="movie-details">
+                            <div class="tab summery-review">
+                                <div class="tab-area">
+                                    <div class="tab-item active">
+                                        <div class="item">
+                                            <div class="header">
+                                                <h5 class="sub-title">ticket tiers</h5>
+                                                <div class="navigation <?php echo count($tiers) < 3 ? 'd-none' : '' ?>">
+                                                    <div class="cast-prev"><i class="flaticon-double-right-arrows-angles"></i></div>
+                                                    <div class="cast-next"><i class="flaticon-double-right-arrows-angles"></i></div>
+                                                </div>
+                                            </div>
+                                            <div class="casting-slider owl-crousal">
+                                                <?php
+                                                foreach ($tiers as $tier) :
+                                                ?>
+                                                    <div class="cast-item mb-2">
+                                                        <div class="cast-thumb tier-cast-thumb">
+                                                            <a href="#0">
+                                                                <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cast-content">
+                                                            <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
+                                                            <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                                        </div>
+                                                    </div>
+                                                <?php
+                                                endforeach;
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    endif;
+                    ?>
+
+                    <!-- <div class="tab summery-review">
                         <ul class="tab-menu">
                             <li class="tab-1 active">
                                 Summary
                             </li>
-                            <!-- <li class="tab-1">
+                            <li class="tab-1">
                                 user review <span>147</span>
-                            </li> -->
+                            </li>
                         </ul>
                         <div class="tab-area">
                             <div class="tab-item active">
@@ -175,7 +260,7 @@
                                     <h5 class="sub-title">Summary</h5>
                                     <p><?php echo $gig->subtitle ?></p>
                                 </div>
-                                <!-- <div class="item slider-item">
+                                <div class="item slider-item">
                                     <div class="header">
                                         <h5 class="sub-title">Performers</h5>
 
@@ -226,9 +311,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
-                            <!-- <div class="tab-item">
+                            <div class="tab-item">
                                 <div class="movie-review-item">
                                     <div class="author">
                                         <div class="thumb">
@@ -376,9 +461,9 @@
                                 <div class="load-more text-center">
                                     <a href="#0" class="custom-button transparent">load more</a>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <img src="<?php echo user_asset_url(); ?>images/detail-page/custom-text-box.png" class="w-100">
@@ -395,35 +480,55 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
-
-    $('.detailpage-crousal').owlCarousel({
-        loop: ($(this).find('.owl-item')).length > 2,
-      rewind: true,
-        autoplay: true,
-        dots: false,
-
-        autoplayTimeout: 2000,
-        margin: 30,
-       autoplayHoverPause: true,
-       responsiveClass:true,
-       responsive:{
-           0:{
-               items:1,
-               nav:true
-           },
-           600:{
-               items:3,
-               nav:ture
-           },
-           1000:{
-               items:5,
-               nav:true,
-               loop:false
-           }
-       }
-
-
-    });
+        $('.detailpage-crousal').owlCarousel({
+            rewind: true,
+            autoplay: true,
+            dots: false,
+            autoplayTimeout: 2000,
+            margin: 30,
+            autoplayHoverPause: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: true,
+                    loop: ($(this).find('.owl-item')).length > 2
+                },
+                600: {
+                    items: 3,
+                    nav: true,
+                    loop: ($(this).find('.owl-item')).length > 2
+                },
+                1000: {
+                    items: 3,
+                    nav: true,
+                    loop: ($(this).find('.owl-item')).length > 2
+                }
+            }
+        });
+        $('.owl-crousal').owlCarousel({
+            rewind: true,
+            autoplay: true,
+            dots: false,
+            autoplayTimeout: 2000,
+            margin: 30,
+            autoplayHoverPause: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    loop: ($(this).find('.owl-item')).length > 2
+                },
+                600: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 2
+                },
+                1000: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 2
+                }
+            }
+        });
     </script>
 </body>
 

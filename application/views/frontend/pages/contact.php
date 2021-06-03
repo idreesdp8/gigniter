@@ -11,7 +11,7 @@
     <?php $this->load->view('frontend/layout/header'); ?>
 
     <!-- ==========Banner-Section========== -->
-    <section class="main-page-header speaker-banner bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner07.jpg">
+    <section class="main-page-header speaker-banner bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner-3.png">
         <div class="container">
             <div class="speaker-banner-content">
                 <h2 class="title">contact us</h2>

@@ -48,7 +48,7 @@
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4">4</a>
-                  <p ><small>Test link</small></p>
+                  <p><small>Test link</small></p>
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5">5</a>
@@ -145,7 +145,7 @@
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
-                        <img class="object-fit-cover" id="img"  src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" />
                       </div>
@@ -167,7 +167,7 @@
                   </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                    Target audience number <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target audience number"><i class="fas fa-question-circle"></i></span>
+                    Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
@@ -319,8 +319,8 @@
                     <label>
                       Profile Image
                       <div>
-                        <img id="img2" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
-                        <a><img src="<?php echo $user->image ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
+                        <img id="img2" src="<?php echo isset($user) && $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
+                        <a><img src="<?php echo isset($user) && $user->image ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
                         <input type='file' id="my-file2" name="image" hidden="hidden" accept="image/*" onchange="readURL2(this);" />
                       </div>
 
@@ -330,26 +330,48 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       First Name
-                      <input type="text" id="fname" name="fname" value="<?php echo $user->fname ?>">
+                      <input type="text" id="fname" name="fname" value="<?php echo isset($user) ? $user->fname : null ?>">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Last Name
-                      <input type="text" id="lname" name="lname" value="<?php echo $user->lname ?>">
+                      <input type="text" id="lname" name="lname" value="<?php echo isset($user) ? $user->lname : null ?>">
                     </label>
                   </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <label>
+                      Email
+                      <input type="email" id="email" name="email" value="<?php echo isset($user) ? $user->email : null ?>">
+                    </label>
+                  </div>
+                  <?php
+                  if (isset($user)) :
+                  ?>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                      <label>
+                        Password
+                        <input type="password" id="password" name="password">
+                      </label>
+                    </div>
+                  <?php
+                  else :
+                  ?>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <?php
+                  endif;
+                  ?>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Bio
-                      <textarea  style="height:150px;" type="text" id="description" name="description" class="textarea" rows="2"><?php echo $user->description ?></textarea>
+                      <textarea style="height:150px;" type="text" id="description" name="description" class="textarea" rows="2"><?php echo isset($user) ? $user->description : null ?></textarea>
                     </label>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Address
-                      <input type="text" id="user_address" name="user_address" value="<?php echo $user->address ?>">
+                      <input type="text" id="user_address" name="user_address" value="<?php echo isset($user) ? $user->address : null ?>">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -360,7 +382,7 @@
                         <?php
                         foreach ($countries as $country) :
                         ?>
-                          <option value="<?php echo $country->id ?>" <?php echo $country->id == $user->country_id ? 'selected' : '' ?>><?php echo $country->name ?></option>
+                          <option value="<?php echo $country->id ?>" <?php echo isset($user) && $country->id == $user->country_id ? 'selected' : '' ?>><?php echo $country->name ?></option>
                         <?php
                         endforeach;
                         ?>
@@ -454,7 +476,7 @@
 
               <div class="panel panel-primary setup-content" id="step-5">
                 <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
                       <div class="gig-details">
                         <h2>Gig Details</h2>
@@ -501,7 +523,7 @@
                               <p id="gig_threshold"></p>
                             </label>
                           </li>
-                          <!-- <li>
+                          <li>
                             <label class="m-0 font-weight-bold">Gig Campaign Date
                               <p id="gig_subtitle">adadf</p>
                             </label>
@@ -520,7 +542,7 @@
                             <label class="m-0 font-weight-bold">Gig End Time
                               <p id="gig_subtitle">adadf</p>
                             </label>
-                          </li> -->
+                          </li>
                           <li>
                             <label class="m-0 font-weight-bold">
                               <p id="gig_is_overshoot" class="d-none">*Overshoot allowed</p>
@@ -617,11 +639,12 @@
                         </ul>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn-theme-primary btn btn-secondary" onclick="submit_form(1)">Save as Draft</button>
+                      <button type="button" class="btn-theme-primary btn" onclick="preview_gig()">Preview</button>
+                      <button type="submit" class="btn-theme-primary btn ml-3" onclick="submit_form(1)">Save as Draft</button>
                       <?php
                       if (!$gig) :
                       ?>
@@ -650,6 +673,9 @@
   <script>
     function submit_form(val) {
       $('#is_draft').val(val);
+    }
+    function preview_gig() {
+      alert('Form Preview')
     }
     $(document).ready(function() {
 
@@ -729,7 +755,7 @@
         var label = $(this).parents(div).find('.tier_bundles label');
         label.removeClass('d-none');
         var div = $(this).parents(div).find('.tier_bundles .row');
-        var foo =  "<?php echo user_asset_url(); ?>images/icons/img-plus.png";
+        var foo = "<?php echo user_asset_url(); ?>images/icons/img-plus.png";
         div.append(
           '<div class="col-md-4">' +
           '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>' +

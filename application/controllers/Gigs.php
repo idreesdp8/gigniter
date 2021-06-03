@@ -68,7 +68,28 @@ class Gigs extends CI_Controller
 		$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
 		$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
 		$gig->images = $this->gigs_model->get_gig_gallery_images($id);
+		if ($gig->start_time && $gig->end_time) {
+			$start_time = new DateTime($gig->start_time);
+			$end_time = new DateTime($gig->end_time);
+			$duration = $end_time->diff($start_time);
+			$gig->duration = $duration->format('%h hrs %i mins');
+		} else {
+			$gig->duration = 'NA';
+		}
 		$data['gig'] = $gig;
+		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
+		foreach ($tiers as $tier) {
+			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+			$tier->image = '';
+			if ($tier->bundles) {
+				foreach ($tier->bundles as $bundle) {
+					if ($tier->image == '') {
+						$tier->image = $bundle->image;
+					}
+				}
+			}
+		}
+		$data['tiers'] = $tiers;
 		$data['stream_details'] = $this->gigs_model->get_stream_details($id);
 		// echo json_encode($data);die();
 		$this->load->view('frontend/gigs/detail', $data);
@@ -79,9 +100,9 @@ class Gigs extends CI_Controller
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
-			// echo json_encode($data);
-			// echo json_encode($files);
-			// die();
+			echo json_encode($data);
+			echo json_encode($files);
+			die();
 			$user_image = [];
 			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 				$user_image = $_FILES['image'];
@@ -101,6 +122,9 @@ class Gigs extends CI_Controller
 				$this->session->set_flashdata('error_msg', 'Error: while adding gig!');
 				redirect('gigs/add');
 			} else {
+
+				
+				$this->update_user_data($data, $user_image, $this->dbs_user_id);
 
 				$prf_img_error = '';
 				$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
@@ -164,7 +188,6 @@ class Gigs extends CI_Controller
 				);
 				// echo json_encode($datas);
 				// die();
-				$this->update_user_data($data, $user_image, $this->dbs_user_id);
 				// die();
 				$res = $this->gigs_model->insert_gig_data($datas);
 
@@ -189,15 +212,18 @@ class Gigs extends CI_Controller
 				// echo json_encode($response);
 			}
 		} else {
-			if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
-				$data['gig'] = $this->gigs_model->check_gig_by_user_id($this->dbs_user_id);
+			// if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
+
+				$data['gig'] = isset($this->dbs_user_id) ? $this->gigs_model->check_gig_by_user_id($this->dbs_user_id) : false;
 				// echo json_encode($gig);
 				// die();
 				// if($gig){
 				// 	$this->session->set_flashdata('warning_msg', 'You already have a gig waiting for approval');
 				// 	redirect('my_gigs');
 				// }
-				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+				if(isset($this->dbs_user_id)) {
+					$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
+				}
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 				$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
@@ -213,26 +239,26 @@ class Gigs extends CI_Controller
 				// echo json_encode($data['link']);
 				// die();
 				$this->load->view('frontend/gigs/create', $data);
-			} else {
-				$uri = uri_string();
-				$this->session->set_userdata('redirect', $uri);
-				redirect('login');
-			}
+			// } else {
+			// 	$uri = uri_string();
+			// 	$this->session->set_userdata('redirect', $uri);
+			// 	redirect('login');
+			// }
 		}
 	}
 
 	function create_channel($title, $gig_id)
 	{
 		$channel_name = str_replace(' ', '_', $title);
-        require 'amazonivs/aws-autoloader.php';
-        $ivs = new Aws\IVS\IVSClient([
-            'version' => $this->config->item('version'),
-            'region' => $this->config->item('region'),
-            'credentials' => [
-                'key'    => $this->config->item('amazon_key'),
-                'secret' => $this->config->item('amazon_secret'),
-            ],
-        ]);
+		require 'amazonivs/aws-autoloader.php';
+		$ivs = new Aws\IVS\IVSClient([
+			'version' => $this->config->item('version'),
+			'region' => $this->config->item('region'),
+			'credentials' => [
+				'key'    => $this->config->item('amazon_key'),
+				'secret' => $this->config->item('amazon_secret'),
+			],
+		]);
 		$result = $ivs->createChannel([
 			'name' => $channel_name
 		]);
@@ -240,7 +266,7 @@ class Gigs extends CI_Controller
 		$streamKey = $result->get('streamKey');
 		$data['channel_arn'] = $channel['arn'];
 		$data['playback_url'] = $channel['playbackUrl'];
-		$data['stream_url'] = 'rtmps://'.$channel['ingestEndpoint'].':443/app/';
+		$data['stream_url'] = 'rtmps://' . $channel['ingestEndpoint'] . ':443/app/';
 		$data['stream_arn'] = $streamKey['arn'];
 		$data['stream_key'] = $streamKey['value'];
 		$data['gig_id'] = $gig_id;
@@ -437,10 +463,10 @@ class Gigs extends CI_Controller
 					'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 				);
-				if($data['goal']){
+				if ($data['goal']) {
 					$datas['ticket_limit'] = $data['goal'];
 				}
-				if($data['title']){
+				if ($data['title']) {
 					$datas['title'] = $data['title'];
 				}
 
@@ -785,7 +811,7 @@ class Gigs extends CI_Controller
 				];
 				$category = $this->configurations_model->get_configuration_by_key_value($args2);
 				$gig->category_name = $category->label;
-				if($gig->gig_date){
+				if ($gig->gig_date) {
 					$gig_date = new DateTime($gig->gig_date);
 					$interval = $gig_date->diff($now);
 					$gig->days_left = $interval->format('%a');
@@ -858,19 +884,19 @@ class Gigs extends CI_Controller
 
 	function add_gallery($id = '')
 	{
-		if($_POST || $_FILES) {
+		if ($_POST || $_FILES) {
 			$gig_id = $this->input->post('id');
-			if($_FILES) {
+			if ($_FILES) {
 				foreach ($_FILES["images"]["tmp_name"] as $key => $tmp_name) {
-					if($_FILES["images"]["tmp_name"][$key] !== ''){
+					if ($_FILES["images"]["tmp_name"][$key] !== '') {
 						$image_path = gig_images_relative_path();
 						$imagename = $gig_id . hrtime(true) . $this->general_model->fileExists($_FILES["images"]["name"][$key], $image_path);
 						$target_file = $image_path . $imagename;
 						@move_uploaded_file($_FILES["images"]["tmp_name"][$key], $target_file);
-						
+
 						$data[] = [
 							'gig_id' => $gig_id,
-							'image'=>$imagename
+							'image' => $imagename
 						];
 					}
 				}
@@ -878,13 +904,13 @@ class Gigs extends CI_Controller
 				// echo json_encode($prev_images);
 				// echo json_encode($gig_id);
 				// die();
-				foreach($prev_images as $prev) {
+				foreach ($prev_images as $prev) {
 					@unlink("downloads/gig_images/$prev->image");
 				}
 				$this->gigs_model->remove_gig_gallery_images($gig_id);
 			}
 			$res = $this->gigs_model->add_gig_gallery_images($data);
-			if($res) {
+			if ($res) {
 				$this->session->set_flashdata('success_msg', 'Gig images uploaded successfully!');
 			} else {
 				$this->session->set_flashdata('error_msg', 'Error: Gig images could not be uploaded!');
