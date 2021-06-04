@@ -76,12 +76,12 @@ class Gigs extends CI_Controller
 		} else {
 			$gig->duration = 'NA';
 		}
+		$buyers = array();
 		$res = $this->gigs_model->get_gig_buyers($id);
 		foreach($res as $k=>$v) {
 			$buyers[] = $v->user_id;
 		}
-		echo json_encode($buyers);
-		die();
+		$gig->buyers = $buyers;
 		$data['gig'] = $gig;
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
 		foreach ($tiers as $tier) {
