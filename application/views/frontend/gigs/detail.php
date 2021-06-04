@@ -166,7 +166,7 @@
                                                 <div class="w-100 text-white">
                                                   <h1 class="display-3">Video Header</h1>
                                                   <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
-                                                  <button style="width:150px;" type="button" class="btn btn-primary m-2">Primary</button>
+                                                  <button style="width:150px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Primary</button>
                                                 </div>
                                               </div>
                                             </div>
