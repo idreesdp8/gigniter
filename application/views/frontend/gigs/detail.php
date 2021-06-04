@@ -221,12 +221,16 @@
                             <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
                         </div>
                     </div>
+                    <?php
+                    $url = rawurlencode(user_base_url() . 'gigs/detail?gig=' . $gig->id);
+                    $imgurl = rawurlencode($gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg');
+                    ?>
                     <div class="mb-3">
                         <ul class="social-share">
-                            <li><a href="http://www.facebook.com/sharer.php?u=<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="http://twitter.com/share?url=<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="http://pinterest.com/pin/create/button/?url=<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>"><i class="fab fa-pinterest-p"></i></a></li>
-                            <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo user_base_url().'gigs/detail?gig='.$gig->id ?>"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a onclick="window.open('https://www.facebook.com/sharer.php?u=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.facebook.com/sharer.php?u=<?php echo $url ?>"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a onclick="window.open('https://twitter.com/share?url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://twitter.com/share?url=<?php echo $url ?>"><i class="fab fa-twitter"></i></a></li>
+                            <li><a onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $url ?>&media=<?php echo $imgurl; ?>&description=<?php echo $gig->title ?>','sharer','width=500,height=700'); return false;" href="https://pinterest.com/pin/create/button/?url=<?php echo $url ?>"><i class="fab fa-pinterest-p"></i></a></li>
+                            <li><a onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>"><i class="fab fa-linkedin-in"></i></a></li>
                         </ul>
                     </div>
                     <?php
@@ -256,6 +260,7 @@
                                                         </div>
                                                         <div class="cast-content">
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
+                                                            <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity; echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                         </div>
                                                     </div>
@@ -507,7 +512,7 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('.cast-prev, .cast-next').on('mouseover', function() {
                 console.log($(this).parents('.item').children('.owl-carousel'));
                 $(this).parents('.item').children('.owl-carousel').trigger('stop.owl.autoplay');
