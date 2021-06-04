@@ -220,6 +220,55 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .file-dimension {
 	margin-bottom: 0 !important;
 }
+#wrapper-video {
+  position: relative;
+  background-color: black;
+  height: 75vh;
+  min-height: 25rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+#wrapper-video video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#wrapper-video .container {
+  position: relative;
+  z-index: 2;
+}
+
+#wrapper-video .overlay-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+@media (pointer: coarse) and (hover: none) {
+  #wrapper-video {
+    background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+  }
+  #wrapper-video video {
+    display: none;
+  }
+}
+
 
 @media only screen and (max-width: 600px) {
 	#gig_poster {

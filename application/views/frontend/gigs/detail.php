@@ -142,9 +142,41 @@
                 <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details ? $stream_details->stream_url : 'NA' ?></p>
                 <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details ? $stream_details->stream_key : 'NA' ?></p>
                 <!-- </div> -->
+
+
+
+
+
+
+
             <?php
             endif;
             ?>
+
+
+                        <div class="row mt-5 mb-5">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div id="wrapper-video">
+                                <div class="overlay-video"></div>
+                                  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                      <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+                                        </video>
+                                          <div class="container h-100">
+                                              <div class="d-flex h-100 text-center align-items-center">
+                                                <div class="w-100 text-white">
+                                                  <h1 class="display-3">Video Header</h1>
+                                                  <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
+                                                  <button style="width:150px;" type="button" class="btn btn-primary m-2">Primary</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+
+
             <?php
             if ($gig->images) :
             ?>
