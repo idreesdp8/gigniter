@@ -13,6 +13,8 @@
 
         .detail_image_holder img {
             height: 100%;
+            width: 100%;
+            object-fit: cover;
         }
 
         .gallery_image {
@@ -178,14 +180,6 @@
                             endforeach;
                             ?>
                         </div>
-                        <!-- <div class="speaker-prev3 speaker-prev">
-                            <img src="<?php echo user_asset_url(); ?>images/icons/arrow-left.png">
-                        </div>
-                        <div class="speaker-next3 speaker-next">
-                            <img src="<?php echo user_asset_url(); ?>images/icons/arrow-right.png">
-                        </div> -->
-
-                        <!-- </div> -->
                     <?php
                     endif;
                     ?>
@@ -219,21 +213,19 @@
                                                     <div class="cast-next"><i class="flaticon-double-right-arrows-angles"></i></div>
                                                 </div>
                                             </div>
-                                            <div class="casting-slider owl-crousal">
+                                            <div class="casting-slider owl-carousel">
                                                 <?php
                                                 foreach ($tiers as $tier) :
                                                 ?>
-                                                    <div class="cast-item">
-                                                        <div class="cast-item mb-2">
-                                                            <div class="cast-thumb tier-cast-thumb">
-                                                                <a href="#0">
-                                                                    <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
-                                                                </a>
-                                                            </div>
-                                                            <div class="cast-content">
-                                                                <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
-                                                                <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
-                                                            </div>
+                                                    <div class="cast-item mb-2">
+                                                        <div class="cast-thumb tier-cast-thumb">
+                                                            <a href="#0">
+                                                                <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cast-content">
+                                                            <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
+                                                            <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                         </div>
                                                     </div>
                                                 <?php
@@ -484,6 +476,16 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
+        $(document).ready(function(){
+            $('.cast-prev, .cast-next').on('mouseover', function() {
+                console.log($(this).parents('.item').children('.owl-carousel'));
+                $(this).parents('.item').children('.owl-carousel').trigger('stop.owl.autoplay');
+            });
+            $('.cast-prev, .cast-next').on('mouseleave', function() {
+                console.log($(this).parents('.item').children('.owl-carousel'));
+                $(this).parents('.item').children('.owl-carousel').trigger('play.owl.autoplay');
+            });
+        })
         $('.detailpage-crousal').owlCarousel({
             rewind: true,
             autoplay: true,
@@ -510,8 +512,7 @@
                 }
             }
         });
-        $('.owl-crousal').owlCarousel({
-            loop: ($(this).find('.owl-item')).length > 2,
+        $('.owl-carousel').owlCarousel({
             rewind: true,
             autoplay: true,
             dots: false,
