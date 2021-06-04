@@ -205,6 +205,7 @@ class Gigs_model extends CI_Model
 
 	function get_gig_buyers($gig_id)
 	{
+		$this->db->select('user_id');
 		$query = $this->db->get_where('bookings', array('gig_id' => $gig_id));
 		return $query->result();
 	}
