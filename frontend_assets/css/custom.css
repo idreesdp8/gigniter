@@ -229,7 +229,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   overflow: hidden;
 }
 
-#wrapper-video video {
+#wrapper-video video, #wrapper-video img  {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -243,6 +243,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
+
 
 #wrapper-video .container {
   position: relative;

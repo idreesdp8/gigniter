@@ -203,7 +203,8 @@
                                 <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
                                     <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
                                 </video> -->
-                                <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                     <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+
                                 <div class="container h-100">
                                     <div class="d-flex h-100 text-center align-items-center">
                                         <div class="w-100 text-white">
