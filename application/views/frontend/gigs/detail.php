@@ -152,31 +152,11 @@
             <?php
             endif;
             ?>
+            <!-- <div class="row mt-5 mb-5">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-
-                        <div class="row mt-5 mb-5">
-                          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div id="wrapper-video">
-                                <div class="overlay-video"></div>
-                                  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                                      <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
-                                        </video>
-                                          <div class="container h-100">
-                                              <div class="d-flex h-100 text-center align-items-center">
-                                                <div class="w-100 text-white">
-                                                  <h1 class="display-3">Video Header</h1>
-                                                  <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
-                                                  <button style="width:150px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Primary</button>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-
-
-
+                </div>
+            </div> -->
             <?php
             if ($gig->images) :
             ?>
@@ -218,7 +198,22 @@
 
                     <div class="post-item post-details">
                         <div class="post-thumb">
-                            <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                            <div id="wrapper-video">
+                                <div class="overlay-video"></div>
+                                <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                    <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+                                </video> -->
+                                <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                                <div class="container h-100">
+                                    <div class="d-flex h-100 text-center align-items-center">
+                                        <div class="w-100 text-white">
+                                            <h1 class="display-3">Video Header</h1>
+                                            <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
+                                            <button style="width:150px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Primary</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <?php
@@ -260,7 +255,8 @@
                                                         </div>
                                                         <div class="cast-content">
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
-                                                            <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity; echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
+                                                            <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
+                                                                                                            echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                         </div>
                                                     </div>
