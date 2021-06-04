@@ -194,26 +194,35 @@
                         </div>
                     <?php
                     endif;
+                    $this->dbs_user_id = $this->session->userdata('us_id');
                     ?>
 
                     <div class="post-item post-details">
                         <div class="post-thumb">
                             <div id="wrapper-video">
-                                <div class="overlay-video"></div>
-                                <!-- <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                                    <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
-                                </video> -->
-                     <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
-
-                                <div class="container h-100">
-                                    <div class="d-flex h-100 text-center align-items-center">
-                                        <div class="w-100 text-white">
-                                            <h1 class="display-3">Video Header</h1>
-                                            <p class="lead mb-0">With HTML5 Video and Bootstrap 4</p>
-                                            <button style="width:150px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Primary</button>
+                                <?php if () : ?>
+                                    <div class="overlay-video"></div>
+                                <?php
+                                endif;
+                                if (isset($gig->video)) : ?>
+                                    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                        <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+                                    </video>
+                                <?php else : ?>
+                                    <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                                <?php
+                                endif;
+                                if (false) : ?>
+                                    <div class="container h-100">
+                                        <div class="d-flex h-100 text-center align-items-center">
+                                            <div class="w-100 text-white">
+                                                <h1 class="display-3">The Gig is ON!</h1>
+                                                <p class="lead mb-0">Join Here</p>
+                                                <button style="width:250px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Book your spot</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

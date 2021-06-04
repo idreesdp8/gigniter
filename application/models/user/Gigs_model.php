@@ -203,6 +203,12 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
+	function get_gig_buyers($gig_id)
+	{
+		$query = $this->db->get_where('bookings', array('gig_id' => $gig_id));
+		return $query->result();
+	}
+
 	function insert_gig_data($data)
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;
