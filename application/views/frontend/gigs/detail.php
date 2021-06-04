@@ -190,8 +190,8 @@
                         </div>
                     </div>
                     <?php
-                    $url = rawurlencode(user_base_url().'gigs/detail?gig='.$gig->id);
-                    $imgurl= rawurlencode($gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg');
+                    $url = rawurlencode(user_base_url() . 'gigs/detail?gig=' . $gig->id);
+                    $imgurl = rawurlencode($gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg');
                     ?>
                     <div class="mb-3">
                         <ul class="social-share">
@@ -228,6 +228,7 @@
                                                         </div>
                                                         <div class="cast-content">
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
+                                                            <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity; echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                         </div>
                                                     </div>
@@ -479,7 +480,7 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('.cast-prev, .cast-next').on('mouseover', function() {
                 console.log($(this).parents('.item').children('.owl-carousel'));
                 $(this).parents('.item').children('.owl-carousel').trigger('stop.owl.autoplay');
