@@ -195,15 +195,12 @@
                     <?php
                     endif;
                     $this->dbs_user_id = $this->session->userdata('us_id');
-                    echo $this->dbs_user_id;
-                    echo json_encode($gig->buyers);
-                    echo in_array($this->dbs_user_id, $gig->buyers);
                     ?>
 
                     <div class="post-item post-details">
                         <div class="post-thumb">
                             <div id="wrapper-video">
-                                <?php if ($this->dbs_user_id && in_array($this->dbs_user_id, $gig->buyers)) : ?>
+                                <?php if (!$this->dbs_user_id || ($this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
                                     <div class="overlay-video"></div>
                                 <?php
                                 endif;
@@ -215,7 +212,7 @@
                                     <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
                                 <?php
                                 endif;
-                                if ($this->dbs_user_id && in_array($this->dbs_user_id, $gig->buyers)) : ?>
+                                if (!$this->dbs_user_id || ($this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
                                     <div class="container h-100">
                                         <div class="d-flex h-100 text-center align-items-center">
                                             <div class="w-100 text-white">
