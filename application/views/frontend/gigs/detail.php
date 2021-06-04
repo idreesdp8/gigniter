@@ -26,9 +26,11 @@
             display: inline;
             padding: 5px 10px;
         }
+
         .tier-cast-thumb {
             width: 200px !important;
         }
+
         .owl-nav.disabled {
             display: none;
         }
@@ -221,15 +223,17 @@
                                                 <?php
                                                 foreach ($tiers as $tier) :
                                                 ?>
-                                                    <div class="cast-item mb-2">
-                                                        <div class="cast-thumb tier-cast-thumb">
-                                                            <a href="#0">
-                                                                <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
-                                                            </a>
-                                                        </div>
-                                                        <div class="cast-content">
-                                                            <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
-                                                            <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                                    <div class="cast-item">
+                                                        <div class="cast-item mb-2">
+                                                            <div class="cast-thumb tier-cast-thumb">
+                                                                <a href="#0">
+                                                                    <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
+                                                                </a>
+                                                            </div>
+                                                            <div class="cast-content">
+                                                                <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
+                                                                <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 <?php
@@ -507,6 +511,7 @@
             }
         });
         $('.owl-crousal').owlCarousel({
+            loop: ($(this).find('.owl-item')).length > 2,
             rewind: true,
             autoplay: true,
             dots: false,
