@@ -189,12 +189,15 @@
                             <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
                         </div>
                     </div>
-                    <?php $url = rawurlencode(user_base_url().'gigs/detail?gig='.$gig->id); ?>
+                    <?php
+                    $url = rawurlencode(user_base_url().'gigs/detail?gig='.$gig->id);
+                    $imgurl= rawurlencode($gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg');
+                    ?>
                     <div class="mb-3">
                         <ul class="social-share">
                             <li><a onclick="window.open('https://www.facebook.com/sharer.php?u=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.facebook.com/sharer.php?u=<?php echo $url ?>"><i class="fab fa-facebook-f"></i></a></li>
                             <li><a onclick="window.open('https://twitter.com/share?url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://twitter.com/share?url=<?php echo $url ?>"><i class="fab fa-twitter"></i></a></li>
-                            <li><a onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://pinterest.com/pin/create/button/?url=<?php echo $url ?>"><i class="fab fa-pinterest-p"></i></a></li>
+                            <li><a onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $url ?>&media=<?php echo $imgurl; ?>&description=<?php echo $gig->title ?>','sharer','width=500,height=700'); return false;" href="https://pinterest.com/pin/create/button/?url=<?php echo $url ?>"><i class="fab fa-pinterest-p"></i></a></li>
                             <li><a onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>"><i class="fab fa-linkedin-in"></i></a></li>
                         </ul>
                     </div>
