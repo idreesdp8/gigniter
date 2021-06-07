@@ -106,7 +106,7 @@ class Gigs_model extends CI_Model
 		if (array_key_exists("from", $params)) {
 			$from = $params['from'];
 			if($from) {
-				$whrs .= " AND date(gig_date) >= CURDATE()";
+				$whrs .= " AND date(gig_date) > CURDATE()";
 			} else {
 				$whrs .= " AND date(gig_date) <= CURDATE()";
 			}

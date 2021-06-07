@@ -200,7 +200,7 @@
                     <div class="post-item post-details mb-1">
                         <div class="post-thumb">
                             <div id="wrapper-video">
-                                <?php if (!$this->dbs_user_id || ($this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
+                                <?php if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
                                     <div class="overlay-video"></div>
                                 <?php
                                 endif;
@@ -212,7 +212,7 @@
                                     <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
                                 <?php
                                 endif;
-                                if (!$this->dbs_user_id || ($this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
+                                if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
 
                                     <div class=" container h-100 particlesContainer">
                                         <div class="d-flex h-100 text-center align-items-center">
@@ -225,7 +225,7 @@
                                     </div>
 
                                 <?php endif; ?>
-                                        <div class="reactions-onfeed"></div>
+                                <div class="reactions-onfeed"></div>
                             </div>
                         </div>
                     </div>
@@ -234,25 +234,28 @@
                     $imgurl = rawurlencode($gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg');
                     ?>
                     <div class="row">
-                      <div class="col-lg-6 col-md-6 col-12 mb-3 text-lg-left text-center">
-                          <ul class="social-share">
-                              <li class="padding-5-10"><a onclick="window.open('https://www.facebook.com/sharer.php?u=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.facebook.com/sharer.php?u=<?php echo $url ?>"><i class="fab fa-facebook-f"></i></a></li>
-                              <li class="padding-5-10"><a onclick="window.open('https://twitter.com/share?url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://twitter.com/share?url=<?php echo $url ?>"><i class="fab fa-twitter"></i></a></li>
-                              <li class="padding-5-10"><a onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $url ?>&media=<?php echo $imgurl; ?>&description=<?php echo $gig->title ?>','sharer','width=500,height=700'); return false;" href="https://pinterest.com/pin/create/button/?url=<?php echo $url ?>"><i class="fab fa-pinterest-p"></i></a></li>
-                              <li class="padding-5-10"><a onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>"><i class="fab fa-linkedin-in"></i></a></li>
-                          </ul>
-                            </div>
-                          <div class="col-lg-6 col-md-6 col-12 text-lg-right text-center">
-                            <div class="reactions-live d-inline-flex">
-                              <p  data-emoji="thumbs-up" class="noselect like-emoji emoji-starter selector-reactions mr-2 reactions-btn mb-0">
-                              <i class="like-blue fas fa-thumbs-up mr-2"></i><span>like</span>
-                              </p>
-                              <p  data-emoji="heart" class="noselect emoji-starter heart mr-2 reactions-btn mb-0">
-                                <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>
-                              </p>
+                        <div class="col-lg-6 col-md-6 col-12 mb-3 text-lg-left text-center">
+                            <ul class="social-share">
+                                <li class="padding-5-10"><a onclick="window.open('https://www.facebook.com/sharer.php?u=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.facebook.com/sharer.php?u=<?php echo $url ?>"><i class="fab fa-facebook-f"></i></a></li>
+                                <li class="padding-5-10"><a onclick="window.open('https://twitter.com/share?url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://twitter.com/share?url=<?php echo $url ?>"><i class="fab fa-twitter"></i></a></li>
+                                <li class="padding-5-10"><a onclick="window.open('https://pinterest.com/pin/create/button/?url=<?php echo $url ?>&media=<?php echo $imgurl; ?>&description=<?php echo $gig->title ?>','sharer','width=500,height=700'); return false;" href="https://pinterest.com/pin/create/button/?url=<?php echo $url ?>"><i class="fab fa-pinterest-p"></i></a></li>
+                                <li class="padding-5-10"><a onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>','sharer','width=500,height=700'); return false;" href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $url ?>"><i class="fab fa-linkedin-in"></i></a></li>
+                            </ul>
+                        </div>
 
-                              </div>
-                          </div>
+                        <?php if ($gig->status == 2) : ?>
+                            <div class="col-lg-6 col-md-6 col-12 text-lg-right text-center">
+                                <div class="reactions-live d-inline-flex">
+                                    <p data-emoji="thumbs-up" class="noselect like-emoji emoji-starter selector-reactions mr-2 reactions-btn mb-0">
+                                        <i class="like-blue fas fa-thumbs-up mr-2"></i><span>like</span>
+                                    </p>
+                                    <p data-emoji="heart" class="noselect emoji-starter heart mr-2 reactions-btn mb-0">
+                                        <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
 
                     </div>
@@ -545,39 +548,47 @@
 
             // ---------- PARAMETERS ---------
 
-            var randomSpeeds = function(){ return getRandomInteger(1000, 3000) } // The lower, the faster
+            var randomSpeeds = function() {
+                return getRandomInteger(1000, 3000)
+            } // The lower, the faster
             var delay = 50 // The higher, the more delay
             var startScreenPercentage = 0.70 // starts from 70% of the screen...
             var endScreenPercentage = 0.97 // ...till 100% (end) of the screen
             // -------------------------------
             // Generates a random integer between the min and max
-            var getRandomInteger = function(min, max){
-              return Math.floor(Math.random() * (max-min+1)) + min
+            var getRandomInteger = function(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min
             }
 
             var fbReactions = ['angry', 'sad', 'surprise', 'happy', 'shy']
             var interval
 
-  $('.heart').on('click', function(event){
-      $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="heart-red fas fa-heart mr-2"></i></p>')
-  })
-  $('.like-emoji').on('click', function(event){
-      $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="like-blue fas fa-thumbs-up mr-2"></i></p>')
-  })
-            $('.emoji-starter').on('click', function(event){
-              interval = setInterval(function(){
-                var emojiName = $(event.target).parent().data("emoji")
-              //  $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="like-blue fas fa-'+ emojiName +' mr-2"></i></p>')
-                $('.particle').toArray().forEach(function(particle){
-                  var bounds = getRandomInteger($('.reactions-onfeed').width() * startScreenPercentage, $('.reactions-onfeed').width() * endScreenPercentage)
-                  $(particle).animate({ left: bounds, right: bounds}, delay, function(){
-                    $(particle).animate({ top: '-100%', opacity: 0}, randomSpeeds() , function(){
-                      $(particle).remove()
-                    })
-                  })
-                }) /* forEach particle Loop close*/
-                clearInterval(interval)
-              }, 1 ) /* setInterval close*/
+            $('.heart').on('click', function(event) {
+                $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="heart-red fas fa-heart mr-2"></i></p>')
+            })
+            $('.like-emoji').on('click', function(event) {
+                $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="like-blue fas fa-thumbs-up mr-2"></i></p>')
+            })
+            $('.emoji-starter').on('click', function(event) {
+                interval = setInterval(function() {
+                    var emojiName = $(event.target).parent().data("emoji")
+                    //  $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="like-blue fas fa-'+ emojiName +' mr-2"></i></p>')
+                    $('.particle').toArray().forEach(function(particle) {
+                        var bounds = getRandomInteger($('.reactions-onfeed').width() * startScreenPercentage, $('.reactions-onfeed').width() * endScreenPercentage)
+                        $(particle).animate({
+                            left: bounds,
+                            right: bounds
+                        }, delay, function() {
+                            $(particle).animate({
+                                top: '-100%',
+                                opacity: 0
+                            }, randomSpeeds(), function() {
+                                $(particle).remove()
+                            })
+                        })
+                    }) /* forEach particle Loop close*/
+                    clearInterval(interval)
+                }, 1) /* setInterval close*/
             })
 
 
