@@ -86,7 +86,7 @@ class Gigs_model extends CI_Model
 
 	function get_popular_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() ORDER BY popularity DESC, created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() ORDER BY popularity DESC, created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
