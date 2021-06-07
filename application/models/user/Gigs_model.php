@@ -165,8 +165,8 @@ class Gigs_model extends CI_Model
 
 	function get_now_showing_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE gig_date = CURDATE() AND CURTIME() BETWEEN start_time AND end_time AND status = ?";
-		$query = $this->db->query($sql, array(1));
+		$sql = "SELECT * FROM gigs WHERE status = ?";
+		$query = $this->db->query($sql, array(2));
 		return $query->result();
 	}
 

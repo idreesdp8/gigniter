@@ -668,7 +668,8 @@
 
   <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
   <?php $this->load->view('frontend/layout/scripts'); ?>
-  <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
+  <!-- <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script> -->
+  <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
     function submit_form(val) {
