@@ -574,7 +574,7 @@
             $('.carousel-inner').children().first().addClass('active');
 
             $('.owl-carousel').each(function() {
-                if ($(this).find('.owl-item').length < 3) {
+                if ($(this).find('.owl-item').length < 4) {
                     $(this).parent().find('.speaker-prev').addClass('d-none');
                     $(this).parent().find('.speaker-next').addClass('d-none');
                 }
