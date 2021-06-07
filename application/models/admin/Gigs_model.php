@@ -15,7 +15,12 @@ class Gigs_model extends CI_Model
 		return true;
 	}
 
-
+	function get_all_active_gigs()
+	{
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
 
 	function get_all_filter_gigs($params = array())
 	{

@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <div class="row m-0">
+                        <div class="row mx-0">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>From:</label>
@@ -41,6 +41,10 @@
                                         <option value="0">Past Gigs</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-2 text-center align-self-center">
+                            <a href="<?php echo user_base_url().'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
                             </div>
                         </div>
                         <table class="table table-striped datatable-basic">

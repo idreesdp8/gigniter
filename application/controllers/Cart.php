@@ -203,7 +203,7 @@ class Cart extends CI_Controller
 	{
 		// // $this->cart->destroy();
 		$cart_items = $this->cart->contents();
-		
+
 		foreach ($cart_items as $item) {
 			$gig_id = $item['gig_id'];
 		}
@@ -272,9 +272,9 @@ class Cart extends CI_Controller
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
-					while($item['qty']){
+					while ($item['qty']) {
 						$ticket_params[] = [
-							'ticket_no' => $user_id.'_'.$item['gig_id'].'_'.$res.'_'.$item['ticket_tier_id'].'_'.$i,
+							'ticket_no' => $user_id . '_' . $item['gig_id'] . '_' . $res . '_' . $item['ticket_tier_id'] . '_' . $i,
 							'gig_id' => $item['gig_id'],
 							'ticket_tier_id' => $item['ticket_tier_id'],
 							'booking_id' => $res,
@@ -287,7 +287,7 @@ class Cart extends CI_Controller
 				$resp = $this->bookings_model->insert_cart_data($cart_params);
 				$this->gigs_model->insert_tickets_data($ticket_params);
 			}
-			
+
 			$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig_id);
 			// $items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
 			// $ticket_bought = 0;
@@ -298,7 +298,7 @@ class Cart extends CI_Controller
 			// die();
 
 			$this->create_customer($token, $email_to, $name, $res);
-			if($ticket_bought->quantity > $threshold->threshold){
+			if ($ticket_bought->quantity > $threshold->threshold) {
 				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
@@ -360,7 +360,7 @@ class Cart extends CI_Controller
 
 		$currency = $this->config->item('stripe_currency');
 		$bookings = $this->bookings_model->get_bookings_by_gig_id($gig_id);
-		foreach($bookings as $booking){
+		foreach ($bookings as $booking) {
 			// echo $booking->customer_stripe_id;
 			// die();
 			$total_charged = $booking->price;
@@ -373,7 +373,7 @@ class Cart extends CI_Controller
 					'order_id' => $booking->booking_no
 				)
 			]);
-			
+
 			$chargeJson = $charge->jsonSerialize();
 			if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 				//order details
@@ -426,7 +426,7 @@ class Cart extends CI_Controller
 						// echo json_encode($transfer);
 						// die();
 					}
-				} 
+				}
 				// else {
 
 				// 	$out['status'] = '2';
@@ -441,7 +441,7 @@ class Cart extends CI_Controller
 				// 	echo json_encode($out);
 				// 	die();
 				// }
-			} 
+			}
 			// else {
 
 			// 	$out['status'] = '3';
@@ -466,9 +466,9 @@ class Cart extends CI_Controller
 			'percentage_per_day_weightage' => 0,
 			'amount_raised_weightage' => 0,
 		];
-		if($weightages){
-			foreach($weightages as $weight) {
-				$data[$weight->label.'_weightage'] = $weight->value;
+		if ($weightages) {
+			foreach ($weightages as $weight) {
+				$data[$weight->label . '_weightage'] = $weight->value;
 			}
 		}
 		// echo json_encode($data);
@@ -505,11 +505,28 @@ class Cart extends CI_Controller
 			'score' => $popularity
 		];
 		$gig_popularity_data = $this->gigs_model->get_gig_popularity_data($gig_id);
-		if($gig_popularity_data) {
+		if ($gig_popularity_data) {
 			$this->gigs_model->delete_gig_popularity_data($gig_id);
 		}
 		$this->gigs_model->insert_gig_popularity_data($gig_popularity);
 		$this->gigs_model->update_gig_data($gig_id, $param);
+	}
+
+	function refresh_popularity()
+	{
+		$gigs = $this->gigs_model->get_all_active_gigs();
+		if ($gigs) {
+			foreach ($gigs as $gig) {
+				$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig->id);
+				$this->calculate_popularity($gig->id, $ticket_bought->quantity);
+			}
+			$this->session->set_flashdata('success_msg', 'Popularity score is updated!');
+		} else {
+			$this->session->set_flashdata('error_msg', 'Problem occured!');
+		}
+		redirect('admin/gigs/popular_gigs');
+		// echo json_encode($gigs);
+		// die();
 	}
 
 	function send_email($to_email, $subject, $email_for)
