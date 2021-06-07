@@ -218,7 +218,7 @@
                                             <div class="w-100 text-white">
                                                 <h1 class="display-3">The Gig is ON!</h1>
                                                 <p class="lead mb-0">Join Here</p>
-                                                <button style="width:250px;border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary m-2">Book your spot</button>
+                                                <a href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>" style="width:250px; border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary mx-auto mt-4">Book your spot</a>
                                             </div>
                                         </div>
                                     </div>
