@@ -165,8 +165,8 @@ class Gigs_model extends CI_Model
 
 	function get_now_showing_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE status = ?";
-		$query = $this->db->query($sql, array(2));
+		$sql = "SELECT * FROM gigs WHERE status = 2";
+		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
