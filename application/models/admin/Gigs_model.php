@@ -74,6 +74,58 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_all_filter_popular_gigs($params = array())
+	{
+		$whrs = '';
+		$sort_by = '';
+		if (array_key_exists("q_val", $params)) {
+			$q_val = $params['q_val'];
+			if (strlen($q_val) > 0) {
+				$whrs .= " AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
+			}
+		}
+		if (array_key_exists("sort_by", $params)) {
+			if($params['sort_by'] == 'just_in'){
+				$sort_by = 'ORDER BY created_on DESC';
+			} else if($params['sort_by'] == 'most_popular'){
+				$sort_by = 'ORDER BY popularity DESC';
+			} else if($params['sort_by'] == 'closing_soon'){
+				$sort_by = 'ORDER BY date(gig_date) ASC';
+			}
+		} else {
+			$sort_by = 'ORDER BY popularity DESC, created_on DESC';
+		}
+		if (array_key_exists("status", $params)) {
+			$status = $params['status'];
+			$whrs .= " AND status='$status'";
+		}
+		if (array_key_exists("is_featured", $params)) {
+			$is_featured = $params['is_featured'];
+			$whrs .= " AND is_featured='$is_featured'";
+		}
+		if (array_key_exists("from", $params)) {
+			$from = $params['from'];
+			if($from) {
+				$whrs .= " AND date(gig_date) >= CURDATE()";
+			} else {
+				$whrs .= " AND date(gig_date) <= CURDATE()";
+			}
+		}
+
+		$limits = '';
+		if (array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$tot_limit =   $params['limit'];
+			$str_limit =   $params['start'];
+			$limits = " LIMIT $str_limit, $tot_limit ";
+		} elseif (!array_key_exists("start", $params) && array_key_exists("limit", $params)) {
+			$tot_limit =   $params['limit'];
+			$limits = " LIMIT $tot_limit ";
+		}
+
+		$query = $this->db->query("SELECT * FROM gigs WHERE id >'0' $whrs $sort_by $limits ");
+		return $query->result();
+	}
+
 
 	function get_all_gigs()
 	{

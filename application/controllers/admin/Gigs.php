@@ -129,7 +129,7 @@ class Gigs extends CI_Controller
 			$data['from'] = $this->input->post('from');
 		}
 		// echo json_encode($data);
-		$gigs = $this->gigs_model->get_all_filter_gigs($data);
+		$gigs = $this->gigs_model->get_all_filter_popular_gigs($data);
 		if($gigs) {
 			foreach ($gigs as $key => $value) {
 				$user = $this->users_model->get_user_by_id($value->user_id);
