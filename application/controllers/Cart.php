@@ -500,8 +500,8 @@ class Cart extends CI_Controller
 		$gig_popularity = [
 			'gig_id' => $gig_id,
 			'date_diff' => $diff,
-			'backers' => $backers,
-			'amount_raised' => $amount_raised->price,
+			'backers' => $backers ?? 0,
+			'amount_raised' => $amount_raised->price ?? 0,
 			'score' => $popularity
 		];
 		$gig_popularity_data = $this->gigs_model->get_gig_popularity_data($gig_id);
