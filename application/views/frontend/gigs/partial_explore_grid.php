@@ -28,6 +28,7 @@ if ($gigs) :
                                     <div class="pie_progress__label">Booked</div>
                                 </div>
                             </div>
+                          
                         </div>
                         <div class="d-flex" style="align-items: flex-start;">
                             <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>

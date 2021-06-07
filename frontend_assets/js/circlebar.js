@@ -14,7 +14,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#31D7A9',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
@@ -42,7 +42,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#EAC542',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
@@ -70,7 +70,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#F6444C',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
@@ -99,7 +99,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#31D7A9',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
@@ -127,7 +127,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#EAC542',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
@@ -155,7 +155,7 @@ jQuery(function ($) {
     speed: 15, // speed of 1/100
     barcolor: '#F6444C',
     barsize: '4',
-    trackcolor: 'transparent',
+    trackcolor: '#808080',
     fillcolor: 'none',
     easing: 'ease',
     numberCallback: function numberCallback(n) {
