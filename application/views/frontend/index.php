@@ -161,7 +161,7 @@
                                                 <h5><?php echo $gig->title ?></h5>
                                                 <h6><?php echo $gig->user_name ?></h6>
                                                 <p><i><?php echo $gig->address ?></i></p>
-                                                <button class="btn btn-warning btn-watch mb-4">Watch now</button>
+                                                <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-watch mb-4">Watch now</a>
                                         </div>
                                     </div>
                                 <?php
