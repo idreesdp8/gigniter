@@ -64,7 +64,7 @@
                         <?php
                         if ($bookings) :
                         ?>
-                            <table class="table text-white table-striped">
+                            <table class="table text-white table-striped custom-table-mobile">
                                 <thead>
                                     <tr>
                                         <th>Order #</th>

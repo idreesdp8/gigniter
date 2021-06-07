@@ -335,12 +335,16 @@ cursor: pointer;
 
 
 @media only screen and (max-width: 600px) {
-	.bundle-pill.pill-warning {
-		background-color: #031e51 !important;
-		color: #fff;
+
+	.custom-table-mobile {
+		table-layout: fixed;
+
+	}
+	.custom-table-mobile th {
+		width: 130px ;
 	}
 	.mob-responsive {
-		width: 100% !important;
+		width: 50px !important;
     margin-bottom: 10px;
 	}
 	.reactions-live, .social-share {
