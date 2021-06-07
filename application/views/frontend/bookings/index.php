@@ -59,7 +59,7 @@
             <?php $this->load->view('alert/alert'); ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="checkout-widget checkout-contact">
+                    <div class="table-responsive checkout-widget checkout-contact">
                         <h5 class="title">Bookings </h5>
                         <?php
                         if ($bookings) :
@@ -102,11 +102,11 @@
                                             </td>
                                             <td><?php echo date('M d, Y H:i A', strtotime($booking->created_on)) ?></td>
                                             <td>
-                                                <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="View order detail" class="btn btn-info"><i class="fa fa-eye"></i></a>
+                                                <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="View order detail" class="btn btn-info mob-responsive"><i class="fa fa-eye"></i></a>
                                                 <?php
                                                 if ($booking->is_paid == 0) :
                                                 ?>
-                                                    <a href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                                    <a href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger mob-responsive"><i class="fa fa-times"></i></a>
                                                 <?php
                                                 endif;
                                                 ?>

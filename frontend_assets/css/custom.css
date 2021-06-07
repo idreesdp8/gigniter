@@ -319,6 +319,7 @@ cursor: pointer;
 }
 
 @media (pointer: coarse) and (hover: none) {
+
   #wrapper-video {
     background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
   }
@@ -334,6 +335,14 @@ cursor: pointer;
 
 
 @media only screen and (max-width: 600px) {
+	.bundle-pill.pill-warning {
+		background-color: #031e51 !important;
+		color: #fff;
+	}
+	.mob-responsive {
+		width: 100% !important;
+    margin-bottom: 10px;
+	}
 	.reactions-live, .social-share {
 		margin-top: 7px;
 	}
