@@ -131,7 +131,7 @@ class Gigs_model extends CI_Model
 
 	function get_just_in_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE status = 1 ORDER BY created_on ASC";
+		$sql = "SELECT * FROM gigs WHERE status = 1 ORDER BY created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -358,5 +358,24 @@ class Gigs_model extends CI_Model
 		$this->db->where('id', $gig_id);
 		return $this->db->update('gigs', $data);
 		// return $campaign_date;
+	}
+
+	function insert_gig_popularity_data($data)
+	{
+		$ress = $this->db->insert('gig_popularity', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
+	function get_gig_popularity_data($gig_id)
+	{
+		$ress = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
+		return $ress;
+	}
+
+	function delete_gig_popularity_data($gig_id)
+	{
+		$this->db->where('gig_id', $gig_id);
+		$this->db->delete('gig_popularity');
+		return true;
 	}
 }

@@ -229,4 +229,12 @@ class Bookings_model extends CI_Model
 		$query = $this->db->get('cart');
 		return $query->row();
 	}
+
+	function get_gig_ticket_bought($gig_id)
+	{
+		$this->db->select_sum('quantity');
+		$this->db->where('gig_id =', $gig_id);
+		$query = $this->db->get('cart');
+		return $query->row();
+	}
 }

@@ -29,7 +29,7 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){
-				$sort_by = 'ORDER BY created_on ASC';
+				$sort_by = 'ORDER BY created_on DESC';
 			} else if($params['sort_by'] == 'most_popular'){
 				$sort_by = 'ORDER BY popularity DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
@@ -86,7 +86,7 @@ class Gigs_model extends CI_Model
 
 	function get_popular_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) >= CURDATE() ORDER BY popularity DESC, created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() ORDER BY popularity DESC, created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -226,5 +226,11 @@ class Gigs_model extends CI_Model
 		$this->db->where('gig_id', $gig_id);
 		$this->db->delete('gig_stream');
 		return true;
+	}
+
+	function get_gig_popularity_data($gig_id)
+	{
+		$ress = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
+		return $ress->row();
 	}
 }

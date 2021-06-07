@@ -222,12 +222,10 @@
                                                 <a href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>" style="width:250px; border: 1px solid #f1c600;" type="button" class="btn-theme-primary btn btn-primary mx-auto mt-4">Book your spot</a>
                                             </div>
                                         </div>
-                                        <div class="reactions-onfeed">
-
-                                                        </div>
                                     </div>
 
                                 <?php endif; ?>
+                                        <div class="reactions-onfeed"></div>
                             </div>
                         </div>
                     </div>
