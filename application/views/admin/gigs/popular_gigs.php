@@ -53,9 +53,9 @@
                                         <!-- <th>Category</th>
                                         <th>Genre</th> -->
                                         <th>Popularity</th>
-                                        <th>Concert Date</th>
-                                        <th>Satus</th>
-                                        <th>Booked</th>
+                                        <th>No. of Backers</th>
+                                        <th>No. of Days</th>
+                                        <th>Amount Raised</th>
                                         <th>Added on</th>
                                         <th>Actions</th>
                                     </tr>
@@ -72,22 +72,9 @@
                                             <!-- <td><?php echo $record->category ?></td>
                                             <td><?php echo $record->genre ?></td> -->
                                             <td><?php echo $record->popularity ?></td>
-                                            <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
-                                            <td>
-                                                <?php
-                                                if ($record->status == 0) :
-                                                    $badge_class = 'badge-danger';
-                                                elseif ($record->status == 1) :
-                                                    $badge_class = 'badge-success';
-                                                elseif ($record->status == 2) :
-                                                    $badge_class = 'badge-primary';
-                                                elseif ($record->status == 3) :
-                                                    $badge_class = 'badge-secondary';
-                                                endif;
-                                                ?>
-                                                <span class="badge <?php echo $badge_class ?>"><?php echo $record->status_label ?></span>
-                                            </td>
-                                            <td><?php echo round($record->booked, 0) ?>%</td>
+                                            <td><?php echo $record->popularity_data->backers ?? 'NA' ?></td>
+                                            <td><?php echo $record->popularity_data->date_diff ?? 'NA' ?></td>
+                                            <td><?php echo $record->popularity_data ? '$'.$record->popularity_data->amount_raised : 'NA' ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">
@@ -127,7 +114,7 @@
             $('.datatable-basic').DataTable({
                 "destroy": true,
                 "ajax": {
-                    "url": base_url + 'gigs/reload_datatable',
+                    "url": base_url + 'gigs/reload_popular_datatable',
                     "type": "POST",
                     "data": {
                         from: from,

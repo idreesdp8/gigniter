@@ -227,4 +227,10 @@ class Gigs_model extends CI_Model
 		$this->db->delete('gig_stream');
 		return true;
 	}
+
+	function get_gig_popularity_data($gig_id)
+	{
+		$ress = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
+		return $ress->row();
+	}
 }
