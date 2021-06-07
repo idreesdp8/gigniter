@@ -243,7 +243,64 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
 }
+.like-blue {
+	color: #037bfe;
+}
+.heart-red {
+	color: #a83f39;
+}
+.angry-red {
+	color: #923d44;
+}
+.reactions-btn {
+	padding: 5px 10px;
+	pointer:cursor;
+}
+.reactions-btn:hover {
+cursor: pointer;
+}
+.reactions-btn:hover span {
+	color: #fff;
+	border-bottom: 1px solid #fff;
+}
+.padding-5-10 {
+	padding: 5px 10px;
+}
 
+.onfeed-like, .onfeed-heart, .onfeed-angry {
+	position: absolute;
+    right: 50px;
+    bottom: 10px;
+    font-size: 25px;
+}
+
+.particlesContainer {
+
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.particle {
+  display: inline-flex;
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: auto;
+}
+
+.emoji-img{
+  width: 40px;
+  height: 40px;
+}
 
 #wrapper-video .container {
   position: relative;
@@ -269,9 +326,20 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
   }
 }
+.social-share {
+	margin-top: 7px;
+	flex: auto;
+
+}
 
 
 @media only screen and (max-width: 600px) {
+	.reactions-live, .social-share {
+		margin-top: 7px;
+	}
+	.reactions-live {
+			margin-bottom: 30px;
+		}
 	#gig_poster {
 		width: 100%;
 		height: auto;
