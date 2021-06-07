@@ -39,13 +39,14 @@
                                         <th>#</th>
                                         <th>User</th>
                                         <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Genre</th>
+                                        <!-- <th>Category</th>
+                                        <th>Genre</th> -->
                                         <th>Concert Date</th>
                                         <th>Satus</th>
                                         <th>Featured</th>
                                         <th>Booked</th>
                                         <th>Added on</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,8 +58,8 @@
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->user_name ?></td>
                                             <td><?php echo $record->title ?></td>
-                                            <td><?php echo $record->category ?></td>
-                                            <td><?php echo $record->genre ?></td>
+                                            <!-- <td><?php echo $record->category ?></td>
+                                            <td><?php echo $record->genre ?></td> -->
                                             <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
                                             <td>
                                                 <?php
@@ -89,6 +90,16 @@
                                             </td>
                                             <td><?php echo round($record->booked, 0) ?>%</td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
+                                                                                                                                                                                ?>><i class="icon-search4"></i></button> -->
+                                                    <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+                                                    <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
+                                                        <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                                                    </form>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <?php
                                         $i++;

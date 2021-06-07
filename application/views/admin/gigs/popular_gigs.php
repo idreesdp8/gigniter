@@ -32,6 +32,17 @@
                     </div>
 
                     <div class="table-responsive">
+                        <div class="row m-0">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>From:</label>
+                                    <select name="from" id="from" class="form-control">
+                                        <option value="1">Current Gigs</option>
+                                        <option value="0">Past Gigs</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <table class="table table-striped datatable-basic">
                             <?php if (isset($records) && count($records) > 0) { ?>
                                 <thead>
@@ -39,13 +50,14 @@
                                         <th>#</th>
                                         <th>User</th>
                                         <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Genre</th>
+                                        <!-- <th>Category</th>
+                                        <th>Genre</th> -->
                                         <th>Popularity</th>
                                         <th>Concert Date</th>
                                         <th>Satus</th>
                                         <th>Booked</th>
                                         <th>Added on</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,8 +69,8 @@
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->user_name ?></td>
                                             <td><?php echo $record->title ?></td>
-                                            <td><?php echo $record->category ?></td>
-                                            <td><?php echo $record->genre ?></td>
+                                            <!-- <td><?php echo $record->category ?></td>
+                                            <td><?php echo $record->genre ?></td> -->
                                             <td><?php echo $record->popularity ?></td>
                                             <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
                                             <td>
@@ -77,6 +89,16 @@
                                             </td>
                                             <td><?php echo round($record->booked, 0) ?>%</td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
+                                                                                                                                                                                ?>><i class="icon-search4"></i></button> -->
+                                                    <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+                                                    <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
+                                                        <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                                                    </form>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <?php
                                         $i++;
@@ -99,10 +121,36 @@
     </div>
 
     <script>
+        function reload_datatable() {
+            var from = $('#from').val();
+            console.log('From ' + from);
+            $('.datatable-basic').DataTable({
+                "destroy": true,
+                "ajax": {
+                    "url": base_url + 'gigs/reload_datatable',
+                    "type": "POST",
+                    "data": {
+                        from: from,
+                    },
+                    dataType: 'json',
+                },
+                dataSrc: function(json) {
+                    console.log(json);
+                    if (json.tableData === null) {
+                        return [];
+                    }
+                    return json.tableData;
+                }
+            }).ajax.reload();
+        }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_popular_gig_view a').addClass('active');
+
+            $('#from', this).change(function() {
+                reload_datatable();
+            });
         });
     </script>
 </body>

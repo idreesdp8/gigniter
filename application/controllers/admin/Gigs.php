@@ -47,6 +47,12 @@ class Gigs extends CI_Controller
 		if ($this->input->post('status') > -1 && $this->input->post('status') != '') {
 			$data['status'] = $this->input->post('status');
 		}
+		if ($this->input->post('is_featured') > -1 && $this->input->post('is_featured') != '') {
+			$data['is_featured'] = $this->input->post('is_featured');
+		}
+		if ($this->input->post('from') > -1 && $this->input->post('from') != '') {
+			$data['from'] = $this->input->post('from');
+		}
 		// echo json_encode($data);
 		$gigs = $this->gigs_model->get_all_filter_gigs($data);
 		if($gigs) {
@@ -86,11 +92,11 @@ class Gigs extends CI_Controller
 							</form>
 						</div>';
 				$result['data'][$key] = array(
-					$key,
+					$key+1,
 					$user_name,
 					$value->title,
-					$category_label,
-					$genre_label,
+					// $category_label,
+					// $genre_label,
 					$value->popularity,
 					$value->gig_date ? date('M d, Y', strtotime($value->gig_date)) : 'NA',
 					$status_html,
@@ -660,6 +666,46 @@ class Gigs extends CI_Controller
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
+	}
+
+	function change_status($status = '')
+	{
+		$code = 'error_msg';
+		$message = 'Error: Gigs status could not be changed!';
+		$res = false;
+		if($status == "2") {
+			$gigs = $this->gigs_model->get_today_gigs();
+			if($gigs) {
+				$data = [
+					'status' => $status
+				];
+				foreach($gigs as $gig){
+					$res = $this->gigs_model->update_gig_data($gig->id, $data);
+				}
+			} else {
+				$code = 'warning_msg';
+				$message = 'No Gigs Found';
+			}
+		} else if($status == '3') {
+			$gigs = $this->gigs_model->get_previous_gigs();
+			if($gigs) {
+				$data = [
+					'status' => $status
+				];
+				foreach($gigs as $gig){
+					$res = $this->gigs_model->update_gig_data($gig->id, $data);
+				}
+			} else {
+				$code = 'warning_msg';
+				$message = 'No Gigs Found';
+			}
+		}
+		if($res) {
+			$code = 'success_msg';
+			$message = 'Gigs status changed!';
+		}
+		$this->session->set_flashdata($code, $message);
+		redirect("admin/gigs");
 	}
 
 	function remove_gig_stream($gig_id)

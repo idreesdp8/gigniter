@@ -5,8 +5,8 @@
                 <th>#</th>
                 <th>User</th>
                 <th>Title</th>
-                <th>Category</th>
-                <th>Genre</th>
+                <!-- <th>Category</th>
+                <th>Genre</th> -->
                 <th>Popularity</th>
                 <th>Concert Date</th>
                 <th>Satus</th>
@@ -25,8 +25,8 @@
                     <td><?php echo $i ?></td>
                     <td><?php echo $record->user_name ?></td>
                     <td><?php echo $record->title ?></td>
-                    <td><?php echo $record->category_label ?></td>
-                    <td><?php echo $record->genre_label ?></td>
+                    <!-- <td><?php echo $record->category_label ?></td>
+                    <td><?php echo $record->genre_label ?></td> -->
                     <td><?php echo $record->popularity ?></td>
                     <td><?php echo $record->gig_date ? date('M d, Y', strtotime($record->gig_date)) : 'NA' ?></td>
                     <td>

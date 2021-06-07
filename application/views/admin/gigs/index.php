@@ -59,7 +59,7 @@
 					</div> -->
 
                     <div class="table-responsive">
-                        <div class="form-group m-auto d-inline-flex align-items-center" style="padding: 20px 20px 0px;">
+                        <!-- <div class="form-group m-auto d-inline-flex align-items-center" style="padding: 20px 20px 0px;">
                             <span class="mr-1">Category:</span>
                             <select name="category" id="category" class="form-control mr-1">
                                 <option value="">Select Option</option>
@@ -86,32 +86,52 @@
                                 endif;
                                 ?>
                             </select>
-                            <span class="mr-1">Status:</span>
-                            <select name="status" id="status" class="form-control mr-1">
-                                <option value="">Select Option</option>
-                                <?php
-                                if ($statuses) :
-                                    foreach ($statuses as $status) :
-                                ?>
-                                        <option value="<?php echo $status->value ?>"><?php echo $status->label ?></option>
-                                <?php
-                                    endforeach;
-                                endif;
-                                ?>
-                            </select>
-                            <span class="mr-1">Featured:</span>
-                            <select name="is_featured" id="is_featured" class="form-control mr-1">
-                                <option value="">Select Option</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            <span class="mr-1">Sort by:</span>
-                            <select name="sort" id="sort" class="form-control">
-                                <option value="">Select Option</option>
-                                <option value="most_popular">Most Popular</option>
-                                <option value="just_in">Just In</option>
-                                <option value="closing_soon">Closing Soon</option>
-                            </select>
+                        </div> -->
+                        <div class="row m-0">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Status:</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <?php
+                                        if ($statuses) :
+                                            foreach ($statuses as $status) :
+                                        ?>
+                                                <option value="<?php echo $status->value ?>"><?php echo $status->label ?></option>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Featured:</label>
+                                    <select name="is_featured" id="is_featured" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Sort by:</label>
+                                    <select name="sort" id="sort" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="most_popular">Most Popular</option>
+                                        <option value="just_in">Just In</option>
+                                        <option value="closing_soon">Closing Soon</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <a type="button" class="btn btn-info w-100" href="<?php echo admin_base_url().'gigs/change_status/2' ?>">Publish Live</a>
+                            </div>
+                            <div class="col-md-2">
+                                <a type="button" class="btn btn-secondary w-100" href="<?php echo admin_base_url().'gigs/change_status/3' ?>">Off Air Concerts</a>
+                            </div>
                         </div>
                         <div id="table">
                             <?php $this->load->view('admin/gigs/index_partial'); ?>
@@ -131,8 +151,10 @@
         function reload_datatable() {
             var sort_by = $('#sort').val();
             var status = $('#status').val();
-            console.log('Status '+ status);
-            console.log('Sort '+ sort_by);
+            var is_featured = $('#is_featured').val();
+            console.log('Status ' + status);
+            console.log('Sort ' + sort_by);
+            console.log('Featured ' + is_featured);
             $('.datatable-custom').DataTable({
                 "destroy": true,
                 "ajax": {
@@ -141,6 +163,7 @@
                     "data": {
                         sort_by: sort_by,
                         status: status,
+                        is_featured: is_featured,
                     },
                     dataType: 'json',
                 },
@@ -171,9 +194,7 @@
             });
 
             $('#is_featured', this).change(function() {
-                if (manageTable.column(8).search() !== this.value) {
-                    manageTable.column(8).search(this.value).draw();
-                }
+                reload_datatable();
             });
             $('#category', this).change(function() {
                 if (manageTable.column(3).search() !== this.value) {

@@ -22,10 +22,10 @@
             <div class="padding-top padding-bottom">
                 <div class="account-area">
                     <div class="section-header-3">
-                        <!-- <span class="cate">welcome</span> -->
-                        <h6>Your Account has been Verified!</h6>
+                        <span class="cate">welcome to gigniter</span>
+                        <!-- <h6>Your Account has been Verified!</h6> -->
                         <div class="form-group text-center">
-                            <a href="<?php echo user_base_url();  ?>" type="button" class="btn btn-primary">Main Page</a>
+                            <a href="<?php echo user_base_url();  ?>" type="button" class="btn-theme-primary btn btn-primary">Home Page</a>
                         </div>
                     </div>
                 </div>
