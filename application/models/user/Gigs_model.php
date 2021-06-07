@@ -131,7 +131,7 @@ class Gigs_model extends CI_Model
 
 	function get_just_in_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE status = 1 ORDER BY created_on ASC";
+		$sql = "SELECT * FROM gigs WHERE status = 1 ORDER BY created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}

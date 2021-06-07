@@ -29,7 +29,7 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){
-				$sort_by = 'ORDER BY created_on ASC';
+				$sort_by = 'ORDER BY created_on DESC';
 			} else if($params['sort_by'] == 'most_popular'){
 				$sort_by = 'ORDER BY popularity DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
