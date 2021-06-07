@@ -59,6 +59,7 @@
                                         <th>Popularity</th>
                                         <th>No. of Backers</th>
                                         <th>No. of Days</th>
+                                        <th>Goal amount</th>
                                         <th>Amount Raised</th>
                                         <th>Added on</th>
                                         <th>Actions</th>
@@ -76,9 +77,10 @@
                                             <!-- <td><?php echo $record->category ?></td>
                                             <td><?php echo $record->genre ?></td> -->
                                             <td><?php echo $record->popularity ?></td>
-                                            <td><?php echo $record->popularity_data->backers ?? 'NA' ?></td>
-                                            <td><?php echo $record->popularity_data->date_diff ?? 'NA' ?></td>
-                                            <td><?php echo $record->popularity_data ? '$'.$record->popularity_data->amount_raised : 'NA' ?></td>
+                                            <td><?php echo $record->popularity_data->backers ?? '0' ?></td>
+                                            <td><?php echo $record->popularity_data->date_diff ?? '0' ?></td>
+                                            <td><?php echo '$'.$record->goal_amount ?></td>
+                                            <td><?php echo $record->popularity_data ? '$'.$record->popularity_data->amount_raised : '$0' ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">

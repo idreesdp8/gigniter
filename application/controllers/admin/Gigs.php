@@ -157,6 +157,7 @@ class Gigs extends CI_Controller
 				$genre_label = $genre->label;
 				$user_name = $user->fname . ' ' . $user->lname;
 				$res = $this->get_tickets_booked_and_left($value);
+				$value->popularity_data = $this->gigs_model->get_gig_popularity_data($value->id);
 				$value->booked = $res['booked'];
 				$value->ticket_left = $res['ticket_left'];
 				$buttons = '
@@ -173,10 +174,10 @@ class Gigs extends CI_Controller
 					// $category_label,
 					// $genre_label,
 					$value->popularity,
-					$value->gig_date ? date('M d, Y', strtotime($value->gig_date)) : 'NA',
-					$status_html,
-					$feature_html,
-					round($res['booked'], 0) . '%',
+					$value->popularity_data->backers ?? '0',
+					$value->popularity_data->date_diff ?? '0',
+					'$'.$value->goal_amount,
+					$value->popularity_data ? '$'.$value->popularity_data->amount_raised : '$0',
 					date('M d, Y', strtotime($value->created_on)),
 					// $paid_status,
 					$buttons
