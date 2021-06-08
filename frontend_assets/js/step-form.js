@@ -159,7 +159,7 @@ $(document).ready(function () {
         // var pattern = /^[0-9]*$/;
         var threshold = $("#threshold").val();
         var goal = $("#goal").val();
-        if (/* pattern.test(threshold) &&  */threshold !== '' && threshold < goal) {
+        if (/* pattern.test(threshold) &&  */threshold !== '' && parseInt(threshold) <= parseInt(goal)) {
             $("#threshold").removeClass("error").addClass("good");
         } else {
             $("#threshold").removeClass("good").addClass("error");
