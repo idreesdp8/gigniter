@@ -36,7 +36,7 @@ class Gigs_model extends CI_Model
 			if($params['sort_by'] == 'just_in'){
 				$sort_by = 'ORDER BY created_on DESC';
 			} else if($params['sort_by'] == 'most_popular'){
-				$sort_by = 'ORDER BY popularity DESC';
+				$sort_by = 'ORDER BY popularity DESC, created_on DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
 				$sort_by = 'ORDER BY date(gig_date) ASC';
 			}
@@ -88,7 +88,7 @@ class Gigs_model extends CI_Model
 			if($params['sort_by'] == 'just_in'){
 				$sort_by = 'ORDER BY created_on DESC';
 			} else if($params['sort_by'] == 'most_popular'){
-				$sort_by = 'ORDER BY popularity DESC';
+				$sort_by = 'ORDER BY popularity DESC, created_on DESC';
 			} else if($params['sort_by'] == 'closing_soon'){
 				$sort_by = 'ORDER BY date(gig_date) ASC';
 			}
