@@ -319,6 +319,7 @@ cursor: pointer;
   z-index: 1;
 }
 
+
 @media (pointer: coarse) and (hover: none) {
 
   #wrapper-video {
@@ -337,12 +338,24 @@ cursor: pointer;
 
 @media only screen and (max-width: 600px) {
 
+	.fixed-button-top {
+		position: fixed;
+		left: 0;
+		top: 82px;
+		width: 100%;
+		z-index: 2;
+		}
+		.custom-item {
+    display: flex;
+    justify-content: flex-end;
+    margin: 30px;
+	}
 	.custom-table-mobile {
-		table-layout: fixed;
+		table-layout: fixed !important;
 
 	}
-	.custom-table-mobile th {
-		width: 130px ;
+	.custom-table-mobile  th {
+		width: 130px !important;
 	}
 	.mob-responsive {
 		width: 50px !important;
