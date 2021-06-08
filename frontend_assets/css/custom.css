@@ -338,6 +338,10 @@ cursor: pointer;
 
 @media only screen and (max-width: 600px) {
 
+#carousel_5 .card-footer .btn-watch, #carousel_4 .card-footer .btn-watch, #carousel_5 .card-footer .btn-watch, #carousel_3 .card-footer .btn-watch {
+	width: auto !important;
+}
+
 	.fixed-button-top {
 		position: fixed;
 		left: 0;
