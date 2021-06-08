@@ -206,7 +206,7 @@
                                 endif;
                                 if (isset($gig->video)) : ?>
                                     <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                                        <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
+                                        <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
                                     </video>
                                 <?php else : ?>
                                     <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">

@@ -12,6 +12,10 @@
     .panel>.active {
       display: block;
     }
+
+    #video {
+      border: 0px;
+    }
   </style>
 </head>
 
@@ -151,7 +155,19 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <label>
+                      Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span>
+                      <!-- or Pitch Video -->
+                      <!-- <div class="gig-poster-wrapper"> -->
+                      <!-- <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a> -->
+                      <input type='file' name="video" id="video" accept="video/*" class="btn btn-primary form-control" />
+                      <!-- <video controls id="video-tag">
+                          <source src="" id="video-source" type="video/*">
+                        </video> -->
+                      <!-- </div> -->
+                    </label>
+                  </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <label>
                       Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
@@ -167,27 +183,27 @@
                   </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                    Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="goal" name="goal" required="required" onchange="preview(this)">
+                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
+                      <input type="number" id="goal" name="goal" required="required" onchange="preview(this)">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="threshold" name="threshold" required="required" onchange="preview(this)">
+                      Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
+                      <input type="number" id="threshold" name="threshold" required="required" onchange="preview(this)">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="goal_amount" name="goal_amount" required="required" onchange="preview(this)">
+                      <input type="number" id="goal_amount" name="goal_amount" required="required" onchange="preview(this)">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
-                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
@@ -215,7 +231,7 @@
                       <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
-                  </div> -->
+                  </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="mycheckbox-contain">
                       <div class="allow-overshoot">
@@ -346,7 +362,7 @@
                     </label>
                   </div>
                   <?php
-                  if (isset($user)) :
+                  if (!isset($user)) :
                   ?>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                       <label>
@@ -669,12 +685,13 @@
   <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
   <?php $this->load->view('frontend/layout/scripts'); ?>
   <!-- <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script> -->
-  <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script>
+  <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script>
     function submit_form(val) {
       $('#is_draft').val(val);
     }
+
     function preview_gig() {
       alert('Form Preview')
     }
@@ -685,9 +702,14 @@
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
         var gig_min_date = campaign_date.toISOString().substring(0, 10);
+        var gig_date_value = new Date(campaign_date.setDate(campaign_date.getDate() + 1));
         var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
         gig_max_date = gig_max_date.toISOString().substring(0, 10);
+        gig_date_value = gig_date_value.toISOString().substring(0, 10);
+        console.log(gig_max_date);
+        console.log(gig_date_value);
         $('#gig_date').attr('min', gig_min_date);
+        $('#gig_date').val(gig_date_value);
         $('#gig_date').attr('max', gig_max_date);
       });
 
@@ -766,20 +788,25 @@
           '<div class="image_div mb-1">' +
           '<img alt="your image" class="d-none" />' +
           '</div>' +
-          '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
-          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icon_upload2">' +
+          '<label class="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
+          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">' +
           '</label>' +
-          '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+          '<input class="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
-        $('.file-input').fileinput({
-          browseLabel: 'Browse',
-          previewFileType: 'image',
-          browseIcon: '<i class="icon-image2 mr-2"></i>',
-          initialCaption: "No file selected",
-          fileActionSettings: fileActionSettings
-        });
+        // $('.file-input').fileinput({
+        //   browseLabel: 'Browse',
+        //   previewFileType: 'image',
+        //   browseIcon: '<i class="icon-image2 mr-2"></i>',
+        //   initialCaption: "No file selected",
+        //   fileActionSettings: fileActionSettings
+        // });
+      });
+
+      $(document).on('click', '.image_div', function() {
+        var div = $(this).parents('.col-md-4');
+        div.find('.file-upload2').trigger('click');
       });
       $(document).on('click', '.remove_tier_bundle', function() {
         var div = $(this).parents('.col-md-4');
@@ -792,6 +819,16 @@
         div.remove();
       });
     });
+    $('#start_time').change(function() {
+      var time = $(this).val();
+      $('#end_time').attr('min', time);
+      $('#end_time').attr('max', '23:59');
+    })
+    $('#goal').change(function() {
+      var goal = $(this).val();
+      var threshold = Math.round(goal * .6);
+      $('#threshold').val(threshold);
+    })
 
     function preview(input) {
       var e_val = input.value;
@@ -841,11 +878,30 @@
         var reader = new FileReader();
         reader.onload = function(e) {
           $('#img').attr('src', e.target.result);
-          $('#gig_poster').attr('src', e.target.result);
+          $('#img').removeClass('object-fit-cover').addClass('object-fit-contain');
+          // $('#gig_poster').attr('src', e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
       }
     }
+
+    // const videoSrc = document.querySelector("#video-source");
+    // const videoTag = document.querySelector("#video-tag");
+    // const inputTag = document.querySelector("#video");
+    // inputTag.addEventListener('change', readURLvideo)
+
+    // function readURLvideo(event) {
+    //   if (event.target.files && event.target.files[0]) {
+    //     var reader = new FileReader();
+
+    //     reader.onload = function(e) {
+    //       videoSrc.src = e.target.result
+    //       videoTag.load()
+    //     }.bind(this)
+
+    //     reader.readAsDataURL(event.target.files[0]);
+    //   }
+    // }
   </script>
 </body>
 

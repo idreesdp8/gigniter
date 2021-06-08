@@ -30,7 +30,7 @@ $(document).ready(function () {
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-            curInputs = curStep.find("input[type='text'],input[type='url'],input[type='file'],.select,.textarea"),
+            curInputs = curStep.find("input[type='text'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[type='file'],.select,.textarea"),
             prog_step = $("a.btn-default"),
             err_input = '',
             isValid = true;
@@ -128,9 +128,9 @@ $(document).ready(function () {
         $('#gig_goal').html($(this).val());
     });
     function check_goal() {
-        var pattern = /^[0-9]*$/;
+        // var pattern = /^[0-9]*$/;
         var goal = $("#goal").val();
-        if (pattern.test(goal) && goal !== '') {
+        if (goal !== '') {
             $("#goal").removeClass("error").addClass("good");
         } else {
             $("#goal").removeClass("good").addClass("error");
@@ -142,9 +142,9 @@ $(document).ready(function () {
         $('#gig_goal_amount').html($(this).val());
     });
     function check_goal_amount() {
-        var pattern = /^[0-9]*$/;
+        // var pattern = /^[0-9]*$/;
         var goal_amount = $("#goal_amount").val();
-        if (pattern.test(goal_amount) && goal_amount !== '') {
+        if (/* pattern.test(goal_amount) &&  */goal_amount !== '') {
             $("#goal_amount").removeClass("error").addClass("good");
         } else {
             $("#goal_amount").removeClass("good").addClass("error");
@@ -156,10 +156,10 @@ $(document).ready(function () {
         $('#gig_threshold').html($(this).val());
     });
     function check_threshold() {
-        var pattern = /^[0-9]*$/;
+        // var pattern = /^[0-9]*$/;
         var threshold = $("#threshold").val();
         var goal = $("#goal").val();
-        if (pattern.test(threshold) && threshold !== '' && threshold < goal) {
+        if (/* pattern.test(threshold) &&  */threshold !== '' && threshold < goal) {
             $("#threshold").removeClass("error").addClass("good");
         } else {
             $("#threshold").removeClass("good").addClass("error");

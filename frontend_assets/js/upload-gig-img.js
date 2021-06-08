@@ -12,8 +12,8 @@ function read_bundle_image(input) {
     // console.log(input);
     // var x = input.parentElement;
     // console.log(x);
-    // console.log(x.getElementsByTagName("img")[0]);
     var element = input.parentElement.getElementsByTagName("img")[0];
+    console.log(element);
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function () {

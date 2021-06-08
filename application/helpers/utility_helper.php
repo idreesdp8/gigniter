@@ -47,6 +47,10 @@
 	function poster_relative_path(){
 		return 'downloads/posters/';
 	}
+	
+	function video_relative_path(){
+		return 'downloads/videos/';
+	}
 
 	function poster_thumbnail_relative_path(){
 		return 'downloads/posters/thumb/';
@@ -67,6 +71,9 @@
 
 	function poster_url(){
 		return base_url().poster_relative_path();
+	}
+	function video_url(){
+		return base_url().video_relative_path();
 	}
 
 	function poster_thumbnail_url(){

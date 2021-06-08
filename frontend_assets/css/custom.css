@@ -209,13 +209,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	width: auto;
 	height: 350px;
 }
-#file-upload2 {
+.file-upload2 {
 	display: none;
 }
-#icon_upload1 {
+.icon_upload1 {
 	left: 45%;
 	position: absolute;
 	top: 55%;
+	/* width: fit-content !important; */
 }
 .file-dimension {
 	margin-bottom: 0 !important;
