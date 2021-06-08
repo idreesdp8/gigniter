@@ -41,7 +41,7 @@
         </div>
     </section>
     <!-- ==========Banner-Section========== -->
-    
+
     <!-- ==========Speaker-Single========== -->
     <section class="apps-seciton padding-top pt-lg-0 mb-5">
         <div class="container">
@@ -53,10 +53,11 @@
                             <p>
                                 Thank you for submitting your details. We appreciate your time. One of our representative will be in touch with you shortly.
                             </p>
+                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig_id ?? '' ?>" class="btn btn-theme-primary" type="button">Back to Detail</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- ==========Explore-content-Section========== -->

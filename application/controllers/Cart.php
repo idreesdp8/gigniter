@@ -306,7 +306,8 @@ class Cart extends CI_Controller
 			if (true) {
 				$this->cart->destroy();
 				// redirect('cart/checkout');
-				redirect('cart/thankyou');
+				// redirect('cart/thankyou');
+				$this->load->view('frontend/cart/thankyou', ['gig_id'=>$gig_id]);
 			} else {
 				redirect('cart/checkout');
 			}

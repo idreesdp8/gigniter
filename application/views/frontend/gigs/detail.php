@@ -111,10 +111,14 @@
                             </div>
                         <?php
                         endif;
+                        if ($this->session->userdata('us_id') != $gig->user_id) :
                         ?>
-                        <div class="custom-item3">
-                            <a type="button" class="btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
-                        </div>
+                            <div class="custom-item3">
+                                <a type="button" class="btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
                     </div>
                 </div>
             </div>
@@ -290,7 +294,13 @@
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
-                                                            <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                                            <?php
+                                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                            ?>
+                                                                <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                                            <?php
+                                                            endif;
+                                                            ?>
                                                         </div>
                                                     </div>
                                                 <?php

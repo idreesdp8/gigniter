@@ -43,7 +43,13 @@
                                                 <p><span class="days-text">Days left</span></p>
                                             </div>
                                             <div class="book-btn ml-5">
-                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
+                                                <?php
+                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                ?>
+                                                    <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
+                                                <?php
+                                                endif;
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="d-flex responsive-class">
@@ -101,7 +107,13 @@
                                                 </div>
                                             </div>
                                             <div class="book-btn m-auto">
-                                                <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
+                                                <?php
+                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                ?>
+                                                    <a type="button" class="btn btn-primary btn-booknow" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">Book Now</a>
+                                                <?php
+                                                endif;
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +244,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -281,7 +299,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -357,7 +381,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -406,7 +436,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -483,7 +519,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>
@@ -532,7 +574,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            ?>
+                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                            <?php
+                                            endif;
+                                            ?>
                                             <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                         </div>
                                     </div>

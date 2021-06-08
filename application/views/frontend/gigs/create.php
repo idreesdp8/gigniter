@@ -168,10 +168,10 @@
                       <!-- </div> -->
                     </label>
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address">
                     <label>
                       Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="address" name="address" required="required" onchange="preview(this)">
+                      <input type="hidden" id="address" name="address" required="required" onchange="preview(this)">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
@@ -278,7 +278,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Number of tickets in Tier
-                            <input type="number" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)">
+                            <input type="number" name="ticket_quantity[]" placeholder="" value="1" min="1" onchange="ticket_preview(this)">
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -698,6 +698,19 @@
     $(document).ready(function() {
 
       $('#start_gig_menu').addClass('active');
+
+      $('#gig_address').hide();
+      
+      $('#myCheckbox-physical').change(function() {
+        var is_checked = $(this).is(':checked');
+        if(is_checked) {
+          $('#gig_address').fadeIn();
+          $('#address').attr('type', 'text');
+        } else {
+          $('#gig_address').hide();
+          $('#address').attr('type', 'hidden');
+        }
+      })
 
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
