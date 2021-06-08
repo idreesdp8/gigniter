@@ -107,14 +107,14 @@
                         if ($stream_details) :
                         ?>
                             <div class="custom-item3">
-                                <a type="button" class="btn btn-warning btn-booking show_modal" href="<?php echo user_base_url() . 'gigs/live/' . $gig->id; ?>">view live</a>
+                                <a type="button" class="skicky-buttons btn btn-warning btn-booking show_modal" href="<?php echo user_base_url() . 'gigs/live/' . $gig->id; ?>">view live</a>
                             </div>
                         <?php
                         endif;
                         if ($this->session->userdata('us_id') != $gig->user_id) :
                         ?>
                             <div class="custom-item3">
-                                <a type="button" class="btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                             </div>
                         <?php
                         endif;
@@ -553,7 +553,13 @@
     <script>
         $(document).ready(function() {
 
+          $(window).scroll(function(){
+            var sticky = $('.skicky-buttons'),
+            scroll = $(window).scrollTop();
 
+            if (scroll >= 500) sticky.addClass('fixed-button-top');
+            else sticky.removeClass('fixed-button-top');
+            });
 
 
             // ---------- PARAMETERS ---------
