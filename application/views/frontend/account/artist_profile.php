@@ -11,36 +11,22 @@
     <?php $this->load->view('frontend/layout/header'); ?>
 
     <!-- ==========Banner-Section========== -->
-    <section class="speaker-banner bg_img" data-background="<?php echo user_asset_url(); ?>images/banner/banner07.jpg">
+    <section class="speaker-banner bg_img" data-background="./assets/images/banner/banner07.jpg">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">Speaker Profile</h2>
-                <ul class="breadcrumb">
-                    <li>
-                        <a href="index.html">
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="events.html">
-                            event
-                        </a>
-                    </li>
-                    <li>
-                        speaker profile
-                    </li>
-                </ul>
+                <h2 class="title">Artist Profile</h2>
+
             </div>
         </div>
     </section>
     <!-- ==========Banner-Section========== -->
-    
+
     <!-- ==========Speaker-Single========== -->
     <section class="speaker-single padding-top pt-lg-0">
         <div class="container">
             <div class="speaker-wrapper bg-six padding-top padding-bottom">
                 <div class="speaker-thumb">
-                    <img src="<?php echo user_asset_url(); ?>images/speaker/speaker05.jpg" alt="speaker">
+                    <img src="https://images.unsplash.com/photo-1526218626217-dc65a29bb444?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80" alt="speaker">
                     <a href="#0">www.website.com</a>
                 </div>
                 <div class="speaker-content">
@@ -52,36 +38,36 @@
                         <div class="speak-con-area">
                             <div class="item">
                                 <div class="item-thumb">
-                                    <img src="<?php echo user_asset_url(); ?>images/event/icon/event-icon03.png" alt="event">
+                                    <img src="../../../gigniter/frontend_assets/images/event-icon03.png" alt="event">
                                 </div>
                                 <div class="item-content">
-                                    <span class="up">Drop us a line:</span>
-                                    <a href="MailTo:hello@Boleto .com">hello@Boleto .com</a>
+                                    <span class="up">Contact Artist:</span>
+                                    <a class="theme-primary-color" href="MailTo:hello@Boleto .com">hello@Boleto .com</a>
                                 </div>
                             </div>
                             <ul class="social-icons">
                                 <li>
-                                    <a href="#0">
+                                    <a class="btn-theme-primary artist-links" href="#0">
                                         <i class="fab fa-facebook-f"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#0" class="active">
+                                    <a class="btn-theme-primary artist-links" href="#0">
                                         <i class="fab fa-twitter"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#0">
+                                    <a class="btn-theme-primary artist-links" href="#0">
                                         <i class="fab fa-linkedin-in"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#0">
+                                    <a class="btn-theme-primary artist-links"  href="#0">
                                         <i class="fab fa-pinterest"></i>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#0">
+                                    <a class="btn-theme-primary artist-links"  href="#0">
                                         <i class="fab fa-behance"></i>
                                     </a>
                                 </li>
@@ -104,87 +90,221 @@
     <section class="speaker-section padding-bottom padding-top">
         <div class="container">
             <div class="section-header-3">
-                <span class="cate">listen to the</span>
-                <h2 class="title">event speakers</h2>
-                <p>World is committed to making participation in the event a harassment free experience for 
+
+                <h2 class="title">Artist's Gig</h2>
+                <p>World is committed to making participation in the event a harassment free experience for
                 everyone, regardless of level of experience, gender, gender identity and expression</p>
             </div>
-            <div class="speaker--slider">
-                <div class="speaker-slider owl-carousel owl-theme">
-                    <div class="speaker-item">
-                        <div class="speaker-thumb">
-                            <a href="#0">
-                                <img src="<?php echo user_asset_url(); ?>images/speaker/speaker01.jpg" alt="speaker">
-                            </a>
+            <div class="speaker--slider text-center" id="carousel_5">
+
+                <div class="speaker-slider6 owl-carousel owl-theme owl-loaded owl-drag">
+
+                  <div class="speaker-item1 card">
+                      <div class="speaker-thumb card-header">
+                        <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
+                          <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
+                              <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                  </a>
+                                                      </div>
+                                                      <div class="speaker-content card-footer">
+                                                          <h5 class="limit-single-line">Jazz  Concert</h5>
+                                                          <div class="d-flex">
+                                                              <div class="footer-text">
+                                                                  <h6>john smith</h6>
+                                                                  <p>15 Jun 2021</p>
+                                                                  <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
+                                                                  <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
+                                                              </div>
+                                                              <div class="circlebar">
+                                                                  <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
+                                                                      <div class="pie_progress__number">0%</div>
+                                                                      <div class="pie_progress__label">Booked</div>
+
+                                                              </div>
+                                                          </div>
+
+                                                      </div>
+                                                      <div class="d-flex">
+                                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
+                                                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                                      </div>
+                                                  </div>
+                                                </div>
+
+
+
+                            <div class="speaker-item1 card">
+                                <div class="speaker-thumb card-header">
+                                  <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
+                                    <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
+                                        <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                            </a>
+                                                                </div>
+                                                                <div class="speaker-content card-footer">
+                                                                    <h5 class="limit-single-line">POP  Concert</h5>
+                                                                    <div class="d-flex">
+                                                                        <div class="footer-text">
+                                                                            <h6>john smith</h6>
+                                                                            <p>15 Jun 2021</p>
+                                                                            <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
+                                                                            <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
+                                                                        </div>
+                                                                        <div class="circlebar">
+                                                                            <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
+                                                                                <div class="pie_progress__number">0%</div>
+                                                                                <div class="pie_progress__label">Booked</div>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="d-flex">
+                                                                      <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
+                                                                      <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                                                </div>
+                                                            </div>
+                                                          </div>
+
+
+
+                                      <div class="speaker-item1 card">
+                                          <div class="speaker-thumb card-header">
+                                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
+                                              <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
+                                                  <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                      </a>
+                                                                          </div>
+                                                                          <div class="speaker-content card-footer">
+                                                                              <h5 class="limit-single-line">Music  Concert</h5>
+                                                                              <div class="d-flex">
+                                                                                  <div class="footer-text">
+                                                                                      <h6>john smith</h6>
+                                                                                      <p>15 Jun 2021</p>
+                                                                                      <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
+                                                                                      <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
+                                                                                  </div>
+                                                                                  <div class="circlebar">
+                                                                                      <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
+                                                                                          <div class="pie_progress__number">0%</div>
+                                                                                          <div class="pie_progress__label">Booked</div>
+
+                                                                                  </div>
+                                                                              </div>
+
+                                                                          </div>
+                                                                          <div class="d-flex">
+                                                                                <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
+                                                                                <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                                                          </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div class="speaker-item1 card">
+                                                                        <div class="speaker-thumb card-header">
+                                                                          <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
+                                                                            <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
+                                                                                <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                                                                    </a>
+                                                                                                        </div>
+                                                                                                        <div class="speaker-content card-footer">
+                                                                                                            <h5 class="limit-single-line">Music  Concert</h5>
+                                                                                                            <div class="d-flex">
+                                                                                                                <div class="footer-text">
+                                                                                                                    <h6>john smith</h6>
+                                                                                                                    <p>15 Jun 2021</p>
+                                                                                                                    <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
+                                                                                                                    <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
+                                                                                                                </div>
+                                                                                                                <div class="circlebar">
+                                                                                                                    <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
+                                                                                                                        <div class="pie_progress__number">0%</div>
+                                                                                                                        <div class="pie_progress__label">Booked</div>
+
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                        </div>
+                                                                                                        <div class="d-flex">
+                                                                                                              <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
+                                                                                                              <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                  </div>
+
+
+
                         </div>
-                        <div class="speaker-content">
-                            <h5 class="title">
-                                <a href="#0">
-                                    Gerard Bryan 
-                                </a>
-                            </h5>
-                            <span>lead speaker</span>
-                        </div>
-                    </div>
-                    <div class="speaker-item">
-                        <div class="speaker-thumb">
-                            <a href="#0">
-                                <img src="<?php echo user_asset_url(); ?>images/speaker/speaker02.jpg" alt="speaker">
-                            </a>
-                        </div>
-                        <div class="speaker-content">
-                            <h5 class="title">
-                                <a href="#0">
-                                    Raihan Rafuj
-                                </a>
-                            </h5>
-                            <span>lead speaker</span>
-                        </div>
-                    </div>
-                    <div class="speaker-item">
-                        <div class="speaker-thumb">
-                            <a href="#0">
-                                <img src="<?php echo user_asset_url(); ?>images/speaker/speaker03.jpg" alt="speaker">
-                            </a>
-                        </div>
-                        <div class="speaker-content">
-                            <h5 class="title">
-                                <a href="#0">
-                                    Bela Bose
-                                </a>
-                            </h5>
-                            <span>lead speaker</span>
-                        </div>
-                    </div>
-                    <div class="speaker-item">
-                        <div class="speaker-thumb">
-                            <a href="#0">
-                                <img src="<?php echo user_asset_url(); ?>images/speaker/speaker04.jpg" alt="speaker">
-                            </a>
-                        </div>
-                        <div class="speaker-content">
-                            <h5 class="title">
-                                <a href="#0">
-                                    Grass Hopper
-                                </a>
-                            </h5>
-                            <span>lead speaker</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="speaker-prev">
-                    <i class="flaticon-double-right-arrows-angles"></i>
-                </div>
-                <div class="speaker-next">
-                    <i class="flaticon-double-right-arrows-angles"></i>
-                </div>
+
             </div>
         </div>
     </section>
-    <!-- ==========Speaker-Section========== -->
+
+
 
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script>
+        $(document).ready(function() {
+
+            $('.speaker-prev, .speaker-next').on('mouseover', function() {
+                console.log($(this).parent().children('.owl-carousel'));
+                $(this).parent().children('.owl-carousel').trigger('stop.owl.autoplay');
+            });
+            $('.speaker-prev, .speaker-next').on('mouseleave', function() {
+                console.log($(this).parent().children('.owl-carousel'));
+                $(this).parent().children('.owl-carousel').trigger('play.owl.autoplay');
+            });
+        });
+
+        $('.speaker-slider6').owlCarousel({
+            rewind: true,
+            autoplay: true,
+            dots: false,
+            nav: true,
+            autoplayTimeout: 2000,
+            margin: 30,
+            autoplayHoverPause: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    loop: ($(this).find('.owl-item')).length > 0
+                },
+                600: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 0
+                },
+                1000: {
+                    items: 3,
+                    loop: ($(this).find('.owl-item')).length > 0
+                }
+            }
+        });
+        // $('.owl-carousel').owlCarousel({
+        //     loop: ($(this).find('.owl-item')).length > 2,
+        //     rewind: true,
+        //     autoplay: true,
+        //     dots: false,
+        //     autoplayTimeout: 2000,
+        //     margin: 30,
+        //     autoplayHoverPause: true,
+        //     responsiveClass:true,
+        //     responsive:{
+        //         0:{
+        //             items:1,
+        //             nav:true
+        //         },
+        //         600:{
+        //             items:3,
+        //             nav:ture
+        //         },
+        //         1000:{
+        //             items:5,
+        //             nav:true,
+        //             loop:false
+        //         }
+        //     }
+        // });
+    </script>
 </body>
 
 </html>

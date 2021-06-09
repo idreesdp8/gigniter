@@ -69,6 +69,21 @@ textarea {
 	text-transform: uppercase;
 	background-color: #f1c500;
 }
+.speaker--slider .speaker-prev {
+	background-color: #f1c500 !important;
+}
+.speaker-wrapper .speaker-thumb img, .speaker-item .speaker-thumb {
+  mask: none !important;
+    -webkit-mask: none !important;
+    mask-size: cover !important;
+}
+.artist-links:hover {
+	background-color: transparent !important;
+}
+.artist-links:hover, .artist-links.active  {
+ background-color: transparent !important;
+ border-color: #fff !important;
+}
 .btn-theme-primary:hover {
 	color: #fff;
 	text-transform: uppercase;
@@ -92,6 +107,43 @@ textarea {
 	position: absolute;
 	top: 46%;
 }
+.social-icons li a {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 14px;
+}
+.speaker-slider6 .owl-nav {
+	display: block;
+}
+.speaker-slider6 .owl-nav .owl-prev {
+	position: absolute;
+    left: -50px;
+    top: 45%;
+    width: 40px;
+}
+ .speaker-slider6 .owl-nav button:hover {
+	 background-color: transparent !important;
+ }
+.speaker-slider6 .owl-nav button:focus, .speaker-slider6 .owl-nav button {
+	outline: 1px solid;
+}
+
+.speaker-slider6 .owl-nav button span {
+	font-size: 40px;
+}
+
+.speaker-slider6 .owl-nav .owl-next {
+	position: absolute;
+    right: -50px;
+    top: 45%;
+
+    width: 40px;
+}
 .btn.btn-primary.btn-step-continue {
 	background-color: #f1c500;
 	border: 1px solid #f1c600;
@@ -104,7 +156,9 @@ textarea {
 .theme-primary-color {
 	color: #f1c500 !important;
 }
-
+.speaker-title:hover {
+	color: #E0004D;
+}
 .btn-circle.active,
 .btn-success-circle,
 .btn-success-circle p {

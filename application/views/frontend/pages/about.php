@@ -29,7 +29,7 @@
         </div>
     </section>
     <!-- ==========Banner-Section========== -->
-    
+
     <!-- ==========Speaker-Single========== -->
     <section class="about-section padding-top padding-bottom">
         <div class="container">
@@ -233,7 +233,7 @@
             <div class="section-header-3">
                 <span class="cate">meet our most valued</span>
                 <h2 class="title">expert team members</h2>
-                <p>World is committed to making participation in the event a harassment free experience for 
+                <p>World is committed to making participation in the event a harassment free experience for
                 everyone, regardless of level of experience, gender, gender identity and expression</p>
             </div>
             <div class="speaker--slider">
@@ -247,7 +247,7 @@
                         <div class="speaker-content">
                             <h5 class="title">
                                 <a href="event-speaker.html">
-                                    Gerard Bryan 
+                                    Gerard Bryan
                                 </a>
                             </h5>
                             <span>CO-FOUNDER, CEO</span>
@@ -316,7 +316,7 @@
             <div class="section-header-3">
                 <span class="cate">Take a look at our</span>
                 <h2 class="title">A ticket for every fan.</h2>
-                <p>World is committed to making participation in the event a harassment free experience for 
+                <p>World is committed to making participation in the event a harassment free experience for
                     everyone, regardless of level of experience, gender, gender identity and expression</p>
             </div>
             <div class="row justify-content-center gallery-wrapper mb-30-none">
@@ -429,7 +429,7 @@
                                 </div>
                                 <div class="content">
                                     <h5 class="title">Get In Guarantee</h5>
-                                    <p>Authentic tickets, on-time delivery, and access to 
+                                    <p>Authentic tickets, on-time delivery, and access to
                                         your event. Or your money back. Period.</p>
                                 </div>
                             </li>
@@ -439,7 +439,7 @@
                                 </div>
                                 <div class="content">
                                     <h5 class="title">price match guarantee</h5>
-                                    <p>The best prices are here. If you spot a better deal 
+                                    <p>The best prices are here. If you spot a better deal
                                         elsewhere, we’ll cover the difference.</p>
                                 </div>
                             </li>
