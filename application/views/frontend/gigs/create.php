@@ -144,28 +144,51 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                    <label>Poster Pitch <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Poster Pitch selection"><i class="fas fa-question-circle"></i></span>
+                      <div class="d-flex">
+                        <div class="mycheckbox-contain">
+                          <div class="allow-overshoot">
+                            <input id="myCheckbox-image" name="poster_pitch" value="image" type="radio" onchange="preview(this)">
+                            <label for="myCheckbox-image">Image</label>
+                            <span></span>
+                          </div>
+                        </div>
+                        <div class="mycheckbox-contain">
+                          <div class="allow-overshoot">
+                            <input id="myCheckbox-video" name="poster_pitch" value="video" type="radio" onchange="preview(this)">
+                            <label for="myCheckbox-video">Video</label>
+                            <span></span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-9 col-md-8 col-sm-12 col-12">
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image" style="display: none">
                     <label>
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
-                        <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <input type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                        <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
-                        <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" />
+                        <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video" style="display: none">
                     <label>
                       Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span>
                       <!-- or Pitch Video -->
-                      <!-- <div class="gig-poster-wrapper"> -->
+                      <div class="gig-poster-wrapper">
+                      <input type="file" name="image" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                       <!-- <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a> -->
-                      <input type='file' name="video" id="video" accept="video/*" class="btn btn-primary form-control" />
+                      <!-- <input type='file' name="video" id="video" accept="video/*" class="btn btn-primary form-control" /> -->
                       <!-- <video controls id="video-tag">
                           <source src="" id="video-source" type="video/*">
                         </video> -->
-                      <!-- </div> -->
+                      </div>
                     </label>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address">
@@ -687,6 +710,8 @@
   <!-- <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script> -->
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
+  <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+  <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
   <script>
     function submit_form(val) {
       $('#is_draft').val(val);
@@ -700,15 +725,27 @@
       $('#start_gig_menu').addClass('active');
 
       $('#gig_address').hide();
-      
+
       $('#myCheckbox-physical').change(function() {
         var is_checked = $(this).is(':checked');
-        if(is_checked) {
+        if (is_checked) {
           $('#gig_address').fadeIn();
           $('#address').attr('type', 'text');
         } else {
           $('#gig_address').hide();
           $('#address').attr('type', 'hidden');
+        }
+      })
+
+      $('input[type=radio]').change(function() {
+        var selected_radio = $(this).val();
+        console.log(selected_radio)
+        if (selected_radio == 'image') {
+          $('#div_image').fadeIn();
+          $('#div_video').fadeOut();
+        } else {
+          $('#div_image').fadeOut();
+          $('#div_video').fadeIn();
         }
       })
 
