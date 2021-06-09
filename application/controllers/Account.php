@@ -65,10 +65,14 @@ class Account extends CI_Controller
 						$this->session->set_userdata($cstm_sess_data);
 						// echo json_encode($this->session->userdata());
 						// die();
-						if ($this->session->has_userdata('redirect')) {
-							redirect($this->session->redirect);
+						if ($this->cart->contents()) {
+							redirect('cart/checkout');
 						} else {
-							redirect('/');
+							if ($this->session->has_userdata('redirect')) {
+								redirect($this->session->redirect);
+							} else {
+								redirect('/');
+							}
 						}
 						// redirect("dashboard");
 					} else {
@@ -143,9 +147,9 @@ class Account extends CI_Controller
 						'us_email' => $result->email,
 						'us_role_name' => $role->name,
 					);
-		
+
 					$this->session->set_userdata($cstm_sess_data);
-		
+
 					$this->load->view('frontend/account/account_verified');
 					// $is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
 					// if ($is_sent) {

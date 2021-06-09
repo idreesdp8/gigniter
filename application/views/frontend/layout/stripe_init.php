@@ -67,13 +67,22 @@
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         var is_empty = document.getElementById('is_empty').value;
+        var user_id = document.getElementById('user_id').value;
         // alert(is_empty);
-        if (is_empty == 1) {
-            swal({
-                icon: 'warning',
-                title: 'Your Cart is Empty',
-                text: 'Please add some items in your cart first!',
-            });
+        if (is_empty == 1 || user_id == 0) {
+            if (is_empty == 1) {
+                swal({
+                    icon: 'warning',
+                    title: 'Your Cart is Empty',
+                    text: 'Please add some items in your cart first!',
+                });
+            }
+            if (user_id == 0) {
+                swal({
+                    icon: 'warning',
+                    title: 'You need to sign in!',
+                });
+            }
         } else {
             createToken();
         }

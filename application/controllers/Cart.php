@@ -66,7 +66,7 @@ class Cart extends CI_Controller
 	public function book_tier($gig_id = '')
 	{
 		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
-		if(!isset($this->dbs_user_id) || $this->dbs_user_id == $data['gig']->user_id) {
+		if($this->dbs_user_id == $data['gig']->user_id) {
 			redirect('/');
 		}
 		$data['venues'] = [];
@@ -204,6 +204,12 @@ class Cart extends CI_Controller
 
 	function checkout()
 	{
+		// if() {
+		// 	echo $this->dbs_user_id;
+		// } else {
+		// 	echo 'meow';
+		// }
+		// die();
 		// // $this->cart->destroy();
 		$cart_items = $this->cart->contents();
 
@@ -212,7 +218,7 @@ class Cart extends CI_Controller
 		}
 		// echo json_encode($cart_items);
 		// die();
-		if (isset($_POST) && !empty($_POST) && !empty($cart_items)) {
+		if (isset($_POST) && !empty($_POST) && !empty($cart_items) && isset($this->dbs_user_id)) {
 
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
@@ -222,28 +228,28 @@ class Cart extends CI_Controller
 
 
 			// $user = $this->users_model->get_user_by_email($email_to);
-			$user_id = $this->dbs_user_id;
-			if (!$user_id) {
-				$this->load->helper('string');
-				$password = random_string('alnum', 8);
-				$this->session->set_userdata(['password' => $password]);
-				$password = $this->general_model->safe_ci_encoder($password);
-				$role = $this->roles_model->get_role_by_name('User');
-				$created_on = date('Y-m-d H:i:s');
-				$status = 0;
-				$datas = array(
-					'email' => $email_to,
-					'fname' => $fname,
-					'lname' => $lname ?? '',
-					'password' => $password,
-					'role_id' => $role->id,
-					'status' => $status,
-					'created_on' => $created_on
-				);
-				$user_id = $this->users_model->insert_user_data($datas);
-				// $is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
-				// $is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
-			}
+			// $user_id = $this->dbs_user_id;
+			// if (!$user_id) {
+			// 	$this->load->helper('string');
+			// 	$password = random_string('alnum', 8);
+			// 	$this->session->set_userdata(['password' => $password]);
+			// 	$password = $this->general_model->safe_ci_encoder($password);
+			// 	$role = $this->roles_model->get_role_by_name('User');
+			// 	$created_on = date('Y-m-d H:i:s');
+			// 	$status = 0;
+			// 	$datas = array(
+			// 		'email' => $email_to,
+			// 		'fname' => $fname,
+			// 		'lname' => $lname ?? '',
+			// 		'password' => $password,
+			// 		'role_id' => $role->id,
+			// 		'status' => $status,
+			// 		'created_on' => $created_on
+			// 	);
+			// 	$user_id = $this->users_model->insert_user_data($datas);
+			// 	// $is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
+			// 	// $is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
+			// }
 
 			$threshold = $this->gigs_model->get_gig_threshold($gig_id);
 			// echo json_encode($threshold);
@@ -321,6 +327,7 @@ class Cart extends CI_Controller
 				// $uri = uri_string();
 				// $this->session->set_userdata('redirect', $uri);
 				$data['user'] = [];
+				$this->session->set_flashdata('warning_msg', 'Log in first!');
 			}
 
 			$cart_items = $this->cart->contents();

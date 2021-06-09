@@ -3,6 +3,7 @@
 
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
+    <meta http-equiv="refresh" content="4;url=<?php echo isset($gig_id) ? user_base_url().'gigs/detail?gig='.$gig_id : user_base_url() ?>" />
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
     <style>
         .exlpore-title,
@@ -53,7 +54,7 @@
                             <p>
                                 Thank you for submitting your details. We appreciate your time. One of our representative will be in touch with you shortly.
                             </p>
-                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig_id ?? '' ?>" class="btn btn-theme-primary" type="button">Back to Detail</a>
+                            <!-- <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig_id ?? '' ?>" class="btn btn-theme-primary" type="button">Back to Detail</a> -->
                         </div>
                     </div>
                 </div>

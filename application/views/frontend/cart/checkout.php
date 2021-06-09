@@ -71,10 +71,10 @@
                 <?php $this->load->view('alert/alert'); ?>
                 <div class="row">
                     <div class="col-lg-8">
+                        <input type="hidden" value="<?php echo $user ? $user->id : '0' ?>" id="user_id">
                         <?php
                         if (!$user) :
                         ?>
-                            <!-- <input type="hidden" value="<?php echo $uri ?>"> -->
                             <div class="checkout-widget d-flex flex-wrap align-items-center justify-content-between">
                                 <div class="title-area">
                                     <h5 class="title">Already a Gigniter Member?</h5>
@@ -425,8 +425,6 @@
                 }
                 // console.log(value);
             });
-
-
         });
     </script>
 </body>
