@@ -24,17 +24,17 @@
                     <form class="account-form" id="datas_form" action="<?php echo site_url('account/signup'); ?>" method="post">
                         <div class="form-group">
                             <label for="fname1">First Name<span>*</span></label>
-                            <input type="text" placeholder="Enter Your First Name" name="fname" id="fname" data-error="#fname1" required>
+                            <input type="text" placeholder="Enter Your First Name" value="<?php echo set_value('fname') ?>" name="fname" id="fname" data-error="#fname1" required>
                             <span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
                         </div>
                         <div class="form-group">
                             <label for="lname1">Last Name<span>*</span></label>
-                            <input type="text" placeholder="Enter Your Last Name" name="lname" id="lname" data-error="#lname1" required>
+                            <input type="text" placeholder="Enter Your Last Name" value="<?php echo set_value('lname') ?>" name="lname" id="lname" data-error="#lname1" required>
                             <span id="lname1" class="text-danger"><?php echo form_error('lname'); ?></span>
                         </div>
                         <div class="form-group">
                             <label for="email1">Email<span>*</span></label>
-                            <input type="text" placeholder="Enter Your Email" name="email" id="email" data-error="#email1" required>
+                            <input type="text" placeholder="Enter Your Email" value="<?php echo set_value('email') ?>" name="email" id="email" data-error="#email1" required>
                             <span id="email1" class="text-danger"><?php echo form_error('email'); ?></span>
                         </div>
                         <div class="form-group">
@@ -49,8 +49,8 @@
                         </div>
                         <div class="form-group checkgroup">
                             <div class="agree_box">
-                                <input id="agree_box" type="checkbox" checked>
-                                <label for="agree_box" class="agree_label">I agree to the <a class="theme-primary-color" href="#0">Terms, Privacy Policy</a> and <a class="theme-primary-color" href="#0">Fees</a></label>
+                                <input id="agree_box" name="agree_box" type="checkbox" checked>
+                                <label for="agree_box" class="agree_label">I agree to the <a class="theme-primary-color" href="<?php echo user_base_url() . 'terms' ?>">Terms</a>, <a class="theme-primary-color" href="<?php echo user_base_url() . 'privacy_policy' ?>">Privacy Policy</a> and <a class="theme-primary-color" href="<?php echo user_base_url() . 'faq' ?>">Fees</a></label>
                                 <span></span>
                             </div>
                         </div>
@@ -91,10 +91,17 @@
 
     <script>
         $(document).ready(function() {
+            var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+            $.validator.addMethod("strongPass", function(value, element) {
+                // allow any non-whitespace characters as the host part
+                return this.optional(element) || strongRegex.test(value);
+            }, 'Password must contain atleast 1 lower case, 1 upper case, 1 numeric and 1 special character');
             var validator = $('#datas_form').validate({
                 rules: {
                     password: {
-                        required: true
+                        required: true,
+                        minlength: 8,
+                        strongPass: true
                     },
                     fname: {
                         required: true
@@ -109,14 +116,22 @@
                     confirm_password: {
                         required: true,
                         equalTo: "#password"
+                    },
+                    agree_box: {
+                        required: true
                     }
                 },
                 messages: {
                     password: {
-                        required: "Password is required field"
+                        required: "Password is required field",
+                        minlength: "Password must be atleast 8 characters long",
+                        strongPass: "Password must contain atleast 1 lower case, 1 upper case, 1 numeric and 1 special character"
                     },
                     lname: {
                         required: "First Name is required field"
+                    },
+                    agree_box: {
+                        required: "You have to agree with out Terms, Privacy Policy and Fees"
                     },
                     fname: {
                         required: "Last Name is required field"

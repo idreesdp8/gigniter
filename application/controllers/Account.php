@@ -91,6 +91,8 @@ class Account extends CI_Controller
 	function signup()
 	{
 		if (isset($_POST) && !empty($_POST)) {
+			// echo json_encode($_POST);
+			// die();
 			// get form input
 			$email = $this->input->post("email");
 			$password = $this->input->post("password");
@@ -103,6 +105,14 @@ class Account extends CI_Controller
 			// die();
 			// form validation 
 			$this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email|is_unique[users.email]");
+			$this->form_validation->set_rules(
+				'email',
+				'Email',
+				'trim|required|xss_clean|valid_email|is_unique[users.email]',
+				array(
+					'is_unique' => "We're sorry, the login email already exists. Please try a different email address to register, or login to your existing account."
+				)
+			);
 			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
 			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
 			$this->form_validation->set_rules("lname", "Last Name", "trim|required|xss_clean");
