@@ -234,6 +234,11 @@ class Account extends CI_Controller
 		}
 	}
 
+	function profile()
+	{
+		$this->load->view('frontend/account/artist_profile');
+	}
+
 	function forgot_password()
 	{
 		if (isset($_SESSION['error_msg'])) {
@@ -376,7 +381,7 @@ class Account extends CI_Controller
 		// die();
 	}
 
-	public function profile()
+	public function edit_profile()
 	{
 		if (isset($_POST) && !empty($_POST)) {
 			// echo json_encode($_POST);

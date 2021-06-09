@@ -799,6 +799,7 @@ class Gigs extends CI_Controller
 	{
 		$cat = $this->input->post("category");
 		$gen = $this->input->post("genre");
+		$sort = $this->input->post("sort");
 		$param = array();
 		if ($cat) {
 			$param['category'] = $cat;
@@ -806,7 +807,14 @@ class Gigs extends CI_Controller
 		if ($gen) {
 			$param['genre'] = $gen;
 		}
+		if ($sort) {
+			$param['sort_by'] = $sort;
+		}
+		// echo json_encode($param);
+		// die();
 		$gigs = $this->gigs_model->get_all_filter_gigs($param);
+		// echo json_encode($gigs);
+		// die();
 		if ($gigs) {
 			$now = new DateTime();
 			foreach ($gigs as $gig) {
