@@ -84,7 +84,7 @@
                                             <td><?php echo $booking->booking_no ?></td>
                                             <td><?php echo '$' . $booking->price  ?></td>
                                             <td>
-                                                <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $booking->gig_id ?>" target="_blank">
+                                                <a class="theme-primary-color" href="<?php echo user_base_url() . 'gigs/detail?gig=' . $booking->gig_id ?>" target="_blank">
                                                 <?php echo $booking->gig_name ?>
                                             </a>
                                         </td>
