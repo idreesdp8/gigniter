@@ -66,6 +66,9 @@ class Cart extends CI_Controller
 	public function book_tier($gig_id = '')
 	{
 		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		if($this->dbs_user_id == $data['gig']->user_id) {
+			redirect('/');
+		}
 		$data['venues'] = [];
 		if ($data['gig']->venues) {
 			$data['venues'] = explode(',', $data['gig']->venues);

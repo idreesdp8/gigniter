@@ -82,26 +82,26 @@
                                 <?php
                                 if ($tiers) :
                                     $i = 1;
-                                    foreach ($tiers as $tier) :
+                                    foreach ($tiers as $index=>$value) :
                                 ?>
                                         <div class="ticket--item">
-                                            <input type="hidden" name="ticket_tier_id[]" value="<?php echo $tier->id ?>" />
+                                            <input type="hidden" name="ticket_tier_id[]" value="<?php echo $value->id ?>" />
                                             <div class="ticket-thumb">
                                                 <img src="<?php echo user_asset_url() . 'images/event/ticket/ticket0' . $i . '.png' ?>" alt="event">
                                             </div>
                                             <div class="ticket-content">
-                                                <span class="ticket-title"><?php echo $tier->name ?></span>
-                                                <h2 class="amount"><sup>$</sup><?php echo $tier->price ?></h2>
+                                                <span class="ticket-title"><?php echo $value->name ?></span>
+                                                <h2 class="amount"><sup>$</sup><?php echo $value->price ?></h2>
                                                 <?php
-                                                if ($tier->bundles) :
+                                                if ($value->bundles) :
                                                 ?>
                                                     <div class="product-img">
-                                                        <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="Product image">
+                                                        <img src="<?php echo $value->image != '' ? bundle_url() . $value->image : user_asset_url() . 'images/cap.png' ?>" alt="Product image">
                                                     </div>
                                                     <div class="product-description">
                                                         <ul>
                                                             <?php
-                                                            foreach ($tier->bundles as $bundle) :
+                                                            foreach ($value->bundles as $bundle) :
                                                             ?>
                                                                 <li>*<?php echo $bundle->title ?></li>
                                                             <?php
@@ -116,7 +116,7 @@
                                                     <div class="cart-plus-minus mb-0">
                                                         <div class="dec qtybutton">-</div>
                                                         <div class="dec qtybutton">-</div>
-                                                        <input class="cart-plus-minus-box" type="text" name="qty[]" value="0">
+                                                        <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php echo $index == 0 ? 1 : 0 ?>">
                                                         <div class="inc qtybutton">+</div>
                                                         <div class="inc qtybutton">+</div>
                                                     </div>
