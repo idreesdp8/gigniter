@@ -278,6 +278,19 @@ class Gigs_model extends CI_Model
 		return $query;
 	}
 
+	function get_count_new_gigs()
+	{
+		$query = $this->db->get_where('gigs', array('is_approved' => 0, 'is_draft' => 0));
+		return $query->num_rows();
+	}
+
+	function get_new_gigs()
+	{
+		$this->db->order_by('created_on', 'DESC');
+		$query = $this->db->get_where('gigs', array('is_rejected' => 0, 'is_approved' => 0, 'is_draft' => 0));
+		return $query->result();
+	}
+
 	function remove_gig_stream($gig_id)
 	{
 		$this->db->where('gig_id', $gig_id);

@@ -22,7 +22,8 @@
   <script src="<?php echo admin_asset_url(); ?>global_assets/js/main/bootstrap.bundle.min.js"></script>
   <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/loaders/blockui.min.js"></script>
   <!-- /core JS files -->
-
+  
+  <script src="<?php echo admin_asset_url(); ?>global_assets/jquery.validate.js"></script>
   <!-- Theme JS files -->
   <script src="<?php echo admin_asset_url(); ?>js/app.js"></script>
   <!-- /theme JS files -->
@@ -128,11 +129,11 @@
         },
         messages: {
           email: {
-            required: "This is required field",
+            required: "Email is required field",
             email: "Please enter a valid Email address!"
           },
           password: {
-            required: "This is required field"
+            required: "Password is required field"
           }
         },
         errorPlacement: function(error, element) {

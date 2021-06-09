@@ -5,6 +5,7 @@ foreach ($role_permissions as $role_permission) {
     $permission = $this->permissions_model->get_permission_by_id($role_permission->permission_id);
     $user_permissions[] = $permission->name;
 }
+$new_gigs = $this->gigs_model->get_count_new_gigs();
 ?>
 
 <!-- Main sidebar -->
@@ -52,6 +53,9 @@ foreach ($role_permissions as $role_permission) {
                             <?php endif; ?>
                             <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
                                 <li class="nav-item" id="sidebar_gig_view"><a href="<?php echo admin_base_url(); ?>gigs" class="nav-link">All Gigs</a></li>
+                            <?php endif; ?>
+                            <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
+                                <li class="nav-item" id="sidebar_approval_gig_view"><a href="<?php echo admin_base_url(); ?>gigs/new" class="nav-link">Gigs Waiting for Approval (<?php echo $new_gigs ?>)</a></li>
                             <?php endif; ?>
                             <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
                                 <li class="nav-item" id="sidebar_featured_gig_view"><a href="<?php echo admin_base_url(); ?>featured_gigs" class="nav-link">Featured Gigs</a></li>

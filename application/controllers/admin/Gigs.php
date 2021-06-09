@@ -286,6 +286,64 @@ class Gigs extends CI_Controller
 		// 	$this->load->view('admin/no_permission_access');
 		// }
 	}
+	function new()
+	{
+		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
+		// if ($res_nums > 0) {
+
+		$gigs = $this->gigs_model->get_new_gigs();
+		foreach ($gigs as $gig) {
+			$user = $this->users_model->get_user_by_id($gig->user_id);
+			$temp = ['key' => $this->key, 'value' => $gig->status];
+			$gig->popularity_data = $this->gigs_model->get_gig_popularity_data($gig->id);
+			$status = $this->configurations_model->get_configuration_by_key_value($temp);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+			$gig->status_label = $status->label;
+			$gig->category_label = $category->label;
+			$gig->genre_label = $genre->label;
+			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
+		}
+		$data['records'] = $gigs;
+		// echo json_encode($data);
+		// die();
+		// $data['page_headings'] = "Users List";
+		$this->load->view('admin/gigs/new_gigs', $data);
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
+	}
+
+	function approve_gig($gig_id = '')
+	{
+		if($gig_id == '') {
+			redirect('admin/gigs/new');
+		}
+		$data = [
+			'is_approved' => 1,
+			'is_rejected' => 0,
+		];
+		$this->gigs_model->update_gig_data($gig_id, $data);
+		$this->session->set_flashdata('success_msg', 'Gig is accepted');
+		redirect('admin/gigs/new');
+	}
+
+	function reject_gig($gig_id = '')
+	{
+		if($gig_id == '') {
+			redirect('admin/gigs/new');
+		}
+		$data = [
+			'is_approved' => 0,
+			'is_rejected' => 1,
+		];
+		$this->gigs_model->update_gig_data($gig_id, $data);
+		$this->session->set_flashdata('deleted_msg', 'Gig is rejected');
+		redirect('admin/gigs/new');
+	}
 
 	function trash($args2 = '')
 	{
