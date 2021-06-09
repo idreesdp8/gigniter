@@ -38,7 +38,7 @@
                         <div class="speak-con-area">
                             <div class="item">
                                 <div class="item-thumb">
-                                    <img src="../../../gigniter/frontend_assets/images/event-icon03.png" alt="event">
+                                    <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
                                 </div>
                                 <div class="item-content">
                                     <span class="up">Contact Artist:</span>
