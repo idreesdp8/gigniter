@@ -147,7 +147,9 @@ class Cart extends CI_Controller
 				$response = [
 					'status' => 200,
 					'message' => 'Item is removed from your cart!',
-					'total_amount' => $this->cart->total()
+					'total_amount' => $this->cart->total(),
+					'total_items' => $this->cart->total_items(),
+					'is_empty' => $this->cart->contents() ? 0 : 1,
 				];
 			} else {
 				$response = [
@@ -228,7 +230,7 @@ class Cart extends CI_Controller
 
 
 			// $user = $this->users_model->get_user_by_email($email_to);
-			// $user_id = $this->dbs_user_id;
+			$user_id = $this->dbs_user_id;
 			// if (!$user_id) {
 			// 	$this->load->helper('string');
 			// 	$password = random_string('alnum', 8);

@@ -202,18 +202,6 @@
                         <div class="booking-summery bg-one">
                             <h4 class="title">order summary</h4>
                             <ul>
-                                <!-- <li>
-                                    <h6 class="subtitle">Venues</h6>
-                                    <?php
-                                    if ($gig && $gig->venues) :
-                                        foreach ($gig->venues as $venue) :
-                                    ?>
-                                            <span class="info"><?php echo $venue ?></span>
-                                    <?php
-                                        endforeach;
-                                    endif;
-                                    ?>
-                                </li> -->
                                 <?php
                                 if ($cart_items) :
                                     echo '<input type="hidden" id="is_empty" value="0">';
@@ -338,6 +326,15 @@
                                     elem.parents('li').remove();
                                     $('#total_amount').empty().html('$' + resp.total_amount);
                                     $('#payable_amount').empty().html('$' + resp.total_amount);
+                                    $('#is_empty').val(resp.is_empty);
+                                    if(resp.total_items) {
+                                        $('.cart-badge').html(resp.total_items);
+                                    } else {
+                                        $('.cart-badge').remove();
+                                    }
+                                    if(resp.is_empty) {
+                                        $('#is_empty').parent().append('<p>Your Cart is empty!</p>');
+                                    }
                                 } else {
                                     swal({
                                         icon: 'error',
