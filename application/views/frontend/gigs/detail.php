@@ -208,7 +208,7 @@
                                     <div class="overlay-video"></div>
                                 <?php
                                 endif;
-                                if (isset($gig->video)) : ?>
+                                if (isset($gig->video) && $gig->video != '') : ?>
                                     <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
                                         <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
                                     </video>
