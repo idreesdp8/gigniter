@@ -252,10 +252,13 @@ position: relative;
 	margin: auto !important;
 
 }
+.post-item.post-details.mb-1 .post-thumb #wrapper-video img {
+	width: 100% !important;
+}
 .kv-file-content {
 	position: relative;
     height: 10rem;
-		z-index: 999;
+		z-index: 4;
 }
 .file-thumbnail-footer {
 	display: none;
