@@ -145,7 +145,7 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>Poster Pitch <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Poster Pitch selection"><i class="fas fa-question-circle"></i></span>
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
@@ -165,8 +165,8 @@
                       </div>
                   </div>
                   <div class="col-lg-9 col-md-8 col-sm-12 col-12">
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image" style="display: none">
+                  </div> -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image">
                     <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
                       <div style="height:200px;" class="gig-poster-wrapper">
@@ -175,7 +175,7 @@
                         <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
                         <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                        <input id="file-input" type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false"
+                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false"
                         data-show-upload="false" data-fouc>
                         </div>
 
@@ -187,7 +187,7 @@
                       </div>
 
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video" style="display: none">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
                     <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
@@ -196,7 +196,7 @@
                         <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
                         <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                      <input id="file-input1" type="file" name="image" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block"
+                      <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block"
                       data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                         </div>
 
@@ -754,17 +754,17 @@
         }
       })
 
-      $('input[type=radio]').change(function() {
-        var selected_radio = $(this).val();
-        console.log(selected_radio)
-        if (selected_radio == 'image') {
-          $('#div_image').fadeIn();
-          $('#div_video').fadeOut();
-        } else {
-          $('#div_image').fadeOut();
-          $('#div_video').fadeIn();
-        }
-      })
+      // $('input[type=radio]').change(function() {
+      //   var selected_radio = $(this).val();
+      //   console.log(selected_radio)
+      //   if (selected_radio == 'image') {
+      //     $('#div_image').fadeIn();
+      //     $('#div_video').fadeOut();
+      //   } else {
+      //     $('#div_image').fadeOut();
+      //     $('#div_video').fadeIn();
+      //   }
+      // })
 
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
