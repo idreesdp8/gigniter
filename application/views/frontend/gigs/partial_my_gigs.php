@@ -10,13 +10,19 @@
                     <div class="card-header p-0">
                         <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
                             <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="width: 358px; height: 352px;" class="w-100">
+                            <?php if ($gig->is_approved == 1 && $gig->is_rejected == 0 && $gig->is_draft == 0) : ?>
+                                <span class="badge badge-danger exclusive-badge">Approved</span>
+                            <?php elseif ($gig->is_draft == 1 && $gig->is_approved == 0 && $gig->is_rejected == 0) : ?>
+                                <span class="badge badge-danger exclusive-badge">Draft</span>
+                            <?php elseif ($gig->is_approved == 0 && $gig->is_rejected == 0 && $gig->is_draft == 0) : ?>
+                                <span class="badge badge-danger exclusive-badge">Waiting for Approval</span>
+                            <?php elseif ($gig->is_rejected == 1 && $gig->is_approved == 0 && $gig->is_draft == 0) : ?>
+                                <span class="badge badge-danger exclusive-badge">Rejected</span>
+                            <?php endif; ?>
                         </a>
                     </div>
                     <div class="card-footer grid-footer">
                         <div class="d-flex">
-                            <span class="add-gallery">
-                                <a href="<?php echo user_base_url() . 'gigs/add_gallery/' . $gig->id ?>"><i class="fas fa-images"></i></a>
-                            </span>
                             <div class="footer-text">
                                 <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
                                     <h5><?php echo $gig->title ?></h5>
@@ -26,15 +32,26 @@
                                 <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
                                 <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left == 'NA' ? 'NA' : (abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today') ?></p>
                             </div>
-                            <div class="circlebar">
-                                <div class="pie_progress3 <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
-                                    <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
-                                    <div class="pie_progress__label">Booked</div>
+                            <div>
+                                <div class="add-gallery">
+                                    <a data-toggle="tooltip" data-placement="top" title="Add gallery images to your gig" href="<?php echo user_base_url() . 'gigs/add_gallery/' . $gig->id ?>"><i class="fas fa-images"></i></a>
+                                </div>
+                                <div class="circlebar">
+                                    <div class="pie_progress3 <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                        <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
+                                        <div class="pie_progress__label">Booked</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
-                        <a href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">purchases</a>
+                        <?php
+                        if ($gig->is_approved) :
+                        ?>
+                            <a href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">purchases</a>
+                        <?php
+                        endif;
+                        ?>
                         <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
                             <button type="submit" class="btn btn-warning btn-watch mb-4">Delete</button>
                         </form>

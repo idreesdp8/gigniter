@@ -60,9 +60,7 @@ textarea {
 }
 
 .add-gallery {
-	position: absolute;
-	right: 2rem;
-	bottom: 21rem;
+	text-align: center;
 }
 .btn-theme-primary {
 	color: #000;
