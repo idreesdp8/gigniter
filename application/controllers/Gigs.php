@@ -83,6 +83,7 @@ class Gigs extends CI_Controller
 			$buyers[] = $v->user_id;
 		}
 		$gig->buyers = $buyers;
+		$gig->reactions = $this->gigs_model->get_reaction_count($id);
 		$data['gig'] = $gig;
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
 		foreach ($tiers as $tier) {
@@ -1062,5 +1063,34 @@ class Gigs extends CI_Controller
 			$data['gig'] = $this->gigs_model->get_gig_by_id($id);
 			$this->load->view('frontend/gigs/add_gallery', $data);
 		}
+	}
+
+	function update_reaction()
+	{
+		$data['reaction'] =  $this->input->post('reaction');
+		$data['user_id'] =  $this->input->post('user_id');
+		$data['gig_id'] =  $this->input->post('gig_id');
+		$reaction_data = $this->gigs_model->get_reaction_data($data);
+		if($reaction_data) {
+			$ress = $this->gigs_model->update_reaction_data($reaction_data->id, $data);
+		} else {
+			$ress = $this->gigs_model->add_reaction_data($data);
+		}
+		if($ress) {
+			$result['status'] = true;
+			$result['reaction_data'] = $this->gigs_model->get_reaction_data($data);
+			$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);
+		} else {
+			$result['status'] = false;
+			$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);
+		}
+		echo json_encode($result);
+	}
+
+	function get_reactions()
+	{
+		$data['gig_id'] =  $this->input->post('gig_id');
+		$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);
+		echo json_encode($result);
 	}
 }

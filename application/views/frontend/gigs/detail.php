@@ -247,14 +247,14 @@
                             </ul>
                         </div>
 
-                        <?php if ($gig->status == 2) : ?>
+                        <?php if ($gig->status == 2 && $this->dbs_user_id) : ?>
                             <div class="col-lg-6 col-md-6 col-12 text-lg-right text-center">
                                 <div class="reactions-live d-inline-flex">
-                                    <p data-emoji="thumbs-up" class="noselect like-emoji emoji-starter selector-reactions mr-2 reactions-btn mb-0">
-                                        <i class="like-blue fas fa-thumbs-up mr-2"></i><span>like</span>
+                                    <p data-emoji="thumbs-up" data-gig_id="<?php echo $gig->id ?>" class="noselect like-emoji emoji-starter selector-reactions mr-2 reactions-btn mb-0">
+                                        <i class="like-blue fas fa-thumbs-up mr-2"></i><span>like</span>&nbsp(<span id="like-count"><?php echo $gig->reactions->like_reactions ?></span>)
                                     </p>
-                                    <p data-emoji="heart" class="noselect emoji-starter heart mr-2 reactions-btn mb-0">
-                                        <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>
+                                    <p data-emoji="heart" data-gig_id="<?php echo $gig->id ?>" class="noselect emoji-starter heart mr-2 reactions-btn mb-0">
+                                        <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>&nbsp(<span id="heart-count"><?php echo $gig->reactions->heart_reactions ?></span>)
                                     </p>
 
                                 </div>
@@ -553,12 +553,12 @@
     <script>
         $(document).ready(function() {
 
-          $(window).scroll(function(){
-            var sticky = $('.skicky-buttons'),
-            scroll = $(window).scrollTop();
+            $(window).scroll(function() {
+                var sticky = $('.skicky-buttons'),
+                    scroll = $(window).scrollTop();
 
-            if (scroll >= 500) sticky.addClass('fixed-button-top');
-            else sticky.removeClass('fixed-button-top');
+                if (scroll >= 500) sticky.addClass('fixed-button-top');
+                else sticky.removeClass('fixed-button-top');
             });
 
 
@@ -587,7 +587,7 @@
             })
             $('.emoji-starter').on('click', function(event) {
                 interval = setInterval(function() {
-                    var emojiName = $(event.target).parent().data("emoji")
+                    // var emojiName = $(event.target).parent().data("emoji")
                     //  $('.reactions-onfeed').append('<p class="particle jquery-reactions onfeed-like"><i class="like-blue fas fa-'+ emojiName +' mr-2"></i></p>')
                     $('.particle').toArray().forEach(function(particle) {
                         var bounds = getRandomInteger($('.reactions-onfeed').width() * startScreenPercentage, $('.reactions-onfeed').width() * endScreenPercentage)
@@ -606,6 +606,53 @@
                     clearInterval(interval)
                 }, 1) /* setInterval close*/
             })
+            $('.emoji-starter').on('click', function() {
+                var reaction = $(this).data("emoji")
+                var user_id = '<?php echo $this->session->userdata('us_id') ?>'
+                var gig_id = $(this).data("gig_id")
+                $.ajax({
+                    url: base_url + 'gigs/update_reaction',
+                    method: 'post',
+                    data: {
+                        reaction: reaction,
+                        user_id: user_id,
+                        gig_id: gig_id
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        console.log(result)
+                        if (result.status) {
+                            $('#like-count').html(result.gig.like_reactions)
+                            $('#heart-count').html(result.gig.heart_reactions)
+                        }
+                    }
+                })
+            })
+
+            function get_reactions() {
+                var gig_id = '<?php echo $gig->id ?>'
+                console.log(gig_id)
+                $.ajax({
+                    url: base_url + 'gigs/get_reactions',
+                    method: 'post',
+                    data: {
+                        gig_id: gig_id
+                    },
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#like-count').html(result.gig.like_reactions)
+                        $('#heart-count').html(result.gig.heart_reactions)
+                    }
+                })
+            }
+
+            setInterval(function() {
+                var flag = '<?php echo ($gig->status == 2 && $this->dbs_user_id) ? true : false ?>'
+                // console.log(flag)
+                if (flag) {
+                    get_reactions();
+                }
+            }, 5000);
 
 
 

@@ -379,8 +379,8 @@ class Gigs_model extends CI_Model
 
 	function get_gig_popularity_data($gig_id)
 	{
-		$ress = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
-		return $ress;
+		$query = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
+		return $query->row();
 	}
 
 	function delete_gig_popularity_data($gig_id)
@@ -388,5 +388,33 @@ class Gigs_model extends CI_Model
 		$this->db->where('gig_id', $gig_id);
 		$this->db->delete('gig_popularity');
 		return true;
+	}
+
+	function get_reaction_data($data)
+	{
+		$query = $this->db->get_where('gig_reactions', array('gig_id' => $data['gig_id'], 'user_id' => $data['user_id']));
+		return $query->row();
+	}
+
+	function update_reaction_data($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('gig_reactions', $data);
+	}
+
+	function add_reaction_data($data)
+	{
+		$ress = $this->db->insert('gig_reactions', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
+	function get_reaction_count($gig_id)
+	{
+		$sql = "SELECT count(id) AS total_reactions, 
+						sum(CASE WHEN reaction = 'thumbs-up' THEN 1 ELSE 0 END) AS like_reactions,
+						sum(CASE WHEN reaction = 'heart' THEN 1 ELSE 0 END) AS heart_reactions
+						FROM gig_reactions WHERE gig_id=$gig_id";
+		$query = $this->db->query($sql);
+		return $query->row();
 	}
 }
