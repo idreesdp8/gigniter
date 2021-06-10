@@ -288,19 +288,20 @@ class Cart extends CI_Controller
 				$this->gigs_model->insert_tickets_data($ticket_params);
 			}
 			
-			$items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
-			$ticket_bought = 0;
-			foreach ($items as $item) {
-				$ticket_bought += $item->quantity;
-			}
-			// echo json_encode($ticket_bought);
+			$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig_id);
+			// $items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
+			// $ticket_bought = 0;
+			// foreach ($items as $item) {
+			// 	$ticket_bought += $item->quantity;
+			// }
+			// echo json_encode($ticket_bought->quantity);
 			// die();
 
 			$this->create_customer($token, $email_to, $name, $res);
-			if($ticket_bought > $threshold->threshold){
+			if($ticket_bought->quantity > $threshold->threshold){
 				$this->charge_and_transfer($gig_id);
 			}
-			$this->calculate_popularity($gig_id, $ticket_bought);
+			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
 			// $is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if (true) {
 				$this->cart->destroy();
@@ -496,7 +497,18 @@ class Cart extends CI_Controller
 		$param = [
 			'popularity' => $popularity
 		];
-
+		$gig_popularity = [
+			'gig_id' => $gig_id,
+			'date_diff' => $diff,
+			'backers' => $backers,
+			'amount_raised' => $amount_raised->price,
+			'score' => $popularity
+		];
+		$gig_popularity_data = $this->gigs_model->get_gig_popularity_data($gig_id);
+		if($gig_popularity_data) {
+			$this->gigs_model->delete_gig_popularity_data($gig_id);
+		}
+		$this->gigs_model->insert_gig_popularity_data($gig_popularity);
 		$this->gigs_model->update_gig_data($gig_id, $param);
 	}
 

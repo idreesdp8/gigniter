@@ -49,7 +49,7 @@ class Bookings extends CI_Controller
 			$cart_items = $this->bookings_model->get_booking_items($booking->id);
 			// echo json_encode($cart_items);
 			// die();
-			$gig_names = '';
+			$gig_name = '';
 			$ticket_names = '';
 			if ($cart_items) {
 				$temp_gig_titles = array();
