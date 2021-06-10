@@ -314,7 +314,7 @@ class Gigs extends CI_Controller
 					'start_time' => date('H:i:s', strtotime($data['start_time'])),
 					'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'status' => $status,
-					'is_draft' => $data['is_draft'],
+					'is_draft' => $data['is_draft'] == 2 ? 1 : $data['is_draft'],
 					'created_on' => $created_on,
 				);
 				// echo json_encode($datas);
@@ -327,6 +327,9 @@ class Gigs extends CI_Controller
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
+					if($data['is_draft'] == 2) {
+						redirect("gigs/detail?gig=" . $res);
+					}
 					// $response = [
 					// 	'status' => '200',
 					// ];
@@ -339,7 +342,7 @@ class Gigs extends CI_Controller
 				// echo json_encode($response);
 				// $this->load->view('admin/gigs/add');
 				// die();
-				redirect("my_gigs");
+				redirect('my_gigs');
 				// echo json_encode($response);
 			}
 		} else {
@@ -1071,12 +1074,12 @@ class Gigs extends CI_Controller
 		$data['user_id'] =  $this->input->post('user_id');
 		$data['gig_id'] =  $this->input->post('gig_id');
 		$reaction_data = $this->gigs_model->get_reaction_data($data);
-		if($reaction_data) {
+		if ($reaction_data) {
 			$ress = $this->gigs_model->update_reaction_data($reaction_data->id, $data);
 		} else {
 			$ress = $this->gigs_model->add_reaction_data($data);
 		}
-		if($ress) {
+		if ($ress) {
 			$result['status'] = true;
 			$result['reaction_data'] = $this->gigs_model->get_reaction_data($data);
 			$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);

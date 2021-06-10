@@ -111,7 +111,7 @@ $(document).ready(function () {
 
     $("#address").focusout(function () {
         check_gig_address();
-        $('#gig_address').html($(this).val());
+        // $('#gig_address').html($(this).val());
     });
     function check_gig_address() {
         var gig_address = $("#address").val();

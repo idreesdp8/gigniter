@@ -166,10 +166,41 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image">
+                    <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
+                    <!-- or Pitch Video -->
+                    <div style="height:200px;" class="gig-poster-wrapper">
+                      <div class="mb-1">
+
+                        <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
+                          <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                        </label>
+                        <input type="hidden" name="old_poster" class="old_poster" value="<?php echo poster_url() . $gig->poster ?>">
+                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                      </div>
+                      <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
+                        <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
+                    <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
+                    <!-- or Pitch Video -->
+                    <div class="gig-poster-wrapper">
+                      <div class="mb-1 video-wrapper">
+                        <img alt="your image" class="d-none" />
+                        <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
+                          <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                        </label>
+                        <input type="hidden" name="old_video" class="old_video" value="<?php echo video_url() . $gig->video ?>" disabled>
+                        <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Upload Gig Poster <small class="text-warning">min 360px x 354px</small>
-                      <!-- or Pitch Video -->
+                      or Pitch Video
                       <div>
                         <img class="object-fit-cover" id="img" src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                         <a><img src="<?php echo $gig->poster ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
@@ -177,30 +208,30 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" <?php echo $gig->address == '' ? 'style="display: none;"' : '' ?>>
                     <label>
                       Enter Address
-                      <input type="text" id="address" name="address" value="<?php echo $gig->subtitle; ?>" required="required">
+                      <input type="text" id="address" name="address" value="<?php echo $gig->address; ?>" required="required">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
                   <!-- <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
                       <h6 class="theme-primary-color">Enter Gig Details</h6>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Target Number of Tickets
+                      Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="goal" name="goal" value="<?php echo $gig->ticket_limit ?>" required="required" <?php echo $gig->status ? 'disabled' : '' ?>>
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Ticket Threshold
+                      Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
                       <input type="text" id="threshold" name="threshold" value="<?php echo $gig->threshold ?>" required="required">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
@@ -217,22 +248,22 @@
                     <label>
                       Campaign Launch Date
                       <?php
-                      if ($gig->campaign_date && (strtotime($gig->campaign_date) < strtotime('now'))) :
+                      // if ($gig->campaign_date && (strtotime($gig->campaign_date) < strtotime('now'))) :
                       ?>
-                        <div style="margin: 10px 0px;"><strong  class="theme-primary-color">Campaign is launched already!</strong></div>
+                        <!-- <div style="margin: 10px 0px;"><strong class="theme-primary-color">Campaign is launched already!</strong></div> -->
                       <?php
-                      else :
+                      // else :
                       ?>
-                        <div id="campaign-date-button">
+                        <!-- <div id="campaign-date-button">
                           <a type="button" class="btn btn-primary btn-step-continue btn-sm" id="launch-campaign">Launch Now</a>
                           <span> OR <strong class="logo-color" id="set-campaign-date">Set Date</strong></span>
-                        </div>
-                        <div id="campaign-date-input" style="display: none;">
-                          <input type="date" id="campaign_date" class="date" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime('now')) ?>" required="required">
+                        </div> -->
+                        <div id="campaign-date-input">
+                          <input type="date" id="campaign_date" class="date" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : '' ?>" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime('now')) ?>" required="required">
                           <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                         </div>
                       <?php
-                      endif;
+                      // endif;
                       ?>
                     </label>
                   </div>
@@ -365,7 +396,7 @@
                               ?>
                             </div>
                             <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                              <button  id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
+                              <button id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i ?>" data-tier="<?php echo $tier ?>">Add Product</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <div class="mycheckbox-contain">
@@ -422,7 +453,7 @@
                             </label>
                           </div>
                           <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                            <button  id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
+                            <button id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25" data-bundle="1" data-tier="1">Add Product</button>
                           </div>
                           <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="mycheckbox-contain">
@@ -624,8 +655,57 @@
   <?php $this->load->view('frontend/layout/scripts'); ?>
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
+  <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+  <!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script> -->
   <script>
     $(document).ready(function() {
+      var image = $('.old_poster').val();
+      var video = $('.old_video').val();
+      var label = '';
+      var label1 = '';
+      if (image) {
+        label = 'Change';
+      } else {
+        label = 'Upload';
+      }
+      if (video) {
+        label1 = 'Change';
+      } else {
+        label1 = 'Upload';
+      }
+      var fileActionSettings = {
+        zoomClass: '',
+        zoomIcon: '<i class="icon-zoomin3"></i>',
+        dragClass: 'p-2',
+        dragIcon: '<i class="icon-three-bars"></i>',
+        removeClass: '',
+        removeErrorClass: 'text-danger',
+        removeIcon: '<i class="icon-bin"></i>',
+        indicatorNew: '<i class="icon-file-plus text-success"></i>',
+        indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+        indicatorError: '<i class="icon-cross2 text-danger"></i>',
+        indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>'
+      };
+      $('#file-input').fileinput({
+        browseLabel: label,
+        browseIcon: '<i class="icon-file-plus mr-2"></i>',
+        initialPreview: [
+          image,
+        ],
+        initialPreviewAsData: true,
+        overwriteInitial: true,
+        fileActionSettings: fileActionSettings
+      });
+      $('#file-input1').fileinput({
+        browseLabel: label1,
+        browseIcon: '<i class="icon-file-plus mr-2"></i>',
+        initialPreview: [
+          video,
+        ],
+        initialPreviewAsData: true,
+        overwriteInitial: true,
+        fileActionSettings: fileActionSettings
+      });
 
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
@@ -684,18 +764,18 @@
         label.removeClass('d-none');
         var div = $(this).parents(div).find('.tier_bundles .row');
         div.append('<div class="col-md-4">' +
-        '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>' +
-        '<div class="form-group">' +
-        '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
-        '</div>' +
-        '<div class="image_div mb-0">' +
-        '<img alt="your image" class="d-none" />' +
-        '</div>' +
-        '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
-        '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
-        '</label>' +
-        '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
-        '</div>');
+          '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>' +
+          '<div class="form-group">' +
+          '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
+          '</div>' +
+          '<div class="image_div mb-0">' +
+          '<img alt="your image" class="d-none" />' +
+          '</div>' +
+          '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
+          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
+          '</label>' +
+          '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+          '</div>');
         i++;
         $(this).attr('data-bundle', i);
         $('.file-input').fileinput({

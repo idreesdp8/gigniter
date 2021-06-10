@@ -16,7 +16,6 @@
     #video {
       border: 0px;
     }
-
   </style>
 </head>
 
@@ -78,21 +77,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig Title <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Title"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="title" name="title" required="required" onchange="preview(this)">
+                      <input type="text" id="title" name="title" required="required">
                       <span id="title1" class="text-danger" generated="true"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig subtitle <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig subtitle"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="subtitle" name="subtitle" required="required" onchange="preview(this)">
+                      <input type="text" id="subtitle" name="subtitle" required="required">
                       <span id="subtitle1" class="text-danger" generated="true"><?php echo form_error('subtitle'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Category <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Category"><i class="fas fa-question-circle"></i></span>
-                      <select id="category" name="category" class="select" required="required" onchange="preview(this)">
+                      <select id="category" name="category" class="select" required="required">
                         <option value="">Select Category</option>
                         <?php
                         if (isset($categories)) :
@@ -110,7 +109,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Genre <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Genre"><i class="fas fa-question-circle"></i></span>
-                      <select id="genre" name="genre" class="select" required="required" onchange="preview(this)">
+                      <select id="genre" name="genre" class="select" required="required">
                         <option value="">Select Genre</option>
                         <?php
                         if (isset($genres)) :
@@ -130,14 +129,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox" onchange="preview(this)">
+                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox">
                             <label for="myCheckbox-live_stream">Live stream</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox" onchange="preview(this)">
+                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox">
                             <label for="myCheckbox-physical">Physical</label>
                             <span></span>
                           </div>
@@ -150,14 +149,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-image" name="poster_pitch" value="image" type="radio" onchange="preview(this)">
+                            <input id="myCheckbox-image" name="poster_pitch" value="image" type="radio">
                             <label for="myCheckbox-image">Image</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-video" name="poster_pitch" value="video" type="radio" onchange="preview(this)">
+                            <input id="myCheckbox-video" name="poster_pitch" value="video" type="radio">
                             <label for="myCheckbox-video">Video</label>
                             <span></span>
                           </div>
@@ -168,50 +167,37 @@
                   </div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image">
                     <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
-                      <!-- or Pitch Video -->
-                      <div style="height:200px;" class="gig-poster-wrapper">
-                        <div class="mb-1">
+                    <!-- or Pitch Video -->
+                    <div style="height:200px;" class="gig-poster-wrapper">
+                      <div class="mb-1">
 
                         <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
-                        <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                          <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false"
-                        data-show-upload="false" data-fouc>
-                        </div>
-
-
-
-                        <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
+                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                      </div>
+                      <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
-                      </div>
-
+                    </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
                     <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
-                      <!-- or Pitch Video -->
-                      <div class="gig-poster-wrapper">
-                        <div class="mb-1 video-wrapper">
+                    <!-- or Pitch Video -->
+                    <div class="gig-poster-wrapper">
+                      <div class="mb-1 video-wrapper">
                         <img alt="your image" class="d-none" />
                         <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
-                        <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                          <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                      <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block"
-                      data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
-                        </div>
-
-                      <!-- <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a> -->
-                      <!-- <input type='file' name="video" id="video" accept="video/*" class="btn btn-primary form-control" /> -->
-                      <!-- <video controls id="video-tag">
-                          <source src="" id="video-source" type="video/*">
-                        </video> -->
+                        <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                       </div>
-
+                    </div>
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address" style="display: none">
                     <label>
                       Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
-                      <input type="hidden" id="address" name="address" required="required" onchange="preview(this)">
+                      <input type="text" id="address" name="address" required="required">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
@@ -224,21 +210,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal" name="goal" required="required" onchange="preview(this)">
+                      <input type="number" id="goal" name="goal" required="required">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="threshold" name="threshold" required="required" onchange="preview(this)">
+                      <input type="number" id="threshold" name="threshold" required="required">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal_amount" name="goal_amount" required="required" onchange="preview(this)">
+                      <input type="number" id="goal_amount" name="goal_amount" required="required">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
@@ -247,35 +233,35 @@
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
+                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Start Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
+                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required" onchange="preview(this)">
+                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="mycheckbox-contain">
                       <div class="allow-overshoot">
-                        <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1" onchange="preview(this)">
+                        <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1">
                         <label for="myCheckbox-allow_overshoot">Allow overshoot</label>
                         <span></span>
                       </div>
@@ -306,25 +292,25 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Name
-                            <input type="text" name="ticket_name[]" placeholder="" onchange="ticket_preview(this)">
+                            <input type="text" name="ticket_name[]" placeholder="">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Price
-                            <input type="number" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)">
+                            <input type="number" name="ticket_price[]" placeholder="USD $">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Number of tickets in Tier
-                            <input type="number" name="ticket_quantity[]" placeholder="" value="1" min="1" onchange="ticket_preview(this)">
+                            <input type="number" name="ticket_quantity[]" placeholder="" value="1" min="1">
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                           <label>
                             Description
-                            <textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea>
+                            <textarea name="ticket_description[]" cols="30" rows="2"></textarea>
                           </label>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
@@ -340,7 +326,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <div class="mycheckbox-contain">
                             <div class="allow-overshoot">
-                              <input id="myCheckbox-ticket_is_unlimited_1" type="checkbox" name="ticket_is_unlimited_1" value="1" onchange="ticket_preview(this)">
+                              <input id="myCheckbox-ticket_is_unlimited_1" type="checkbox" name="ticket_is_unlimited_1" value="1">
                               <label for="myCheckbox-ticket_is_unlimited_1">No Limit</label>
                               <span></span>
                             </div>
@@ -532,174 +518,10 @@
 
               <div class="panel panel-primary setup-content" id="step-5">
                 <div class="row">
-                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-heading">
-                      <div class="gig-details">
-                        <h2>Gig Details</h2>
-
-
-                        <ul>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Title
-                              <p id="gig_title"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Subtitle
-                              <p id="gig_subtitle"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Category
-                              <p id="gig_category"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Genre
-                              <p id="gig_genre"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Venue(s)
-                              <p id="gig_venues"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Address
-                              <p id="gig_address"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Number of Tickets
-                              <p id="gig_goal"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Number of Tickets
-                              <p id="gig_threshold"></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Campaign Date
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Date
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig Start Time
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">Gig End Time
-                              <p id="gig_subtitle">adadf</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">
-                              <p id="gig_is_overshoot" class="d-none">*Overshoot allowed</p>
-                            </label>
-                          </li>
-                          <li>
-                            <label style="width: 100%;" class="m-0 poster-img font-weight-bold">Gig Poster
-                              <img id="gig_poster" src="" width="100%">
-                            </label>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <div class="gig-details">
-                        <h2>Gig Ticket Tiers</h2>
-                        <div class="row" id="gig_ticket_tiers">
-                          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div id="gig_tier1">
-                              <ul>
-                                <li>
-                                  <label class="m-0 font-weight-bold">Tier Name
-                                    <p class="ticket_name"></p>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label class="m-0 font-weight-bold">Tier Price
-                                    <p class="ticket_price"></p>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label class="m-0 font-weight-bold">Number of tickets
-                                    <p class="ticket_quantity"></p>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label style="width: 50%;" class="m-0 font-weight-bold">Tier Description
-                                    <p class="ticket_description"></p>
-                                  </label>
-                                </li>
-                                <li>
-                                  <label class="m-0 font-weight-bold">
-                                    <p class="ticket_is_unlimited d-none">*Unlimited</p>
-                                  </label>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="gig-details">
-                        <h2>User details</h2>
-                        <ul>
-                          <li>
-                            <label class="m-0 font-weight-bold">User Name
-                              <p id="gig_user_name"><?php echo $user->fname . ' ' . $user->lname ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User Bio
-                              <p id="gig_user_bio"><?php echo $user->description ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User Address
-                              <p id="gig_user_address"><?php echo $user->address ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User Mail
-                              <p id="gig_mail"><?php echo $link[0]['mail'] ?? null ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User Facebook URL
-                              <p id="gig_facebook"><?php echo $link[1]['facebook'] ?? null ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User instagram URL
-                              <p id="gig_instagram"><?php echo $link[2]['instagram'] ?? null ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label class="m-0 font-weight-bold">User twitter URL
-                              <p id="gig_twitter"><?php echo $link[3]['twitter'] ?? null ?></p>
-                            </label>
-                          </li>
-                          <li>
-                            <label style="width: 50%;margin-left: 30px;" class="m-0 profile-img font-weight-bold">Profile Image
-                              <img style="width: 100px;margin-left: 30px;" id="gig_user_iamge" src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" width="100%">
-                            </label>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="button" class="btn-theme-primary btn" onclick="preview_gig()">Preview</button>
+                      <button type="submit" class="btn-theme-primary btn" onclick="submit_form(2)">Preview</button>
                       <button type="submit" class="btn-theme-primary btn ml-3" onclick="submit_form(1)">Save as Draft</button>
                       <?php
                       if (!$gig) :
@@ -734,23 +556,18 @@
       $('#is_draft').val(val);
     }
 
-    function preview_gig() {
-      alert('Form Preview')
-    }
     $(document).ready(function() {
 
       $('#start_gig_menu').addClass('active');
 
-      $('#gig_address').hide();
+      // $('#gig_address').hide();
 
       $('#myCheckbox-physical').change(function() {
         var is_checked = $(this).is(':checked');
         if (is_checked) {
           $('#gig_address').fadeIn();
-          $('#address').attr('type', 'text');
         } else {
           $('#gig_address').hide();
-          $('#address').attr('type', 'hidden');
         }
       })
 
@@ -792,16 +609,16 @@
           '</div>' +
           '<div class="row">' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Name<input type="text" name="ticket_name[]" placeholder="" onchange="ticket_preview(this)"></label>' +
+          '<label>Tier Name<input type="text" name="ticket_name[]" placeholder=""></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Price<input type="number" name="ticket_price[]" placeholder="USD $" onchange="ticket_preview(this)"></label>' +
+          '<label>Tier Price<input type="number" name="ticket_price[]" placeholder="USD $"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Number of tickets in Tier<input type="number" name="ticket_quantity[]" placeholder="" onchange="ticket_preview(this)"></label>' +
+          '<label>Number of tickets in Tier<input type="number" name="ticket_quantity[]" placeholder=""></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12">' +
-          '<label>Description<textarea name="ticket_description[]" cols="30" rows="2" onchange="ticket_preview(this)"></textarea></label>' +
+          '<label>Description<textarea name="ticket_description[]" cols="30" rows="2"></textarea></label>' +
           '</div>' +
           '<div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">' +
           '<label class="d-none mb-0">Products<div class="row mb-2"></div></label>' +
@@ -812,7 +629,7 @@
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<div class="mycheckbox-contain">' +
           '<div class="allow-overshoot">' +
-          '<input id="myCheckbox-ticket_is_unlimited_' + tier + '" type="checkbox" name="ticket_is_unlimited_' + tier + '" value="1" onchange="ticket_preview(this)">' +
+          '<input id="myCheckbox-ticket_is_unlimited_' + tier + '" type="checkbox" name="ticket_is_unlimited_' + tier + '" value="1">' +
           '<label for="myCheckbox-ticket_is_unlimited_' + tier + '">No Limit</label><span></span>' +
           '</div>' +
           '</div>' +
@@ -897,48 +714,48 @@
       $('#threshold').val(threshold);
     })
 
-    function preview(input) {
-      var e_val = input.value;
-      var e_name = input.getAttribute("name");
-      var e_type = input.type;
-      if (e_name == 'venues[]') {
-        if (e_name == 'venues[]' && input.checked) {
-          $('#gig_venues').append('<div id="gig_' + e_val + '">' + e_val + '</div>');
-        } else {
-          // console.log(e_val);
-          $('#gig_' + e_val).remove();
-        }
-      }
-      if (e_name == 'is_overshoot') {
-        // console.log(input.checked);
-        if (input.checked) {
-          $('#gig_' + e_name).removeClass('d-none');
-        } else {
-          $('#gig_' + e_name).addClass('d-none');
-        }
-      }
-      if (e_type == 'text') {
-        $('#gig_' + e_name).html(e_val);
-      }
-    }
+    // function preview(input) {
+    //   var e_val = input.value;
+    //   var e_name = input.getAttribute("name");
+    //   var e_type = input.type;
+    //   if (e_name == 'venues[]') {
+    //     if (e_name == 'venues[]' && input.checked) {
+    //       $('#gig_venues').append('<div id="gig_' + e_val + '">' + e_val + '</div>');
+    //     } else {
+    //       // console.log(e_val);
+    //       $('#gig_' + e_val).remove();
+    //     }
+    //   }
+    //   if (e_name == 'is_overshoot') {
+    //     // console.log(input.checked);
+    //     if (input.checked) {
+    //       $('#gig_' + e_name).removeClass('d-none');
+    //     } else {
+    //       $('#gig_' + e_name).addClass('d-none');
+    //     }
+    //   }
+    //   if (e_type == 'text') {
+    //     $('#gig_' + e_name).html(e_val);
+    //   }
+    // }
 
-    function ticket_preview(input) {
-      var t_val = input.value;
-      var t_name = input.getAttribute("name").slice(0, -2);
-      var t_type = input.type;
-      if (t_type == 'text' || t_type == 'textarea' || t_type == 'number') {
-        var tier = input.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-        $('#gig_' + tier).find('.' + t_name).html(t_val);
-      }
-      if (t_type == 'checkbox') {
-        var tier = input.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-        if (input.checked) {
-          $('#gig_' + tier).find('.' + t_name).removeClass('d-none');
-        } else {
-          $('#gig_' + tier).find('.' + t_name).addClass('d-none');
-        }
-      }
-    }
+    // function ticket_preview(input) {
+    //   var t_val = input.value;
+    //   var t_name = input.getAttribute("name").slice(0, -2);
+    //   var t_type = input.type;
+    //   if (t_type == 'text' || t_type == 'textarea' || t_type == 'number') {
+    //     var tier = input.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+    //     $('#gig_' + tier).find('.' + t_name).html(t_val);
+    //   }
+    //   if (t_type == 'checkbox') {
+    //     var tier = input.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+    //     if (input.checked) {
+    //       $('#gig_' + tier).find('.' + t_name).removeClass('d-none');
+    //     } else {
+    //       $('#gig_' + tier).find('.' + t_name).addClass('d-none');
+    //     }
+    //   }
+    // }
 
     function readURL(input) {
       if (input.files && input.files[0]) {
