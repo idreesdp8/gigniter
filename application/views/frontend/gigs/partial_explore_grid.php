@@ -35,11 +35,11 @@ if ($gigs) :
                             <?php
                             if ($this->session->userdata('us_id') != $gig->user_id) :
                             ?>
-                                <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
+                                <a style="margin-right:10px" type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
                             <?php
                             endif;
                             ?>
-                            <a style="margin-left:10px" href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
+                            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" class="btn btn-warning btn-view mb-4">view</a>
                         </div>
                     </div>
                 </div>
