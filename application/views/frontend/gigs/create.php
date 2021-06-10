@@ -16,6 +16,7 @@
     #video {
       border: 0px;
     }
+
   </style>
 </head>
 
@@ -166,30 +167,46 @@
                   <div class="col-lg-9 col-md-8 col-sm-12 col-12">
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image" style="display: none">
-                    <label>
-                      Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span>
+                    <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
-                        <input type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                        <div class="image_div mb-1">
+                        <img alt="your image" class="d-none" />
+                        <label style="left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
+                        <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                        </label>
+                        <input id="file-input" type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false"
+                        data-show-upload="false" data-fouc>
+                        </div>
+
+
+
                         <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
                       </div>
-                    </label>
+
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video" style="display: none">
-                    <label>
-                      Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span>
+                    <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
-                      <input type="file" name="image" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                        <div class="image_div mb-1 video-wrapper">
+                        <img alt="your image" class="d-none" />
+                        <label style="left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
+                        <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
+                        </label>
+                      <input id="file-input1" type="file" name="image" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block"
+                      data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                        </div>
+
                       <!-- <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a> -->
                       <!-- <input type='file' name="video" id="video" accept="video/*" class="btn btn-primary form-control" /> -->
                       <!-- <video controls id="video-tag">
                           <source src="" id="video-source" type="video/*">
                         </video> -->
                       </div>
-                    </label>
+
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address">
                     <label>
