@@ -169,10 +169,10 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image" style="display: none">
                     <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
-                      <div class="gig-poster-wrapper">
-                        <div class="image_div mb-1">
-                        <img alt="your image" class="d-none" />
-                        <label style="left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
+                      <div style="height:200px;" class="gig-poster-wrapper">
+                        <div class="mb-1">
+
+                        <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
                         <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
                         <input id="file-input" type="file" name="image" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false"
@@ -191,9 +191,9 @@
                     <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
                       <!-- or Pitch Video -->
                       <div class="gig-poster-wrapper">
-                        <div class="image_div mb-1 video-wrapper">
+                        <div class="mb-1 video-wrapper">
                         <img alt="your image" class="d-none" />
-                        <label style="left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
+                        <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
                         <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
                       <input id="file-input1" type="file" name="image" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block"
