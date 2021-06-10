@@ -325,6 +325,7 @@ class Gigs extends CI_Controller
 		$data = [
 			'is_approved' => 1,
 			'is_rejected' => 0,
+			'status' => 1
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		$this->session->set_flashdata('success_msg', 'Gig is accepted');
@@ -339,6 +340,7 @@ class Gigs extends CI_Controller
 		$data = [
 			'is_approved' => 0,
 			'is_rejected' => 1,
+			'status' => 0
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		$this->session->set_flashdata('deleted_msg', 'Gig is rejected');
