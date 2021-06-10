@@ -512,10 +512,11 @@ cursor: pointer;
 }
 #carousel_5  .card-footer .btn-view, #carousel_4  .card-footer .btn-view, #carousel_3  .card-footer .btn-view {
 	    width: 100% !important;
-			    margin-left: 20px !important;
+
 }
 #carousel_5 .card-footer .btn-watch, #carousel_4 .card-footer .btn-watch, #carousel_3 .card-footer .btn-watch {
 	width: 100% !important;
+	margin-right: 20px !important;
 }
 @media only screen and (max-width: 600px) {
 /*	.kv-file-content img {
