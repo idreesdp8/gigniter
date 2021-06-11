@@ -633,9 +633,10 @@
                     success: function(result) {
                         console.log(result)
                         if (result.status) {
-                            $('#like-count').html(result.gig.like_reactions)
-                            $('#heart-count').html(result.gig.heart_reactions)
+                            console.log('reaction done')
                         }
+                        $('#like-count').html(result.gig.like_reactions)
+                        $('#heart-count').html(result.gig.heart_reactions)
                     }
                 })
             })

@@ -977,6 +977,7 @@ class Gigs extends CI_Controller
 
 	function trash($args2 = '')
 	{
+
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'trash', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
@@ -984,12 +985,19 @@ class Gigs extends CI_Controller
 		// echo $args2;
 		// die();
 		$gig = $this->gigs_model->get_gig_by_id($args2);
-		@unlink("downloads/posters/thumb/$gig->poster");
-		@unlink("downloads/posters/$gig->poster");
-		$this->remove_tickets($args2, 1);
-		$this->gigs_model->trash_gig($args2);
-		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
-		redirect('my_gigs');
+		// echo json_encode($gig);
+		// die();
+		if(!$gig->is_approved){
+			@unlink("downloads/posters/thumb/$gig->poster");
+			@unlink("downloads/posters/$gig->poster");
+			$this->remove_tickets($args2, 1);
+			$this->gigs_model->trash_gig($args2);
+			$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
+			redirect('my_gigs');
+		} else {
+			$this->session->set_flashdata('warning_msg', 'Gig is approved! Contact admin to delete your Gig.');
+			redirect('my_gigs');
+		}
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -1079,8 +1087,9 @@ class Gigs extends CI_Controller
 		// } else {
 		// 	$ress = $this->gigs_model->add_reaction_data($data);
 		// }
-		$result = $this->gigs_model->get_emoji_reaction_data($data);
-		if (!$result) {
+		$emoji = $this->gigs_model->get_emoji_reaction_data($data);
+		$ress = false;
+		if (!$emoji) {
 			$ress = $this->gigs_model->add_reaction_data($data);
 		}
 

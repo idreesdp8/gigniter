@@ -44,17 +44,25 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
                         <?php
+                        if (!$gig->is_approved) :
+                        ?>
+                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
+                        <?php
+                        endif;
                         if ($gig->is_approved) :
                         ?>
                             <a href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">purchases</a>
                         <?php
                         endif;
+                        if (!$gig->is_approved) :
                         ?>
-                        <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                            <button type="submit" class="btn btn-warning btn-watch mb-4">Delete</button>
-                        </form>
+                            <form class="datas_form" method="post" action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
+                                <button type="submit" class="btn btn-warning btn-watch mb-4 delete_btn" onclick="delete_gig()">Delete</button>
+                            </form>
+                        <?php
+                        endif;
+                        ?>
                     </div>
                 </div>
             </div>
@@ -71,5 +79,24 @@
 </div>
 
 <script>
-
+    function delete_gig() {
+        event.preventDefault()
+        var form = event.target.form
+        console.log(form)
+        swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            } else {
+                swal({
+                    icon: 'info',
+                    title: 'Your Gig is safe!',
+                });
+            }
+        });
+    }
 </script>
