@@ -12,9 +12,17 @@
     .panel>.active {
       display: block;
     }
+    .add-product-border {
+    	border: 1px solid rgba(85, 96, 255, 0.5) !important;
+    }
 
     .text-danger .error {
       border: none !important;
+    }
+    .pos-absolute-img {
+    	position: absolute;
+        top: 55%;
+        left: 45%;
     }
 
     .image_div {
@@ -369,10 +377,11 @@
                                         <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
-                                        <div class="image_div mb-0">
-                                          <img src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
+                                      <div class="add-product-border image_div mb-0">
+
+                                          <img class="pos-absolute-img" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
                                         </div>
-                                        <input type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
+                                        <input class="d-none" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
                                         <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>
@@ -474,17 +483,12 @@
                   endif;
                   ?>
                 </div>
-                <div class="row">
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
-                  <div class="col-lg-3 order-first order-md-last col-md-3 col-sm-12 col-12">
-                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button>
-                  </div>
-                </div>
+              
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
                   </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
+                  <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12">  <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button></div>
                 </div>
                 <!-- </form> -->
               </div>
@@ -769,13 +773,13 @@
           '<div class="form-group">' +
           '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
           '</div>' +
-          '<div class="image_div mb-0">' +
+          '<div class="add-product-border image_div mb-0">' +
           '<img alt="your image" class="d-none" />' +
           '</div>' +
           '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
-          '<img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
+          '<img class="pos-absolute-img" src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
           '</label>' +
-          '<input id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+          '<input class="d-none" id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
