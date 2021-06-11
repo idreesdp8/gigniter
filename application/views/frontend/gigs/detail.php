@@ -109,7 +109,7 @@
                         ?>
                                 <div class="custom-item3 d-flex">
                                     <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                        <button type="button" class="skicky-buttons btn btn-warning btn-booking">Delete</button>
+                                        <button type="submit" class="skicky-buttons btn btn-warning btn-booking" onclick="delete_gig()">Delete</button>
                                     </form>
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
                                 </div>
@@ -562,6 +562,26 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
+        function delete_gig() {
+            event.preventDefault()
+            var form = event.target.form
+            console.log(form)
+            swal({
+                title: "Are you sure?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                } else {
+                    swal({
+                        icon: 'info',
+                        title: 'Your Gig is safe!',
+                    });
+                }
+            });
+        }
         $(document).ready(function() {
 
             $(window).scroll(function() {
