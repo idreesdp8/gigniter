@@ -43,64 +43,68 @@ class Gigs extends CI_Controller
 	{
 		$id = $_GET['gig'];
 		$gig = $this->gigs_model->get_gig_by_id($id);
-		$user = $this->users_model->get_user_by_id($gig->user_id);
-		$gig->user_name = $user->fname . ' ' . $user->lname;
-		$args1 = [
-			'key' => $this->genre_key,
-			'value' => $gig->genre
-		];
-		$genre = $this->configurations_model->get_configuration_by_key_value($args1);
-		$gig->genre_name = $genre->label;
-		$args2 = [
-			'key' => $this->category_key,
-			'value' => $gig->category
-		];
-		$category = $this->configurations_model->get_configuration_by_key_value($args2);
-		$gig->category_name = $category->label;
-		$now = new DateTime();
-		$gig_date = new DateTime($gig->gig_date);
-		$interval = $gig_date->diff($now);
-		$gig->days_left = $interval->format('%a');
-		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-		$ticket_bought = 0;
-		foreach ($cart_items as $item) {
-			$ticket_bought += $item->quantity;
-		}
-		$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-		$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
-		$gig->images = $this->gigs_model->get_gig_gallery_images($id);
-		if ($gig->start_time && $gig->end_time) {
-			$start_time = new DateTime($gig->start_time);
-			$end_time = new DateTime($gig->end_time);
-			$duration = $end_time->diff($start_time);
-			$gig->duration = $duration->format('%h hrs %i mins');
-		} else {
-			$gig->duration = 'NA';
-		}
-		$buyers = array();
-		$res = $this->gigs_model->get_gig_buyers($id);
-		foreach ($res as $k => $v) {
-			$buyers[] = $v->user_id;
-		}
-		$gig->buyers = $buyers;
-		$gig->reactions = $this->gigs_model->get_reaction_count($id);
-		$data['gig'] = $gig;
-		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
-		foreach ($tiers as $tier) {
-			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
-			$tier->image = '';
-			if ($tier->bundles) {
-				foreach ($tier->bundles as $bundle) {
-					if ($tier->image == '') {
-						$tier->image = $bundle->image;
+		if($gig->is_approved || ($this->dbs_user_id && $this->dbs_user_id == $gig->user_id)) {
+			$user = $this->users_model->get_user_by_id($gig->user_id);
+			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$args1 = [
+				'key' => $this->genre_key,
+				'value' => $gig->genre
+			];
+			$genre = $this->configurations_model->get_configuration_by_key_value($args1);
+			$gig->genre_name = $genre->label;
+			$args2 = [
+				'key' => $this->category_key,
+				'value' => $gig->category
+			];
+			$category = $this->configurations_model->get_configuration_by_key_value($args2);
+			$gig->category_name = $category->label;
+			$now = new DateTime();
+			$gig_date = new DateTime($gig->gig_date);
+			$interval = $gig_date->diff($now);
+			$gig->days_left = $interval->format('%a');
+			$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+			$ticket_bought = 0;
+			foreach ($cart_items as $item) {
+				$ticket_bought += $item->quantity;
+			}
+			$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
+			$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+			$gig->images = $this->gigs_model->get_gig_gallery_images($id);
+			if ($gig->start_time && $gig->end_time) {
+				$start_time = new DateTime($gig->start_time);
+				$end_time = new DateTime($gig->end_time);
+				$duration = $end_time->diff($start_time);
+				$gig->duration = $duration->format('%h hrs %i mins');
+			} else {
+				$gig->duration = 'NA';
+			}
+			$buyers = array();
+			$res = $this->gigs_model->get_gig_buyers($id);
+			foreach ($res as $k => $v) {
+				$buyers[] = $v->user_id;
+			}
+			$gig->buyers = $buyers;
+			$gig->reactions = $this->gigs_model->get_reaction_count($id);
+			$data['gig'] = $gig;
+			$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($id);
+			foreach ($tiers as $tier) {
+				$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+				$tier->image = '';
+				if ($tier->bundles) {
+					foreach ($tier->bundles as $bundle) {
+						if ($tier->image == '') {
+							$tier->image = $bundle->image;
+						}
 					}
 				}
 			}
+			$data['tiers'] = $tiers;
+			$data['stream_details'] = $this->gigs_model->get_stream_details($id);
+			// echo json_encode($data);die();
+			$this->load->view('frontend/gigs/detail', $data);
+		} else {
+			redirect('/');
 		}
-		$data['tiers'] = $tiers;
-		$data['stream_details'] = $this->gigs_model->get_stream_details($id);
-		// echo json_encode($data);die();
-		$this->load->view('frontend/gigs/detail', $data);
 	}
 
 	public function create_user($data, $file)
