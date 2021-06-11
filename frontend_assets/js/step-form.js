@@ -34,9 +34,6 @@ $(document).ready(function () {
             prog_step = $("a.btn-default"),
             err_input = '',
             isValid = true;
-
-        console.log(nextStepWizard);
-        $('#campaign_date')
         $(curInputs).removeClass("error");
         for (var i = 0; i < curInputs.length; i++) {
             // console.log(curInputs[i])
@@ -46,6 +43,18 @@ $(document).ready(function () {
                 }
                 isValid = false;
                 $(curInputs[i]).addClass("error");
+                console.log(err_input)
+                if($(curInputs[i]).attr('name') == 'poster') {
+                    var div_image = $(curInputs[i]).parents('#div_image')
+                    div_image.append('<div class="text-danger">Gig Poster is required field</div>')
+                    div_image.find('.file-preview-thumbnails').addClass('error')
+                    var scrollPos = div_image.find('.file-preview-thumbnails').offset().top - $('.header-section').outerHeight(true) - $('#div_image p').outerHeight(true);
+                    console.log(scrollPos);
+                    $(window).scrollTop(scrollPos);
+                    // $('html, body').animate({
+                    //     scrollTop: div_image.find('.file-preview-thumbnails').offset().top
+                    // }, 2000);
+                }
             }
         }
         // console.log(err_input)
