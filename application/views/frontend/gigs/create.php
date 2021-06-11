@@ -197,7 +197,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address" style="display: none">
                     <label>
                       Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="address" name="address" required="required">
+                      <input type="text" id="address" name="address">
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
@@ -560,17 +560,6 @@
 
       $('#start_gig_menu').addClass('active');
 
-      // $('#gig_address').hide();
-
-      $('#myCheckbox-physical').change(function() {
-        var is_checked = $(this).is(':checked');
-        if (is_checked) {
-          $('#gig_address').fadeIn();
-        } else {
-          $('#gig_address').hide();
-        }
-      })
-
       // $('input[type=radio]').change(function() {
       //   var selected_radio = $(this).val();
       //   console.log(selected_radio)
@@ -703,11 +692,11 @@
         div.remove();
       });
     });
-    $('#start_time').change(function() {
-      var time = $(this).val();
-      $('#end_time').attr('min', time);
-      $('#end_time').attr('max', '23:59');
-    })
+    // $('#start_time').change(function() {
+    //   var time = $(this).val();
+    //   $('#end_time').attr('min', time);
+    //   $('#end_time').attr('max', '23:59');
+    // })
     $('#goal').change(function() {
       var goal = $(this).val();
       var threshold = Math.round(goal * .6);

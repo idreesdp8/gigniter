@@ -189,7 +189,7 @@
                     <div class="gig-poster-wrapper">
                       <div class="mb-1 video-wrapper">
                         <!-- <img alt="your image" class="d-none" /> -->
-                        <input type="hidden" name="old_video" class="old_video" value="<?php echo video_url() . $gig->video ?>" disabled>
+                        <input type="hidden" name="old_video" class="old_video" value="<?php echo video_url() . $gig->video ?>">
                         <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
                           <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>

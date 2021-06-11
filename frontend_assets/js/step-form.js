@@ -30,7 +30,7 @@ $(document).ready(function () {
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-            curInputs = curStep.find("input[type='text'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[type='file'],.select,.textarea"),
+            curInputs = curStep.find("input[type='text'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[name=poster],.select,.textarea"),
             prog_step = $("a.btn-default"),
             err_input = '',
             isValid = true;
@@ -39,6 +39,7 @@ $(document).ready(function () {
         $('#campaign_date')
         $(curInputs).removeClass("error");
         for (var i = 0; i < curInputs.length; i++) {
+            // console.log(curInputs[i])
             if (!curInputs[i].validity.valid) {
                 if (err_input == '') {
                     err_input = curInputs[i];
@@ -47,6 +48,7 @@ $(document).ready(function () {
                 $(curInputs[i]).addClass("error");
             }
         }
+        // console.log(err_input)
         if (err_input !== '') {
             err_input.focus();
         }
@@ -70,7 +72,7 @@ $(document).ready(function () {
     var error_subtitle = false;
     var error_category = false;
     var error_genre = false;
-    // var error_poster = false;
+    var error_poster = false;
     var error_gig_address = false;
     var error_goal = false;
     var error_threshold = false;
@@ -108,9 +110,24 @@ $(document).ready(function () {
             error_subtitle = true;
         }
     }
+    
+    $('#myCheckbox-physical').change(function() {
+        var is_checked = $(this).is(':checked');
+        if (is_checked) {
+          $('#gig_address').fadeIn();
+          $('#address').attr('required', 'true')
+        } else {
+          $('#gig_address').hide();
+          $('#address').removeAttr('required')
+          $("#address").removeClass("error").addClass("good");
+          error_gig_address = true;
+        }
+      })
 
     $("#address").focusout(function () {
-        check_gig_address();
+        if($(this).parents('#gig_address').not().css('display', 'none')) {
+            check_gig_address();
+        }
         // $('#gig_address').html($(this).val());
     });
     function check_gig_address() {
@@ -246,7 +263,7 @@ $(document).ready(function () {
         if (end_time == '') {
             $("#end_time").addClass("error").removeClass("good");
         } if (end_time !== '') {
-            if (input.validity.valid && input.type === 'time') {
+            if (/* input.validity.valid && */ input.type === 'time') {
                 $("#end_time").removeClass("error").addClass("good");
                 error_end_time = true;
             } else {
@@ -256,18 +273,19 @@ $(document).ready(function () {
     }
 
 
-    // $("#poster").focusout(function () {
-    //     check_poster();
-    // });
-    // function check_poster() {
-    //     var poster = $("#poster").val();
-    //     if (poster == '') {
-    //         $("#poster").removeClass("good").addClass("error");
-    //     } else {
-    //         $("#poster").removeClass("error").addClass("good");
-    //         error_poster = true;
-    //     }
-    // }
+    $("input[name=poster]").change(function () {
+        check_poster();
+    });
+    function check_poster() {
+        var poster = $("input[name=poster]").val();
+        // console.log(poster)
+        if (poster == '') {
+            $("input[name=poster]").removeClass("good").addClass("error");
+        } else {
+            $("input[name=poster]").removeClass("error").addClass("good");
+            error_poster = true;
+        }
+    }
     // step 1 Functions END...
 
     // step 2 Functions START...
