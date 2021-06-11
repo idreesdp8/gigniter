@@ -323,9 +323,13 @@ a.btn-success-circle ~ p {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
-	-webkit-line-clamp: 2;
+	-webkit-line-clamp: 1;
 	-webkit-box-orient: vertical;
-	min-height: 62px;
+	min-height: 20px;
+}
+.grid-footer .limit-single-line {
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 .content-bar select {
