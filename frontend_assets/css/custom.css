@@ -642,3 +642,10 @@ height: 200px !important;
 	height: 200px;
 	object-fit: cover;
 }
+
+.signup-error-link {
+	color: inherit;
+}
+.signup-error-link:hover {
+	color: blue;
+}

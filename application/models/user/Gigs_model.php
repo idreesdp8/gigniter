@@ -210,6 +210,7 @@ class Gigs_model extends CI_Model
 
 	function check_gig_by_user_id($args1)
 	{
+		$this->db->order_by('created_on', 'DESC');
 		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'is_draft' => 0));
 		return $query->row();
 	}

@@ -110,7 +110,7 @@ class Account extends CI_Controller
 				'Email',
 				'trim|required|xss_clean|valid_email|is_unique[users.email]',
 				array(
-					'is_unique' => "We're sorry, the login email already exists. Please try a different email address to register, or login to your existing account."
+					'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="'.user_base_url().'login">login</a> to your existing account.'
 				)
 			);
 			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
