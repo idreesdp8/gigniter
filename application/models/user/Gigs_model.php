@@ -215,6 +215,13 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
+	function check_completed_gig_by_user_id($args1)
+	{
+		$this->db->order_by('created_on', 'DESC');
+		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'status' => 3));
+		return $query->row();
+	}
+
 	function get_gig_buyers($gig_id)
 	{
 		$this->db->select('user_id');
@@ -394,6 +401,12 @@ class Gigs_model extends CI_Model
 	function get_reaction_data($data)
 	{
 		$query = $this->db->get_where('gig_reactions', array('gig_id' => $data['gig_id'], 'user_id' => $data['user_id']));
+		return $query->row();
+	}
+
+	function get_emoji_reaction_data($data)
+	{
+		$query = $this->db->get_where('gig_reactions', array('gig_id' => $data['gig_id'], 'user_id' => $data['user_id'], 'reaction' => $data['reaction']));
 		return $query->row();
 	}
 

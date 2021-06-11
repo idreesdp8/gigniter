@@ -327,7 +327,7 @@ class Gigs extends CI_Controller
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
-					if($data['is_draft'] == 2) {
+					if ($data['is_draft'] == 2) {
 						redirect("gigs/detail?gig=" . $res);
 					}
 					// $response = [
@@ -348,7 +348,7 @@ class Gigs extends CI_Controller
 		} else {
 			// if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
 
-			$data['gig'] = isset($this->dbs_user_id) ? $this->gigs_model->check_gig_by_user_id($this->dbs_user_id) : false;
+			$data['gig'] = isset($this->dbs_user_id) ? $this->gigs_model->check_completed_gig_by_user_id($this->dbs_user_id) : false;
 			// echo json_encode($gig);
 			// die();
 			// if($gig){
@@ -1073,15 +1073,20 @@ class Gigs extends CI_Controller
 		$data['reaction'] =  $this->input->post('reaction');
 		$data['user_id'] =  $this->input->post('user_id');
 		$data['gig_id'] =  $this->input->post('gig_id');
-		$reaction_data = $this->gigs_model->get_reaction_data($data);
-		if ($reaction_data) {
-			$ress = $this->gigs_model->update_reaction_data($reaction_data->id, $data);
-		} else {
+		// $reaction_data = $this->gigs_model->get_reaction_data($data);
+		// if ($reaction_data) {
+		// 	$ress = $this->gigs_model->update_reaction_data($reaction_data->id, $data);
+		// } else {
+		// 	$ress = $this->gigs_model->add_reaction_data($data);
+		// }
+		$result = $this->gigs_model->get_emoji_reaction_data($data);
+		if (!$result) {
 			$ress = $this->gigs_model->add_reaction_data($data);
 		}
+
 		if ($ress) {
 			$result['status'] = true;
-			$result['reaction_data'] = $this->gigs_model->get_reaction_data($data);
+			$result['reaction_data'] = $this->gigs_model->get_emoji_reaction_data($data);
 			$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);
 		} else {
 			$result['status'] = false;

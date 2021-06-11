@@ -524,7 +524,7 @@
                       <button type="submit" class="btn-theme-primary btn" onclick="submit_form(2)">Preview</button>
                       <button type="submit" class="btn-theme-primary btn ml-3" onclick="submit_form(1)">Save as Draft</button>
                       <?php
-                      if (!$gig) :
+                      if ($gig) :
                       ?>
                         <button type="submit" class="btn btn-success ml-3" onclick="submit_form(0)">Submit for Approval</button>
                       <?php

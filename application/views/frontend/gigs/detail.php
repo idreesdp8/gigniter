@@ -262,10 +262,10 @@
                             <div class="col-lg-6 col-md-6 col-12 text-lg-right text-center">
                                 <div class="reactions-live d-inline-flex">
                                     <p data-emoji="thumbs-up" data-gig_id="<?php echo $gig->id ?>" class="noselect like-emoji emoji-starter selector-reactions mr-2 reactions-btn mb-0">
-                                        <i class="like-blue fas fa-thumbs-up mr-2"></i><span>Like</span>&nbsp(<span id="like-count"><?php echo $gig->reactions->like_reactions ?></span>)
+                                        <i class="like-blue fas fa-thumbs-up mr-2"></i><span>Like</span>&nbsp(<span id="like-count"><?php echo $gig->reactions->like_reactions ?? '0' ?></span>)
                                     </p>
                                     <p data-emoji="heart" data-gig_id="<?php echo $gig->id ?>" class="noselect emoji-starter heart mr-2 reactions-btn mb-0">
-                                        <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>&nbsp(<span id="heart-count"><?php echo $gig->reactions->heart_reactions ?></span>)
+                                        <i class="heart-red fas fa-heart mr-2"></i><span>Heart</span>&nbsp(<span id="heart-count"><?php echo $gig->reactions->heart_reactions ?? '0' ?></span>)
                                     </p>
 
                                 </div>
@@ -587,7 +587,7 @@
                 return Math.floor(Math.random() * (max - min + 1)) + min
             }
 
-            var fbReactions = ['angry', 'sad', 'surprise', 'happy', 'shy']
+            // var fbReactions = ['angry', 'sad', 'surprise', 'happy', 'shy']
             var interval
 
             $('.heart').on('click', function(event) {
