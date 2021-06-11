@@ -25,6 +25,7 @@ class Roles extends CI_Controller
 		$this->load->model('admin/users_model', 'users_model');
 		$this->load->model('admin/admin_model', 'admin_model');
 		$this->load->model('admin/roles_model', 'roles_model');
+		$this->load->model('admin/gigs_model', 'gigs_model');
 		$this->load->model('admin/permissions_model', 'permissions_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 

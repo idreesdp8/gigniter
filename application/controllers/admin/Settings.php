@@ -22,6 +22,7 @@
 			 
 			$this->load->model('admin/users_model', 'users_model'); 
 			$this->load->model('admin/admin_model', 'admin_model'); 	 
+			$this->load->model('admin/gigs_model', 'gigs_model');
 		}
 		
 		function my_profile(){    

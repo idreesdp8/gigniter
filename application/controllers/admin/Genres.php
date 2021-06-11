@@ -24,6 +24,7 @@ class Genres extends CI_Controller
 		// 	redirect('/');
 		// }
 		$this->load->model('admin/configurations_model', 'configurations_model');
+		$this->load->model('admin/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		$this->key = 'genre';
 

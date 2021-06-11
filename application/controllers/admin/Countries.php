@@ -24,6 +24,7 @@ class Countries extends CI_Controller
 		// 	redirect('/');
 		// }
 		$this->load->model('admin/countries_model', 'countries_model');
+		$this->load->model('admin/gigs_model', 'gigs_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 
 		$this->load->library('Ajax_pagination');
