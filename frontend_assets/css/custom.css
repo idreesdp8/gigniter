@@ -67,9 +67,14 @@ textarea {
 	text-transform: uppercase;
 	background-color: #f1c500;
 }
-.speaker--slider .speaker-prev {
+.speaker--slider .speaker-prev:hover, .speaker--slider .speaker-next:hover {
 	background-color: #f1c500 !important;
 }
+.speaker-thumb.card-header a {
+	width: 100%;
+	height: 100%;
+}
+
 .speaker-wrapper .speaker-thumb img, .speaker-item .speaker-thumb {
   mask: none !important;
     -webkit-mask: none !important;
@@ -538,7 +543,7 @@ height: 200px !important;
 }
 
 #carousel_5 .card-footer .btn-watch, #carousel_4 .card-footer .btn-watch, #carousel_5 .card-footer .btn-watch, #carousel_3 .card-footer .btn-watch {
-	width: auto !important;
+	width: 100% !important;
 }
 
 	.fixed-button-top {
