@@ -188,11 +188,11 @@
                     <!-- or Pitch Video -->
                     <div class="gig-poster-wrapper">
                       <div class="mb-1 video-wrapper">
-                        <img alt="your image" class="d-none" />
+                        <!-- <img alt="your image" class="d-none" /> -->
+                        <input type="hidden" name="old_video" class="old_video" value="<?php echo video_url() . $gig->video ?>" disabled>
                         <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
                           <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                        <input type="hidden" name="old_video" class="old_video" value="<?php echo video_url() . $gig->video ?>" disabled>
                         <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                       </div>
                     </div>
@@ -702,6 +702,7 @@
         initialPreview: [
           video,
         ],
+        initialPreviewFileType: 'video',
         initialPreviewAsData: true,
         overwriteInitial: true,
         fileActionSettings: fileActionSettings
