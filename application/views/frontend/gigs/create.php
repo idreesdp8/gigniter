@@ -210,21 +210,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal" name="goal" required="required">
+                      <input type="number" id="goal" name="goal" min="1" required="required">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="threshold" name="threshold" required="required">
+                      <input type="number" id="threshold" name="threshold" min="1" required="required">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal_amount" name="goal_amount" required="required">
+                      <input type="number" id="goal_amount" name="goal_amount" min="1" required="required">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
@@ -298,7 +298,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Price
-                            <input type="number" name="ticket_price[]" placeholder="USD $">
+                            <input type="number" name="ticket_price[]" placeholder="USD $" min="1">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
@@ -521,7 +521,7 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn-theme-primary btn" onclick="submit_form(2)">Preview</button>
+                      <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onclick="submit_form(2)">Preview</button>
                       <button type="submit" class="btn-theme-primary btn ml-3" onclick="submit_form(1)">Save as Draft</button>
                       <?php
                       if ($gig) :
@@ -601,7 +601,7 @@
           '<label>Tier Name<input type="text" name="ticket_name[]" placeholder=""></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
-          '<label>Tier Price<input type="number" name="ticket_price[]" placeholder="USD $"></label>' +
+          '<label>Tier Price<input type="number" name="ticket_price[]" placeholder="USD $" min="1"></label>' +
           '</div>' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<label>Number of tickets in Tier<input type="number" name="ticket_quantity[]" placeholder=""></label>' +

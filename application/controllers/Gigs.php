@@ -43,7 +43,7 @@ class Gigs extends CI_Controller
 	{
 		$id = $_GET['gig'];
 		$gig = $this->gigs_model->get_gig_by_id($id);
-		if($gig->is_approved || ($this->dbs_user_id && $this->dbs_user_id == $gig->user_id)) {
+		if ($gig->is_approved || ($this->dbs_user_id && $this->dbs_user_id == $gig->user_id)) {
 			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$gig->user_name = $user->fname . ' ' . $user->lname;
 			$args1 = [
@@ -198,11 +198,138 @@ class Gigs extends CI_Controller
 		return $res;
 	}
 
+	public function preview($gig_data = '', $gig_files = '')
+	{
+		// echo json_encode($gig_data['ticket_name']);
+		// die();
+		// $gig_data = $this->session->userdata('gig_data');
+		// $gig_files = $this->session->userdata('gig_files');
+		$category = str_replace('-', ' ', ucwords($gig_data['category'], '-'));
+		$genre = str_replace('-', ' ', ucwords($gig_data['genre'], '-'));
+
+		$start_time = new DateTime($gig_data['start_time']);
+		$end_time = new DateTime($gig_data['end_time']);
+		$duration = $end_time->diff($start_time);
+		$gig_duration = $duration->format('%h hrs %i mins');
+
+		$now = new DateTime();
+		$gig_date = new DateTime($gig_data['gig_date']);
+		$interval = $gig_date->diff($now);
+		$days_left = $interval->format('%a');
+
+		$imagename = '';
+		if (isset($gig_files['poster']['tmp_name']) && $gig_files['poster']['tmp_name'] != '') {
+			$image_path = session_relative_path();
+			$thumbnail_path = session_thumbnail_relative_path();
+			$imagename = time() . $this->general_model->fileExists($gig_files['poster']['name'], $image_path);
+			$target_file = $image_path . $imagename;
+			@move_uploaded_file($gig_files["poster"]["tmp_name"], $target_file);
+			$width = 360;
+			$height = 354;
+			$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
+			if ($thumbnail == '1') {
+				$thumbnail_file = $thumbnail_path . $imagename;
+			}
+			@move_uploaded_file($gig_files["poster"]["tmp_name"], $thumbnail_file);
+		}
+		$videoname = '';
+		if (isset($gig_files['video']['tmp_name']) && $gig_files['video']['tmp_name'] != '') {
+			$video_path = session_relative_path();
+			$videoname = time() . $this->general_model->fileExists($gig_files['video']['name'], $video_path);
+			$target_file = $video_path . $videoname;
+			@move_uploaded_file($gig_files["video"]["tmp_name"], $target_file);
+		}
+
+		$data = array(
+			'title' => $gig_data['title'],
+			'username' => $gig_data['fname'] . ' ' . $gig_data['lname'],
+			'genre' => $genre,
+			'category' => $category,
+			'poster' => $imagename,
+			'video' => $videoname,
+			'gig_date' => date('d M, Y', strtotime($gig_data['gig_date'])),
+			'duration' => $gig_duration,
+			'booked' => 0,
+			'ticket_limit' => $gig_data['goal'],
+			'days_left' => $days_left,
+			'stream_url' => '',
+			'stream_key' => '',
+		);
+		$tickets = $gig_data['ticket_name'];
+		$length = count($tickets);
+		// echo $length;
+		// die();
+		for ($i = 0; $i < $length; $i++) {
+			$tier = [];
+			$j = $i + 1;
+			if ($gig_data['ticket_name'][$i] != '') {
+				$tier = [
+					'name' => $gig_data['ticket_name'][$i],
+					'price' => $gig_data['ticket_price'][$i],
+					'quantity' => $gig_data['ticket_quantity'][$i],
+				];
+			}
+			$bundle_tiers = $gig_data["bundle_title_tier$j"];
+			$bundle_length = count($bundle_tiers);
+			$bundle = [];
+			for ($k = 0; $k < $bundle_length; $k++) {
+				// $j = $i + 1;
+				$imagename = '';
+				if (isset($gig_files["bundle_image_tier$j"]['tmp_name'][$k]) && $gig_files["bundle_image_tier$j"]['tmp_name'][$k] != '') {
+					$image_path = session_relative_path();
+					$thumbnail_path = session_thumbnail_relative_path();
+					$imagename = hrtime(true) . $this->general_model->fileExists($gig_files["bundle_image_tier$j"]['name'][$k], $image_path);
+					$target_file = $image_path . $imagename;
+					@move_uploaded_file($gig_files["bundle_image_tier$j"]["tmp_name"][$k], $target_file);
+					$width = 200;
+					$height = 200;
+					$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
+					if ($thumbnail == '1') {
+						$thumbnail_file = $thumbnail_path . $imagename;
+					}
+					// echo $thumbnail;
+					@move_uploaded_file($gig_files["bundle_image_tier$j"]["tmp_name"][$k], $thumbnail_file);
+				}
+				$bundle[] = [
+					'image' => $imagename,
+				];
+			}
+			$tier['bundle'] = $bundle;
+			$tiers[] = $tier;
+		}
+		$data['tiers'] = $tiers;
+
+		// $this->session->unset_userdata('gig_data');
+		// $this->session->unset_userdata('gig_files');
+		$this->session->set_userdata('preview_data', $data);
+		redirect('gigs/preview2');
+		// echo json_encode($data);
+		// // echo json_encode($gig_files);
+		// echo json_encode($this->session->userdata());
+	}
+
+	public function preview2()
+	{
+		$data = $this->session->userdata('preview_data');
+		// echo json_encode($data);
+		// die();
+		$this->load->view('frontend/gigs/preview', $data);
+	}
+
 	public function add()
 	{
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
+			$session_data = [
+				'gig_data' => $data,
+				'gig_files' => $files
+			];
+			$this->session->set_userdata($session_data);
+			if ($data['is_draft'] == 2) {
+				$this->preview($data, $files);
+				die();
+			}
 			// echo json_encode($data);
 			// echo json_encode($files);
 			// echo $this->dbs_user_id;
@@ -318,7 +445,7 @@ class Gigs extends CI_Controller
 					'start_time' => date('H:i:s', strtotime($data['start_time'])),
 					'end_time' => date('H:i:s', strtotime($data['end_time'])),
 					'status' => $status,
-					'is_draft' => $data['is_draft'] == 2 ? 1 : $data['is_draft'],
+					'is_draft' => $data['is_draft'],
 					'created_on' => $created_on,
 				);
 				// echo json_encode($datas);
@@ -331,9 +458,9 @@ class Gigs extends CI_Controller
 					$this->add_tickets($data, $res);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
-					if ($data['is_draft'] == 2) {
-						redirect("gigs/detail?gig=" . $res);
-					}
+					// if ($data['is_draft'] == 2) {
+					// 	redirect("gigs/detail?gig=" . $res);
+					// }
 					// $response = [
 					// 	'status' => '200',
 					// ];

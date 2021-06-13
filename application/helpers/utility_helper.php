@@ -48,12 +48,20 @@
 		return 'downloads/posters/';
 	}
 	
+	function session_relative_path(){
+		return 'downloads/session/';
+	}
+	
 	function video_relative_path(){
 		return 'downloads/videos/';
 	}
 
 	function poster_thumbnail_relative_path(){
 		return 'downloads/posters/thumb/';
+	}
+
+	function session_thumbnail_relative_path(){
+		return 'downloads/session/thumb/';
 	}
 	
 	function bundle_relative_path(){
@@ -72,12 +80,21 @@
 	function poster_url(){
 		return base_url().poster_relative_path();
 	}
+
+	function session_url(){
+		return base_url().session_relative_path();
+	}
+	
 	function video_url(){
 		return base_url().video_relative_path();
 	}
 
 	function poster_thumbnail_url(){
 		return base_url().poster_thumbnail_relative_path();
+	}
+
+	function session_thumbnail_url(){
+		return base_url().session_thumbnail_relative_path();
 	}
 
 	function bundle_url(){

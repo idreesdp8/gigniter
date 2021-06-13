@@ -127,14 +127,15 @@ $(document).ready(function () {
           $('#address').attr('required', 'true')
         } else {
           $('#gig_address').hide();
+          $('#address').val('');
           $('#address').removeAttr('required')
-          $("#address").removeClass("error").addClass("good");
+          $("#address").removeClass("error").removeClass("good");
           error_gig_address = true;
         }
       })
 
     $("#address").focusout(function () {
-        if($(this).parents('#gig_address').not().css('display', 'none')) {
+        if($('#gig_address').css('display') != 'none') {
             check_gig_address();
         }
         // $('#gig_address').html($(this).val());
