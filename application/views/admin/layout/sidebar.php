@@ -96,6 +96,17 @@ $new_gigs = $this->gigs_model->get_count_new_gigs();
                     </a>
                 </li>
                 <?php endif; ?> -->
+				
+		
+				<li class="nav-item nav-item-submenu" id="sidebar_user">
+					<a href="#" class="nav-link"><i class="icon-stack"></i> <span>Email Templates</span></a>
+					<ul class="nav nav-group-sub" data-submenu-title="Email Templates"> 
+						<li class="nav-item" id="sidebar_user_view"><a href="<?php echo admin_base_url(); ?>email_templates/index" class="nav-link">Email Templates</a></li> 
+						<li class="nav-item" id="sidebar_user_add"><a href="<?php echo admin_base_url(); ?>email_templates/add" class="nav-link">Add New</a></li>  
+					</ul>
+				</li> 
+				
+				
                 <?php if (in_array('create-user', $user_permissions) || in_array('edit-user', $user_permissions) || in_array('view-user', $user_permissions) || in_array('delete-user', $user_permissions)) : ?>
                     <li class="nav-item nav-item-submenu" id="sidebar_user">
                         <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Users</span></a>
