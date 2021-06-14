@@ -153,7 +153,7 @@
                         <div class="carousel-02-text text-left">
                             <h2>Now Showing</h2>
                             <p>Be sure not to miss these events today.
-                                <a href="<?php echo user_base_url() . 'gigs/explore?live=1' ?>" class="float-right more-btn <?php echo empty($now_showing) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                                <a href="<?php echo user_base_url() . 'gigs/explore?live=1' ?>" id="now_showing" class="float-right more-btn <?php echo empty($now_showing) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                             </p>
                         </div>
                         <div class="speaker--slider text-center" id="carousel_2">
@@ -210,7 +210,7 @@
                     <div class="carousel-02-text text-left">
                         <h2>Most Popular</h2>
                         <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($popular) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            <a href="<?php echo user_base_url() . 'gigs/explore?sort_by=most_popular' ?>" id="popular" class="float-right more-btn <?php echo empty($popular) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                         </p>
                     </div>
                     <?php
@@ -349,7 +349,7 @@
                     <div class="carousel-02-text text-left">
                         <h2>Closing Soon</h2>
                         <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($closing_soon) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            <a href="<?php echo user_base_url() . 'gigs/explore?sort_by=closing_soon' ?>" id="closing_soon" class="float-right more-btn <?php echo empty($closing_soon) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                         </p>
                     </div>
                     <?php
@@ -489,7 +489,7 @@
                     <div class="carousel-02-text text-left">
                         <h2>Just In</h2>
                         <p>Be sure not to miss these events today.
-                            <a href="javascript:void(0)" class="float-right more-btn <?php echo empty($just_in) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
+                            <a href="<?php echo user_base_url() . 'gigs/explore?sort_by=just_in' ?>" id="just_in" class="float-right more-btn <?php echo empty($just_in) ? 'd-none' : '' ?>">More<span class="ml-2"><img src="<?php echo user_asset_url(); ?>images/icons/arrow-more.png"></span></a>
                         </p>
                     </div>
                     <?php
@@ -627,7 +627,44 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <!-- <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script> -->
     <script>
+        // function explore_more(param) {
+        //     $.ajax({
+        //         url: base_url+'gigs/explore',
+        //         data: param,
+        //         method: 'post',
+
+        //     })
+        // }
         $(document).ready(function() {
+            // $('#now_showing').click(function(){
+            //     event.preventDefault();
+            //     var param = {
+            //         live: 1
+            //     }
+            //     explore_more(param)
+            // })
+            // $('#popular').click(function(){
+            //     event.preventDefault();
+            //     var param = {
+            //         popular: 1
+            //     }
+            //     explore_more(param)
+            // })
+            // $('#closing_soon').click(function(){
+            //     event.preventDefault();
+            //     var param = {
+            //         closing_soon: 1
+            //     }
+            //     explore_more(param)
+            // })
+            // $('#just_in').click(function(){
+            //     event.preventDefault();
+            //     var param = {
+            //         just_in: 1
+            //     }
+            //     explore_more(param)
+            // })
+
             $('.carousel-inner').children().first().addClass('active');
 
             $('.owl-carousel').each(function() {

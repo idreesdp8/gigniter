@@ -44,7 +44,7 @@ class Gigs_model extends CI_Model
 				$whrs .= " AND status=1";
 			}
 		} else {
-			$whrs .= " AND (status=1 OR status=2)";
+			$whrs .= " AND status=1";
 		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){

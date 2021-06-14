@@ -934,11 +934,16 @@ class Gigs extends CI_Controller
 
 	public function explore()
 	{
-		$is_live = $this->input->get("live");
+		$live = $this->input->get("live");
+		$sort_by = $this->input->get("sort_by");
 		$param = array();
-		if ($is_live || $is_live>-1) {
-			$param['is_live'] = $is_live;
+		if ($live || $live>-1) {
+			$param['is_live'] = $live;
 		}
+		if ($sort_by) {
+			$param['sort_by'] = $sort_by;
+		}
+		$param['limit'] = 10;
 		// echo json_encode($param);
 		$gigs = $this->gigs_model->get_all_filter_gigs($param);
 		// echo json_encode($gigs);
@@ -986,6 +991,8 @@ class Gigs extends CI_Controller
 		$cat = $this->input->post("category");
 		$gen = $this->input->post("genre");
 		$sort = $this->input->post("sort");
+		$live = $this->input->post("live");
+		$limit = $this->input->post("limit");
 		$param = array();
 		if ($cat) {
 			$param['category'] = $cat;
@@ -995,6 +1002,12 @@ class Gigs extends CI_Controller
 		}
 		if ($sort) {
 			$param['sort_by'] = $sort;
+		}
+		if ($live) {
+			$param['is_live'] = $live;
+		}
+		if ($limit) {
+			$param['limit'] = $limit;
 		}
 		// echo json_encode($param);
 		// die();

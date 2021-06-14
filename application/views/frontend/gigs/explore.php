@@ -29,6 +29,7 @@
             padding: 7px 25px;
             text-transform: uppercase;
         }
+
         .content-bar select {
             margin: 0 !important;
             width: 100% !important;
@@ -97,17 +98,16 @@
                                 <span>Sort By:</span>
                                 <select class="sort-select" id="sort">
                                     <option value="">Select Option</option>
-                                    <option value="most_popular">Most Popular</option>
-                                    <option value="just_in">Just In</option>
-                                    <option value="closing_soon">Closing Soon</option>
+                                    <option value="most_popular" <?php echo $param['sort_by'] == 'most_popular' ? 'selected' : '' ?>>Most Popular</option>
+                                    <option value="just_in" <?php echo $param['sort_by'] == 'just_in' ? 'selected' : '' ?>>Just In</option>
+                                    <option value="closing_soon" <?php echo $param['sort_by'] == 'closing_soon' ? 'selected' : '' ?>>Closing Soon</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <span>Live Shows:</span>
                                 <select class="sort-select" id="live">
-                                    <option value="">Select Option</option>
-                                    <option value="1" <?php echo $param['is_live'] == 1 ? 'selected' : '' ?>>Yes</option>
-                                    <option value="0" <?php echo $param['is_live'] == 0 ? 'selected' : '' ?>>No</option>
+                                    <option value="0" <?php echo (!isset($param['is_live']) || $param['is_live'] == 0) ? 'selected' : '' ?>>No</option>
+                                    <option value="1" <?php echo (isset($param['is_live']) && $param['is_live'] == 1) ? 'selected' : '' ?>>Yes</option>
                                 </select>
                             </div>
                         </div>
@@ -157,12 +157,20 @@
             $('#sort').change(function() {
                 filter_gigs();
             });
+            $('#limit').change(function() {
+                filter_gigs();
+            });
+            $('#live').change(function() {
+                filter_gigs();
+            });
         });
 
         function filter_gigs() {
             var cat = $('#category').val();
             var gen = $('#genre').val();
             var sort = $('#sort').val();
+            var live = $('#live').val();
+            var limit = $('#limit').val();
             $.ajax({
                 url: base_url + 'gigs/filter_gig',
                 method: 'post',
@@ -170,6 +178,8 @@
                     'category': cat,
                     'genre': gen,
                     'sort': sort,
+                    'limit': limit,
+                    'live': live,
                 },
                 dataType: 'json',
                 success: function(result) {
