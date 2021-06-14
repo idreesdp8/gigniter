@@ -29,6 +29,10 @@
             padding: 7px 25px;
             text-transform: uppercase;
         }
+        .content-bar select {
+            margin: 0 !important;
+            width: 100% !important;
+        }
     </style>
 </head>
 
@@ -54,47 +58,61 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="content-bar">
-                        <p>
-                            <span>Genre:</span>
-                            <select class="genre-select" id="genre">
-                                <option value="">Select Genre</option>
-                                <?php
-                                foreach ($genres as $genre) :
-                                ?>
-                                    <option value="<?php echo $genre->value ?>"><?php echo $genre->label ?></option>
-                                <?php
-                                endforeach;
-                                ?>
-                            </select>
-                        </p>
-                        <p>
-                            <span>Category:</span>
-                            <!-- class="select-bar" -->
-                            <select class="category-select" id="category">
-                                <option value="">Select Category</option>
-                                <?php
-                                foreach ($categories as $category) :
-                                ?>
-                                    <option value="<?php echo $category->value ?>"><?php echo $category->label ?></option>
-                                <?php
-                                endforeach;
-                                ?>
-                            </select>
-                        </p>
-                        <p><span>Show:</span>
-                            <select class="show-select">
-                                <option value="1" active>1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </p>
-                        <p><span>Sort By:</span>
-                            <select class="sort-select" id="sort">
-                                <option value="">Select Option</option>
-                                <option value="most_popular">Most Popular</option>
-                                <option value="just_in">Just In</option>
-                                <option value="closing_soon">Closing Soon</option>
-                            </select>
-                        </p>
+                        <div class="row">
+                            <div class="col">
+                                <span>Genre:</span>
+                                <select class="genre-select" id="genre">
+                                    <option value="">Select Genre</option>
+                                    <?php
+                                    foreach ($genres as $genre) :
+                                    ?>
+                                        <option value="<?php echo $genre->value ?>"><?php echo $genre->label ?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <span>Category:</span>
+                                <select class="category-select" id="category">
+                                    <option value="">Select Category</option>
+                                    <?php
+                                    foreach ($categories as $category) :
+                                    ?>
+                                        <option value="<?php echo $category->value ?>"><?php echo $category->label ?></option>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <span>Show:</span>
+                                <select class="show-select" id="limit">
+                                    <option value="10" active>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <span>Sort By:</span>
+                                <select class="sort-select" id="sort">
+                                    <option value="">Select Option</option>
+                                    <option value="most_popular">Most Popular</option>
+                                    <option value="just_in">Just In</option>
+                                    <option value="closing_soon">Closing Soon</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <span>Live Shows:</span>
+                                <select class="sort-select" id="live">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">
