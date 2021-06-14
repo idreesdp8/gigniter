@@ -253,9 +253,8 @@ class Cart extends CI_Controller
 			// 	// $is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
 			// }
 
-			$threshold = $this->gigs_model->get_gig_threshold($gig_id);
-			// echo json_encode($threshold);
-			// die();
+			$ticket_limit = $this->gigs_model->get_gig_ticket_limit($gig_id);
+			$threshold = floor($ticket_limit * .6);
 
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');
@@ -309,7 +308,7 @@ class Cart extends CI_Controller
 			// die();
 
 			$this->create_customer($token, $email_to, $name, $res);
-			if ($ticket_bought->quantity > $threshold->threshold) {
+			if ($ticket_bought->quantity > $threshold) {
 				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
@@ -323,7 +322,9 @@ class Cart extends CI_Controller
 				redirect('cart/checkout');
 			}
 		} else {
-			if ($this->dbs_user_id) {
+			$cart_items = $this->cart->contents();
+
+			if ($this->dbs_user_id && $cart_items) {
 				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 			} else {
 				// $uri = uri_string();
@@ -332,7 +333,6 @@ class Cart extends CI_Controller
 				$this->session->set_flashdata('warning_msg', 'Log in first!');
 			}
 
-			$cart_items = $this->cart->contents();
 			$data['cart_items'] = $cart_items;
 			$data['total_amount'] = $this->cart->total();
 			$this->load->view('frontend/cart/checkout', $data);

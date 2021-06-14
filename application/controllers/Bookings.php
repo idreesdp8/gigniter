@@ -79,47 +79,52 @@ class Bookings extends CI_Controller
 
 	public function show($args1 = '')
 	{
-		if ($args1 != '') {
-			$booking = $this->bookings_model->get_booking_by_id($args1);
-			$transaction = $this->bookings_model->get_charged_transaction_by_booking_id($booking->id);
-			$cart_items = $this->bookings_model->get_booking_items($booking->id);
-			$customer = $this->users_model->get_user_by_id($booking->user_id);
-			foreach ($cart_items as $item) {
-				$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-				$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-				$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
-				$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
-				$ticket_shares = $this->bookings_model->get_ticket_shares_cart_id($item->id);
-				$gig->category = $category;
-				$gig->genre = $genre;
-				// $gig->venues = explode(',', $gig->venues);
-				// $item->gig = $gig;
-				$item->purchased = $item->quantity;
-				$item->quantity = $item->quantity - count($ticket_shares);
-				$temp = [];
-				foreach ($ticket_shares as $share) {
-					$temp[] = $share->friend_email;
-				}
-				$item->friends = $temp;
-				$item->ticket = $ticket;
-			}
-			$booking->items = $cart_items;
-			$booking->customer = $customer;
-			$booking->transaction = $transaction;
-			$data['booking'] = $booking;
-			
-			$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-			$ticket_bought = 0;
-			foreach ($cart_items as $item) {
-				$ticket_bought += $item->quantity;
-			}
-			$gig->ticket_left = $gig->threshold - $ticket_bought;
-			$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
-			$data['gig'] = $gig;
-			// echo json_encode($data);
-			// die();
-			$this->load->view('frontend/bookings/show', $data);
+		if ($args1 == '') {
+			redirect('bookings');
 		}
+		$booking = $this->bookings_model->get_booking_by_id($args1);
+		if($booking->user_id != $this->dbs_user_id) {
+			redirect('bookings');
+		}
+		$transaction = $this->bookings_model->get_charged_transaction_by_booking_id($booking->id);
+		$cart_items = $this->bookings_model->get_booking_items($booking->id);
+		$customer = $this->users_model->get_user_by_id($booking->user_id);
+		foreach ($cart_items as $item) {
+			$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+			$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+			$ticket_shares = $this->bookings_model->get_ticket_shares_cart_id($item->id);
+			$gig->category = $category;
+			$gig->genre = $genre;
+			// $gig->venues = explode(',', $gig->venues);
+			// $item->gig = $gig;
+			$item->purchased = $item->quantity;
+			$item->quantity = $item->quantity - count($ticket_shares);
+			$temp = [];
+			foreach ($ticket_shares as $share) {
+				$temp[] = $share->friend_email;
+			}
+			$item->friends = $temp;
+			$item->ticket = $ticket;
+		}
+		$booking->items = $cart_items;
+		$booking->customer = $customer;
+		$booking->transaction = $transaction;
+		$data['booking'] = $booking;
+
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$threshold = floor($gig->ticket_limit * .6);
+		$gig->ticket_left = $threshold - $ticket_bought;
+		$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+		$data['gig'] = $gig;
+		// echo json_encode($data);
+		// die();
+		$this->load->view('frontend/bookings/show', $data);
 	}
 
 	public function cancel_booking($id)
@@ -156,10 +161,10 @@ class Bookings extends CI_Controller
 			'created_on' => $created_on,
 		];
 		$error = 1;
-		foreach($data['email'] as $email){
+		foreach ($data['email'] as $email) {
 			$temp['friend_email'] = $email;
 			$send = $this->send_email($email, 'Invitation to Gigniter');
-			if($send) {
+			if ($send) {
 				$this->bookings_model->add_ticket_share($temp);
 				$error = 0;
 			} else {
@@ -167,7 +172,7 @@ class Bookings extends CI_Controller
 				continue;
 			}
 		}
-		if($error){
+		if ($error) {
 			$this->session->set_flashdata('error_msg', 'Error occured');
 		} else {
 			$this->session->set_flashdata('success_msg', 'Ticket are sent to your friends');
@@ -179,9 +184,9 @@ class Bookings extends CI_Controller
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
-		
+
 		$data['link'] = user_base_url() . 'account/create_account?email=' . $this->general_model->safe_ci_encoder($to_email);
-		
+
 		$msg = $this->load->view('email/ticket_invitation', $data, TRUE);
 
 		$this->email->from($from_email, $from_name);
@@ -203,7 +208,7 @@ class Bookings extends CI_Controller
 		$data = $this->input->post();
 		$data['user_id'] = $this->dbs_user_id;
 		$tickets = $this->gigs_model->get_tickets($data);
-		foreach($tickets as $ticket) {
+		foreach ($tickets as $ticket) {
 			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
 			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
 			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);

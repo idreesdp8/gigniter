@@ -120,7 +120,7 @@
                         <?php
                         else :
                         ?>
-                            <div>No record found.</div>
+                            <div>You do not have any bookings.</div>
                         <?php
                         endif;
                         ?>

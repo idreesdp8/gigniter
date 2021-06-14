@@ -208,6 +208,13 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
+	function get_gig_ticket_limit($id)
+	{
+		$sql = "SELECT ticket_limit FROM gigs WHERE id = ?";
+		$query = $this->db->query($sql, array($id));
+		return $query->row()->ticket_limit;
+	}
+
 	function check_gig_by_user_id($args1)
 	{
 		$this->db->order_by('created_on', 'DESC');
