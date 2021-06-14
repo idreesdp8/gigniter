@@ -29,6 +29,32 @@
         .cart-plus-minus input {
             color: #000;
         }
+
+        .breadcrumb a {
+            color: #d0dbff;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        .breadcrumb {
+            color: #d0dbff;
+            border-top: 1px solid #d0dbff;
+            display: flex;
+            padding: .75rem 1rem;
+            margin-bottom: 0;
+            list-style: none;
+            background-color: transparent;
+            border-radius: 0;
+            justify-content: center;
+            width: 40%;
+            margin: auto;
+        }
+
+        .breadcrumb-item.active {
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -47,7 +73,7 @@
                     <div class="tags">
                         <span><?php echo date('M d, Y', strtotime($gig->gig_date)) ?></span>
                     </div>
-                    <div class="tags">
+                    <div class="tags mb-4">
                         <?php
                         if ($venues) :
                             foreach ($venues as $key => $val) :
@@ -58,6 +84,13 @@
                         endif;
                         ?>
                     </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() ?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>"><?php echo $gig->title ?></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Book Ticket</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -82,7 +115,7 @@
                                 <?php
                                 if ($tiers) :
                                     $i = 1;
-                                    foreach ($tiers as $index=>$value) :
+                                    foreach ($tiers as $index => $value) :
                                 ?>
                                         <div class="ticket--item">
                                             <input type="hidden" name="ticket_tier_id[]" value="<?php echo $value->id ?>" />

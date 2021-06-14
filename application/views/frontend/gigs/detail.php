@@ -36,6 +36,28 @@
         .owl-nav.disabled {
             display: none;
         }
+
+        .breadcrumb a {
+            color: #d0dbff;
+        }
+
+        .breadcrumb a:hover {
+            color: #ffffff;
+        }
+
+        .breadcrumb {
+            color: #d0dbff;
+            display: flex;
+            padding: .75rem 1rem;
+            margin-bottom: 1rem;
+            list-style: none;
+            background-color: transparent;
+            border-radius: 0;
+        }
+
+        .breadcrumb-item.active {
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -56,7 +78,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                     <div class="custom-text">
                         <h5 class="title"><?php echo $gig->title; ?></h5>
-                        <h6><a target="_blank" href="<?php echo user_base_url().'account/profile/'.$gig->user_id ?>"><?php echo $gig->user_name; ?></a></h6>
+                        <h6><a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a></h6>
                         <p>
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
                         </p>
@@ -143,6 +165,13 @@
     <!-- ==========photo-Section========== -->
     <section class="section-margin-top">
         <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<?php echo user_base_url() ?>">Home</a></li>
+                    <li class="breadcrumb-item active"><?php echo $gig->title ?></li>
+                </ol>
+            </nav>
             <?php
             if ($gig->user_id == $this->session->userdata('us_id')) :
             ?>
