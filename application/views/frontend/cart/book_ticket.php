@@ -40,16 +40,16 @@
 
         .breadcrumb {
             color: #d0dbff;
-            border-top: 1px solid #d0dbff;
+            /* border-top: 1px solid #d0dbff; */
             display: flex;
             padding: .75rem 1rem;
             margin-bottom: 0;
             list-style: none;
             background-color: transparent;
             border-radius: 0;
-            justify-content: center;
+            /* justify-content: center;
             width: 40%;
-            margin: auto;
+            margin: auto; */
         }
 
         .breadcrumb-item.active {
@@ -84,13 +84,6 @@
                         endif;
                         ?>
                     </div>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() ?>">Home</a></li>
-                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>"><?php echo $gig->title ?></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Book Ticket</li>
-                        </ol>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -102,6 +95,13 @@
         <form method="post" action="<?php echo user_base_url() ?>cart/add">
             <input type="hidden" name="gig_id" value="<?php echo $gig->id ?>" />
             <div class="container">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() ?>">Home</a></li>
+                            <li class="breadcrumb-item"><a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>"><?php echo $gig->title ?></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Book Ticket</li>
+                        </ol>
+                    </nav>
                 <?php $this->load->view('alert/alert'); ?>
                 <div class="section-header-3">
                     <span class="cate">simple pricing</span>
