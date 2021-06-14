@@ -649,3 +649,12 @@ height: 200px !important;
 .signup-error-link:hover {
 	color: blue;
 }
+
+# @media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	#carousel_3 .card-footer .btn-watch:hover {
+		background-color: transparent;
+	color: #E0004D;
+	border: 1px solid #E0004D;
+	}
+}

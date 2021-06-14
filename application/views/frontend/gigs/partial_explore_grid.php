@@ -35,7 +35,7 @@ if ($gigs) :
                             <?php
                             if ($this->session->userdata('us_id') != $gig->user_id) :
                             ?>
-                                <a style="margin-right:10px" type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
+                                <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                             <?php
                             endif;
                             ?>
