@@ -41,7 +41,7 @@
                         </a>
                         <ul class="submenu signed-user-menu">
                             <li>
-                                <a href="<?php echo user_base_url().'profile'.$vs_id ?>">My Profile</a>
+                                <a href="<?php echo user_base_url().'profile/'.$vs_id ?>">My Profile</a>
                             </li>
                             <li>
                                 <a href="<?php echo user_base_url() ?>gigs/add">Create Gig</a>
