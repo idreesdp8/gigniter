@@ -24,10 +24,10 @@
                         ?>
                             <div class="carousel-item">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-12">
                                         <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" class="w-100">
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                                         <p class="custom-badge"><?php echo $gig->genre_name ?></p>
                                         <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
                                             <h3 class="mt-2"><?php echo $gig->title ?>
