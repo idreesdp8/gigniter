@@ -4,6 +4,16 @@
 		   
 		public function __construct(){
 			parent::__construct();
+			$is_logged_in = $this->session->userdata('us_login');
+			if (!$is_logged_in) {
+				redirect("admin/login");
+			}
+			$vs_user_role_name = $this->session->userdata('us_role_name');
+			if(isset($vs_user_role_name)){
+				if($vs_user_role_name!='Admin'){
+					redirect('dashboard');
+				}
+			}
 			 
 			$this->login_usr_id = $vs_id = $this->session->userdata('us_id');
 			$this->login_usr_role_id = $vs_role_id = $this->session->userdata('us_role_id');

@@ -46,7 +46,7 @@ class Cart extends CI_Controller
 	{
 		$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 		$user_id = $this->dbs_user_id ?? 0;
-		$cart_items = $this->carts_model->get_user_cart_items($user_id);
+		$cart_items = $this->bookings_model->get_user_cart_items($user_id);
 		$total_price = 0;
 		foreach ($cart_items as $item) {
 			$tier = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);

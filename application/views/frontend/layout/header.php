@@ -26,10 +26,10 @@
                 if (!$vs_id) :
                 ?>
                     <li class="header-button pr-0">
-                        <a href="<?php echo user_base_url() ?>register">Sign Up</a>
+                        <a href="<?php echo user_base_url() ?>signup">Sign Up</a>
                     </li>
                     <li class="header-button2 pr-0">
-                        <a href="<?php echo user_base_url() ?>login" id="signin_menu">Signin</a>
+                        <a href="<?php echo user_base_url() ?>signin" id="signin_menu">Signin</a>
                     </li>
                 <?php
                 else :

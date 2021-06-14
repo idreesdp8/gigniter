@@ -53,8 +53,8 @@ $route['default_controller'] = 'Dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['login'] = 'Account/signin';
-$route['register'] = 'Account/signup';
+$route['signin'] = 'Account/signin';
+$route['signup'] = 'Account/signup';
 $route['profile'] = 'Account/profile';
 $route['contact'] = 'Pages/contact';
 $route['terms'] = 'Pages/terms';
@@ -64,5 +64,4 @@ $route['about'] = 'Pages/about';
 $route['recover_password'] = 'Account/forgot_password';
 $route['admin/featured_gigs'] = 'admin/Gigs/featured_gigs';
 $route['admin/popular_gigs'] = 'admin/Gigs/popular_gigs';
-
 $route['my_gigs'] = 'Gigs/my_gigs';

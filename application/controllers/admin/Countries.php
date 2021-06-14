@@ -6,6 +6,16 @@ class Countries extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$is_logged_in = $this->session->userdata('us_login');
+		if (!$is_logged_in) {
+			redirect("admin/login");
+		}
+		$vs_user_role_name = $this->session->userdata('us_role_name');
+		if(isset($vs_user_role_name)){
+			if($vs_user_role_name!='Admin'){
+				redirect('dashboard');
+			}
+		}
 
 
 		$this->dbs_user_id = $vs_id = $this->session->userdata('us_id');

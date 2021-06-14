@@ -74,7 +74,7 @@
                             ?>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        No Items in cart
+                                        Your cart is empty!
                                     </div>
                                 </div>
                             <?php

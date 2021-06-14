@@ -6,17 +6,15 @@ class Login extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$vs_user_role_id = $this->session->userdata('us_role_id');
 		$vs_user_role_name = $this->session->userdata('us_role_name');
-		// $role = $this->roles_model->get_role_by_id($vs_user_role_id);
-		if(isset($vs_user_role_name)){
-			if($vs_user_role_name=='Admin'){
+		if (isset($vs_user_role_name)) {
+			if ($vs_user_role_name == 'Admin') {
 				redirect("admin/dashboard");
-			}else {
+			} else {
 				redirect('dashboard');
 			}
 		}
-		
+
 		$this->load->model('admin/roles_model', 'roles_model');
 		$this->load->model('admin/general_model', 'general_model');
 		$this->load->model('admin/users_model', 'users_model');
@@ -49,26 +47,25 @@ class Login extends CI_Controller
 						// set session	
 						$role = $this->roles_model->get_role_by_id($result->role_id);
 						$cstm_sess_data = array(
-							'us_login' => TRUE, 
-							'us_id' => $result->id, 
-							'us_role_id' => $result->role_id, 
+							'us_login' => TRUE,
+							'us_id' => $result->id,
+							'us_role_id' => $result->role_id,
 							'us_username' => ($result->username ? ucfirst($result->username) : ''),
 							'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
-							'us_fname' => ($result->fname ? ucfirst($result->fname) : ''), 
-							'us_lname' => ($result->lname ? ucfirst($result->lname) : ''), 
+							'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+							'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
 							'us_email' => $result->email,
 							'us_role_name' => $role->name,
 						);
 
 						$this->session->set_userdata($cstm_sess_data);
-						if(isset($role)){
-							if($role->name=='Admin'){
+						if (isset($role)) {
+							if ($role->name == 'Admin') {
 								redirect("admin/dashboard");
-							}else {
+							} else {
 								redirect('dashboard');
 							}
 						}
-
 					} else {
 						$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
 						$this->load->view('admin/login');
