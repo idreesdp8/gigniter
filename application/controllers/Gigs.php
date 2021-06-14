@@ -934,7 +934,15 @@ class Gigs extends CI_Controller
 
 	public function explore()
 	{
-		$gigs = $this->gigs_model->get_all_active_gigs();
+		$is_live = $this->input->get("live");
+		$param = array();
+		if ($is_live || $is_live>-1) {
+			$param['is_live'] = $is_live;
+		}
+		// echo json_encode($param);
+		$gigs = $this->gigs_model->get_all_filter_gigs($param);
+		// echo json_encode($gigs);
+		// die();
 		if ($gigs) {
 			$now = new DateTime();
 			foreach ($gigs as $gig) {
@@ -965,6 +973,7 @@ class Gigs extends CI_Controller
 			}
 		}
 		$data['gigs'] = $gigs;
+		$data['param'] = $param;
 		$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 		$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
 		// echo json_encode($data);

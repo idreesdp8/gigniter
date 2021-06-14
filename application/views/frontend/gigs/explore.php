@@ -106,8 +106,8 @@
                                 <span>Live Shows:</span>
                                 <select class="sort-select" id="live">
                                     <option value="">Select Option</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
+                                    <option value="1" <?php echo $param['is_live'] == 1 ? 'selected' : '' ?>>Yes</option>
+                                    <option value="0" <?php echo $param['is_live'] == 0 ? 'selected' : '' ?>>No</option>
                                 </select>
                             </div>
                         </div>

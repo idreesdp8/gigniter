@@ -36,6 +36,16 @@ class Gigs_model extends CI_Model
 			$genre = $params["genre"];
 			$whrs .= " AND genre='$genre'";
 		}
+		if (array_key_exists("is_live", $params)) {
+			$genre = $params["is_live"];
+			if($params['is_live'] == 1){
+				$whrs .= " AND status=2";
+			} else if($params['is_live'] == 0){
+				$whrs .= " AND status=1";
+			}
+		} else {
+			$whrs .= " AND (status=1 OR status=2)";
+		}
 		if (array_key_exists("sort_by", $params)) {
 			if($params['sort_by'] == 'just_in'){
 				$sort_by = ' ORDER BY created_on DESC';
@@ -66,7 +76,7 @@ class Gigs_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 $whrs $sort_by $limits ");
+		$query = $this->db->query("SELECT * FROM gigs WHERE is_approved = 1 $whrs $sort_by $limits ");
 		return $query->result();
 	}
 
