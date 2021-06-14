@@ -127,146 +127,67 @@
                 <p>World is committed to making participation in the event a harassment free experience for
                     everyone, regardless of level of experience, gender, gender identity and expression</p>
             </div>
-            <div class="speaker--slider text-center" id="carousel_5">
-
-                <div class="speaker-slider6 owl-carousel owl-theme owl-loaded owl-drag">
-
-                    <div class="speaker-item1 card">
-                        <div class="speaker-thumb card-header">
-                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
-                                <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
-                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                            </a>
-                        </div>
-                        <div class="speaker-content card-footer">
-                            <h5 class="limit-single-line">Jazz Concert</h5>
-                            <div class="d-flex">
-                                <div class="footer-text">
-                                    <h6>john smith</h6>
-                                    <p>15 Jun 2021</p>
-                                    <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
-                                    <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
+            <?php
+            if ($gigs) :
+            ?>
+                <div class="speaker--slider text-center" id="carousel_5">
+                    <div class="speaker-slider6 owl-carousel owl-theme owl-loaded owl-drag">
+                        <?php
+                        foreach ($gigs as $gig) :
+                        ?>
+                            <div class="speaker-item1 card">
+                                <div class="speaker-thumb card-header">
+                                    <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>">
+                                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" style="max-width: 360px; max-height: 354px;">
+                                        <?php if ($gig->is_exclusive) : ?>
+                                            <span class="badge badge-danger exclusive-badge">exclusive</span>
+                                        <?php endif; ?>
+                                    </a>
                                 </div>
-                                <div class="circlebar">
-                                    <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
-                                        <div class="pie_progress__number">0%</div>
-                                        <div class="pie_progress__label">Booked</div>
+                                <div class="speaker-content card-footer">
+                                    <h5 class="limit-single-line"><?php echo $gig->title ?></h5>
+                                    <div class="d-flex">
+                                        <div class="footer-text">
+                                            <h6><?php echo $gig->user_name ?></h6>
+                                            <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
+                                            <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                            <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
+                                        </div>
+                                        <div class="circlebar">
+                                            <div class="pie_progress <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                                <div class="pie_progress__number">0%</div>
+                                                <div class="pie_progress__label">Booked</div>
+
+                                            </div>
+                                        </div>
 
                                     </div>
-                                </div>
-
-                            </div>
-                            <div class="d-flex">
-                                <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
-                                <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="speaker-item1 card">
-                        <div class="speaker-thumb card-header">
-                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
-                                <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
-                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                            </a>
-                        </div>
-                        <div class="speaker-content card-footer">
-                            <h5 class="limit-single-line">POP Concert</h5>
-                            <div class="d-flex">
-                                <div class="footer-text">
-                                    <h6>john smith</h6>
-                                    <p>15 Jun 2021</p>
-                                    <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
-                                    <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
-                                </div>
-                                <div class="circlebar">
-                                    <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
-                                        <div class="pie_progress__number">0%</div>
-                                        <div class="pie_progress__label">Booked</div>
-
+                                    <div class="d-flex">
+                                        <?php
+                                        if ($this->session->userdata('us_id') != $gig->user_id) :
+                                        ?>
+                                            <a type="button" class="btn btn-warning btn-watch mb-4" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>">book now</a>
+                                        <?php
+                                        endif;
+                                        ?>
+                                        <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>" type="button" class="btn btn-warning btn-view mb-4">view</a>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="d-flex">
-                                <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
-                                <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
-                            </div>
-                        </div>
+                        <?php
+                        endforeach;
+                        ?>
                     </div>
-
-
-
-                    <div class="speaker-item1 card">
-                        <div class="speaker-thumb card-header">
-                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
-                                <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
-                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                            </a>
-                        </div>
-                        <div class="speaker-content card-footer">
-                            <h5 class="limit-single-line">Music Concert</h5>
-                            <div class="d-flex">
-                                <div class="footer-text">
-                                    <h6>john smith</h6>
-                                    <p>15 Jun 2021</p>
-                                    <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
-                                    <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
-                                </div>
-                                <div class="circlebar">
-                                    <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
-                                        <div class="pie_progress__number">0%</div>
-                                        <div class="pie_progress__label">Booked</div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="d-flex">
-                                <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
-                                <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="speaker-item1 card">
-                        <div class="speaker-thumb card-header">
-                            <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95">
-                                <img src="https://gigniter.digitalpoin8.com/downloads/posters/thumb/1622531420concert.jpg" style="max-width: 360px; max-height: 354px;">
-                                <span class="badge badge-danger exclusive-badge">exclusive</span>
-                            </a>
-                        </div>
-                        <div class="speaker-content card-footer">
-                            <h5 class="limit-single-line">Music Concert</h5>
-                            <div class="d-flex">
-                                <div class="footer-text">
-                                    <h6>john smith</h6>
-                                    <p>15 Jun 2021</p>
-                                    <p><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/ticket.png"></span>200 tickets left</p>
-                                    <p class="mb-3"><span class="mr-2"><img src="https://gigniter.digitalpoin8.com/frontend_assets/images/icons/calender.png"></span>5 days left</p>
-                                </div>
-                                <div class="circlebar">
-                                    <div class="pie_progress booked-color-2" role="progressbar" data-goal="0" aria-valuenow="0">
-                                        <div class="pie_progress__number">0%</div>
-                                        <div class="pie_progress__label">Booked</div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="d-flex">
-                                <a type="button" class="btn btn-warning btn-watch mb-4" href="https://gigniter.digitalpoin8.com/index.php/cart/book_tier/95">book now</a>
-                                <a href="https://gigniter.digitalpoin8.com/index.php/gigs/detail?gig=95" type="button" class="btn btn-warning btn-view mb-4">view</a>
-                            </div>
-                        </div>
-                    </div>
-
-
-
                 </div>
-
-            </div>
+            <?php
+            else :
+            ?>
+                <h6>
+                    No Record Found
+                </h6>
+            <?php
+            endif;
+            ?>
         </div>
     </section>
 
@@ -303,11 +224,11 @@
                 },
                 600: {
                     items: 3,
-                    loop: ($(this).find('.owl-item')).length > 0
+                    loop: ($(this).find('.owl-item')).length > 3
                 },
                 1000: {
                     items: 3,
-                    loop: ($(this).find('.owl-item')).length > 0
+                    loop: ($(this).find('.owl-item')).length > 3
                 }
             }
         });

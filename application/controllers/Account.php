@@ -21,7 +21,14 @@ class Account extends CI_Controller
 		$this->load->model('user/general_model', 'general_model');
 		$this->load->model('user/roles_model', 'roles_model');
 		$this->load->model('user/users_model', 'users_model');
+		$this->load->model('user/gigs_model', 'gigs_model');
+		$this->load->model('user/configurations_model', 'configurations_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/countries_model', 'countries_model');
+		
+		$this->genre_key = 'genre';
+		$this->category_key = 'category';
+		$this->gig_status_key = 'gig-status';
 	}
 
 	function signin()
@@ -110,7 +117,7 @@ class Account extends CI_Controller
 				'Email',
 				'trim|required|xss_clean|valid_email|is_unique[users.email]',
 				array(
-					'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="'.user_base_url().'login">login</a> to your existing account.'
+					'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="' . user_base_url() . 'login">login</a> to your existing account.'
 				)
 			);
 			$this->form_validation->set_rules("password", "Password", "trim|required|xss_clean");
@@ -248,29 +255,50 @@ class Account extends CI_Controller
 		}
 	}
 
-	function profile()
+	function profile($user_id = '')
 	{
-		if($this->dbs_user_id) {
-			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-			$links = $this->users_model->get_social_links($this->dbs_user_id);
-			foreach($links as $link) {
-				if($link->platform == 'mail') {
+		if ($user_id != '') {
+			$user = $this->users_model->get_user_by_id($user_id);
+			$links = $this->users_model->get_social_links($user_id);
+			$gigs = $this->gigs_model->get_artist_gigs($user_id);
+			foreach ($links as $link) {
+				if ($link->platform == 'mail') {
 					$user->mail = $link->url;
-				} elseif($link->platform == 'facebook') {
+				} elseif ($link->platform == 'facebook') {
 					$user->facebook = $link->url;
-				} elseif($link->platform == 'instagram') {
+				} elseif ($link->platform == 'instagram') {
 					$user->instagram = $link->url;
-				} elseif($link->platform == 'twitter') {
+				} elseif ($link->platform == 'twitter') {
 					$user->twitter = $link->url;
 				}
 			}
-	
+
+			$now = new DateTime();
+			if($gigs){
+				foreach ($gigs as $gig) {
+					$gig->user_name = $user->fname . ' ' . $user->lname;
+					$args = [
+						'key' => $this->genre_key,
+						'value' => $gig->genre
+					];
+					$genre = $this->configurations_model->get_configuration_by_key_value($args);
+					$gig->genre_name = $genre->label;
+					$gig_date = new DateTime($gig->gig_date);
+					$interval = $gig_date->diff($now);
+					$gig->days_left = $interval->format('%a');
+					$res = $this->get_tickets_booked_and_left($gig);
+					$gig->booked = $res['booked'];
+					$gig->ticket_left = $res['ticket_left'];
+				}
+			}
+
 			$data['user'] = $user;
+			$data['gigs'] = $gigs;
 			// echo json_encode($data);
 			// die();
 			$this->load->view('frontend/account/artist_profile', $data);
 		} else {
-			redirect('dashboard');
+			redirect($_SERVER['HTTP_REFERER']);
 		}
 	}
 
@@ -682,5 +710,20 @@ class Account extends CI_Controller
 			$data['encoded_email'] = $this->input->get('email');
 			$this->load->view('frontend/account/create_account', $data);
 		}
+	}
+	
+
+	function get_tickets_booked_and_left($gig)
+	{
+		// echo json_encode($gig);
+		// die();
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$param['ticket_left'] = $gig->ticket_limit - $ticket_bought;
+		$param['booked'] = $ticket_bought / $gig->ticket_limit * 100;
+		return $param;
 	}
 }

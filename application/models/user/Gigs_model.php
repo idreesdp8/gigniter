@@ -181,6 +181,13 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_artist_gigs($user_id)
+	{
+		$sql = "SELECT * FROM gigs WHERE status = 1 AND is_approved = 1 AND user_id = $user_id ORDER BY created_on DESC";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
 	function get_closing_soon_gigs()
 	{
 		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";

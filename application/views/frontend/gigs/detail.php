@@ -56,7 +56,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                     <div class="custom-text">
                         <h5 class="title"><?php echo $gig->title; ?></h5>
-                        <h6><?php echo $gig->user_name; ?></h6>
+                        <h6><a target="_blank" href="<?php echo user_base_url().'account/profile/'.$gig->user_id ?>"><?php echo $gig->user_name; ?></a></h6>
                         <p>
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
                         </p>
