@@ -44,7 +44,7 @@ $(document).ready(function () {
                 isValid = false;
                 $(curInputs[i]).addClass("error");
                 console.log(err_input)
-                if($(curInputs[i]).attr('name') == 'poster') {
+                if ($(curInputs[i]).attr('name') == 'poster') {
                     var div_image = $(curInputs[i]).parents('#div_image')
                     div_image.append('<div class="text-danger">Gig Poster is required field</div>')
                     div_image.find('.file-preview-thumbnails').addClass('error')
@@ -119,23 +119,23 @@ $(document).ready(function () {
             error_subtitle = true;
         }
     }
-    
-    $('#myCheckbox-physical').change(function() {
+
+    $('#myCheckbox-physical').change(function () {
         var is_checked = $(this).is(':checked');
         if (is_checked) {
-          $('#gig_address').fadeIn();
-          $('#address').attr('required', 'true')
+            $('#gig_address').fadeIn();
+            $('#address').attr('required', 'true')
         } else {
-          $('#gig_address').hide();
-          $('#address').val('');
-          $('#address').removeAttr('required')
-          $("#address").removeClass("error").removeClass("good");
-          error_gig_address = true;
+            $('#gig_address').hide();
+            $('#address').val('');
+            $('#address').removeAttr('required')
+            $("#address").removeClass("error").removeClass("good");
+            error_gig_address = true;
         }
-      })
+    })
 
     $("#address").focusout(function () {
-        if($('#gig_address').css('display') != 'none') {
+        if ($('#gig_address').css('display') != 'none') {
             check_gig_address();
         }
         // $('#gig_address').html($(this).val());

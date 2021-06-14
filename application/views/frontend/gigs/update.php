@@ -12,17 +12,19 @@
     .panel>.active {
       display: block;
     }
+
     .add-product-border {
-    	border: 1px solid rgba(85, 96, 255, 0.5) !important;
+      border: 1px solid rgba(85, 96, 255, 0.5) !important;
     }
 
     .text-danger .error {
       border: none !important;
     }
+
     .pos-absolute-img {
-    	position: absolute;
-        top: 55%;
-        left: 45%;
+      position: absolute;
+      top: 55%;
+      left: 45%;
     }
 
     .image_div {
@@ -217,7 +219,7 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" <?php echo $gig->address == '' ? 'style="display: none;"' : '' ?>>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address" <?php echo $gig->address == '' ? 'style="display: none;"' : '' ?>>
                     <label>
                       Enter Address
                       <input type="text" id="address" name="address" value="<?php echo $gig->address; ?>" required="required">
@@ -233,21 +235,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="goal" name="goal" value="<?php echo $gig->ticket_limit ?>" required="required" <?php echo $gig->status ? 'disabled' : '' ?>>
+                      <input type="number" id="goal" name="goal" min="1" value="<?php echo $gig->ticket_limit ?>" required="required" <?php echo $gig->status ? 'disabled' : '' ?>>
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="threshold" name="threshold" value="<?php echo $gig->threshold ?>" required="required">
+                      <input type="number" id="threshold" name="threshold" min="1" value="<?php echo $gig->threshold ?>" required="required">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="goal_amount" name="goal_amount" value="<?php echo $gig->goal_amount ?>" required="required">
+                      <input type="number" id="goal_amount" name="goal_amount" min="1" value="<?php echo $gig->goal_amount ?>" required="required">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
@@ -258,18 +260,18 @@
                       <?php
                       // if ($gig->campaign_date && (strtotime($gig->campaign_date) < strtotime('now'))) :
                       ?>
-                        <!-- <div style="margin: 10px 0px;"><strong class="theme-primary-color">Campaign is launched already!</strong></div> -->
+                      <!-- <div style="margin: 10px 0px;"><strong class="theme-primary-color">Campaign is launched already!</strong></div> -->
                       <?php
                       // else :
                       ?>
-                        <!-- <div id="campaign-date-button">
+                      <!-- <div id="campaign-date-button">
                           <a type="button" class="btn btn-primary btn-step-continue btn-sm" id="launch-campaign">Launch Now</a>
                           <span> OR <strong class="logo-color" id="set-campaign-date">Set Date</strong></span>
                         </div> -->
-                        <div id="campaign-date-input">
-                          <input type="date" id="campaign_date" class="date" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : '' ?>" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo date('Y-m-d', strtotime('now')) ?>" required="required">
-                          <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
-                        </div>
+                      <div id="campaign-date-input">
+                        <input type="date" id="campaign_date" class="date" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : '' ?>" name="campaign_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" required="required">
+                        <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
+                      </div>
                       <?php
                       // endif;
                       ?>
@@ -370,18 +372,18 @@
                                     foreach ($ticket->bundles as $bundle) :
                                     ?>
                                       <div class="col-md-4">
-                                        <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle">x</div>
+                                        <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>
                                         <div class="form-group">
-                                          <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
+                                          <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
                                         </div>
                                         <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
-                                      <div class="add-product-border image_div mb-0">
+                                        <div class="add-product-border image_div mb-0">
 
-                                          <img class="pos-absolute-img" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
+                                          <img class="icon_upload2" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : '' ?>" alt="your image" />
                                         </div>
-                                        <input class="d-none" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
+                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onchange="read_bundle_image(this);" />
                                         <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>
@@ -483,12 +485,12 @@
                   endif;
                   ?>
                 </div>
-              
+
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
                   </div>
-                  <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12">  <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button></div>
+                  <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12"> <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button></div>
                 </div>
                 <!-- </form> -->
               </div>
@@ -578,14 +580,13 @@
                       </div>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Stripe integration
-                      <!-- -->
                       <input type="text" id="stripe_integration" name="stripe_integration">
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div> -->
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
@@ -768,28 +769,33 @@
         var label = $(this).parents(div).find('.tier_bundles label');
         label.removeClass('d-none');
         var div = $(this).parents(div).find('.tier_bundles .row');
-        div.append('<div class="col-md-4">' +
+        div.append(
+          '<div class="col-md-4">' +
           '<div class = "cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>' +
-          '<div class="form-group">' +
+          '<div class="form-group mt-3">' +
           '<input type="text" name="bundle_title_tier' + tier + '[]" placeholder="Bundle Title">' +
           '</div>' +
           '<div class="add-product-border image_div mb-0">' +
           '<img alt="your image" class="d-none" />' +
           '</div>' +
           '<label id="icon_upload1" for="file-upload2" class="file-dimension custom-file-upload">' +
-          '<img class="pos-absolute-img" src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
+          '<img class="icon_upload2 pos-absolute-img" src="<?php echo user_asset_url(); ?>images/icons/img-plus.png">' +
           '</label>' +
-          '<input class="d-none" id="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
+          '<input class="file-upload2" type="file" name="bundle_image_tier' + tier + '[]" accept="image/*" onchange="read_bundle_image(this);" />' +
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
-        $('.file-input').fileinput({
-          browseLabel: 'Browse',
-          previewFileType: 'image',
-          browseIcon: '<i class="icon-image2 mr-2"></i>',
-          initialCaption: "No file selected",
-          fileActionSettings: fileActionSettings
-        });
+        // $('.file-input').fileinput({
+        //   browseLabel: 'Browse',
+        //   previewFileType: 'image',
+        //   browseIcon: '<i class="icon-image2 mr-2"></i>',
+        //   initialCaption: "No file selected",
+        //   fileActionSettings: fileActionSettings
+        // });
+      });
+      $(document).on('click', '.image_div', function() {
+        var div = $(this).parents('.col-md-4');
+        div.find('.file-upload2').trigger('click');
       });
       $(document).on('click', '.remove_tier_bundle', function() {
         var div = $(this).parents('.col-md-4');
@@ -820,10 +826,15 @@
           }
         });
       })
-      $('#start_time').change(function() {
-        var time = $(this).val();
-        $('#end_time').attr('min', time);
-        $('#end_time').attr('max', '23:59');
+      // $('#start_time').change(function() {
+      //   var time = $(this).val();
+      //   $('#end_time').attr('min', time);
+      //   $('#end_time').attr('max', '23:59');
+      // })
+      $('#goal').change(function() {
+        var goal = $(this).val();
+        var threshold = Math.round(goal * .6);
+        $('#threshold').val(threshold);
       })
       // $('#end_time').change(function() {
       //   var input = document.getElementById('end_time');

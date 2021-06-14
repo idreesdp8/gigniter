@@ -9,9 +9,9 @@
 // }
 
 function read_bundle_image(input) {
-    // console.log(input);
-    // var x = input.parentElement;
-    // console.log(x);
+    console.log(input);
+    var x = input.parentElement;
+    console.log(x);
     var element = input.parentElement.getElementsByTagName("img")[0];
     console.log(element);
     if (input.files && input.files[0]) {
