@@ -65,7 +65,7 @@
 
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png" class="w-100">
+                                        <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" class="w-100">
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
-                                            <img src="<?php echo user_asset_url(); ?>images/home/slider-01/slide-1.png" alt="speaker">
+                                            <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="speaker">
                                             <p class="custom-badge"><?php echo $gig->genre ?></p>
                                         </div>
                                         <div class="speaker-content card-footer">
