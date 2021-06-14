@@ -50,7 +50,7 @@
                                 if (isset($user->facebook)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->facebook ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
                                             <i class="fab fa-facebook-f"></i>
                                         </a>
                                     </li>
@@ -59,7 +59,7 @@
                                 if (isset($user->instagram)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->instagram ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
                                             <i class="fab fa-instagram"></i>
                                         </a>
                                     </li>
@@ -68,7 +68,7 @@
                                 if (isset($user->twitter)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->twitter ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
                                             <i class="fab fa-twitter"></i>
                                         </a>
                                     </li>
@@ -77,7 +77,7 @@
                                 if (isset($user->linkedin)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->linkedin ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
                                             <i class="fab fa-linkedin-in"></i>
                                         </a>
                                     </li>
@@ -86,7 +86,7 @@
                                 if (isset($user->pinterest)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->pinterest ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
                                             <i class="fab fa-pinterest"></i>
                                         </a>
                                     </li>
@@ -95,7 +95,7 @@
                                 if (isset($user->behance)) :
                                 ?>
                                     <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo $user->behance ?>">
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
                                             <i class="fab fa-behance"></i>
                                         </a>
                                     </li>

@@ -250,24 +250,28 @@ class Account extends CI_Controller
 
 	function profile()
 	{
-		$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-		$links = $this->users_model->get_social_links($this->dbs_user_id);
-		foreach($links as $link) {
-			if($link->platform == 'mail') {
-				$user->mail = $link->url;
-			} elseif($link->platform == 'facebook') {
-				$user->facebook = $link->url;
-			} elseif($link->platform == 'instagram') {
-				$user->instagram = $link->url;
-			} elseif($link->platform == 'twitter') {
-				$user->twitter = $link->url;
+		if($this->dbs_user_id) {
+			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+			$links = $this->users_model->get_social_links($this->dbs_user_id);
+			foreach($links as $link) {
+				if($link->platform == 'mail') {
+					$user->mail = $link->url;
+				} elseif($link->platform == 'facebook') {
+					$user->facebook = $link->url;
+				} elseif($link->platform == 'instagram') {
+					$user->instagram = $link->url;
+				} elseif($link->platform == 'twitter') {
+					$user->twitter = $link->url;
+				}
 			}
+	
+			$data['user'] = $user;
+			// echo json_encode($data);
+			// die();
+			$this->load->view('frontend/account/artist_profile', $data);
+		} else {
+			redirect('dashboard');
 		}
-
-		$data['user'] = $user;
-		// echo json_encode($data);
-		// die();
-		$this->load->view('frontend/account/artist_profile', $data);
 	}
 
 	function forgot_password()

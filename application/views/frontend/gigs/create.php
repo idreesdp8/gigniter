@@ -438,21 +438,25 @@
                       <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
+                            Email
                             <input type="text" class="social_url" name="mail" id="mail" value="<?php echo $link[0]['mail'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
+                            Facebook
                             <input type="text" class="social_url" name="facebook" id="facebook" value="<?php echo $link[1]['facebook'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
+                            Instagram
                             <input type="text" class="social_url" name="instagram" id="instagram" value="<?php echo $link[2]['instagram'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
+                            Twitter
                             <input type="text" class="social_url" name="twitter" id="twitter" value="<?php echo $link[3]['twitter'] ?? null ?>">
                           </label>
                         </div>
