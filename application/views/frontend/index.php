@@ -4,6 +4,11 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <style>
+    .banner-section::before {
+    z-index: 0;
+}
+    </style>
 </head>
 
 <body>

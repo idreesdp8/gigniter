@@ -514,6 +514,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     /* width: 100%; */
     z-index: 2;
 }
+.banner-section::before {
+	bottom:100px !important;
+}
 
 @media (pointer: coarse) and (hover: none) {
 	#wrapper-video {
