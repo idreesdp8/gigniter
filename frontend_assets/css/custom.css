@@ -509,10 +509,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .fixed-button-top {
 	position: fixed;
-	left: 0;
-	top: 100px;
-	width: 100%;
-	z-index: 2;
+    right: 11%;
+    top: 100px;
+    /* width: 100%; */
+    z-index: 2;
 }
 
 @media (pointer: coarse) and (hover: none) {
