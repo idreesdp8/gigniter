@@ -98,9 +98,9 @@
                                 <span>Sort By:</span>
                                 <select class="sort-select" id="sort">
                                     <option value="">Select Option</option>
-                                    <option value="most_popular" <?php echo $param['sort_by'] == 'most_popular' ? 'selected' : '' ?>>Most Popular</option>
-                                    <option value="just_in" <?php echo $param['sort_by'] == 'just_in' ? 'selected' : '' ?>>Just In</option>
-                                    <option value="closing_soon" <?php echo $param['sort_by'] == 'closing_soon' ? 'selected' : '' ?>>Closing Soon</option>
+                                    <option value="most_popular" <?php echo (isset($param['sort_by']) && $param['sort_by'] == 'most_popular') ? 'selected' : '' ?>>Most Popular</option>
+                                    <option value="just_in" <?php echo isset($param['sort_by']) && $param['sort_by'] == 'most_popular' ? 'selected' : '' ?>>Just In</option>
+                                    <option value="closing_soon" <?php echo isset($param['sort_by']) && $param['sort_by'] == 'most_popular' ? 'selected' : '' ?>>Closing Soon</option>
                                 </select>
                             </div>
                             <div class="col">
