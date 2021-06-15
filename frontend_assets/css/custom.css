@@ -507,6 +507,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	opacity: 0.5;
 	z-index: 1;
 }
+.fixed-button-top {
+	position: fixed;
+	left: 0;
+	top: 100px;
+	width: 100%;
+	z-index: 2;
+}
 
 @media (pointer: coarse) and (hover: none) {
 	#wrapper-video {
