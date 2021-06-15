@@ -143,14 +143,21 @@
 		}  
 	
 	
-		function view($paras1=''){
+		function view($paras1='')
+		{
 			$data['page_headings'] = "View Email Template";	     
-			$data['record'] = $this->email_templates_model->get_email_template_by_id($paras1);   
+			$data['record'] = $this->email_templates_model->get_email_templates_by_id($paras1);   
 			$this->load->view('admin/email_templates/view_email_template_data',$data); 
 		} 
+
+		function get_template_content()
+		{
+			$id = $this->input->post('id');
+			$data['record'] = $this->email_templates_model->get_email_templates_by_id($id);  
+			echo json_encode($data);
+		}
 	
 		 
 		/* Email Templates controller ends */
 	 		
 	}
-	?>
