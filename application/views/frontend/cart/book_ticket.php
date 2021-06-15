@@ -91,12 +91,12 @@
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========Explore-content-Section========== -->
-    <div class="event-facility padding-bottom padding-top">
+    <div class="event-facility padding-bottom padding-breadcrumb">
         <form method="post" action="<?php echo user_base_url() ?>cart/add">
             <input type="hidden" name="gig_id" value="<?php echo $gig->id ?>" />
             <div class="container">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb mb-5">
                             <li class="breadcrumb-item"><a href="<?php echo user_base_url() ?>">Home</a></li>
                             <li class="breadcrumb-item"><a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig->id ?>"><?php echo $gig->title ?></a></li>
                             <li class="breadcrumb-item active" aria-current="page">Book Ticket</li>

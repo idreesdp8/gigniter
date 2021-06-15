@@ -163,7 +163,7 @@
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========photo-Section========== -->
-    <section class="section-margin-top">
+    <section style="background-color: #0a1e5e;padding-top: 5px;" class="section-margin-top">
         <div class="container">
 
             <nav aria-label="breadcrumb">
