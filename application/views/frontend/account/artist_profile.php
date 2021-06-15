@@ -14,7 +14,7 @@
     <section class="speaker-banner bg_img" data-background="./assets/images/banner/banner07.jpg">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">Artist Profile</h2>
+                <h2 class="title"><?php echo ($user->fname ? ucfirst($user->fname) : '') . ' ' . ($user->lname ? ucfirst($user->lname) : '') ?></h2>
 
             </div>
         </div>
@@ -31,80 +31,92 @@
                 </div>
                 <div class="speaker-content">
                     <div class="author">
-                        <h2 class="title"><?php echo ($user->fname ? ucfirst($user->fname) : '') . ' ' . ($user->lname ? ucfirst($user->lname) : '') ?></h2>
+                        <!-- <h2 class="title"></h2> -->
                         <!-- <div class="info">Independent consultant, coach and executive coach</div> -->
                     </div>
-                    <div class="speak-con-wrapper">
-                        <div class="speak-con-area">
-                            <div class="item">
-                                <div class="item-thumb">
-                                    <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
-                                </div>
-                                <div class="item-content">
-                                    <span class="up">Contact Artist:</span>
-                                    <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a>
-                                </div>
+                    <?php
+                    if (isset($user->mail) || isset($user->facebook) || isset($user->instagram) || isset($user->twitter) || isset($user->linkedin) || isset($user->pinterest) || isset($user->behance)) :
+                    ?>
+                        <div class="speak-con-wrapper">
+                            <div class="speak-con-area">
+                                <?php
+                                if (isset($user->mail)) :
+                                ?>
+                                    <div class="item">
+                                        <div class="item-thumb">
+                                            <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
+                                        </div>
+                                        <div class="item-content">
+                                            <span class="up">Contact Artist:</span>
+                                            <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a>
+                                        </div>
+                                    </div>
+                                <?php
+                                endif;
+                                ?>
+                                <ul class="social-icons">
+                                    <?php
+                                    if (isset($user->facebook)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    if (isset($user->instagram)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    if (isset($user->twitter)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    if (isset($user->linkedin)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
+                                                <i class="fab fa-linkedin-in"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    if (isset($user->pinterest)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
+                                                <i class="fab fa-pinterest"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    if (isset($user->behance)) :
+                                    ?>
+                                        <li>
+                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
+                                                <i class="fab fa-behance"></i>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endif;
+                                    ?>
+                                </ul>
                             </div>
-                            <ul class="social-icons">
-                                <?php
-                                if (isset($user->facebook)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->instagram)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
-                                            <i class="fab fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->twitter)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->linkedin)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
-                                            <i class="fab fa-linkedin-in"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->pinterest)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
-                                            <i class="fab fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->behance)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
-                                            <i class="fab fa-behance"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                ?>
-                            </ul>
                         </div>
-                    </div>
+                    <?php
+                    endif;
+                    ?>
                     <div class="content">
                         <h3 class="subtitle">About me</h3>
                         <p><?php echo $user->description ?></p>
