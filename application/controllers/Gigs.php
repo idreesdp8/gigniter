@@ -1253,10 +1253,10 @@ class Gigs extends CI_Controller
 	function my_gigs()
 	{
 		$prev_completed = $this->gigs_model->check_completed_gig_by_user_id($this->dbs_user_id);
-		$prev_active = $this->gigs_model->check_latest_active_gig_by_user_id($this->dbs_user_id);
-		echo json_encode($prev_completed);
-		echo json_encode($prev_active);
-		die();
+		// $prev_active = $this->gigs_model->check_latest_active_gig_by_user_id($this->dbs_user_id);
+		// echo json_encode($prev_completed);
+		// echo json_encode($prev_active);
+		// die();
 
 		$gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
 		if ($gigs) {
@@ -1294,6 +1294,7 @@ class Gigs extends CI_Controller
 		}
 		$data['gigs'] = $gigs;
 		$data['prev_completed'] = $prev_completed;
+		// $data['prev_active'] = $prev_active;
 		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
