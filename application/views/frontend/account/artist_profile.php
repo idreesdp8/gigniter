@@ -26,7 +26,7 @@
         <div class="container">
             <div class="speaker-wrapper bg-six padding-top padding-bottom">
                 <div class="speaker-thumb">
-                    <img src="<?php echo profile_image_url() . $user->image ?>" alt="speaker">
+                    <img src="<?php echo ($user->image && $user->image != '') ? profile_image_url() . $user->image : user_asset_url().'images/speaker/speaker01.jpg' ?>" alt="speaker">
                     <!-- <a href="#0">www.website.com</a> -->
                 </div>
                 <div class="speaker-content">
