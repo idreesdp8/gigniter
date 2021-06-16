@@ -261,7 +261,7 @@ class Account extends CI_Controller
 			$user = $this->users_model->get_user_by_id($user_id);
 			$links = $this->users_model->get_social_links($user_id);
 			$gigs = $this->gigs_model->get_artist_gigs($user_id);
-			echo json_encode($links);
+			// echo json_encode($links);
 			foreach ($links as $link) {
 				if ($link->platform == 'mail') {
 					$user->mail = $link->url;
