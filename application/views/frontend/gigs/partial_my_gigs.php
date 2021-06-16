@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <?php
-                        if (!$prev_completed || ($prev_completed && !$gig->is_approved && !$gig->is_rejected && $gig->status == 0 && $gig->is_draft)) :
+                        if ((!$prev_completed || $prev_completed) && !$gig->is_approved && !$gig->is_rejected && $gig->status == 0 && $gig->is_draft) :
                         ?>
                             <button type="button" class="btn btn-warning btn-view mb-4" onclick="approval_submit(<?php echo $gig->id ?>)">Submit for Approval</button>
                         <?php
