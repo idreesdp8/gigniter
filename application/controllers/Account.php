@@ -88,7 +88,7 @@ class Account extends CI_Controller
 					}
 				} else {
 					$this->session->set_flashdata('error_msg', 'Email or Password is incorrect!');
-					redirect('login');
+					redirect('signin');
 				}
 			}
 		} else {
@@ -177,7 +177,7 @@ class Account extends CI_Controller
 					$this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
-					redirect('register');
+					redirect('signup');
 				}
 			}
 		} else {
