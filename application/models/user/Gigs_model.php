@@ -241,9 +241,15 @@ class Gigs_model extends CI_Model
 
 	function check_completed_gig_by_user_id($args1)
 	{
-		// $sql = "SELECT * FROM gigs WHERE user_id = $args1 AND status = 3 AND status != 1 ORDER BY created_on DESC";
 		$this->db->order_by('created_on', 'DESC');
 		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'status' => 3));
+		return $query->row();
+	}
+
+	function check_latest_active_gig_by_user_id($args1)
+	{
+		$this->db->order_by('created_on', 'DESC');
+		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'status' => 1));
 		return $query->row();
 	}
 
