@@ -241,6 +241,7 @@ class Gigs_model extends CI_Model
 
 	function check_completed_gig_by_user_id($args1)
 	{
+		// $sql = "SELECT * FROM gigs WHERE user_id = $args1 AND status = 3 AND status != 1 ORDER BY created_on DESC";
 		$this->db->order_by('created_on', 'DESC');
 		$query = $this->db->get_where('gigs', array('user_id' => $args1, 'status' => 3));
 		return $query->row();
@@ -453,6 +454,15 @@ class Gigs_model extends CI_Model
 						sum(CASE WHEN reaction = 'heart' THEN 1 ELSE 0 END) AS heart_reactions
 						FROM gig_reactions WHERE gig_id=$gig_id";
 		$query = $this->db->query($sql);
+		return $query->row();
+	}
+
+	function check_for_approval_submitted_gigs($user_id)
+	{
+		$this->db->where('user_id', $user_id);
+		$this->db->where('is_draft', 0);
+		$this->db->where('status', 0);
+		$query = $this->db->get('gigs');
 		return $query->row();
 	}
 }

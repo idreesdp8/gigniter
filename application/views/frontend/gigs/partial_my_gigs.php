@@ -45,6 +45,11 @@
                             </div>
                         </div>
                         <?php
+                        if ($prev_completed && !$gig->is_approved && !$gig->is_rejected && $gig->status == 0 && $gig->is_draft) :
+                        ?>
+                            <button type="button" class="btn btn-warning btn-view mb-4" onclick="approval_submit(<?php echo $gig->id ?>)">Submit for Approval</button>
+                        <?php
+                        endif;
                         if (!$gig->is_approved) :
                         ?>
                             <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
@@ -79,6 +84,30 @@
 </div>
 
 <script>
+    function approval_submit(id) {
+        console.log(id)
+        $.ajax({
+            url: base_url + 'gigs/submit_for_approval',
+            data: {
+                id: id
+            },
+            method: 'POST',
+            success: function(resp) {
+                if (resp) {
+                    swal({
+                        icon: 'success',
+                        title: 'Your Gig is submitted for approval!',
+                    });
+                } else {
+                    swal({
+                        icon: 'warning',
+                        title: 'You have already submitted a gig for approval',
+                    });
+                }
+            }
+        })
+    }
+
     function delete_gig() {
         event.preventDefault()
         var form = event.target.form

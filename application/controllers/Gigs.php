@@ -459,7 +459,7 @@ class Gigs extends CI_Controller
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
 					// if ($data['is_draft'] == 2) {
-					// 	redirect("gigs/detail?gig=" . $res);
+						redirect("gigs/detail?gig=" . $res);
 					// }
 					// $response = [
 					// 	'status' => '200',
@@ -480,7 +480,7 @@ class Gigs extends CI_Controller
 			// if (isset($this->dbs_user_id) && (isset($this->dbs_role_id) && $this->dbs_role_id >= 1)) {
 
 			$data['gig'] = isset($this->dbs_user_id) ? $this->gigs_model->check_completed_gig_by_user_id($this->dbs_user_id) : false;
-			// echo json_encode($gig);
+			// echo json_encode($data);
 			// die();
 			// if($gig){
 			// 	$this->session->set_flashdata('warning_msg', 'You already have a gig waiting for approval');
@@ -1248,6 +1248,7 @@ class Gigs extends CI_Controller
 
 	function my_gigs()
 	{
+		$prev_completed = $this->gigs_model->check_completed_gig_by_user_id($this->dbs_user_id);
 		$gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
 		if ($gigs) {
 			$now = new DateTime();
@@ -1283,6 +1284,7 @@ class Gigs extends CI_Controller
 			}
 		}
 		$data['gigs'] = $gigs;
+		$data['prev_completed'] = $prev_completed;
 		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
@@ -1422,5 +1424,20 @@ class Gigs extends CI_Controller
 		$data['gig_id'] =  $this->input->post('gig_id');
 		$result['gig'] = $this->gigs_model->get_reaction_count($data['gig_id']);
 		echo json_encode($result);
+	}
+
+	function submit_for_approval()
+	{
+		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
+		if(!$check_gig) {
+			$id = $this->input->post('id');
+			$param = [
+				'is_draft' => 0,
+			];
+			$res = $this->gigs_model->update_gig_data($id, $param);
+		} else {
+			$res = false;
+		}
+		echo $res;
 	}
 }
