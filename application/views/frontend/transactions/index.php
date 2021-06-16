@@ -62,7 +62,7 @@
                                         <tr>
                                             <td><?php echo $key+1 ?></td>
                                             <td><?php echo $value->title ?></td>
-                                            <td><?php echo $value->goal  ?></td>
+                                            <td><?php echo $value->ticket_limit  ?></td>
                                             <td><?php echo date('M d, Y H:i A', strtotime($value->gig_date)) ?></td>
                                             <td><?php echo $value->status_label ?></td>
                                             <td>
