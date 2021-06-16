@@ -44,11 +44,11 @@
                             </div>
                             <div class="col-md-6"></div>
                             <div class="col-md-2 text-center align-self-center">
-                            <a href="<?php echo user_base_url().'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
+                            <a href="<?php echo user_base_url() . 'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
                             </div>
                         </div> -->
-                        <table class="table table-striped datatable-basic">
-                            <?php if (isset($records) && count($records) > 0) { ?>
+                        <?php if (isset($records) && count($records) > 0) { ?>
+                            <table class="table table-striped datatable-basic">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -77,15 +77,15 @@
                                             <td><?php echo $record->genre_label ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->gig_date)) ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->campaign_date)) ?></td>
-                                            <td><?php echo '$'.$record->goal_amount ?></td>
+                                            <td><?php echo '$' . $record->goal_amount ?></td>
                                             <td><?php echo $record->ticket_limit ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">
                                                     <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
                                                                                                                                                                                 ?>><i class="icon-search4"></i></button> -->
-                                                    <a href="<?php echo admin_base_url().'gigs/approve_gig/'.$record->id ?>" data-popup="tooltip" data-original-title="Approve Gig" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-checkmark4"></i></a>
-                                                    <a href="<?php echo admin_base_url().'gigs/reject_gig/'.$record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a>
+                                                    <a href="<?php echo admin_base_url() . 'gigs/approve_gig/' . $record->id ?>" data-popup="tooltip" data-original-title="Approve Gig" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-checkmark4"></i></a>
+                                                    <a href="<?php echo admin_base_url() . 'gigs/reject_gig/' . $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a>
                                                     <!-- <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
                                                     <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
                                                         <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
@@ -98,10 +98,10 @@
                                     }
                                     ?>
                                 </tbody>
-                            <?php } else { ?>
-                                <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
-                            <?php } ?>
-                        </table>
+                            </table>
+                        <?php } else { ?>
+                            <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+                        <?php } ?>
                     </div>
                 </div>
                 <!-- /striped rows -->
