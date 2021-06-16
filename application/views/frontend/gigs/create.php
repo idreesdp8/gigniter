@@ -685,6 +685,10 @@
         var div = $(this).parents('.col-md-4');
         div.find('.file-upload2').trigger('click');
       });
+      $(document).on('click', '.icon_upload1 img', function() {
+        var div = $(this).parents('.col-md-4');
+        div.find('.file-upload2').trigger('click');
+      });
       $(document).on('click', '.remove_tier_bundle', function() {
         var div = $(this).parents('.col-md-4');
         div.remove();
