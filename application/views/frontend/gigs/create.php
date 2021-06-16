@@ -16,6 +16,9 @@
     #video {
       border: 0px;
     }
+    .email_error {
+      color: red;
+    }
   </style>
 </head>
 
@@ -372,19 +375,20 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       First Name
-                      <input type="text" id="fname" name="fname" value="<?php echo isset($user) ? $user->fname : null ?>">
+                      <input type="text" id="fname" name="fname" value="<?php echo isset($user) ? $user->fname : null ?>" required="required">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Last Name
-                      <input type="text" id="lname" name="lname" value="<?php echo isset($user) ? $user->lname : null ?>">
+                      <input type="text" id="lname" name="lname" value="<?php echo isset($user) ? $user->lname : null ?>" required="required">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Email
-                      <input type="email" id="email" name="email" value="<?php echo isset($user) ? $user->email : null ?>">
+                      <input type="email" id="email" name="email" value="<?php echo isset($user) ? $user->email : null ?>" required="required">
+                      <span class="email_error"></span>
                     </label>
                   </div>
                   <?php
@@ -393,7 +397,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                       <label>
                         Password
-                        <input type="password" id="password" name="password">
+                        <input type="password" id="password" name="password" required="required">
                       </label>
                     </div>
                   <?php

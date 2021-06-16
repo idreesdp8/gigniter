@@ -735,4 +735,17 @@ class Account extends CI_Controller
 		$param['booked'] = $ticket_bought / $gig->ticket_limit * 100;
 		return $param;
 	}
+
+	function check_email()
+	{
+		$email = $this->input->post('email');
+		$res = $this->users_model->validate_email($email);
+		if($res) {
+			echo 1;
+		} else {
+			echo 0;
+		}
+		// echo json_encode($res);
+		// die();
+	}
 }

@@ -66,7 +66,7 @@ class Cart extends CI_Controller
 	public function book_tier($gig_id = '')
 	{
 		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
-		if($this->dbs_user_id == $data['gig']->user_id) {
+		if ($this->dbs_user_id == $data['gig']->user_id) {
 			redirect('/');
 		}
 		$data['venues'] = [];
@@ -317,20 +317,19 @@ class Cart extends CI_Controller
 				$this->cart->destroy();
 				// redirect('cart/checkout');
 				// redirect('cart/thankyou');
-				$this->load->view('frontend/cart/thankyou', ['gig_id'=>$gig_id]);
+				$this->load->view('frontend/cart/thankyou', ['gig_id' => $gig_id]);
 			} else {
 				redirect('cart/checkout');
 			}
 		} else {
 			$cart_items = $this->cart->contents();
 
-			if ($this->dbs_user_id && $cart_items) {
+			if ($this->dbs_user_id) {
 				$data['user'] = $this->users_model->get_user_by_id($this->dbs_user_id);
 			} else {
 				// $uri = uri_string();
 				// $this->session->set_userdata('redirect', $uri);
 				$data['user'] = [];
-				$this->session->set_flashdata('warning_msg', 'Log in first!');
 			}
 
 			$data['cart_items'] = $cart_items;

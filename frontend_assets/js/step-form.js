@@ -30,13 +30,13 @@ $(document).ready(function () {
         var curStep = $(this).closest(".setup-content"),
             curStepBtn = curStep.attr("id"),
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-            curInputs = curStep.find("input[type='text'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[name=poster],.select,.textarea"),
+            curInputs = curStep.find("input[type='text'],input[type='email'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[name=poster],.select,.textarea"),
             prog_step = $("a.btn-default"),
             err_input = '',
             isValid = true;
         $(curInputs).removeClass("error");
         for (var i = 0; i < curInputs.length; i++) {
-            // console.log(curInputs[i])
+            console.log(curInputs[i])
             if (!curInputs[i].validity.valid) {
                 if (err_input == '') {
                     err_input = curInputs[i];
@@ -57,11 +57,11 @@ $(document).ready(function () {
                 }
             }
         }
-        // console.log(err_input)
+        console.log(isValid)
         if (err_input !== '') {
             err_input.focus();
         }
-        // console.log(err_input);
+        console.log(err_input);
         if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
     });
 
@@ -347,6 +347,7 @@ $(document).ready(function () {
     // var error_gig_poster = false;
     var error_fname = false;
     var error_lname = false;
+    var error_email = false;
     var error_user_address = false;
     var error_description = false;
     var error_country_id = false;
@@ -368,7 +369,7 @@ $(document).ready(function () {
     //         error_gig_poster = true;
     //     }
     // }
-    $("#error_fname").focusout(function () {
+    $("#fname").focusout(function () {
         check_fname();
     });
     function check_fname() {
@@ -380,7 +381,7 @@ $(document).ready(function () {
             error_fname = true;
         }
     }
-    $("#error_lname").focusout(function () {
+    $("#lname").focusout(function () {
         check_lname();
     });
     function check_lname() {
@@ -390,6 +391,35 @@ $(document).ready(function () {
         } if (lname !== '') {
             $("#lname").removeClass("error").addClass("good");
             error_lname = true;
+        }
+    }
+    $("#email").focusout(function () {
+        check_email();
+    });
+    function check_email() {
+        var email = $("#email").val();
+        if (email == '') {
+            $("#email").addClass("error").removeClass("good");
+        } if (email !== '') {
+            $.ajax({
+                url: base_url + 'account/check_email',
+                data: {
+                    email: email
+                },
+                method: 'POST',
+                success: function(resp) {
+                    if(resp == '1') {
+                        $("#email").addClass("error").removeClass("good");
+                        $("#email").parent().find('.email_error').empty();
+                        $("#email").parent().find('.email_error').html('Email already registered!')
+                        error_email = false;
+                    } else {
+                        $("#email").removeClass("error").addClass("good");
+                        $("#email").parent().find('.email_error').empty();
+                        error_email = true;
+                    }
+                }
+            })
         }
     }
     $("#error_user_address").focusout(function () {

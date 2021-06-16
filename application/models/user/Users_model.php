@@ -163,4 +163,10 @@ class Users_model extends CI_Model
 		$this->db->where('id', $args1);
 		return $this->db->update('config', $data);
 	}
+
+	function validate_email($email)
+	{
+		$query = $this->db->get_where('users', array('email' => $email));
+		return $query->row();
+	}
 }
