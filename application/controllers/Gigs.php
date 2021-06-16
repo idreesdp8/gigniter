@@ -68,7 +68,7 @@ class Gigs extends CI_Controller
 				$ticket_bought += $item->quantity;
 			}
 			$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-			$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+			$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
 			$gig->images = $this->gigs_model->get_gig_gallery_images($id);
 			if ($gig->start_time && $gig->end_time) {
 				$start_time = new DateTime($gig->start_time);
@@ -1014,7 +1014,7 @@ class Gigs extends CI_Controller
 					$ticket_bought += $item->quantity;
 				}
 				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1158,7 +1158,7 @@ class Gigs extends CI_Controller
 					$ticket_bought += $item->quantity;
 				}
 				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1223,7 +1223,7 @@ class Gigs extends CI_Controller
 					$ticket_bought += $item->quantity;
 				}
 				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1279,7 +1279,7 @@ class Gigs extends CI_Controller
 					$ticket_bought += $item->quantity;
 				}
 				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = floor(($ticket_bought / $gig->ticket_limit * 100));
+				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
 			}
 		}
 		$data['gigs'] = $gigs;

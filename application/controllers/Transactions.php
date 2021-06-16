@@ -114,7 +114,7 @@ class Transactions extends CI_Controller
             $gig->cart_items = $cart_items;
             $gig->ticket_left = $gig->ticket_limit - $ticket_bought;
             $gig->total_sale = $total_sale;
-            $gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+            $gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
             // $gig->booked = 100;
             $data['gig'] = $gig;
 
