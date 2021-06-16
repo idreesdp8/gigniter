@@ -447,7 +447,7 @@ class Account extends CI_Controller
 		// die();
 	}
 
-	public function edit_profile()
+	public function edit_profile($user_id = '')
 	{
 		if (isset($_POST) && !empty($_POST)) {
 			// echo json_encode($_POST);
@@ -573,7 +573,13 @@ class Account extends CI_Controller
 				redirect("account/profile");
 			}
 		} else {
-			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+			if($user_id == '' || $this->dbs_user_id != $user_id) {
+				redirect('/');
+			}
+			// if() {
+			// 	redirect('/');
+			// }
+			$user = $this->users_model->get_user_by_id($user_id);
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);

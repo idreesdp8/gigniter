@@ -24,105 +24,118 @@
     <!-- ==========Speaker-Single========== -->
     <section class="speaker-single padding-top pt-lg-0">
         <div class="container">
-            <div class="speaker-wrapper bg-six padding-top padding-bottom">
-                <div class="speaker-thumb">
-                    <img src="<?php echo ($user->image && $user->image != '') ? profile_image_url() . $user->image : user_asset_url().'images/speaker/speaker01.jpg' ?>" alt="speaker">
-                    <!-- <a href="#0">www.website.com</a> -->
-                </div>
-                <div class="speaker-content">
-                    <div class="author">
-                        <!-- <h2 class="title"></h2> -->
-                        <!-- <div class="info">Independent consultant, coach and executive coach</div> -->
-                    </div>
+            <div class="row">
+                <div class="speaker-wrapper bg-six padding-bottom w-100">
                     <?php
-                    if (isset($user->mail) || isset($user->facebook) || isset($user->instagram) || isset($user->twitter) || isset($user->linkedin) || isset($user->pinterest) || isset($user->behance)) :
+                    if ($this->session->userdata('us_id') == $user->id) :
                     ?>
-                        <div class="speak-con-wrapper">
-                            <div class="speak-con-area">
-                                <?php
-                                if (isset($user->mail)) :
-                                ?>
-                                    <div class="item">
-                                        <div class="item-thumb">
-                                            <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
-                                        </div>
-                                        <div class="item-content">
-                                            <span class="up">Contact Artist:</span>
-                                            <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a>
-                                        </div>
-                                    </div>
-                                <?php
-                                endif;
-                                ?>
-                                <ul class="social-icons">
-                                    <?php
-                                    if (isset($user->facebook)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
-                                                <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    if (isset($user->instagram)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
-                                                <i class="fab fa-instagram"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    if (isset($user->twitter)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
-                                                <i class="fab fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    if (isset($user->linkedin)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
-                                                <i class="fab fa-linkedin-in"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    if (isset($user->pinterest)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
-                                                <i class="fab fa-pinterest"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    if (isset($user->behance)) :
-                                    ?>
-                                        <li>
-                                            <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
-                                                <i class="fab fa-behance"></i>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endif;
-                                    ?>
-                                </ul>
-                            </div>
+                        <div class="col-md-12 mt-5 text-right">
+                            <a href="<?php echo user_base_url() . 'account/edit_profile/' . $user->id ?>" type="button" class="btn btn-theme-primary">Edit Profile</a>
                         </div>
                     <?php
                     endif;
                     ?>
-                    <div class="content">
-                        <h3 class="subtitle">About me</h3>
-                        <p><?php echo $user->description ?></p>
-                        <!-- <p>A successful marketing plan relies heavily on the pulling-power of advertising copy. Writing result-oriented ad copy is difficult, as it must appeal to, entice, and convince consumers to take action. There is no magic formula to write perfect ad copy; it is based on a number of factors, including ad placement, demographic, even the consumer’s mood when they see your ad. </p>
+                    <div class="col-md-12 padding-top speaker-wrapper">
+                        <div class="speaker-thumb">
+                            <img src="<?php echo ($user->image && $user->image != '') ? profile_image_url() . $user->image : user_asset_url() . 'images/speaker/speaker01.jpg' ?>" alt="speaker">
+                            <!-- <a href="#0">www.website.com</a> -->
+                        </div>
+                        <div class="speaker-content">
+                            <div class="author">
+                                <!-- <h2 class="title"></h2> -->
+                                <!-- <div class="info">Independent consultant, coach and executive coach</div> -->
+                            </div>
+                            <?php
+                            if (isset($user->mail) || isset($user->facebook) || isset($user->instagram) || isset($user->twitter) || isset($user->linkedin) || isset($user->pinterest) || isset($user->behance)) :
+                            ?>
+                                <div class="speak-con-wrapper">
+                                    <div class="speak-con-area">
+                                        <?php
+                                        if (isset($user->mail)) :
+                                        ?>
+                                            <div class="item">
+                                                <div class="item-thumb">
+                                                    <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
+                                                </div>
+                                                <div class="item-content">
+                                                    <span class="up">Contact Artist:</span>
+                                                    <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a>
+                                                </div>
+                                            </div>
+                                        <?php
+                                        endif;
+                                        ?>
+                                        <ul class="social-icons">
+                                            <?php
+                                            if (isset($user->facebook)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
+                                                        <i class="fab fa-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            if (isset($user->instagram)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
+                                                        <i class="fab fa-instagram"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            if (isset($user->twitter)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
+                                                        <i class="fab fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            if (isset($user->linkedin)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
+                                                        <i class="fab fa-linkedin-in"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            if (isset($user->pinterest)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
+                                                        <i class="fab fa-pinterest"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            if (isset($user->behance)) :
+                                            ?>
+                                                <li>
+                                                    <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
+                                                        <i class="fab fa-behance"></i>
+                                                    </a>
+                                                </li>
+                                            <?php
+                                            endif;
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php
+                            endif;
+                            ?>
+                            <div class="content">
+                                <h3 class="subtitle">About me</h3>
+                                <p><?php echo $user->description ?></p>
+                                <!-- <p>A successful marketing plan relies heavily on the pulling-power of advertising copy. Writing result-oriented ad copy is difficult, as it must appeal to, entice, and convince consumers to take action. There is no magic formula to write perfect ad copy; it is based on a number of factors, including ad placement, demographic, even the consumer’s mood when they see your ad. </p>
                         <p>So how is any writer supposed to pen a stunning piece of advertising copy — copy that sizzles and sells? The following tips will jumpstart your creative thinking and help you write a better ad.</p>
                         <p>Consumers are inundated with ads, so it’s vital that your ad catches the eye and immediately grabs interest. You could do this with a headline or slogan (such as VW’s “Drivers Wanted” campaign), color or layout (Target’s new colorful, simple ads are a testimony to this) or illustration (such as the Red Bull characters or Zoloft’s depressed ball and his ladybug friend).</p> -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
