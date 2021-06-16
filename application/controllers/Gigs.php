@@ -36,7 +36,7 @@ class Gigs extends CI_Controller
 		$this->category_key = 'category';
 
 		$this->load->library('Ajax_pagination');
-		$this->perPage = 25;
+		$this->perPage = 10;
 	}
 
 	public function detail()
@@ -692,33 +692,33 @@ class Gigs extends CI_Controller
 
 	function update($args1 = '')
 	{
-		if($args1 == '') {
+		if ($args1 == '') {
 			$args1 = $this->input->post('id');
 		}
 		$gig = $this->gigs_model->get_gig_by_id($args1);
-		if($gig->user_id == $this->dbs_user_id) {
+		if ($gig->user_id == $this->dbs_user_id) {
 			if (!$gig->is_approved) {
-	
+
 				if (isset($_POST) && !empty($_POST)) {
 					// get form input
 					$data = $_POST;
 					echo json_encode($_FILES);
 					echo json_encode($data);
 					// die();
-	
-	
+
+
 					// form validation
 					$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
 					$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 					$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
 					$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 					$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
-	
+
 					if ($this->form_validation->run() == FALSE) {
 						// validation fail
 						redirect('gigs/update/' . $data['id']);
 					} else {
-	
+
 						$datas = array(
 							'subtitle' => $data['subtitle'] ?? null,
 							'category' => $data['category'],
@@ -743,7 +743,7 @@ class Gigs extends CI_Controller
 						}
 						// echo json_encode($datas);
 						// die();
-	
+
 						$prof_poster_error = '';
 						$alw_typs = array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
 						// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
@@ -755,7 +755,7 @@ class Gigs extends CI_Controller
 								$tmp_img_type = "'" . ($_FILES['poster']['type']) . "'";
 								$prof_poster_error .= "Poster type: $tmp_img_type not allowed!<br>";
 							}
-	
+
 							if ($prof_poster_error == '') {
 								@unlink("downloads/posters/thumb/$gig->poster");
 								@unlink("downloads/posters/$gig->poster");
@@ -790,7 +790,7 @@ class Gigs extends CI_Controller
 								$prf_vid_error .= "Video type: $tmp_vid_type not allowed!<br>";
 								echo $prf_vid_error;
 							}
-		
+
 							if ($prf_vid_error == '') {
 								@unlink("downloads/videos/$gig->video");
 								$video_path = video_relative_path();
@@ -822,7 +822,7 @@ class Gigs extends CI_Controller
 						} else {
 							$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
 						}
-	
+
 						redirect("my_gigs");
 					}
 				} else {
@@ -934,16 +934,56 @@ class Gigs extends CI_Controller
 
 	public function explore()
 	{
-		$live = $this->input->get("live");
-		$sort_by = $this->input->get("sort_by");
+		// $sort_by = $this->input->get("sort_by");
+		// $live = $this->input->get("live");
 		$param = array();
-		if ($live || $live>-1) {
+		if ($this->input->get('live')) {
+			$live = $this->input->get("live");
+			$_SESSION['tmp_live'] = $live;
 			$param['is_live'] = $live;
+		} else if (isset($_SESSION['tmp_live'])) {
+			unset($_SESSION['tmp_live']);
 		}
-		if ($sort_by) {
+		if ($this->input->get('sort_by')) {
+			$sort_by = $this->input->get("sort_by");
+			$_SESSION['tmp_sort_by'] = $sort_by;
 			$param['sort_by'] = $sort_by;
+		} else if (isset($_SESSION['tmp_sort_by'])) {
+			unset($_SESSION['tmp_sort_by']);
 		}
-		$param['limit'] = 10;
+
+		// if ($live || $live > -1) {
+		// 	$param['is_live'] = $live;
+		// }
+		// if ($sort_by) {
+		// 	$param['sort_by'] = $sort_by;
+		// }
+		// $param['limit'] = 10;
+		$per_page_val = 3;
+		if ($per_page_val) {
+			$_SESSION['tmp_per_page_val'] = $per_page_val;
+		} else if (isset($_SESSION['tmp_per_page_val'])) {
+			unset($_SESSION['tmp_per_page_val']);
+		}
+		if (isset($_SESSION['tmp_per_page_val'])) {
+			$show_pers_pg = $_SESSION['tmp_per_page_val'];
+		} else {
+			$show_pers_pg = $this->perPage;
+		}
+
+		$totalRec = count($this->gigs_model->get_all_filter_gigs($param));
+
+		// echo json_encode($totalRec);
+		// echo json_encode($param);
+		//pagination configuration
+		$config['target']      = '#grid_view';
+		$config['base_url']    = user_base_url().'gigs/index2';
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $show_pers_pg; //$this->perPage;
+
+		$this->ajax_pagination->initialize($config);
+
+		$param['limit'] = $show_pers_pg;
 		// echo json_encode($param);
 		$gigs = $this->gigs_model->get_all_filter_gigs($param);
 		// echo json_encode($gigs);
@@ -984,6 +1024,84 @@ class Gigs extends CI_Controller
 		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/gigs/explore', $data);
+	}
+
+	function index2()
+	{
+		// $res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Products', 'index', $this->login_usr_role_id, '1');
+		// if ($res_nums > 0) {
+
+			// $data['page_headings'] = "Products List";
+
+			$paras_arrs = array();
+			$page = $this->input->post('page');
+			if (!$page) {
+				$offset = 0;
+			} else {
+				$offset = $page;
+			}
+
+			$data['page'] = $page;
+
+			if ($this->input->post("limit")) {
+				$per_page_val = $this->input->post("limit");
+				$_SESSION['tmp_per_page_val'] = $per_page_val;
+			} else if (isset($_SESSION['tmp_per_page_val'])) {
+				$per_page_val = $_SESSION['tmp_per_page_val'];
+			}
+
+			if (isset($_POST['s_val'])) {
+				$s_val = $this->input->post('s_val');
+				if (strlen($s_val) > 0) {
+					$_SESSION['tmp_s_val'] = $s_val;
+					$paras_arrs = array_merge($paras_arrs, array("s_val" => $s_val));
+				} else {
+					unset($_SESSION['tmp_s_val']);
+				}
+			} else if (isset($_SESSION['tmp_s_val'])) {
+				$s_val = $_SESSION['tmp_s_val'];
+				$paras_arrs = array_merge($paras_arrs, array("s_val" => $s_val));
+			}
+
+			if (isset($_POST['status_val'])) {
+				$status_val = $this->input->post('status_val');
+				if ($status_val != '') {
+					$_SESSION['tmp_status_val'] = $status_val;
+					$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
+				} else {
+					unset($_SESSION['tmp_status_val']);
+				}
+			} else if (isset($_SESSION['tmp_status_val'])) {
+				$status_val = $_SESSION['tmp_status_val'];
+				$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
+			}
+
+
+			if (isset($_SESSION['tmp_per_page_val'])) {
+				$show_pers_pg = $_SESSION['tmp_per_page_val'];
+			} else {
+				$show_pers_pg = $this->perPage;
+			}
+
+			//total rows count
+			$totalRec = count($this->products_model->get_all_filter_products($paras_arrs));
+
+			//pagination configuration
+			$config['target']      = '#dyns_list';
+			$config['base_url']    = site_url('/admin/products/index2');
+			$config['total_rows']  = $totalRec;
+			$config['per_page']    = $show_pers_pg; //$this->perPage;
+
+			$this->ajax_pagination->initialize($config);
+
+			$paras_arrs = array_merge($paras_arrs, array('start' => $offset, 'limit' => $show_pers_pg));
+
+			$data['records'] = $this->products_model->get_all_filter_products($paras_arrs);
+
+			$this->load->view('admin/products/index2', $data);
+		// } else {
+		// 	$this->load->view('admin/no_permission_access');
+		// }
 	}
 
 	function filter_gig()
@@ -1161,7 +1279,7 @@ class Gigs extends CI_Controller
 					$ticket_bought += $item->quantity;
 				}
 				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = $ticket_bought / $gig->ticket_limit * 100;
+				$gig->booked = floor(($ticket_bought / $gig->ticket_limit * 100));
 			}
 		}
 		$data['gigs'] = $gigs;

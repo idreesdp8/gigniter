@@ -48,6 +48,7 @@ if ($gigs) :
         endforeach;
         ?>
     </div>
+    <div style="float:right;"> <?php echo $this->ajax_pagination->create_links(); ?></div>
 <?php
 else :
 ?>

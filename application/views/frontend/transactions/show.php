@@ -107,7 +107,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="circlebar">
-                                            <div class="pie_progress3 booked-color-3" role="progressbar" data-goal="<?php echo $gig->booked ?>">
+                                            <div class="pie_progress3 <?php echo $gig->booked < 60 ? 'booked-color-2' : 'booked-color-1' ?>" role="progressbar" data-goal="<?php echo $gig->booked ?>">
                                                 <div class="pie_progress__number"><?php echo $gig->booked ?>%</div>
                                                 <div class="pie_progress__label">Booked</div>
                                             </div>

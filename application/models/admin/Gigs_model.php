@@ -280,7 +280,7 @@ class Gigs_model extends CI_Model
 
 	function get_count_new_gigs()
 	{
-		$query = $this->db->get_where('gigs', array('is_approved' => 0, 'is_draft' => 0));
+		$query = $this->db->get_where('gigs', array('is_approved' => 0, 'is_draft' => 0, 'is_rejected' => 0));
 		return $query->num_rows();
 	}
 
