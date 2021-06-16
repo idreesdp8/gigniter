@@ -141,15 +141,33 @@
                                 <div class="custom-item3">
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
                                 </div>
-                            <?php
+                                <?php
                             endif;
                         endif;
                         if ($this->session->userdata('us_id') != $gig->user_id) :
-                            ?>
-                            <div class="custom-item3">
-                                <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
-                            </div>
+                            if ($gig->status == 1) :
+                                if (!empty($user_bookings)) :
+                                ?>
+                                    <div class="custom-item3">
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book more</a>
+                                    </div>
+                                <?php
+                                else :
+                                ?>
+                                    <div class="custom-item3">
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                    </div>
+                                <?php
+                                endif;
+                            elseif ($gig->status == 2) :
+                                if (empty($user_bookings)) :
+                                ?>
+                                    <div class="custom-item3">
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
+                                    </div>
                         <?php
+                                endif;
+                            endif;
                         endif;
                         ?>
                     </div>

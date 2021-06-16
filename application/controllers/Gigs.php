@@ -43,6 +43,9 @@ class Gigs extends CI_Controller
 	{
 		$id = $_GET['gig'];
 		$gig = $this->gigs_model->get_gig_by_id($id);
+		$user_bookings = $this->bookings_model->get_bookings_by_user_and_gig_id($this->dbs_user_id, $id);
+		// echo json_encode($user_bookings);
+		// die();
 		if ($gig->is_approved || ($this->dbs_user_id && $this->dbs_user_id == $gig->user_id)) {
 			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$gig->user_name = $user->fname . ' ' . $user->lname;
@@ -99,6 +102,7 @@ class Gigs extends CI_Controller
 				}
 			}
 			$data['tiers'] = $tiers;
+			$data['user_bookings'] = $user_bookings;
 			$data['stream_details'] = $this->gigs_model->get_stream_details($id);
 			// echo json_encode($data);die();
 			$this->load->view('frontend/gigs/detail', $data);

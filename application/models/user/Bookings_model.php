@@ -95,6 +95,13 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_bookings_by_user_and_gig_id($user_id, $gig_id)
+	{
+		$sql = "SELECT * FROM bookings WHERE user_id = ? AND gig_id = ?";
+		$query = $this->db->query($sql, array($user_id, $gig_id));
+		return $query->result();
+	}
+
 	function get_bookings_by_gig_id($gig_id)
 	{
 		$sql = "SELECT * FROM bookings WHERE gig_id = ? AND is_paid = 0";

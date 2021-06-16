@@ -2,7 +2,7 @@
     <div class="container">
         <div class="footer-top">
             <div class="logo">
-                <a href="index-1.html">
+                <a href="<?php echo user_base_url() ?>">
                     <img src="<?php echo user_asset_url(); ?>images/footer/footer-logo.png" alt="footer">
                 </a>
             </div>
@@ -32,7 +32,7 @@
         <div class="footer-bottom">
             <div class="footer-bottom-area">
                 <div class="left">
-                    <p>Copyright © 2020.All Rights Reserved By <a href="#0" style="color: #fff; text-transform: uppercase;">Gigniter </a></p>
+                    <p>Copyright © 2020.All Rights Reserved By <a href="<?php echo user_base_url() ?>" style="color: #fff; text-transform: uppercase;">Gigniter </a></p>
                 </div>
                 <ul class="links">
                     <li>
