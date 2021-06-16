@@ -85,6 +85,7 @@
                                     <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                                 </div>
                                 <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" data-error="#image1" />
+                                <label class="profile-edit" for="image">Select a file</label>
                                 <span id="image1" class="text-danger" generated="true">
                                     <?php
                                     echo form_error('image');
