@@ -105,7 +105,7 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h5 class="card-title text-uppercase">
-                                                    <?php echo $item->ticket_tier->name ?>
+                                                    <?php echo $item->ticket_tier ? $item->ticket_tier->name : '' ?>
                                                 </h5>
                                                 <h6 class="card-subtitle mb-2 text-muted"><?php echo $item->gig_title ?></h6>
                                             </div>
@@ -120,7 +120,7 @@
                                                     <div class="col-md-12">
                                                         <div class="d-flex justify-content-between">
                                                             <p>Unit Price</p>
-                                                            <p>$<?php echo $item->ticket_tier->price ?></p>
+                                                            <p>$<?php echo $item->ticket_tier ? $item->ticket_tier->price : '' ?></p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
