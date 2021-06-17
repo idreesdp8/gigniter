@@ -325,11 +325,11 @@ class Gigs extends CI_Controller
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
-			$session_data = [
-				'gig_data' => $data,
-				'gig_files' => $files
-			];
-			$this->session->set_userdata($session_data);
+			// $session_data = [
+			// 	'gig_data' => $data,
+			// 	'gig_files' => $files
+			// ];
+			// $this->session->set_userdata($session_data);
 			if ($data['is_draft'] == 2) {
 				$this->preview($data, $files);
 				die();
@@ -353,6 +353,14 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("start_time", "Start Time", "trim|required|xss_clean");
 			$this->form_validation->set_rules("end_time", "End Time", "trim|required|xss_clean");
+			$this->form_validation->set_rules(
+				'email',
+				'Email',
+				'trim|required|xss_clean|valid_email|is_unique[users.email]',
+				array(
+					'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="' . user_base_url() . 'login">login</a> to your existing account.'
+				)
+			);
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				// $this->load->view('frontend/gigs/add', $data);
@@ -463,7 +471,7 @@ class Gigs extends CI_Controller
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
 					// if ($data['is_draft'] == 2) {
-						redirect("gigs/detail?gig=" . $res);
+					redirect("gigs/detail?gig=" . $res);
 					// }
 					// $response = [
 					// 	'status' => '200',
@@ -976,14 +984,10 @@ class Gigs extends CI_Controller
 		}
 
 		$totalRec = count($this->gigs_model->get_all_filter_gigs($param));
-
-		// echo json_encode($totalRec);
-		// echo json_encode($param);
-		//pagination configuration
-		$config['target']      = '#grid_view';
-		$config['base_url']    = user_base_url().'gigs/index2';
+		// $config['target']      = '#grid_view';
+		// $config['base_url']    = user_base_url() . 'gigs/index2';
 		$config['total_rows']  = $totalRec;
-		$config['per_page']    = $show_pers_pg; //$this->perPage;
+		$config['per_page']    = $show_pers_pg;
 
 		$this->ajax_pagination->initialize($config);
 
@@ -1035,74 +1039,74 @@ class Gigs extends CI_Controller
 		// $res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Products', 'index', $this->login_usr_role_id, '1');
 		// if ($res_nums > 0) {
 
-			// $data['page_headings'] = "Products List";
+		// $data['page_headings'] = "Products List";
 
-			$paras_arrs = array();
-			$page = $this->input->post('page');
-			if (!$page) {
-				$offset = 0;
-			} else {
-				$offset = $page;
-			}
+		$paras_arrs = array();
+		$page = $this->input->post('page');
+		if (!$page) {
+			$offset = 0;
+		} else {
+			$offset = $page;
+		}
 
-			$data['page'] = $page;
+		$data['page'] = $page;
 
-			if ($this->input->post("limit")) {
-				$per_page_val = $this->input->post("limit");
-				$_SESSION['tmp_per_page_val'] = $per_page_val;
-			} else if (isset($_SESSION['tmp_per_page_val'])) {
-				$per_page_val = $_SESSION['tmp_per_page_val'];
-			}
+		if ($this->input->post("limit")) {
+			$per_page_val = $this->input->post("limit");
+			$_SESSION['tmp_per_page_val'] = $per_page_val;
+		} else if (isset($_SESSION['tmp_per_page_val'])) {
+			$per_page_val = $_SESSION['tmp_per_page_val'];
+		}
 
-			if (isset($_POST['s_val'])) {
-				$s_val = $this->input->post('s_val');
-				if (strlen($s_val) > 0) {
-					$_SESSION['tmp_s_val'] = $s_val;
-					$paras_arrs = array_merge($paras_arrs, array("s_val" => $s_val));
-				} else {
-					unset($_SESSION['tmp_s_val']);
-				}
-			} else if (isset($_SESSION['tmp_s_val'])) {
-				$s_val = $_SESSION['tmp_s_val'];
+		if (isset($_POST['s_val'])) {
+			$s_val = $this->input->post('s_val');
+			if (strlen($s_val) > 0) {
+				$_SESSION['tmp_s_val'] = $s_val;
 				$paras_arrs = array_merge($paras_arrs, array("s_val" => $s_val));
-			}
-
-			if (isset($_POST['status_val'])) {
-				$status_val = $this->input->post('status_val');
-				if ($status_val != '') {
-					$_SESSION['tmp_status_val'] = $status_val;
-					$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
-				} else {
-					unset($_SESSION['tmp_status_val']);
-				}
-			} else if (isset($_SESSION['tmp_status_val'])) {
-				$status_val = $_SESSION['tmp_status_val'];
-				$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
-			}
-
-
-			if (isset($_SESSION['tmp_per_page_val'])) {
-				$show_pers_pg = $_SESSION['tmp_per_page_val'];
 			} else {
-				$show_pers_pg = $this->perPage;
+				unset($_SESSION['tmp_s_val']);
 			}
+		} else if (isset($_SESSION['tmp_s_val'])) {
+			$s_val = $_SESSION['tmp_s_val'];
+			$paras_arrs = array_merge($paras_arrs, array("s_val" => $s_val));
+		}
 
-			//total rows count
-			$totalRec = count($this->products_model->get_all_filter_products($paras_arrs));
+		if (isset($_POST['status_val'])) {
+			$status_val = $this->input->post('status_val');
+			if ($status_val != '') {
+				$_SESSION['tmp_status_val'] = $status_val;
+				$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
+			} else {
+				unset($_SESSION['tmp_status_val']);
+			}
+		} else if (isset($_SESSION['tmp_status_val'])) {
+			$status_val = $_SESSION['tmp_status_val'];
+			$paras_arrs = array_merge($paras_arrs, array("status_val" => $status_val));
+		}
 
-			//pagination configuration
-			$config['target']      = '#dyns_list';
-			$config['base_url']    = site_url('/admin/products/index2');
-			$config['total_rows']  = $totalRec;
-			$config['per_page']    = $show_pers_pg; //$this->perPage;
 
-			$this->ajax_pagination->initialize($config);
+		if (isset($_SESSION['tmp_per_page_val'])) {
+			$show_pers_pg = $_SESSION['tmp_per_page_val'];
+		} else {
+			$show_pers_pg = $this->perPage;
+		}
 
-			$paras_arrs = array_merge($paras_arrs, array('start' => $offset, 'limit' => $show_pers_pg));
+		//total rows count
+		$totalRec = count($this->products_model->get_all_filter_products($paras_arrs));
 
-			$data['records'] = $this->products_model->get_all_filter_products($paras_arrs);
+		//pagination configuration
+		$config['target']      = '#dyns_list';
+		$config['base_url']    = site_url('/admin/products/index2');
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $show_pers_pg; //$this->perPage;
 
-			$this->load->view('admin/products/index2', $data);
+		$this->ajax_pagination->initialize($config);
+
+		$paras_arrs = array_merge($paras_arrs, array('start' => $offset, 'limit' => $show_pers_pg));
+
+		$data['records'] = $this->products_model->get_all_filter_products($paras_arrs);
+
+		$this->load->view('admin/products/index2', $data);
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
@@ -1115,6 +1119,18 @@ class Gigs extends CI_Controller
 		$sort = $this->input->post("sort");
 		$live = $this->input->post("live");
 		$limit = $this->input->post("limit");
+		$page = $this->input->post("page");
+		if (!$page) {
+			$offset = 0;
+		} else {
+			$offset = $page;
+		}
+		// echo ($cat);
+		// echo ($gen);
+		// echo ($sort);
+		// echo ($live);
+		// echo ($limit);
+		// echo ($page);
 		$param = array();
 		if ($cat) {
 			$param['category'] = $cat;
@@ -1128,12 +1144,44 @@ class Gigs extends CI_Controller
 		if ($live) {
 			$param['is_live'] = $live;
 		}
+
 		if ($limit) {
-			$param['limit'] = $limit;
+			$per_page_val = $limit;
+			$_SESSION['tmp_per_page_val'] = $per_page_val;
+		} else if (isset($_SESSION['tmp_per_page_val'])) {
+			$per_page_val = $_SESSION['tmp_per_page_val'];
 		}
-		// echo json_encode($param);
-		// die();
+
+		if ($limit) {
+			$show_pers_pg = $limit;
+		} else {
+			$show_pers_pg = $this->perPage;
+		}
+
+		if (isset($_SESSION['tmp_per_page_val'])) {
+			$show_pers_pg = $_SESSION['tmp_per_page_val'];
+		} else {
+			$show_pers_pg = $this->perPage;
+		}
+
+
+		$totalRec = count($this->gigs_model->get_all_filter_gigs($param));
+		// $config['target']      = '#grid_view';
+		// $config['base_url']    = user_base_url() . 'gigs/index2';
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $show_pers_pg;
+
+		$this->ajax_pagination->initialize($config);
+
+		$param['start'] = $offset;
+		$param['limit'] = $show_pers_pg;
+		// if ($page) {
+		// 	$param['page'] = $page;
+		// }
 		$gigs = $this->gigs_model->get_all_filter_gigs($param);
+		// echo json_encode($gigs);
+		// echo json_encode($totalRec);
+		// die();
 		// echo json_encode($gigs);
 		// die();
 		if ($gigs) {
@@ -1167,15 +1215,16 @@ class Gigs extends CI_Controller
 		}
 		$data['gigs'] = $gigs;
 
-		$response = array();
+		// $response = array();
+		$this->load->view('frontend/gigs/partial_explore_grid', $data);
 
-		if ($data['gigs']) {
-			$response = [
-				'grid' => $this->load->view('frontend/gigs/partial_explore_grid', $data, TRUE),
-				'list' => $this->load->view('frontend/gigs/partial_explore_list', $data, TRUE)
-			];
-		}
-		echo json_encode($response);
+		// if ($data['gigs']) {
+		// 	$response = [
+		// 		'grid' => $this->load->view('frontend/gigs/partial_explore_grid', $data, TRUE),
+		// 		'list' => $this->load->view('frontend/gigs/partial_explore_list', $data, TRUE)
+		// 	];
+		// }
+		// echo json_encode($response);
 	}
 
 	function filter_my_gigs()
@@ -1439,7 +1488,7 @@ class Gigs extends CI_Controller
 	function submit_for_approval()
 	{
 		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
-		if(!$check_gig) {
+		if (!$check_gig) {
 			$id = $this->input->post('id');
 			$param = [
 				'is_draft' => 0,

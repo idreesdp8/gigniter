@@ -204,26 +204,26 @@ class Ajax_pagination{
         function getData(page){ 
 			//jQuery.noConflict()(function($){	 	  
 				$(document).ready(function(){
-					 
-				$.ajax({
-					method: "POST",
-					url: "<?php echo $this->base_url; ?>"+page,
-					data: { page: page },
-					beforeSend: function(){
-						$('<?php echo $this->loading; ?>').show();
-					},
-					success: function(data){
-						$('<?php echo $this->loading; ?>').hide();
-						$('<?php echo $this->target; ?>').html(data);
+					filter_gigs(page)
+				// $.ajax({
+				// 	method: "POST",
+				// 	url: base_url+'gigs/filter_gig',
+				// 	data: { page: page },
+				// 	beforeSend: function(){
+				// 		$('<?php echo $this->loading; ?>').show();
+				// 	},
+				// 	success: function(data){
+				// 		$('<?php echo $this->loading; ?>').hide();
+				// 		$('<?php echo $this->target; ?>').html(data);
 						
-						/*$( '[data-toggle=popover]' ).popover();
+				// 		/*$( '[data-toggle=popover]' ).popover();
 						
-						$('.simple-ajax-modal').magnificPopup({
-							type: 'ajax',
-							modal: true
-						});*/
-					}
-				}); 
+				// 		$('.simple-ajax-modal').magnificPopup({
+				// 			type: 'ajax',
+				// 			modal: true
+				// 		});*/
+				// 	}
+				// }); 
 				});
 			//});
         }

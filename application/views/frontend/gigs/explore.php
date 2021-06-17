@@ -89,7 +89,10 @@
                             <div class="col">
                                 <span>Show:</span>
                                 <select class="show-select" id="limit">
-                                    <option value="10" active>10</option>
+                                    <option value="3" active>3</option>
+                                    <option value="5">5</option>
+                                    <option value="7">7</option>
+                                    <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="50">50</option>
                                 </select>
@@ -165,7 +168,7 @@
             });
         });
 
-        function filter_gigs() {
+        function filter_gigs(page = '') {
             var cat = $('#category').val();
             var gen = $('#genre').val();
             var sort = $('#sort').val();
@@ -180,16 +183,21 @@
                     'sort': sort,
                     'limit': limit,
                     'live': live,
+                    'page': page
                 },
-                dataType: 'json',
+                beforeSend: function() {
+                    $('.loading').show();
+                },
+                // dataType: 'json',
                 success: function(result) {
-                    if (result.grid && result.list) {
-                        $('#grid_view').empty();
-                        $('#grid_view').html(result.grid);
-                    } else {
-                        $('#grid_view').empty();
-                        $('#grid_view').html('<div>No Record Found</div>');
-                    }
+                    // if (result.grid && result.list) {
+                    $('.loading').hide()
+                    $('#grid_view').empty();
+                    $('#grid_view').html(result);
+                    // } else {
+                    //     $('#grid_view').empty();
+                    //     $('#grid_view').html('<div>No Record Found</div>');
+                    // }
                 }
             });
         }

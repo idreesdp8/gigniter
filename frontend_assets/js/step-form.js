@@ -1,9 +1,10 @@
 $(document).ready(function () {
 
+
     //     //Step Movement JQuery START   --
 
     var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),
+        allWells = $('.setup-content'),isValid = false, form = document.getElementById('basic_info_form');
         allNextBtn = $('.nextBtn');
 
 
@@ -32,42 +33,65 @@ $(document).ready(function () {
             nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
             curInputs = curStep.find("input[type='text'],input[type='email'],input[type='number'],input[type='date'],input[type='time'],input[type='url'],input[name=poster],.select,.textarea"),
             prog_step = $("a.btn-default"),
-            err_input = '',
-            isValid = true;
+            err_input = '';
         $(curInputs).removeClass("error");
         for (var i = 0; i < curInputs.length; i++) {
-            console.log(curInputs[i])
+            // console.log(curInputs[i])
             if (!curInputs[i].validity.valid) {
                 if (err_input == '') {
                     err_input = curInputs[i];
                 }
                 isValid = false;
                 $(curInputs[i]).addClass("error");
-                console.log(err_input)
-                if ($(curInputs[i]).attr('name') == 'poster') {
-                    var div_image = $(curInputs[i]).parents('#div_image')
-                    div_image.append('<div class="text-danger">Gig Poster is required field</div>')
-                    div_image.find('.file-preview-thumbnails').addClass('error')
+            }
+            if ($(curInputs[i]).attr('name') == 'poster') {
+                var tag = curInputs[i];
+                var fileName = ''
+                if(tag.files[0]) {
+                    fileName += tag.files[0].name;
+                }
+                console.log(fileName)
+                var div_image = $(curInputs[i]).parents('#div_image')
+                if(fileName == '') {
+                    console.log('if');
+                    isValid = false;
+                    $('.error_poster').empty()
+                    $('.error_poster').html('Gig Poster is required field')
+                    div_image.find('.file-preview-thumbnails').addClass('error').removeClass('good')
                     var scrollPos = div_image.find('.file-preview-thumbnails').offset().top - $('.header-section').outerHeight(true) - $('#div_image p').outerHeight(true);
-                    console.log(scrollPos);
                     $(window).scrollTop(scrollPos);
-                    // $('html, body').animate({
-                    //     scrollTop: div_image.find('.file-preview-thumbnails').offset().top
-                    // }, 2000);
+                } else {
+                    console.log('else');
+                    isValid = true
+                    $('.error_poster').empty()
+                    div_image.find('.file-preview-thumbnails').removeClass('error').addClass('good')
                 }
             }
+            // console.log($(curInputs[i]).attr('name'));
+            if ($(curInputs[i]).attr('name') == 'email') {
+                check_email();
+                err_input = curInputs[i];
+            }
         }
-        console.log(isValid)
         if (err_input !== '') {
             err_input.focus();
         }
-        console.log(err_input);
+        // console.log(isValid);
+        // console.log(err_input);
         if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
     });
 
 
     $('div.setup-panel div a.btn-success-circle').trigger('click');
     //Step Movement JQuery END  --
+
+    form.addEventListener('submit', function(){
+        console.log(isValid);
+        if(!isValid) {
+            alert('Some fields values are incorrect!')
+            event.preventDefault();
+        }
+    })
 
 
 
@@ -283,19 +307,19 @@ $(document).ready(function () {
     }
 
 
-    $("input[name=poster]").change(function () {
-        check_poster();
-    });
-    function check_poster() {
-        var poster = $("input[name=poster]").val();
-        // console.log(poster)
-        if (poster == '') {
-            $("input[name=poster]").removeClass("good").addClass("error");
-        } else {
-            $("input[name=poster]").removeClass("error").addClass("good");
-            error_poster = true;
-        }
-    }
+    // $("input[name=poster]").change(function () {
+    //     check_poster();
+    // });
+    // function check_poster() {
+    //     var poster = $("input[name=poster]").val();
+    //     // console.log(poster)
+    //     if (poster == '') {
+    //         $("input[name=poster]").removeClass("good").addClass("error");
+    //     } else {
+    //         $("input[name=poster]").removeClass("error").addClass("good");
+    //         error_poster = true;
+    //     }
+    // }
     // step 1 Functions END...
 
     // step 2 Functions START...
@@ -400,6 +424,9 @@ $(document).ready(function () {
         var email = $("#email").val();
         if (email == '') {
             $("#email").addClass("error").removeClass("good");
+            error_email = false;
+            isValid = false;
+            return 0;
         } if (email !== '') {
             $.ajax({
                 url: base_url + 'account/check_email',
@@ -413,14 +440,19 @@ $(document).ready(function () {
                         $("#email").parent().find('.email_error').empty();
                         $("#email").parent().find('.email_error').html('Email already registered!')
                         error_email = false;
+                        isValid = false;
+                        return 0;
                     } else {
                         $("#email").removeClass("error").addClass("good");
                         $("#email").parent().find('.email_error').empty();
                         error_email = true;
+                        isValid = true;
+                        return 1;
                     }
                 }
             })
         }
+        
     }
     $("#error_user_address").focusout(function () {
         check_user_address();

@@ -16,9 +16,6 @@
     #video {
       border: 0px;
     }
-    .email_error {
-      color: red;
-    }
   </style>
 </head>
 
@@ -183,6 +180,7 @@
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
                         <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
                     </div>
+                    <div class="error_poster text-danger"></div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
                     <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
@@ -388,7 +386,7 @@
                     <label>
                       Email
                       <input type="email" id="email" name="email" value="<?php echo isset($user) ? $user->email : null ?>" required="required">
-                      <span class="email_error"></span>
+                      <span class="email_error text-danger"></span>
                     </label>
                   </div>
                   <?php

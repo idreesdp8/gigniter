@@ -111,7 +111,7 @@ class Account extends CI_Controller
 			// echo $email.' '.$password;
 			// die();
 			// form validation 
-			$this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email|is_unique[users.email]");
+			// $this->form_validation->set_rules("email", "Email", "trim|required|xss_clean|valid_email|is_unique[users.email]");
 			$this->form_validation->set_rules(
 				'email',
 				'Email',

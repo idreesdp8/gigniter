@@ -203,8 +203,8 @@ class Bookings_model extends CI_Model
 	function get_tickets_by_user($email, $id)
 	{
 		$this->db->where('user_id =', $id);
-		// $this->db->or_where('friend_email =', $email);
-		$query = $this->db->get('tickets');
+		$this->db->or_where('friend_email =', $email);
+		$query = $this->db->get('ticket_share');
 		return $query->result();
 	}
 
