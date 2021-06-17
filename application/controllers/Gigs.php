@@ -973,7 +973,7 @@ class Gigs extends CI_Controller
 		// 	$param['sort_by'] = $sort_by;
 		// }
 		// $param['limit'] = 10;
-		$per_page_val = 3;
+		$per_page_val = 10;
 		if ($per_page_val) {
 			$_SESSION['tmp_per_page_val'] = $per_page_val;
 		} else if (isset($_SESSION['tmp_per_page_val'])) {

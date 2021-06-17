@@ -243,6 +243,7 @@ class Live extends CI_Controller
     {
         $dbs_user_email = $this->dbs_user_email;
         $dbs_user_id = $this->dbs_user_id;
+        // $gigs = $this->gigs_model->get_live_shows($dbs_user_id);
         // $user = $this->users_model->get_user_by_email($dbs_user_email);
         // $gigs = $this->gigs_model->get_upcoming_user_gigs($user_id);
         // $bookings = $this->bookings_model->get_bookings_by_user_id($user->id);
