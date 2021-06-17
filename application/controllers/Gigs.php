@@ -129,7 +129,7 @@ class Gigs extends CI_Controller
 		$role = $this->roles_model->get_role_by_name('User');
 
 		// $password = $data['password'];
-		$password = $this->general_model->safe_ci_encoder('password');
+		$password = $this->general_model->safe_ci_encoder($data['password']);
 		$created_on = date('Y-m-d H:i:s');
 		$status = 1;
 		$datas = array(
