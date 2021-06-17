@@ -89,9 +89,6 @@
                             <div class="col">
                                 <span>Show:</span>
                                 <select class="show-select" id="limit">
-                                    <option value="3" active>3</option>
-                                    <option value="5">5</option>
-                                    <option value="7">7</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="50">50</option>

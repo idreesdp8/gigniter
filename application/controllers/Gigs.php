@@ -353,14 +353,16 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("start_time", "Start Time", "trim|required|xss_clean");
 			$this->form_validation->set_rules("end_time", "End Time", "trim|required|xss_clean");
-			$this->form_validation->set_rules(
-				'email',
-				'Email',
-				'trim|required|xss_clean|valid_email|is_unique[users.email]',
-				array(
-					'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="' . user_base_url() . 'login">login</a> to your existing account.'
-				)
-			);
+			if(!$this->dbs_user_id) {
+				$this->form_validation->set_rules(
+					'email',
+					'Email',
+					'trim|required|xss_clean|valid_email|is_unique[users.email]',
+					array(
+						'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="' . user_base_url() . 'login">login</a> to your existing account.'
+					)
+				);
+			}
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				// $this->load->view('frontend/gigs/add', $data);
