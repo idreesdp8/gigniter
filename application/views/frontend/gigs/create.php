@@ -385,8 +385,18 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Email
-                      <input type="email" id="email" name="email" value="<?php echo isset($user) ? $user->email : null ?>" required="required">
+                  <?php
+                  if($this->session->userdata('us_id')) :
+                    ?>
+                    <div><?php echo isset($user) ? $user->email : null ?></div>
+                    <?php
+                    else :
+                      ?>
+                      <input type="email" id="email" name="email" required="required">
                       <span class="email_error text-danger"></span>
+                    <?php
+                    endif;
+                    ?>
                     </label>
                   </div>
                   <?php
