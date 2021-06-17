@@ -457,6 +457,7 @@ class Account extends CI_Controller
 
 			// form validation 
 			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
+			$this->form_validation->set_rules("lname", "Last Name", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail

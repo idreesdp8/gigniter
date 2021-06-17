@@ -52,7 +52,7 @@
                         <span class="theme-primary-color cate">profile</span>
                         <!-- <h2 class="title">to Gigniter </h2> -->
                     </div>
-                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/profile'); ?>" method="post" enctype="multipart/form-data">
+                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/edit_profile'); ?>" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xl-6">
                                 <input type="hidden" name="id" value="<?php echo $user->id ?>">
@@ -62,8 +62,8 @@
                                     <span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="lname">Last Name</label>
-                                    <input type="text" value="<?php echo $user->lname ?>" name="lname" id="lname" data-error="#lname1">
+                                    <label for="lname">Last Name<span>*</span></label>
+                                    <input type="text" value="<?php echo $user->lname ?>" name="lname" id="lname" data-error="#lname1" required>
                                     <span id="lname1" class="text-danger"><?php echo form_error('lname'); ?></span>
                                 </div>
                                 <div class="form-group">
@@ -101,14 +101,14 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" value="<?php echo $user->address ?>" name="address" id="address" data-error="#address1" required>
+                            <input type="text" value="<?php echo $user->address ?>" name="address" id="address" data-error="#address1">
                             <span id="address1" class="text-danger"><?php echo form_error('address'); ?></span>
                         </div>
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="country_id">Location</label>
-                                    <select name="country_id" id="country_id" class="form-control" data-error="#country_id1" required>
+                                    <select name="country_id" id="country_id" class="form-control" data-error="#country_id1">
                                         <option value="">Choose Location</option>
                                         <?php
                                         if ($countries) :
@@ -171,24 +171,24 @@
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="mail">Mail</label>
-                                    <input type="text" value="<?php echo $user->mail ?? '' ?>" name="mail" id="mail" data-error="#mail1" required>
+                                    <input type="text" value="<?php echo $user->mail ?? '' ?>" name="mail" id="mail" data-error="#mail1">
                                     <span id="mail1" class="text-danger"><?php echo form_error('mail'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="facebook">Facebook</label>
-                                    <input type="text" value="<?php echo $user->facebook ?? '' ?>" name="facebook" id="facebook" data-error="#facebook1" required>
+                                    <input type="text" value="<?php echo $user->facebook ?? '' ?>" name="facebook" id="facebook" data-error="#facebook1">
                                     <span id="facebook1" class="text-danger"><?php echo form_error('facebook'); ?></span>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="instagram">Instagram</label>
-                                    <input type="text" value="<?php echo $user->instagram ?? '' ?>" name="instagram" id="instagram" data-error="#instagram1" required>
+                                    <input type="text" value="<?php echo $user->instagram ?? '' ?>" name="instagram" id="instagram" data-error="#instagram1">
                                     <span id="instagram1" class="text-danger"><?php echo form_error('instagram'); ?></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="twitter">Twitter</label>
-                                    <input type="text" value="<?php echo $user->twitter ?? '' ?>" name="twitter" id="twitter" data-error="#twitter1" required>
+                                    <input type="text" value="<?php echo $user->twitter ?? '' ?>" name="twitter" id="twitter" data-error="#twitter1">
                                     <span id="twitter1" class="text-danger"><?php echo form_error('twitter'); ?></span>
                                 </div>
                             </div>
