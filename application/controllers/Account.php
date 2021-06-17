@@ -174,7 +174,7 @@ class Account extends CI_Controller
 					// } else {
 					// 	$this->session->set_flashdata("error_msg", "You have encountered an error");
 					// }
-					$this->load->view('frontend/account/verfication_page');
+					// $this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('signup');
