@@ -260,7 +260,7 @@ class Cart extends CI_Controller
 			$booking_no = 'GN_' . strtotime('now');
 			$created_on = date('Y-m-d H:i:s', strtotime('now'));
 
-			$is_physical_gig = $this->bookings_model->check_gig_venue_type($gig_id, 'Physical');
+			$is_physical_gig = $this->gigs_model->check_gig_venue_type($gig_id, 'Physical');
 			$booking_params = [
 				'booking_no' => $booking_no,
 				'user_id' => $user_id,

@@ -207,7 +207,7 @@
                 var checkboxes = $('input:checkbox');
                 checkboxes.each(function(index, elem) {
                     if (elem.checked && elem.value > 0) {
-                        id.push(elem.value)
+                        ids.push(elem.value)
                     }
                 })
                 console.log(ids)
@@ -219,7 +219,7 @@
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
-                        
+
                     }
                 })
             })

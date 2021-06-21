@@ -191,4 +191,110 @@ class Bookings extends CI_Controller
 		}
 		echo json_encode($result);
 	}
+
+	function collect_payment() 
+	{
+		if (isset($_POST) && !empty($_POST)) {
+			$booking_ids = $this->input->post('booking_ids');
+		} else {
+			$booking_ids = array();
+		}
+		echo json_encode($booking_ids);
+		$currency = $this->config->item('stripe_currency');
+		if($booking_ids){
+			foreach ($booking_ids as $booking_id) {
+				$booking = $this->bookings_model->get_booking_by_id($booking_id);
+				// echo $booking->customer_stripe_id;
+				// die();
+				$total_charged = $booking->price;
+				$charge = \Stripe\Charge::create([
+					"amount" => $total_charged * 100,
+					"currency" => $currency,
+					"customer" => $booking->customer_stripe_id,
+					"description" => "Thank you for purchasing Tickets from Gigniter!",
+					'metadata' => array(
+						'order_id' => $booking->booking_no
+					)
+				]);
+	
+				$chargeJson = $charge->jsonSerialize();
+				if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
+					//order details
+					$this->bookings_model->update_booking_data($booking->id, array('is_paid' => 1));
+					$txn_id = $chargeJson['balance_transaction'];
+					$amount = $chargeJson['amount'];
+					$payment_currency = $chargeJson['currency'];
+					$payment_status = $chargeJson['status'];
+					$charge_param = [
+						'booking_id' => $booking->id,
+						'charge_id' => $chargeJson['id'],
+						'transaction_id' => $txn_id,
+						'user_send' => $booking->user_id,
+						'amount' => $amount / 100,
+						'type' => $chargeJson['object'],
+						'customer_id' => $chargeJson['customer'],
+						'created_on' => date('Y-m-d H:i:s', $chargeJson['created']),
+					];
+	
+					$this->bookings_model->insert_transaction_data($charge_param);
+	
+					$cart_items = $this->bookings_model->get_booking_items($booking->id);
+					//if order inserted successfully
+					if ($payment_status == 'succeeded') {
+						foreach ($cart_items as $item) {
+							$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+							$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
+							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
+							$amount = $item->price - ($item->price * $admin_fee->value / 100);
+							$transfer = \Stripe\Transfer::create([
+								'amount' => $amount * 100,
+								'currency' => $currency,
+								'destination' => $user_stripe_detail->stripe_account_id,
+							]);
+							$transferJson = $transfer->jsonSerialize();
+							if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+								$transfer_param = [
+									'booking_id' => $booking->id,
+									'transfer_id' => $transferJson['id'],
+									'transaction_id' => $transferJson['balance_transaction'],
+									'amount' => $transferJson['amount'] / 100,
+									'type' => $transferJson['object'],
+									'destination_id' => $transferJson['destination'],
+									'user_received' => $gig->user_id,
+									'admin_fee' => $item->price * $admin_fee->value / 100,
+									'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+								];
+								$this->bookings_model->insert_transaction_data($transfer_param);
+							}
+							// echo json_encode($transfer);
+							// die();
+						}
+					}
+					// else {
+	
+					// 	$out['status'] = '2';
+					// 	$out['message'] = 'Error: Customer Charge has been failed!';
+					// 	// $out['txn_id'] = $txn_id;
+					// 	// $out['amount'] = $amount;
+					// 	// $out['currency'] = $payment_currency;
+					// 	// $out['payment_status'] = $payment_status;
+					// 	// $out['transfer'] = '';
+					// 	$this->session->set_flashdata('error_msg', $out['message']);
+					// 	redirect('cart/checkout');
+					// 	echo json_encode($out);
+					// 	die();
+					// }
+				}
+				// else {
+	
+				// 	$out['status'] = '3';
+				// 	$out['message'] = 'Error: Transaction has been failed!';
+				// 	$this->session->set_flashdata('error_msg', $out['message']);
+				// 	redirect('cart/checkout');
+				// 	echo json_encode($out);
+				// 	die();
+				// }
+			}
+		}
+	}
 }
