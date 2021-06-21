@@ -85,9 +85,9 @@
 													if(strlen($tickets_row->qr_token)>0){
 														$qr_code_url = ''; 
 														if($_SERVER['HTTP_HOST'] == "localhost"){  
-															$qr_code_url = "http://".$_SERVER["HTTP_HOST"]."/gigniter/downloads/tickets_qr_code_imgs/ticket_".$tickets_row->qr_token.".png";		
+															$qr_code_url = qrcode_url()."ticket_".$tickets_row->qr_token.".png";		
 														}else{
-															$qr_code_url = "http://".$_SERVER["HTTP_HOST"]."/downloads/tickets_qr_code_imgs/ticket_".$tickets_row->qr_token.".png"; 
+															$qr_code_url = qrcode_url()."ticket_".$tickets_row->qr_token.".png"; 
 														} ?> <img src="<?php echo $qr_code_url; ?>" style="width:60px; height:60px;">
 														<?php   
 														}else{

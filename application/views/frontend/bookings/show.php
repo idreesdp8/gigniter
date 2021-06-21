@@ -34,6 +34,23 @@
         .friend-input {
             margin: 10px;
         }
+
+        .img-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .img-wrapper > div {
+            width: 120px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -202,20 +219,22 @@
                                                     <?php
                                                 endif;
                                                 if (isset($item->ticket_tier_id)) {
-                                                    $rows = $this->bookings_model->get_tickets_by_tierid($item->ticket_tier_id);
+                                                    $rows = $this->bookings_model->get_tickets_by_tierid_cartid($item->ticket_tier_id, $item->id);
                                                     if (isset($rows)) { ?>
-                                                        <div class="text-center">
+                                                        <div class="img-wrapper">
                                                             <?php
                                                             foreach ($rows as $row) {
                                                                 if (strlen($row->qr_token) > 0) {
                                                                     $qr_code_url = '';
 
                                                                     if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-                                                                        $qr_code_url = "http://" . $_SERVER["HTTP_HOST"] . "/gigniter/downloads/tickets_qr_code_imgs/ticket_" . $row->qr_token . ".png";
+                                                                        $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
                                                                     } else {
-                                                                        $qr_code_url = "http://" . $_SERVER["HTTP_HOST"] . "/downloads/tickets_qr_code_imgs/ticket_" . $row->qr_token . ".png";
+                                                                        $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
                                                                     }   ?>
-                                                                    <img src="<?php echo $qr_code_url; ?>" style="width:120px; height:120px;">
+                                                                    <div>
+                                                                        <img src="<?php echo $qr_code_url; ?>" style="width:120px; height:120px;">
+                                                                    </div>
                                                             <?php
                                                                 }
                                                             } ?>

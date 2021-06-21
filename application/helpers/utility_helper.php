@@ -117,6 +117,14 @@
 		return base_url().barcode_relative_path();
 	}
 
+	function qrcode_relative_path(){
+		return 'downloads/tickets_qr_code_imgs/';
+	}
+
+	function qrcode_url(){
+		return base_url().qrcode_relative_path();
+	}
+
 	function downloads_url(){
 		return base_url().'downloads/';
 	}

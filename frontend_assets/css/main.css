@@ -8676,6 +8676,9 @@ aside {
   background: #31d7a9;
   text-align: center;
   background-color: orange;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .scrollToTop:hover {

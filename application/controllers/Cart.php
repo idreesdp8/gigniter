@@ -218,10 +218,10 @@ class Cart extends CI_Controller
 		foreach ($cart_items as $item) {
 			$gig_id = $item['gig_id'];
 		}
-		// echo json_encode($cart_items);
-		// die();
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items) && isset($this->dbs_user_id)) {
-
+			
+			// echo json_encode($cart_items);
+			// die();
 			$email_to = $this->input->post("user_email");
 			$fname = $this->input->post("user_fname");
 			$lname = $this->input->post("user_lname");
@@ -275,7 +275,7 @@ class Cart extends CI_Controller
 			if ($res) {
 				foreach ($cart_items as $item) {
 					$i = 1;
-					$cart_params[] = [
+					$cart_params = [
 						'gig_id' => $item['gig_id'],
 						'ticket_tier_id' => $item['ticket_tier_id'],
 						'quantity' => $item['qty'],
@@ -284,6 +284,7 @@ class Cart extends CI_Controller
 						'booking_id' => $res,
 						'created_on' => $item['created_on'],
 					];
+					$resp = $this->bookings_model->insert_cart_data($cart_params);
 					while ($item['qty']) {
 
 						if ($is_physical_gig == 1) {
@@ -295,6 +296,7 @@ class Cart extends CI_Controller
 								'ticket_tier_id' => $item['ticket_tier_id'],
 								'booking_id' => $res,
 								'user_id' => $user_id,
+								'cart_id' => $resp,
 								'qr_token' => $qr_token,
 							];
 							//downloads_url().
@@ -306,6 +308,7 @@ class Cart extends CI_Controller
 								'ticket_tier_id' => $item['ticket_tier_id'],
 								'booking_id' => $res,
 								'user_id' => $user_id,
+								'cart_id' => $resp,
 								'qr_token' => '',
 							];
 						}
@@ -314,7 +317,7 @@ class Cart extends CI_Controller
 						$i++;
 					}
 				}
-				$resp = $this->bookings_model->insert_cart_data($cart_params);
+				// $resp = $this->bookings_model->insert_cart_data($cart_params);
 				$this->gigs_model->insert_tickets_data($ticket_params);
 			}
 

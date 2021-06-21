@@ -180,7 +180,8 @@ class Bookings_model extends CI_Model
 
 	function insert_cart_data($data)
 	{
-		$ress = $this->db->insert_batch('cart', $data);
+		$ress = $this->db->insert('cart', $data) ? $this->db->insert_id() : false;
+		// $ress = $this->db->insert_batch('cart', $data);
 		return $ress;
 	}
 
@@ -260,6 +261,11 @@ class Bookings_model extends CI_Model
 	
 	function get_tickets_by_tierid($sl_tierid){
 		$query = $this->db->query("SELECT ticket_no, qr_token FROM tickets WHERE ticket_tier_id='".$sl_tierid."' ");
+		return $query->result(); 
+	}
+	
+	function get_tickets_by_tierid_cartid($sl_tierid, $sl_cartid){
+		$query = $this->db->query("SELECT ticket_no, qr_token FROM tickets WHERE ticket_tier_id='".$sl_tierid."' AND cart_id='".$sl_cartid."' ");
 		return $query->result(); 
 	}
 }
