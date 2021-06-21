@@ -67,24 +67,29 @@ $new_gigs = $this->gigs_model->get_count_new_gigs();
                     </li>
                 <?php endif; ?>
                 <?php if (in_array('edit-booking', $user_permissions) || in_array('view-booking', $user_permissions) || in_array('delete-booking', $user_permissions)) : ?>
-                <li class="nav-item" id="sidebar_booking">
-                    <a href="<?php echo admin_base_url(); ?>bookings" class="nav-link">
-                        <i class="icon-cart"></i>
-                        <span>
-                            Orders
-                        </span>
-                    </a>
-                </li>
+                    <li class="nav-item" id="sidebar_booking">
+                        <a href="<?php echo admin_base_url(); ?>bookings" class="nav-link">
+                            <i class="icon-cart"></i>
+                            <span>
+                                Bookings
+                            </span>
+                        </a>
+                    </li>
                 <?php endif; ?>
                 <?php if (in_array('edit-transaction', $user_permissions) || in_array('view-transaction', $user_permissions) || in_array('delete-transaction', $user_permissions)) : ?>
-                <li class="nav-item" id="sidebar_transaction">
-                    <a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">
-                        <i class="icon-coin-dollar"></i>
-                        <span>
-                            Transactions
-                        </span>
-                    </a>
-                </li>
+                    <li class="nav-item" id="sidebar_transaction_all">
+                        <a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">
+                            <i class="icon-coin-dollar"></i>
+                            <span>
+                                Transactions
+                            </span>
+                        </a>
+                        <!-- <a href="#" class="nav-link"><i class="icon-coin-dollar"></i> <span>Transactions</span></a>
+					<ul class="nav nav-group-sub" data-submenu-title="Transactions"> 
+						<li class="nav-item" id="sidebar_transaction_all"><a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">All Transactions</a></li> 
+						<li class="nav-item" id="sidebar_transaction_report"><a href="<?php echo admin_base_url(); ?>transactions/report" class="nav-link">Transactions Report</a></li>  
+					</ul> -->
+                    </li>
                 <?php endif; ?>
                 <!-- <?php if (in_array('edit-customer', $user_permissions) || in_array('view-customer', $user_permissions) || in_array('delete-customer', $user_permissions)) : ?>
                 <li class="nav-item" id="sidebar_customer">
@@ -96,17 +101,19 @@ $new_gigs = $this->gigs_model->get_count_new_gigs();
                     </a>
                 </li>
                 <?php endif; ?> -->
-				
-		
-				<li class="nav-item nav-item-submenu" id="sidebar_user">
-					<a href="#" class="nav-link"><i class="icon-stack"></i> <span>Email Templates</span></a>
-					<ul class="nav nav-group-sub" data-submenu-title="Email Templates"> 
-						<li class="nav-item" id="sidebar_user_view"><a href="<?php echo admin_base_url(); ?>email_templates/index" class="nav-link">Email Templates</a></li> 
-						<li class="nav-item" id="sidebar_user_add"><a href="<?php echo admin_base_url(); ?>email_templates/add" class="nav-link">Add New</a></li>  
-					</ul>
-				</li> 
-				
-				
+
+
+                <?php if (in_array('create-email-template', $user_permissions) || in_array('edit-email-template', $user_permissions) || in_array('view-email-template', $user_permissions) || in_array('delete-email-template', $user_permissions)) : ?>
+                    <li class="nav-item nav-item-submenu" id="sidebar_email">
+                        <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Email Templates</span></a>
+                        <ul class="nav nav-group-sub" data-submenu-title="Email Templates">
+                            <li class="nav-item" id="sidebar_email_view"><a href="<?php echo admin_base_url(); ?>email_templates/index" class="nav-link">Email Templates</a></li>
+                            <li class="nav-item" id="sidebar_email_add"><a href="<?php echo admin_base_url(); ?>email_templates/add" class="nav-link">Add New</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
+
+
                 <?php if (in_array('create-user', $user_permissions) || in_array('edit-user', $user_permissions) || in_array('view-user', $user_permissions) || in_array('delete-user', $user_permissions)) : ?>
                     <li class="nav-item nav-item-submenu" id="sidebar_user">
                         <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Users</span></a>
@@ -148,6 +155,7 @@ $new_gigs = $this->gigs_model->get_count_new_gigs();
                         <a href="#" class="nav-link"><i class="icon-cog"></i> <span>Configurations</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Configurations">
                             <li class="nav-item" id="sidebar_config"><a href="<?php echo admin_base_url(); ?>configurations" class="nav-link">All Configurations</a></li>
+                            <li class="nav-item" id="sidebar_stripe"><a href="<?php echo admin_base_url(); ?>configurations/stripe" class="nav-link">Stripe Configuration</a></li>
                             <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Gig Genres</a></li>
                             <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Gig Categories</a></li>
                             <li class="nav-item" id="sidebar_gig_status"><a href="<?php echo admin_base_url(); ?>gig_statuses" class="nav-link">Gig Statuses</a></li>

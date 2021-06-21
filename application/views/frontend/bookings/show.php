@@ -199,9 +199,30 @@
                                                             <button type="submit" class="btn btn-success">Download Tickets</button>
                                                         </form>
                                                     </div>
-                                                <?php
+                                                    <?php
                                                 endif;
-                                                ?>
+                                                if (isset($item->ticket_tier_id)) {
+                                                    $rows = $this->bookings_model->get_tickets_by_tierid($item->ticket_tier_id);
+                                                    if (isset($rows)) { ?>
+                                                        <div class="text-center">
+                                                            <?php
+                                                            foreach ($rows as $row) {
+                                                                if (strlen($row->qr_token) > 0) {
+                                                                    $qr_code_url = '';
+
+                                                                    if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+                                                                        $qr_code_url = "http://" . $_SERVER["HTTP_HOST"] . "/gigniter/downloads/tickets_qr_code_imgs/ticket_" . $row->qr_token . ".png";
+                                                                    } else {
+                                                                        $qr_code_url = "http://" . $_SERVER["HTTP_HOST"] . "/downloads/tickets_qr_code_imgs/ticket_" . $row->qr_token . ".png";
+                                                                    }   ?>
+                                                                    <img src="<?php echo $qr_code_url; ?>" style="width:120px; height:120px;">
+                                                            <?php
+                                                                }
+                                                            } ?>
+                                                        </div>
+                                                <?php
+                                                    }
+                                                } ?>
                                             </div>
                                         </div>
                                     </div>

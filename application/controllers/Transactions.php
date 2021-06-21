@@ -116,7 +116,9 @@ class Transactions extends CI_Controller
             $gig->total_sale = $total_sale;
             $gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
             // $gig->booked = 100;
-            $data['gig'] = $gig;
+            $data['gig'] = $gig; 
+			 
+			$data['tickets_rows'] = $this->gigs_model->get_tickets_by_gigid($args1);
 
             // echo json_encode($gig);
             // die();

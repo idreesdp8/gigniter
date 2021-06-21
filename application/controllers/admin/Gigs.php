@@ -96,6 +96,7 @@ class Gigs extends CI_Controller
 				$value->ticket_left = $res['ticket_left'];
 				$buttons = '
 						<div class="d-flex">
+							<a href="' . admin_base_url() . 'bookings?gig_id=' . $value->id . '" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-search4"></i></a>
 							<a href="' . admin_base_url() . 'gigs/update/' . $value->id . '" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
 							<form action="' . admin_base_url() . 'gigs/trash/' . $value->id . '">
 								<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>

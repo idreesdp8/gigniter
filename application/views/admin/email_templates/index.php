@@ -119,9 +119,9 @@
 
     <script>
         $(document).ready(function() {
-            $('#sidebar_user').addClass('nav-item-open');
-            $('#sidebar_user ul').first().css('display', 'block');
-            $('#sidebar_user_view a').addClass('active');
+            $('#sidebar_email').addClass('nav-item-open');
+            $('#sidebar_email ul').first().css('display', 'block');
+            $('#sidebar_email_view a').addClass('active');
 
             $('.preview-content').click(function() {
                 var id = $(this).data('id');

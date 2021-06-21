@@ -7,7 +7,7 @@
     <style>
         .image_div {
             padding: 10px;
-            border: 1px dashed #ccc;
+            border: 1px solid #0e1e5e;
             text-align: center;
             width: 100%;
             height: 270px;
@@ -80,19 +80,19 @@
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label>Profile Image</label>
+                                    <div class="image_div">
+                                        <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
+                                    </div>
+                                    <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" data-error="#image1" />
+                                    <label class="profile-edit" for="image">Select a file</label>
+                                    <span id="image1" class="text-danger" generated="true">
+                                        <?php
+                                        echo form_error('image');
+                                        if (isset($_SESSION['prof_img_error'])) {
+                                            echo $_SESSION['prof_img_error'];
+                                        } ?>
+                                    </span>
                                 </div>
-                                <div class="image_div">
-                                    <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
-                                </div>
-                                <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" data-error="#image1" />
-                                <label class="profile-edit" for="image">Select a file</label>
-                                <span id="image1" class="text-danger" generated="true">
-                                    <?php
-                                    echo form_error('image');
-                                    if (isset($_SESSION['prof_img_error'])) {
-                                        echo $_SESSION['prof_img_error'];
-                                    } ?>
-                                </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -130,7 +130,7 @@
                                         <span class="<?php echo $user->detail_submitted_flag == 'enabled' ? 'text-success' : 'text-danger' ?>">
                                             <small>
                                                 <?php
-                                                if($user->detail_submitted_flag == 'NA') {
+                                                if ($user->detail_submitted_flag == 'NA') {
                                                     echo 'No stripe account added';
                                                 } else {
                                                     echo $user->detail_submitted_flag == 'enabled' ? 'Enabled' : 'Restricted';
@@ -147,7 +147,7 @@
                                                 if ($user->detail_submitted_flag == 'restricted') :
                                                 ?>
                                                     <small>
-                                                        <a class="link" href="<?php echo user_base_url().'account/enable_stripe_account?user_id='.$user->id ?>" target="_blank">Enable Account</a>
+                                                        <a class="link" href="<?php echo user_base_url() . 'account/enable_stripe_account?user_id=' . $user->id ?>" target="_blank">Enable Account</a>
                                                     </small>
                                                 <?php
                                                 endif;
@@ -224,6 +224,9 @@
                     fname: {
                         required: true
                     },
+                    lname: {
+                        required: true
+                    },
                     password: {
                         minlength: 5
                     },
@@ -234,6 +237,9 @@
                 messages: {
                     fname: {
                         required: "First name is required field"
+                    },
+                    lname: {
+                        required: "Last name is required field"
                     },
                     password: {
                         minlength: "Minimum 5 characters needed!"

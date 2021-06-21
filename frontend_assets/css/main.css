@@ -7480,7 +7480,7 @@ input[type="submit"] {
   color: #f1481f;
 }
 
-.account-area .account-form .form-group input {
+.account-area .account-form .form-group input, .account-area .account-form .form-group select {
   height: 45px;
   border-radius: 0;
   border: none;
@@ -11086,7 +11086,7 @@ a.btn-circle.line:hover:before {
 .account-area {
   background-color: #001232;
 }
-.account-area .account-form .form-group input {
+.account-area .account-form .form-group input, .account-area .account-form .form-group select {
     padding-left: 10px;
     color: #000;
 }

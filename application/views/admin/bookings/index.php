@@ -19,7 +19,7 @@
                     <div class="d-flex">
                         <div class="breadcrumb">
                             <a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                            <span class="breadcrumb-item active">Dashboard</span>
+                            <span class="breadcrumb-item active">Bookings</span>
                         </div>
 
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -49,12 +49,46 @@
 					</div> -->
 
                     <div class="table-responsive">
-                        <table class="table table-striped datatable-basic">
+                        <div class="row m-0 align-items-center">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Gig:</label>
+                                    <select name="gig_id" id="gig_id" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <?php
+                                        if ($gigs) :
+                                            foreach ($gigs as $gig) :
+                                        ?>
+                                                <option value="<?php echo $gig->id ?>" <?php echo (isset($gig_id) && $gig_id == $gig->id) ? 'selected' : '' ?>><?php echo $gig->title ?></option>
+                                        <?php
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Paid:</label>
+                                    <select name="is_paid" id="is_paid" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-info w-100" id="collect">Collect Payments</button>
+                            </div>
+                        </div>
+                        <table class="table table-striped datatable-custom">
                             <?php if (isset($records) && count($records) > 0) { ?>
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="check-all"></th>
                                         <th>#</th>
                                         <th>Order #</th>
+                                        <th>Gig Title</th>
                                         <th>Price</th>
                                         <th>Item Count</th>
                                         <th>Paid</th>
@@ -68,15 +102,25 @@
                                     foreach ($records as $record) {
                                     ?>
                                         <tr>
+                                            <td><input type="checkbox" class="booking-checkbox" value="<?php echo $record->id ?>"></td>
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->booking_no ?></td>
+                                            <td><?php echo $record->gig->title ?></td>
                                             <td>$<?php echo $record->price ?></td>
                                             <td><?php echo $record->item_count ?></td>
-                                            <td><?php echo $record->is_paid ? 'Yes' : 'No' ?></td>
+                                            <td>
+                                                <?php
+                                                if ($record->is_paid) :
+                                                    echo '<span class="badge badge-success">Yes</span>';
+                                                else :
+                                                    echo '<span class="badge badge-danger">No</span>';
+                                                endif;
+                                                ?>
+                                            </td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="<?php echo admin_base_url().'bookings/show/'.$record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
+                                                    <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
                                                     <form action="<?php echo admin_base_url() ?>bookings/trash/<?php echo $record->id ?>">
                                                         <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
                                                     </form>
@@ -105,8 +149,72 @@
     <!-- /page content -->
 
     <script>
+        function reload_datatable() {
+            var is_paid = $('#is_paid').val();
+            var gig_id = $('#gig_id').val();
+            // console.log('Paid ' + is_paid);
+            // console.log('Gig ' + gig_id);
+            $('.datatable-custom').DataTable({
+                "destroy": true,
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 0
+                }],
+                "order": [
+                    [1, 'asc']
+                ],
+                "ajax": {
+                    "url": base_url + 'bookings/reload_datatable',
+                    "type": "POST",
+                    "data": {
+                        is_paid: is_paid,
+                        gig_id: gig_id,
+                    },
+                    dataType: 'json',
+                },
+                dataSrc: function(json) {
+                    if (json.tableData === null) {
+                        return [];
+                    }
+                    return json.tableData;
+                }
+            }).ajax.reload();
+            $('#check-all').prop('checked', false)
+        }
         $(document).ready(function() {
             $('#sidebar_booking a').addClass('active');
+
+            $('#is_paid').change(function() {
+                reload_datatable();
+            });
+            $('#gig_id').change(function() {
+                reload_datatable();
+            });
+            $('.datatable-custom').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    targets: 0
+                }],
+                order: [
+                    [1, 'asc']
+                ]
+            });
+            $('#check-all').change(function() {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            })
+            $('#collect').click(function() {
+                var ids = [];
+                var checkboxes = $('input:checkbox');
+                checkboxes.each(function(index, elem) {
+                    if (elem.checked && elem.value > 0) {
+                        id.push(elem.value)
+                    }
+                })
+                console.log(id)
+                $.ajax({
+                    url: base_url + ''
+                })
+            })
         });
     </script>
 </body>

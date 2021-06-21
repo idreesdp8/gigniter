@@ -219,5 +219,48 @@ class Configurations extends CI_Controller
 		// }
 	}
 
+	function stripe()
+	{
+		if(isset($_POST) && !empty($_POST)){
+			$data = $this->input->post();
+			$created_on = date('Y-m-d H:i:s');
+			foreach($data as $key => $value){
+				$params[] = [
+					'key' => 'stripe',
+					'value' => $value,
+					'label' => $key,
+					'created_on' => $created_on
+				];
+			}
+			// echo json_encode($params);
+			// die();
+			
+			$stripe = $this->configurations_model->get_all_configurations_by_key('stripe');
+			foreach($stripe as $key=>$value) {
+				$this->configurations_model->trash_configuration($value->id);
+			}
+
+			$res = $this->configurations_model->insert_batch_configuration_data($params);
+			if (isset($res)) {
+				$this->session->set_flashdata('success_msg', 'Stripe Configuration added successfully!');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Error while adding Stripe Configuration!');
+			}
+			redirect("admin/configurations/stripe");
+
+		} else {
+			$stripe = $this->configurations_model->get_all_configurations_by_key('stripe');
+			$data = array();
+			if($stripe){
+				foreach($stripe as $key=>$value) {
+					$data[$value->label] = $value->value;
+				}
+			}
+			// echo json_encode($data);
+			// die();
+			$this->load->view('admin/configurations/stripe', $data);
+		}
+	}
+
 	/* Permission module ends */
 }

@@ -133,6 +133,14 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get('gigs');
 		return $query->result();
 	}
+
+	function get_id_title_all_gigs()
+	{
+		$this->db->order_by('created_on', 'DESC');
+		$this->db->select(['id', 'title']);
+		$query = $this->db->get('gigs');
+		return $query->result();
+	}
 	
 	function get_featured_gigs()
 	{
@@ -302,5 +310,46 @@ class Gigs_model extends CI_Model
 	{
 		$ress = $this->db->get_where('gig_popularity', array('gig_id' => $gig_id));
 		return $ress->row();
+	}
+	
+	function get_gigs_tickets(){ 
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
+		LEFT JOIN bookings t5 ON t5.id = t1.booking_id ");
+		return $query->result(); 
+	}
+	
+	function get_ticket_data_by_ticket_id($ticket_id){
+		$res = $this->db->get_where('tickets', array('id' => $ticket_id));
+		return $res->row();
+	}
+	
+	
+	function get_complete_ticket_detail_by_qr_token($qr_token){ 
+	 
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
+		LEFT JOIN bookings t5 ON t5.id = t1.booking_id 
+		WHERE t1.qr_token='".$qr_token."' ");
+		return $query->row();  
+	}
+	
+	function get_complete_ticket_detail_by_id($ticket_id){ 
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
+		LEFT JOIN bookings t5 ON t5.id = t1.booking_id 
+		WHERE t1.id=$ticket_id ");
+		return $query->row(); 
+	}
+	
+	function update_tickets_data($args1, $datas) {
+		$this->db->where('id', $args1);
+		return $this->db->update('tickets', $datas);
 	}
 }

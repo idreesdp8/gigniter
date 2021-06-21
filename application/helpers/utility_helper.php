@@ -116,5 +116,9 @@
 	function barcode_url(){
 		return base_url().barcode_relative_path();
 	}
+
+	function downloads_url(){
+		return base_url().'downloads/';
+	}
 	
 ?>

@@ -198,8 +198,40 @@ class Gigs extends CI_Controller
 			);
 
 			$this->session->set_userdata($cstm_sess_data);
+
+			
+			$stripe_id = $data['stripe'];
+			
+			$account = $this->create_user_stripe_account($stripe_id);
+			$temp = [
+				'user_id' => $data['id'],
+				'stripe_id' => $stripe_id,
+				'stripe_account_id' => $account->id,
+			];
+			$this->users_model->insert_user_stripe_details($temp);
 		}
 		return $res;
+	}
+
+	
+	public function create_user_stripe_account($stripe_id)
+	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+
+		$stripe = new \Stripe\StripeClient($stripeSecret);
+
+		$account = $stripe->accounts->create([
+			'type' => 'custom',
+			'email' => $stripe_id,
+			'capabilities' => [
+				'card_payments' => ['requested' => true],
+				'transfers' => ['requested' => true],
+			],
+		]);
+		return $account;
+		// echo json_encode($account);
+		// die();
 	}
 
 	public function preview($gig_data = '', $gig_files = '')
@@ -361,6 +393,11 @@ class Gigs extends CI_Controller
 					array(
 						'is_unique' => 'We\'re sorry, the login email already exists. Please try a different email address to register, or <a class="signup-error-link" href="' . user_base_url() . 'login">login</a> to your existing account.'
 					)
+				);
+				$this->form_validation->set_rules(
+					'stripe',
+					'Stripe integration',
+					'trim|required|xss_clean|valid_email'
 				);
 			}
 			if ($this->form_validation->run() == FALSE) {
@@ -621,6 +658,27 @@ class Gigs extends CI_Controller
 			foreach ($social_links as $key => $value) {
 				$temp = ['user_id' => $user_id, 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
 				$this->users_model->insert_user_social_link($temp);
+			}
+			$cstm_sess_data = array(
+				// 'us_username' => ($res->username ? ucfirst($res->username) : ''),
+				'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
+				'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
+				'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
+			);
+			$this->session->set_userdata($cstm_sess_data);
+			$stripe_id = $data['stripe'];
+			$stripe_details = $this->users_model->get_user_stripe_details($user_id);
+			if ($stripe_details->stripe_id != $stripe_id) {
+				$this->users_model->trash_user_stripe_details($user_id);
+				if ($stripe_id) {
+					$account = $this->create_user_stripe_account($stripe_id);
+					$temp = [
+						'user_id' => $user_id,
+						'stripe_id' => $stripe_id,
+						'stripe_account_id' => $account->id,
+					];
+					$this->users_model->insert_user_stripe_details($temp);
+				}
 			}
 		}
 	}

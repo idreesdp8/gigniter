@@ -762,14 +762,42 @@ class General_model extends CI_Model
 		return $ret_txt;
 	}
 
-	function get_business_card_info_by_id($sl_id)
-	{
+	function get_business_card_info_by_id($sl_id){
 		if ($sl_id > 0) {
 			$query = $this->db->query("SELECT * FROM business_cards_tbl WHERE id=$sl_id ");
 			return $query->row();
 		} else {
 			return '';
 		}
+	}
+	
+	function custom_qr_img_generate($data_paras, $path_paras){
+		ob_start();
+		$size = '200x200';
+		$tmp_logo = downloads_url()."tickets_qr_code_imgs/default_qr_code_monogram.png"; 
+		 
+		header('Content-type: image/png');
+		// Get QR Code image from Google Chart API
+		// http://code.google.com/apis/chart/infographics/docs/qr_codes.html
+		$QR = imagecreatefrompng('https://chart.googleapis.com/chart?cht=qr&chld=H|1&chs='.$size.'&chl='.urlencode($data_paras));
+		if($tmp_logo !== FALSE){
+			$tmp_logo = imagecreatefromstring(file_get_contents($tmp_logo));
+			$QR_width = imagesx($QR);
+			$QR_height = imagesy($QR);
+			$logo_width = imagesx($tmp_logo);
+			$logo_height = imagesy($tmp_logo);
+			// Scale logo to fit in the QR Code
+			$logo_qr_width = $QR_width/3;
+			$scale = $logo_width/$logo_qr_width;
+			$logo_qr_height = $logo_height/$scale;
+			imagecopyresampled($QR, $tmp_logo, $QR_width/3, $QR_height/3, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+		}
+		imagepng($QR, "$path_paras");
+		imagedestroy($QR);
+		///readfile("testers/tests.png");
+		//imagedestroy($QR);
+		//return true;
+		ob_clean(); 
 	}
 
 	/* general functions ends */

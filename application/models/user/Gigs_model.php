@@ -472,4 +472,48 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get('gigs');
 		return $query->row();
 	}
+	
+	
+	
+	function check_gig_venue_type($sl_gig_id, $sl_venue){
+		$query = $this->db->query("SELECT count(id) AS NUMS FROM gigs WHERE id='".$sl_gig_id."' AND FIND_IN_SET('".$sl_venue."',venues)");
+		$total_physical_gigs = $query->row()->NUMS;
+		
+		if($total_physical_gigs >0){
+			return '1';
+		}else{
+			return '0';
+		} 
+	}
+ 
+	/*
+	id	t1.ticket_no	t1.gig_id	ticket_tier_id	booking_id	cart_id	t1.user_id	t1.qr_token 	
+	
+	
+	t2.id	t2.user_id	t2.title	t2.subtitle	t2.category	t2.poster	t2.address
+	
+	t3.id	t3.fname	t3.lname	t3.email
+	tickets t1
+	gigs t2
+	users t3 
+	*/ 
+
+	function get_tickets_by_gig_and_userid($sl_gig_id, $sl_usr_id){
+		$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		WHERE t1.gig_id='".$sl_gig_id."' AND t1.user_id='".$sl_usr_id."' ");
+		return $query->result(); 
+	}
+	
+ 	function get_tickets_by_gigid($sl_gig_id){
+		$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
+		LEFT JOIN bookings t5 ON t5.id = t1.booking_id  
+		WHERE t1.gig_id='".$sl_gig_id."' ");
+		return $query->result(); 
+	}
+	
 }

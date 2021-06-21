@@ -111,8 +111,6 @@
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
 
                     <div id="grid_view" class="col-lg-12 col-md-12 col-sm-12 col-12">

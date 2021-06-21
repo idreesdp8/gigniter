@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('admin/layout/meta_tags'); ?>
-    <title>Transactions</title>
+    <title>Transactions Report</title>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                 <!-- Striped rows -->
                 <div class="card">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title">Transactions</h5>
+                        <h5 class="card-title">Transactions Report</h5>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <!-- <a class="list-icons-item" data-action="collapse"></a> -->
@@ -54,7 +54,6 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Order #</th>
                                         <th>Gig</th>
                                         <th>Amount</th>
                                         <th>Account</th>
@@ -122,8 +121,8 @@
 
     <script>
         $(document).ready(function() {
-			// $('#sidebar_transaction').addClass('nav-item-open');
-			// $('#sidebar_transaction ul').first().css('display', 'block');
+			$('#sidebar_transaction').addClass('nav-item-open');
+			$('#sidebar_transaction ul').first().css('display', 'block');
 			$('#sidebar_transaction_all a').addClass('active');
         });
     </script>

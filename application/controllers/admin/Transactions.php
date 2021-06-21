@@ -134,4 +134,17 @@ class Transactions extends CI_Controller
             $this->load->view('frontend/transactions/show', $data);
         }
     }
+
+    // public function report()
+    // {
+    //     $gigs = $this->gigs_model->get_all_gigs();
+    //     foreach($gigs as $gig) {
+    //         $bookings = $this->bookings_model->get_all_bookings_by_gig_id($gig->id);
+    //         $gig->bookings = $bookings;
+    //     }
+
+
+    //     $data['records'] = $gigs;
+    //     $this->load->view('admin/transactions/report', $data);
+    // }
 }

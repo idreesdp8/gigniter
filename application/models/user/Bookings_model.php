@@ -24,7 +24,7 @@ class Bookings_model extends CI_Model
 
 
 
-	function get_all_filter_gigs($params = array())
+	function get_all_filter_bookings_admin($params = array())
 	{
 		// echo json_encode($params);
 		// die();
@@ -35,13 +35,13 @@ class Bookings_model extends CI_Model
 				$whrs .= " AND ( name LIKE '%$q_val%' OR email LIKE '%$q_val%' OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' ) ";
 			}
 		}
-		if (array_key_exists("category", $params)) {
-			$category = $params["category"];
-			$whrs .= " AND category='$category'";
+		if (array_key_exists("is_paid", $params)) {
+			$is_paid = $params["is_paid"];
+			$whrs .= " AND is_paid='$is_paid'";
 		}
-		if (array_key_exists("genre", $params)) {
-			$genre = $params["genre"];
-			$whrs .= " AND genre='$genre'";
+		if (array_key_exists("gig_id", $params)) {
+			$gig_id = $params["gig_id"];
+			$whrs .= " AND gig_id='$gig_id'";
 		}
 
 		$limits = '';
@@ -54,7 +54,7 @@ class Bookings_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE status=1 $whrs ORDER BY created_on DESC $limits ");
+		$query = $this->db->query("SELECT * FROM bookings WHERE id > 0 $whrs ORDER BY created_on DESC $limits ");
 		return $query->result();
 	}
 
@@ -84,6 +84,7 @@ class Bookings_model extends CI_Model
 
 	function get_all_bookings()
 	{
+		$this->db->order_by('created_on', 'DESC');
 		$query = $this->db->get('bookings');
 		return $query->result();
 	}
@@ -105,6 +106,13 @@ class Bookings_model extends CI_Model
 	function get_bookings_by_gig_id($gig_id)
 	{
 		$sql = "SELECT * FROM bookings WHERE gig_id = ? AND is_paid = 0";
+		$query = $this->db->query($sql, array($gig_id));
+		return $query->result();
+	}
+
+	function get_all_bookings_by_gig_id($gig_id)
+	{
+		$sql = "SELECT * FROM bookings WHERE gig_id = ?";
 		$query = $this->db->query($sql, array($gig_id));
 		return $query->result();
 	}
@@ -243,5 +251,15 @@ class Bookings_model extends CI_Model
 		$this->db->where('gig_id =', $gig_id);
 		$query = $this->db->get('cart');
 		return $query->row();
+	}
+	
+	function get_tickets_by_bookingid($sl_booking_id){
+		$query = $this->db->query("SELECT ticket_no, qr_token FROM tickets WHERE booking_id='".$sl_booking_id."' ");
+		return $query->result(); 
+	}
+	
+	function get_tickets_by_tierid($sl_tierid){
+		$query = $this->db->query("SELECT ticket_no, qr_token FROM tickets WHERE ticket_tier_id='".$sl_tierid."' ");
+		return $query->result(); 
 	}
 }

@@ -25,7 +25,8 @@
                     <div class="d-flex">
                         <div class="breadcrumb">
                             <a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                            <span class="breadcrumb-item active">Dashboard</span>
+                            <a href="<?php echo admin_base_url(); ?>bookings" class="breadcrumb-item"> Bookings</a>
+                            <span class="breadcrumb-item active">Booking Detail</span>
                         </div>
 
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
