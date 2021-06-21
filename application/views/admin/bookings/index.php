@@ -210,9 +210,17 @@
                         id.push(elem.value)
                     }
                 })
-                console.log(id)
+                console.log(ids)
                 $.ajax({
-                    url: base_url + ''
+                    url: base_url + 'bookings/collect_payment',
+                    data: {
+                        booking_ids: ids
+                    },
+                    method: 'post',
+                    dataType: 'json',
+                    success: function(resp) {
+                        
+                    }
                 })
             })
         });

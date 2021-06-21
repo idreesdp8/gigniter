@@ -12,22 +12,22 @@ class Transactions extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-		$is_logged_in = $this->session->userdata('us_login');
-		if (!$is_logged_in) {
-			redirect("admin/login");
-		}
-		$vs_user_role_name = $this->session->userdata('us_role_name');
-		if(isset($vs_user_role_name)){
-			if($vs_user_role_name!='Admin'){
-				redirect('dashboard');
-			}
-		}
+        $is_logged_in = $this->session->userdata('us_login');
+        if (!$is_logged_in) {
+            redirect("admin/login");
+        }
+        $vs_user_role_name = $this->session->userdata('us_role_name');
+        if (isset($vs_user_role_name)) {
+            if ($vs_user_role_name != 'Admin') {
+                redirect('dashboard');
+            }
+        }
 
 
         $this->dbs_user_id = $vs_id = $this->session->userdata('us_id');
         $this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
         $this->load->model('admin/general_model', 'general_model');
-		$this->load->model('admin/permissions_model', 'permissions_model');
+        $this->load->model('admin/permissions_model', 'permissions_model');
         // $this->load->model('user/roles_model', 'roles_model');
         // if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 
@@ -65,7 +65,7 @@ class Transactions extends CI_Controller
     public function index()
     {
         $transactions = $this->bookings_model->get_transactions_by_type('transfer');
-        
+
         // $user_id = $this->dbs_user_id;
         // $gigs = $this->gigs_model->get_active_user_gigs($user_id);
         // // $transactions = $this->bookings_model->get_transactions_by_user_id($user_id, 'customer');
@@ -89,7 +89,7 @@ class Transactions extends CI_Controller
                 $gig_names = implode(', ', array_unique($temp_gig_titles));
             }
             $transaction->booking = $booking;
-            $transaction->user_name = $user->fname.' '.$user->lname;
+            $transaction->user_name = $user->fname . ' ' . $user->lname;
             $transaction->gig_names = $gig_names;
             // $transaction->ticket_names = $ticket_names;
         }
@@ -116,7 +116,7 @@ class Transactions extends CI_Controller
                 $user = $this->users_model->get_user_by_id($item->user_id);
                 $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
                 // if($ticket) {
-                    $bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+                $bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
                 // }
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
@@ -147,4 +147,91 @@ class Transactions extends CI_Controller
     //     $data['records'] = $gigs;
     //     $this->load->view('admin/transactions/report', $data);
     // }
+
+    public function tickets()
+    {
+        $data['tickets_rows'] = $this->gigs_model->get_gigs_tickets();
+        $this->load->view('admin/transactions/tickets', $data);
+    }
+
+    public function resend_qr_code($ticketid)
+    {
+        if ($ticketid > 0) {
+            $row = $this->gigs_model->get_ticket_data_by_ticket_id($ticketid);
+            if (isset($row)) {
+                /* $config = Array(
+				  'protocol' => 'smtp',
+				  'smtp_host' => 'ssl://smtp.googlemail.com',
+				  'smtp_port' => 465,
+				  'smtp_user' => 'abc@gmail.com', 
+				  'smtp_pass' => 'passwrd', 
+				  'mailtype' => 'html',
+				  'charset' => 'iso-8859-1',
+				  'wordwrap' => TRUE
+				); 
+				$this->load->library('email', $config);*/
+
+                $this->load->library('email');
+                $from_name = $this->config->item('from_name');
+                $from_email = $this->config->item('info_email');
+
+                $row = $this->gigs_model->get_complete_ticket_detail_by_id($ticketid);
+                if (isset($row)) {
+                    $gig_ticket_no = $row->ticket_no;
+                    $gig_ticket_qr_token = $row->qr_token;
+                    if ($gig_ticket_qr_token == '') {
+                        $gig_ticket_qr_token = uniqid();
+                    }
+
+                    if (strlen($gig_ticket_qr_token) > 0) {
+
+                        $this->gigs_model->update_tickets_data($ticketid, array('qr_token' => $gig_ticket_qr_token));
+
+                        //$this->load->model('user/General_model', 'frontend_general_model');
+
+                        $this->general_model->custom_qr_img_generate($gig_ticket_qr_token, "downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png");
+
+                        $mail_to_name = $row->fname . ' ' . $row->lname;
+                        $mail_to = $row->email;
+
+                        $gig_title = $row->title;
+                        $gig_subtitle = $row->subtitle;
+                        $gig_category = $row->category;
+                        $gig_poster = $row->poster;
+                        $gig_address = $row->address;
+                        $gig_poster = $row->poster;
+
+                        $mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
+
+                        //$this->email->set_newline("\r\n");  
+                        $this->email->from($from_email, $from_name);
+                        $this->email->to($mail_to);
+                        $this->email->subject($gig_title . ' ' . $gig_ticket_no);
+                        $this->email->message($mail_text);
+                        if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+                            $attched_file = $_SERVER["DOCUMENT_ROOT"] . "/gigniter/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+                        } else {
+                            $attched_file = $_SERVER["DOCUMENT_ROOT"] . "/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+
+                            $this->email->attach($attched_file);
+                            //$this->email->send(); 
+                        }
+
+                        /*if($this->email->send()){
+							echo 'Email send.';
+						}else{
+							show_error($this->email->print_debugger());
+						}*/
+                    }
+                }
+            }
+
+            redirect(admin_base_url() . 'transactions/tickets/');
+        } else {
+            redirect(admin_base_url() . 'transactions/tickets/');
+        }
+
+        //$data['tickets_rows'] = $this->gigs_model->get_gigs_tickets();
+        //$this->load->view('admin/transactions/tickets', $data);
+    }
 }
