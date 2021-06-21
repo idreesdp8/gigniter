@@ -130,8 +130,12 @@
 
     <script>
         $(document).ready(function() {
-			$('#sidebar_transaction a#sidebar_transaction_nav ').addClass('active');
-            $('#sidebar_transaction #sidebar_transaction_tickets a').addClass('active');
+			$('#sidebar_transaction').addClass('nav-item-open');
+			$('#sidebar_transaction ul').first().css('display', 'block');
+			$('#sidebar_transaction_tickets a').addClass('active');
+			
+			// $('#sidebar_transaction a#sidebar_transaction_nav').addClass('active');
+            // $('#sidebar_transaction #sidebar_transaction_tickets a').addClass('active');
         });
     </script>
 </body>

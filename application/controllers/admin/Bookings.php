@@ -204,7 +204,6 @@ class Bookings extends CI_Controller
 		} else {
 			$booking_ids = array();
 		}
-		echo json_encode($booking_ids);
 		$currency = $this->config->item('stripe_currency');
 		if($booking_ids){
 			foreach ($booking_ids as $booking_id) {
@@ -223,6 +222,7 @@ class Bookings extends CI_Controller
 				]);
 	
 				$chargeJson = $charge->jsonSerialize();
+				echo $chargeJson;
 				if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 					//order details
 					$this->bookings_model->update_booking_data($booking->id, array('is_paid' => 1));
@@ -276,7 +276,7 @@ class Bookings extends CI_Controller
 							// echo json_encode($transfer);
 							// die();
 						}
-						echo json_encode(true);
+						$this->reload_datatable();
 					}
 				}
 			}

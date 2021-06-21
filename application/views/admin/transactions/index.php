@@ -122,9 +122,9 @@
 
     <script>
         $(document).ready(function() {
-			// $('#sidebar_transaction').addClass('nav-item-open');
-			// $('#sidebar_transaction ul').first().css('display', 'block');
-			$('#sidebar_transaction_all a').addClass('active');
+			$('#sidebar_transaction').addClass('nav-item-open');
+			$('#sidebar_transaction ul').first().css('display', 'block');
+			$('#sidebar_transaction_view a').addClass('active');
         });
     </script>
 </body>

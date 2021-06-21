@@ -77,18 +77,20 @@ $new_gigs = $this->gigs_model->get_count_new_gigs();
                     </li>
                 <?php endif; ?>
                 <?php if (in_array('edit-transaction', $user_permissions) || in_array('view-transaction', $user_permissions) || in_array('delete-transaction', $user_permissions)) : ?>
-                    <li class="nav-item" id="sidebar_transaction_all">
+                    <!-- <li class="nav-item" id="sidebar_transaction_all">
                         <a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">
                             <i class="icon-coin-dollar"></i>
                             <span>
                                 Transactions
                             </span>
                         </a>
-                        <!-- <a href="#" class="nav-link"><i class="icon-coin-dollar"></i> <span>Transactions</span></a>
-					<ul class="nav nav-group-sub" data-submenu-title="Transactions"> 
-						<li class="nav-item" id="sidebar_transaction_all"><a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">All Transactions</a></li> 
-						<li class="nav-item" id="sidebar_transaction_report"><a href="<?php echo admin_base_url(); ?>transactions/report" class="nav-link">Transactions Report</a></li>  
-					</ul> -->
+                    </li> -->
+                    <li class="nav-item nav-item-submenu" id="sidebar_transaction">
+                        <a href="#" class="nav-link" id="sidebar_transaction_nav"><i class="icon-coin-dollar"></i> <span>Transactions</span></a>
+                        <ul class="nav nav-group-sub" data-submenu-title="Transactions">
+                            <li class="nav-item" id="sidebar_transaction_view"><a href="<?php echo admin_base_url(); ?>transactions" class="nav-link">Transactions</a></li>
+                            <li class="nav-item" id="sidebar_transaction_tickets"><a href="<?php echo admin_base_url(); ?>transactions/tickets" class="nav-link">Tickets</a></li>
+                        </ul>
                     </li>
                 <?php endif; ?>
                 <!-- <?php if (in_array('edit-customer', $user_permissions) || in_array('view-customer', $user_permissions) || in_array('delete-customer', $user_permissions)) : ?>
