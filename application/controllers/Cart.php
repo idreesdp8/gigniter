@@ -268,7 +268,6 @@ class Cart extends CI_Controller
 				'price' => $price,
 				'is_paid' => 0,
 				'created_on' => $created_on,
-				'qr_token' => $qr_token
 			];
 
 			$res = $this->bookings_model->insert_booking_data($booking_params);

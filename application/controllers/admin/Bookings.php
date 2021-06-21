@@ -194,6 +194,10 @@ class Bookings extends CI_Controller
 
 	function collect_payment() 
 	{
+		require_once('application/libraries/stripe-php/init.php');
+		$stripeSecret = $this->config->item('stripe_api_key');
+		\Stripe\Stripe::setApiKey($stripeSecret);
+		
 		if (isset($_POST) && !empty($_POST)) {
 			$booking_ids = $this->input->post('booking_ids');
 		} else {
@@ -270,30 +274,7 @@ class Bookings extends CI_Controller
 							// die();
 						}
 					}
-					// else {
-	
-					// 	$out['status'] = '2';
-					// 	$out['message'] = 'Error: Customer Charge has been failed!';
-					// 	// $out['txn_id'] = $txn_id;
-					// 	// $out['amount'] = $amount;
-					// 	// $out['currency'] = $payment_currency;
-					// 	// $out['payment_status'] = $payment_status;
-					// 	// $out['transfer'] = '';
-					// 	$this->session->set_flashdata('error_msg', $out['message']);
-					// 	redirect('cart/checkout');
-					// 	echo json_encode($out);
-					// 	die();
-					// }
 				}
-				// else {
-	
-				// 	$out['status'] = '3';
-				// 	$out['message'] = 'Error: Transaction has been failed!';
-				// 	$this->session->set_flashdata('error_msg', $out['message']);
-				// 	redirect('cart/checkout');
-				// 	echo json_encode($out);
-				// 	die();
-				// }
 			}
 		}
 	}
