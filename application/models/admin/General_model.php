@@ -776,7 +776,7 @@ class General_model extends CI_Model
 		$size = '200x200';
 		$tmp_logo = downloads_url()."tickets_qr_code_imgs/default_qr_code_monogram.png"; 
 		 
-		header('Content-type: image/png');
+		// header('Content-type: image/png');
 		// Get QR Code image from Google Chart API
 		// http://code.google.com/apis/chart/infographics/docs/qr_codes.html
 		$QR = imagecreatefrompng('https://chart.googleapis.com/chart?cht=qr&chld=H|1&chs='.$size.'&chl='.urlencode($data_paras));

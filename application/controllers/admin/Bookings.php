@@ -35,6 +35,7 @@ class Bookings extends CI_Controller
 		// }
 
 		$this->load->model('admin/users_model', 'users_model');
+		$this->load->model('admin/configurations_model', 'configurations_model');
 		$this->load->model('admin/customers_model', 'customers_model');
 		$this->load->model('admin/gigs_model', 'gigs_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
@@ -197,7 +198,7 @@ class Bookings extends CI_Controller
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
 		\Stripe\Stripe::setApiKey($stripeSecret);
-		
+
 		if (isset($_POST) && !empty($_POST)) {
 			$booking_ids = $this->input->post('booking_ids');
 		} else {
@@ -250,29 +251,32 @@ class Bookings extends CI_Controller
 							$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
 							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
 							$amount = $item->price - ($item->price * $admin_fee->value / 100);
-							$transfer = \Stripe\Transfer::create([
-								'amount' => $amount * 100,
-								'currency' => $currency,
-								'destination' => $user_stripe_detail->stripe_account_id,
-							]);
-							$transferJson = $transfer->jsonSerialize();
-							if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
-								$transfer_param = [
-									'booking_id' => $booking->id,
-									'transfer_id' => $transferJson['id'],
-									'transaction_id' => $transferJson['balance_transaction'],
-									'amount' => $transferJson['amount'] / 100,
-									'type' => $transferJson['object'],
-									'destination_id' => $transferJson['destination'],
-									'user_received' => $gig->user_id,
-									'admin_fee' => $item->price * $admin_fee->value / 100,
-									'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
-								];
-								$this->bookings_model->insert_transaction_data($transfer_param);
+							if(!$user_stripe_detail->is_restricted){
+								$transfer = \Stripe\Transfer::create([
+									'amount' => $amount * 100,
+									'currency' => $currency,
+									'destination' => $user_stripe_detail->stripe_account_id,
+								]);
+								$transferJson = $transfer->jsonSerialize();
+								if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+									$transfer_param = [
+										'booking_id' => $booking->id,
+										'transfer_id' => $transferJson['id'],
+										'transaction_id' => $transferJson['balance_transaction'],
+										'amount' => $transferJson['amount'] / 100,
+										'type' => $transferJson['object'],
+										'destination_id' => $transferJson['destination'],
+										'user_received' => $gig->user_id,
+										'admin_fee' => $item->price * $admin_fee->value / 100,
+										'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+									];
+									$this->bookings_model->insert_transaction_data($transfer_param);
+								}
 							}
 							// echo json_encode($transfer);
 							// die();
 						}
+						echo json_encode(true);
 					}
 				}
 			}
