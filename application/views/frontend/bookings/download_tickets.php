@@ -31,7 +31,7 @@
         }
 
         .container {
-            width: 90%;
+            width: 80%;
             margin: 100px auto
         }
 
@@ -48,8 +48,8 @@
         }
 
         .card {
-            display: table-row;
-            width: 49%;
+            display: block;
+            width: 100%;
             background-color: #fff;
             color: #989898;
             margin-bottom: 10px;
@@ -179,6 +179,19 @@
             background-color: #F8504C
         }
 
+        .qr_code {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .qr_code img {
+            width: inherit;
+            height: inherit;
+        }
+
         @media screen and (max-width: 860px) {
             .card {
                 display: block;
@@ -200,33 +213,43 @@
 </head>
 
 <body>
-    <section class="container">
-        <article class="card fl-left">
-            <section class="date">
-                <time datetime="23th feb">
-                    <span>23</span><span>feb</span>
-                </time>
-            </section>
-            <section class="card-cont">
-                <small>dj khaled</small>
-                <h3>corner obsest program</h3>
-                <div class="even-date">
-                    <i class="fa fa-calendar"></i>
-                    <time>
-                        <span>wednesday 28 december 2014</span>
-                        <span>08:55pm to 12:00 am</span>
+    <?php
+    foreach ($tickets as $ticket) :
+    ?>
+        <section class="container">
+            <article class="card fl-left">
+                <section class="date">
+                    <time datetime="<?php echo date('d M', strtotime($ticket->gig->gig_date)) ?>">
+                        <span><?php echo date('d', strtotime($ticket->gig->gig_date)) ?></span>
+                        <span><?php echo date('M', strtotime($ticket->gig->gig_date)) ?></span>
                     </time>
-                </div>
-                <div class="even-info">
-                    <i class="fa fa-map-marker"></i>
-                    <p>
-                        nexen square for people australia, sydney
-                    </p>
-                </div>
-                <a href="#">tickets</a>
-            </section>
-        </article>
-    </section>
+                </section>
+                <section class="card-cont">
+                    <small><?php echo $ticket->gig_owner->fname . ' ' . $ticket->gig_owner->lname  ?></small>
+                    <h3><?php echo $ticket->gig->title ?></h3>
+                    <div class="even-date">
+                        <i class="fa fa-calendar"></i>
+                        <time>
+                            <span><?php echo date('D d M, Y', strtotime($ticket->gig->gig_date)) ?></span>
+                            <span><?php echo date('H:i A', strtotime($ticket->gig->start_time)) . ' to ' . date('H:i A', strtotime($ticket->gig->end_time)) ?></span>
+                        </time>
+                    </div>
+                    <div class="even-info">
+                        <i class="fa fa-map-marker"></i>
+                        <p>
+                            <?php echo $ticket->gig->address ?>
+                        </p>
+                    </div>
+                    <div class="qr_code">
+                        <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png' ?>" />
+                    </div>
+                    <a href=" #">tickets</a>
+                </section>
+            </article>
+        </section>
+    <?php
+    endforeach;
+    ?>
     <script>
         // jQuery(document).ready(function() {
         window.print();

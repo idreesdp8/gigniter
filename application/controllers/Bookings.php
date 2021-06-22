@@ -215,6 +215,7 @@ class Bookings extends CI_Controller
 		$tickets = $this->gigs_model->get_tickets($data);
 		foreach ($tickets as $ticket) {
 			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
+			$gig_owner = $this->users_model->get_user_by_id($gig->user_id);
 			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
 			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);
 			$user = $this->users_model->get_user_by_id($ticket->user_id);
@@ -223,6 +224,7 @@ class Bookings extends CI_Controller
 			// file_put_contents(barcode_relative_path() . $ticket->ticket_no . '.png', $generator->getBarcode($ticket->ticket_no, $generator::TYPE_CODE_128, 3, 50));
 			// $barcode = barcode_url() . $ticket->ticket_no . '.png';
 			$ticket->gig = $gig;
+			$ticket->gig_owner = $gig_owner;
 			$ticket->ticket_tier = $ticket_tier;
 			$ticket->booking = $booking;
 			$ticket->user = $user;
