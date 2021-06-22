@@ -219,7 +219,7 @@ class Cart extends CI_Controller
 			$gig_id = $item['gig_id'];
 		}
 		if (isset($_POST) && !empty($_POST) && !empty($cart_items) && isset($this->dbs_user_id)) {
-			
+
 			// echo json_encode($cart_items);
 			// die();
 			$email_to = $this->input->post("user_email");
@@ -409,9 +409,9 @@ class Cart extends CI_Controller
 					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
 					$this->email->message($mail_text);
 					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-						$attched_file = $_SERVER["DOCUMENT_ROOT"] . "/gigniter/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 					} else {
-						$attched_file = $_SERVER["DOCUMENT_ROOT"] . "/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 
 						$this->email->attach($attched_file);
 						$this->email->send();

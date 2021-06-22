@@ -155,7 +155,7 @@
                                     ?>
                                         <thead>
                                             <tr>
-                                                <th>Order #</th>
+                                                <!-- <th>Order #</th> -->
                                                 <th>Customer</th>
                                                 <th>Amount ($)</th>
                                                 <th>Gig Owner</th>
@@ -170,7 +170,7 @@
                                             foreach ($transactions as $transaction) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $booking->booking_no ?></td>
+                                                    <!-- <td><?php echo $booking->booking_no ?></td> -->
                                                     <?php
                                                     if ($transaction->type == 'charge') :
                                                     ?>

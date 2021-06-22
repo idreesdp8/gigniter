@@ -64,7 +64,7 @@ class Transactions extends CI_Controller
      */
     public function index()
     {
-        $transactions = $this->bookings_model->get_transactions_by_type('transfer');
+        $transactions = $this->bookings_model->get_all_transactions();
 
         // $user_id = $this->dbs_user_id;
         // $gigs = $this->gigs_model->get_active_user_gigs($user_id);
@@ -73,7 +73,12 @@ class Transactions extends CI_Controller
             // $status = $this->configurations_model->get_configuration_by_key_value(['key' => $this->gig_status_key, 'value' => $gig->status]);
             // $gig->status_label = $status->label;
             $booking = $this->bookings_model->get_booking_by_id($transaction->booking_id);
-            $user = $this->users_model->get_user_by_id($transaction->user_received);
+            if($transaction->user_received) {
+                $user = $this->users_model->get_user_by_id($transaction->user_received);
+            }
+            if($transaction->user_send) {
+                $user = $this->users_model->get_user_by_id($transaction->user_send);
+            }
             $cart_items = $this->bookings_model->get_booking_items($booking->id);
             $gig_names = '';
             // $ticket_names = '';
@@ -209,9 +214,9 @@ class Transactions extends CI_Controller
                         $this->email->subject($gig_title . ' ' . $gig_ticket_no);
                         $this->email->message($mail_text);
                         if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-                            $attched_file = $_SERVER["DOCUMENT_ROOT"] . "/gigniter/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+                            $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
                         } else {
-                            $attched_file = $_SERVER["DOCUMENT_ROOT"] . "/downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png";
+                            $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
 
                             $this->email->attach($attched_file);
                             //$this->email->send(); 

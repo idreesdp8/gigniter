@@ -56,11 +56,35 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_select2.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/form_wizard.js"></script>
-	<!-- <script src="<?php //echo admin_asset_url(); 
-						?>global_assets/js/demo_pages/form_inputs.js"></script> -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/loaders/progressbar.min.js"></script>
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/components_progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/echarts/light/lines/lines_stacked.js"></script>
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script> -->
 	<!-- /theme JS files -->
+
+	<script>
+		var light; 
+        $(document).bind("ajaxSend", function() {
+			light = $('.content .card');
+            // console.log('Ajax Start')
+            $(light).block({
+                message: '<i class="icon-spinner spinner"></i>',
+                overlayCSS: {
+                    backgroundColor: '#fff',
+                    opacity: 0.8,
+                    cursor: 'wait'
+                },
+                css: {
+                    border: 0,
+                    padding: 0,
+                    backgroundColor: 'none'
+                }
+            });
+        }).bind("ajaxComplete", function() {
+            // console.log('Ajax Stop')
+            $(light).unblock();
+        });
+	</script>

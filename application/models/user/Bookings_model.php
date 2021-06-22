@@ -60,8 +60,9 @@ class Bookings_model extends CI_Model
 
 	function get_booking_items_count($id)
 	{
+		$this->db->select_sum('quantity');
 		$query = $this->db->get_where('cart', array('booking_id' => $id));
-		return $query->num_rows();
+		return $query->row();
 	}
 
 	function get_booking_items($id)
@@ -173,6 +174,13 @@ class Bookings_model extends CI_Model
 	function get_transactions_by_type($type)
 	{
 		$query = $this->db->get_where('transactions', array('type' => $type));
+		return $query->result();
+	}
+
+	function get_all_transactions()
+	{
+		$this->db->order_by('created_on', 'DESC');
+		$query = $this->db->get('transactions');
 		return $query->result();
 	}
 

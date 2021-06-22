@@ -57,9 +57,10 @@
                                         <th>Order #</th>
                                         <th>Gig</th>
                                         <th>Amount</th>
-                                        <th>Account</th>
+                                        <th>Transaction Type</th>
+                                        <th>User</th>
                                         <!-- <th>Account Type</th> -->
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                         <th>Date</th>
                                         <!-- <th>Actions</th> -->
                                     </tr>
@@ -78,8 +79,16 @@
                                             </td>
                                             <td><span class="badge badge-secondary badge-pill"><?php echo $record->gig_names ?></span></td>
                                             <td><?php echo '$' . $record->amount ?></td>
-                                            <td><?php echo $record->user_name ?></td>
                                             <td>
+                                                <?php
+                                                if ($record->type == 'charge')
+                                                    echo '<span class="badge badge-danger badge-pill">Charged from</span>';
+                                                if ($record->type == 'transfer')
+                                                    echo '<span class="badge badge-success badge-pill">Transferred to</span>';
+                                                ?>
+                                            </td>
+                                            <td><?php echo $record->user_name ?></td>
+                                            <!-- <td>
                                                 <?php
                                                 if ($record->booking->is_paid == 0)
                                                     echo 'Pending';
@@ -88,7 +97,7 @@
                                                 if ($record->booking->is_paid == 2)
                                                     echo 'Cancelled';
                                                 ?>
-                                            </td>
+                                            </td> -->
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <!-- <td>
                                                 <div class="d-flex">

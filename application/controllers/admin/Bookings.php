@@ -63,12 +63,14 @@ class Bookings extends CI_Controller
 		foreach ($bookings as $booking) {
 			$user = $this->users_model->get_user_by_id($booking->user_id);
 			$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
-			$count = $this->bookings_model->get_booking_items_count($booking->id);
+			$items = $this->bookings_model->get_booking_items_count($booking->id);
 			// $temp = ['key' => $this->key, 'value' => $booking->status];
 			// $status = $this->configurations_model->get_configuration_by_key_value($temp);
 			// $booking->status_label = $status->label;
+			// echo json_encode($items);
+			// die();
 			$booking->user_name = $user->fname . ' ' . $user->lname;
-			$booking->item_count = $count;
+			$booking->item_count = $items->quantity;
 			$booking->gig = $gig;
 		}
 		$data['records'] = $bookings;
@@ -222,12 +224,18 @@ class Bookings extends CI_Controller
 				]);
 	
 				$chargeJson = $charge->jsonSerialize();
-				echo $chargeJson;
+				// echo json_encode($chargeJson);
+				// die();
 				if ($chargeJson['amount_refunded'] == 0 && empty($chargeJson['failure_code']) && $chargeJson['paid'] == 1 && $chargeJson['captured'] == 1) {
 					//order details
 					$this->bookings_model->update_booking_data($booking->id, array('is_paid' => 1));
 					$txn_id = $chargeJson['balance_transaction'];
-					$amount = $chargeJson['amount'];
+					$amount = $chargeJson['amount']/100;
+					// echo $amount;
+					$stripe_fee = ($amount * .029) + .30; // stripe fee is 2.9% + 30 cents
+					// echo $stripe_fee;
+					$final_amount = $amount - $stripe_fee;
+					// echo $final_amount;
 					$payment_currency = $chargeJson['currency'];
 					$payment_status = $chargeJson['status'];
 					$charge_param = [
@@ -235,7 +243,7 @@ class Bookings extends CI_Controller
 						'charge_id' => $chargeJson['id'],
 						'transaction_id' => $txn_id,
 						'user_send' => $booking->user_id,
-						'amount' => $amount / 100,
+						'amount' => $final_amount,
 						'type' => $chargeJson['object'],
 						'customer_id' => $chargeJson['customer'],
 						'created_on' => date('Y-m-d H:i:s', $chargeJson['created']),
@@ -258,6 +266,7 @@ class Bookings extends CI_Controller
 									'destination' => $user_stripe_detail->stripe_account_id,
 								]);
 								$transferJson = $transfer->jsonSerialize();
+								// echo json_encode($transferJson);
 								if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
 									$transfer_param = [
 										'booking_id' => $booking->id,
@@ -276,10 +285,12 @@ class Bookings extends CI_Controller
 							// echo json_encode($transfer);
 							// die();
 						}
-						$this->reload_datatable();
 					}
 				}
 			}
+			echo json_encode(true);
+		} else {
+			echo json_encode(false);
 		}
 	}
 }
