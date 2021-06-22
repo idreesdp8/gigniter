@@ -227,6 +227,7 @@
                 <a href="#">tickets</a>
             </section>
         </article>
+    </section>
 </body>
 
 </html>

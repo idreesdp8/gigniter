@@ -204,8 +204,15 @@ class Bookings extends CI_Controller
 	function download_tickets()
 	{
 		// require 'vendor/autoload.php';
+		if($this->input->post()){
+			$data = $this->input->post();
+		} else {
+			$data = $this->input->get();
+		}
 
-		$data = $this->input->post();
+		echo json_encode($data);
+		die();
+
 		$data['user_id'] = $this->dbs_user_id;
 		$tickets = $this->gigs_model->get_tickets($data);
 		foreach ($tickets as $ticket) {

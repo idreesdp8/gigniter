@@ -249,7 +249,11 @@ die();
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
-        $msg = $this->load->view('email/ticket_download', '', TRUE);
+
+
+        
+		$data['link'] = user_base_url() . 'bookings/download_tickets?booking_id=70&gig_id=98&ticket_tier_id=356';
+		$msg = $this->load->view('email/ticket_download', $data, TRUE);
         
         $this->email->from('info@gigniter.com', 'Gigniter');
         $this->email->to('hamza0952454@gmail.com');
