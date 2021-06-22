@@ -59,7 +59,7 @@
                         </div>
                     </form>
                     <div class="option">
-                        Already have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>login">Login</a>
+                        Already have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>signin">Login</a>
                     </div>
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">

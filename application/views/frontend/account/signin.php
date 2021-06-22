@@ -45,7 +45,7 @@
                         </div>
                     </form>
                     <div class="option">
-                        Don't have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>register">sign up now</a>
+                        Don't have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>signup">sign up now</a>
                     </div>
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">
