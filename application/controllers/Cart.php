@@ -400,13 +400,13 @@ class Cart extends CI_Controller
 					$gig_poster = $row->poster;
 					$gig_address = $row->address;
 					$gig_poster = $row->poster;
-
+					
 					$mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
 
 					//$this->email->set_newline("\r\n");  
 					$this->email->from($from_email, $from_name);
 					$this->email->to($mail_to);
-					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
+					$this->email->subject($gig_title . ' ' . $gig_ticket_no); 
 					$this->email->message($mail_text);
 					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
@@ -414,7 +414,8 @@ class Cart extends CI_Controller
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 
 						// $this->email->attach($attched_file);
-						$this->email->send();
+						//$this->email->send();
+						
 					}
 
 					/*if($this->email->send()){
@@ -629,6 +630,8 @@ class Cart extends CI_Controller
 		// echo json_encode($gigs);
 		// die();
 	}
+	
+
 
 	function send_email($to_email, $subject, $email_for)
 	{
