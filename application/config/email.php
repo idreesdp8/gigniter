@@ -11,12 +11,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config = Array(
 	'protocol' => 'smtp',
-	'smtp_host' => 'smtp.dp8staging.com',
+	'smtp_host' => 'mail.dp8staging.com',
 	'smtp_port' => 465,
 	'smtp_user' => 'test@dp8staging.com',
 	'smtp_pass' => 'l3E1BN&?aLM6',
 	"smtp_crypto"=> "tls",
-	"smtp_timeout"=> "10",
+	"smtp_timeout"=> "60",
 	'crlf' => "\r\n",
 	'newline' => "\r\n",
   );

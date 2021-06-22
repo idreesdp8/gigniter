@@ -163,8 +163,8 @@ class Transactions extends CI_Controller
     {
 
         $ticketid = $this->input->post('ticket_id');
-        echo $ticketid;
-        die();
+        // echo $ticketid;
+        // die();
         if ($ticketid > 0) {
             $row = $this->gigs_model->get_ticket_data_by_ticket_id($ticketid);
             if (isset($row)) {
@@ -217,24 +217,24 @@ class Transactions extends CI_Controller
                         $this->email->to($mail_to);
                         $this->email->subject($gig_title . ' ' . $gig_ticket_no);
                         $this->email->message($mail_text);
-                        if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-                            $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
-                        } else {
+                        // if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+                        //     $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
+                        // } else {
                             $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
 
                             // $this->email->attach($attched_file);
-                            $this->email->send(); 
-                        }
+                            // $this->email->send(); 
+                            if($this->email->send()){
+                                echo 'Email send.';
+                            }else{
+                                echo json_encode($this->email->print_debugger());
+                            }
+                        // }
 
-                        /*if($this->email->send()){
-							echo 'Email send.';
-						}else{
-							show_error($this->email->print_debugger());
-						}*/
                     }
                 }
             }
-
+die();
             redirect(admin_base_url() . 'transactions/tickets/');
         } else {
             redirect(admin_base_url() . 'transactions/tickets/');
