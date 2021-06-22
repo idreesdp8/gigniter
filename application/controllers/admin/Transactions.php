@@ -243,4 +243,23 @@ die();
         //$data['tickets_rows'] = $this->gigs_model->get_gigs_tickets();
         //$this->load->view('admin/transactions/tickets', $data);
     }
+
+    function mail_test()
+    {
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+        
+        $this->email->from('info@gigniter.com', 'Gigniter');
+        $this->email->to('hamza0952454@gmail.com');
+        $this->email->subject('Testing');
+        $this->email->message('Hello bro!!!');
+        
+        if ($this->email->send()) {
+            echo 'Mail sent';
+        } else {
+			echo json_encode($this->email->print_debugger());
+        }
+        die();
+    }
 }

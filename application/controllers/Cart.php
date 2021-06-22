@@ -337,15 +337,18 @@ class Cart extends CI_Controller
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
 			// $is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 			if ($is_physical_gig == 1 && (isset($gig_id) && $gig_id > 0)) {
-				$this->sendQRCode_Email($gig_id, $user_id);
+				$is_sent = $this->sendQRCode_Email($gig_id, $user_id);
+			} else {
+				$is_sent = false;
 			}
-			exit;
-			if (true) {
+			// exit;
+			if ($is_sent) {
 				$this->cart->destroy();
 				// redirect('cart/checkout');
 				// redirect('cart/thankyou');
 				$this->load->view('frontend/cart/thankyou', ['gig_id' => $gig_id]);
 			} else {
+				$this->session->set_flashdata('error_msg', 'Problem occured!');
 				redirect('cart/checkout');
 			}
 		} else {
@@ -401,18 +404,18 @@ class Cart extends CI_Controller
 					$gig_poster = $row->poster;
 					$gig_address = $row->address;
 					$gig_poster = $row->poster;
-					
+
 					$mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
 
 					//$this->email->set_newline("\r\n");  
 					$this->email->from($from_email, $from_name);
 
-					//$this->email->to($mail_to);
-					//$this->email->subject($gig_title . ' ' . $gig_ticket_no); 
-
-					//$this->email->to('hamza0952454@gmail.com');
-					$this->email->to('younasali22@gmail.com');
+					// $this->email->to($mail_to);
 					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
+
+					$this->email->to('hamza0952454@gmail.com');
+					// $this->email->to('younasali22@gmail.com');
+					// $this->email->subject($gig_title . ' ' . $gig_ticket_no);
 
 					$this->email->message($mail_text);
 					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
@@ -421,7 +424,7 @@ class Cart extends CI_Controller
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 
 						// $this->email->attach($attched_file);
-						$this->email->send(); 
+						$this->email->send();
 					}
 
 					/*if($this->email->send()){
@@ -636,7 +639,7 @@ class Cart extends CI_Controller
 		// echo json_encode($gigs);
 		// die();
 	}
-	
+
 
 
 	function send_email($to_email, $subject, $email_for)
