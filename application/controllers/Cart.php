@@ -405,7 +405,7 @@ class Cart extends CI_Controller
 
 					//$this->email->set_newline("\r\n");  
 					$this->email->from($from_email, $from_name);
-					$this->email->to($mail_to);
+					$this->email->to('hamza0952454@gmail.com');
 					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
 					$this->email->message($mail_text);
 					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
