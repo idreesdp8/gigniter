@@ -210,10 +210,8 @@ class Bookings extends CI_Controller
 			$data = $this->input->get();
 		}
 
-		echo json_encode($data);
-		die();
-
-		$data['user_id'] = $this->dbs_user_id;
+		// echo json_encode($data);
+		// die();
 		$tickets = $this->gigs_model->get_tickets($data);
 		foreach ($tickets as $ticket) {
 			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
@@ -232,8 +230,8 @@ class Bookings extends CI_Controller
 			// $ticket->barcode = $barcode;
 		}
 		$datas['tickets'] = $tickets;
-		// echo json_encode($datas);
-		// die();
+		echo json_encode($datas);
+		die();
 		$this->load->view('frontend/bookings/download_tickets', $datas);
 	}
 }

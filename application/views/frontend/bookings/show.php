@@ -213,6 +213,7 @@
                                                             <input type="hidden" name="booking_id" value="<?php echo $item->booking_id ?>">
                                                             <input type="hidden" name="gig_id" value="<?php echo $item->gig_id ?>">
                                                             <input type="hidden" name="ticket_tier_id" value="<?php echo $item->ticket_tier_id ?>">
+                                                            <input type="hidden" name="user_id" value="<?php echo $item->user_id ?>">
                                                             <button type="submit" class="btn btn-success">Download Tickets</button>
                                                         </form>
                                                     </div>

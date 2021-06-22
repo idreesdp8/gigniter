@@ -252,7 +252,7 @@ die();
 
 
         
-		$data['link'] = user_base_url() . 'bookings/download_tickets?booking_id=70&gig_id=98&ticket_tier_id=356';
+		$data['link'] = user_base_url() . 'bookings/download_tickets?booking_id=70&gig_id=98&ticket_tier_id=356&user_id=55';
 		$msg = $this->load->view('email/ticket_download', $data, TRUE);
         
         $this->email->from('info@gigniter.com', 'Gigniter');
