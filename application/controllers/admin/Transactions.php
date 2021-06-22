@@ -159,8 +159,12 @@ class Transactions extends CI_Controller
         $this->load->view('admin/transactions/tickets', $data);
     }
 
-    public function resend_qr_code($ticketid)
+    public function resend_qr_code()
     {
+
+        $ticketid = $this->input->post('ticket_id');
+        echo $ticketid;
+        die();
         if ($ticketid > 0) {
             $row = $this->gigs_model->get_ticket_data_by_ticket_id($ticketid);
             if (isset($row)) {
