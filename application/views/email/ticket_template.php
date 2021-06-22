@@ -202,7 +202,6 @@
 
 <body class="clean-body">
     <section class="container">
-        <h1>Events</h1>
         <article class="card fl-left">
             <section class="date">
                 <time datetime="23th feb">

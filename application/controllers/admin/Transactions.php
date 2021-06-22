@@ -249,7 +249,7 @@ die();
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
-        $msg = $this->load->view('email/ticket_template', '', TRUE);
+        $msg = $this->load->view('email/ticket_download', '', TRUE);
         
         $this->email->from('info@gigniter.com', 'Gigniter');
         $this->email->to('hamza0952454@gmail.com');
