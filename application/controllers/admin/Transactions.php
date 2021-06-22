@@ -249,11 +249,13 @@ die();
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
 		$from_name = $this->config->item('from_name');
+        $msg = $this->load->view('email/ticket_purchase', '', TRUE);
         
         $this->email->from('info@gigniter.com', 'Gigniter');
         $this->email->to('hamza0952454@gmail.com');
         $this->email->subject('Testing');
-        $this->email->message('Hello bro!!!');
+		$this->email->message($msg);
+        
         
         if ($this->email->send()) {
             echo 'Mail sent';
