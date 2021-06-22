@@ -16,7 +16,7 @@ $config = Array(
 	'smtp_user' => 'test@dp8staging.com',
 	'smtp_pass' => 'l3E1BN&?aLM6',
 	"smtp_crypto"=> "tls",
-	"smtp_timeout"=> "60",
+	"smtp_timeout"=> "10",
 	'crlf' => "\r\n",
 	'newline' => "\r\n",
   );
