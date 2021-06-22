@@ -217,7 +217,7 @@
     foreach ($tickets as $ticket) :
     ?>
         <section class="container">
-            <article class="card fl-left">
+            <article class="card">
                 <section class="date">
                     <time datetime="<?php echo date('d M', strtotime($ticket->gig->gig_date)) ?>">
                         <span><?php echo date('d', strtotime($ticket->gig->gig_date)) ?></span>

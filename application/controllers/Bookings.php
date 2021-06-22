@@ -232,8 +232,8 @@ class Bookings extends CI_Controller
 			// $ticket->barcode = $barcode;
 		}
 		$datas['tickets'] = $tickets;
-		echo json_encode($datas);
-		die();
+		// echo json_encode($datas);
+		// die();
 		$this->load->view('frontend/bookings/download_tickets', $datas);
 	}
 }
