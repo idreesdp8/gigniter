@@ -339,6 +339,7 @@ class Cart extends CI_Controller
 			if ($is_physical_gig == 1 && (isset($gig_id) && $gig_id > 0)) {
 				$this->sendQRCode_Email($gig_id, $user_id);
 			}
+			exit;
 			if (true) {
 				$this->cart->destroy();
 				// redirect('cart/checkout');
