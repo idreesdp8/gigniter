@@ -39,7 +39,8 @@
                             <div class="list-icons">
                                 <!-- <a class="list-icons-item" data-action="collapse"></a> -->
                                 <!-- <a class="list-icons-item" data-action="reload"></a> -->
-                                <!-- <a class="list-icons-item" data-action="remove"></a> -->
+                                <!-- <a class="list-icons-item" data-action="remove"></a> --> 
+								<button type="button" class="btn btn-info w-100" id="collect">Collect Payments</button>
                             </div>
                         </div>
                     </div>
@@ -49,10 +50,14 @@
 					</div> -->
 
                     <div class="table-responsive">
-                        <div class="row m-0 align-items-center">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Gig:</label>
+                        <div class="row mt-4 ml-4 mr-4 mb-0 align-items-center"> 
+						   <div class="col-md-1">
+                                <div class="form-group"> 
+                                    <label for="gig_id"> Gig: </label> 
+                                </div>
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group"> 
                                     <select name="gig_id" id="gig_id" class="form-control">
                                         <option value="">Select Option</option>
                                         <?php
@@ -66,20 +71,24 @@
                                         ?>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Paid:</label>
+                            </div> 
+							<div class="col-md-1">
+                                <div class="form-group"> 
+                                    <label for="is_paid"> Paid: </label> 
+                                </div>
+                            </div> 
+                            <div class="col-md-3">
+                                <div class="form-group"> 
                                     <select name="is_paid" id="is_paid" class="form-control">
                                         <option value="">Select Option</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
+                            </div> 
+                            <!--<div class="col-md-2">
                                 <button type="button" class="btn btn-info w-100" id="collect">Collect Payments</button>
-                            </div>
+                            </div>-->
                         </div>
                         <table class="table table-striped datatable-custom">
                             <?php if (isset($records) && count($records) > 0) { ?>

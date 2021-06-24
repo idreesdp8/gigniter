@@ -69,7 +69,7 @@ class Bookings extends CI_Controller
 			// $booking->status_label = $status->label;
 			// echo json_encode($items);
 			// die();
-			$booking->user_name = $user->fname . ' ' . $user->lname;
+			$booking->user_name = isset($user) ? $user->fname . ' ' . $user->lname : '';
 			$booking->item_count = $items->quantity;
 			$booking->gig = $gig;
 		}
@@ -204,6 +204,7 @@ class Bookings extends CI_Controller
 								<button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
 							</form>
 						</div>';
+						
 				$result['data'][$key] = array(
 					$checkbox_html,
 					$key + 1,
@@ -222,21 +223,26 @@ class Bookings extends CI_Controller
 		echo json_encode($result);
 	}
 
-	function collect_payment()
-	{
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		\Stripe\Stripe::setApiKey($stripeSecret);
+	function collect_payment(){ 
 
-		if (isset($_POST) && !empty($_POST)) {
+		/*if (isset($_POST) && !empty($_POST)) {
 			$booking_ids = $this->input->post('booking_ids');
 		} else {
 			$booking_ids = array();
-		}
+		}*/
 		// echo json_encode($booking_ids);
-		// die();
-		$currency = $this->config->item('stripe_currency');
-		if ($booking_ids) {
+		// die(); 
+		
+		if($this->input->post('booking_ids')) {
+		
+			$booking_ids = $this->input->post('booking_ids');
+			
+			require_once('application/libraries/stripe-php/init.php');
+			$stripeSecret = $this->config->item('stripe_api_key');
+			\Stripe\Stripe::setApiKey($stripeSecret);
+			
+			$currency = $this->config->item('stripe_currency');
+			
 			foreach ($booking_ids as $booking_id) {
 				$booking = $this->bookings_model->get_booking_by_id($booking_id);
 				// echo $booking->customer_stripe_id;
@@ -283,7 +289,10 @@ class Bookings extends CI_Controller
 
 					// $cart_items = $this->bookings_model->get_booking_items($booking->id);
 					//if order inserted successfully
-					if ($payment_status == 'succeeded') {
+					
+					//$tt = true;
+					//if($tt == false){
+						if ($payment_status == 'succeeded') {
 						// foreach ($cart_items as $item) {
 						$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
 						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
@@ -316,8 +325,11 @@ class Bookings extends CI_Controller
 						// die();
 						// }
 					}
+					//}
 				}
-			}
+			} 
+			//redirect('admin/bookings');
+			
 			echo json_encode(true);
 		} else {
 			echo json_encode(false);
