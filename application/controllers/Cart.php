@@ -421,11 +421,11 @@ class Cart extends CI_Controller
 					//$this->email->set_newline("\r\n");  
 					$this->email->from($from_email, $from_name);
 
-					//$this->email->to($mail_to);
+					$this->email->to($mail_to);
 					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
 
 					// $this->email->to('hamza0952454@gmail.com');
-					 $this->email->to('younasali22@gmail.com');
+					//$this->email->to('younasali22@gmail.com');
 					// $this->email->subject($gig_title . ' ' . $gig_ticket_no);
 
 					$this->email->message($mail_text);
@@ -434,7 +434,7 @@ class Cart extends CI_Controller
 					} else {
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png"; 
 						
-						//$this->email->attach($attched_file);
+						$this->email->attach($attched_file);
 						$this->email->send();
 					}
 
