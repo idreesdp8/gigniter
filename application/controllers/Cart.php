@@ -434,7 +434,7 @@ class Cart extends CI_Controller
 					} else {
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png"; 
 						
-						$this->email->attach($attched_file);
+						//$this->email->attach($attched_file);
 						$this->email->send();
 					}
 
