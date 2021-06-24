@@ -497,6 +497,29 @@ class Gigs_model extends CI_Model
 	gigs t2
 	users t3 
 	*/ 
+	
+	function get_tickets_by_qr_code_token($qr_token_arrs){
+		if(count($qr_token_arrs)>0){ 
+			$qr_token_txts = '';
+			foreach($qr_token_arrs as $qr_token_arr){
+				$qr_token_txts .= "'".$qr_token_arr."',";
+			} 
+			
+			$qr_token_txts = rtrim($qr_token_txts, ',');
+			 
+			$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		WHERE t1.qr_token IN (".$qr_token_txts.") ");
+		
+		/*WHERE t1.qr_token IN ='".$sl_gig_id."' AND t1.user_id='".$sl_usr_id."' ");*/
+		return $query->result(); 
+		
+		}else{
+			return false;
+		}  
+	}
+	
 
 	function get_tickets_by_gig_and_userid($sl_gig_id, $sl_usr_id){
 		$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email FROM tickets t1

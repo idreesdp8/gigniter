@@ -213,8 +213,9 @@ class Cart extends CI_Controller
 		// }
 		// die();
 		// // $this->cart->destroy();
-		$cart_items = $this->cart->contents();
-
+		$qr_token_arrs = array();
+		$cart_items = $this->cart->contents(); 
+		
 		foreach ($cart_items as $item) {
 			$gig_id = $item['gig_id'];
 		}
@@ -301,6 +302,8 @@ class Cart extends CI_Controller
 							];
 							//downloads_url().
 							$this->general_model->custom_qr_img_generate($qr_token, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");
+							$qr_token_arrs[] = $qr_token;
+							
 						} else {
 							$ticket_params[] = [
 								'ticket_no' => $user_id . '_' . $item['gig_id'] . '_' . $res . '_' . $item['ticket_tier_id'] . '_' . $i,
@@ -336,11 +339,19 @@ class Cart extends CI_Controller
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
 			// $is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
-			if ($is_physical_gig == 1 && (isset($gig_id) && $gig_id > 0)) {
+			
+			
+			if ($is_physical_gig==1 && count($qr_token_arrs)>0) {  
+				$is_sent = $this->sendQRCode_mails($qr_token_arrs); 
+			}else{
+				$is_sent = false;
+			}
+			
+			/*if ($is_physical_gig == 1 && (isset($gig_id) && $gig_id > 0)) { 
 				$is_sent = $this->sendQRCode_Email($gig_id, $user_id);
 			} else {
 				$is_sent = false;
-			}
+			}*/
 			// exit;
 			if ($is_sent) {
 				$this->cart->destroy();
@@ -367,7 +378,78 @@ class Cart extends CI_Controller
 			$this->load->view('frontend/cart/checkout', $data);
 		}
 	}
+	
+	public function sendQRCode_mails($qr_token_arrs)
+	{
+		/* $config = Array(
+		  'protocol' => 'smtp',
+		  'smtp_host' => 'ssl://smtp.googlemail.com',
+		  'smtp_port' => 465,
+		  'smtp_user' => 'abc@gmail.com', 
+		  'smtp_pass' => 'passwrd', 
+		  'mailtype' => 'html',
+		  'charset' => 'iso-8859-1',
+		  'wordwrap' => TRUE
+		);
+		
+		$this->load->library('email', $config);*/
 
+		$this->load->library('email');
+		$from_name = $this->config->item('from_name');
+		$from_email = $this->config->item('info_email');
+
+		$rows = $this->gigs_model->get_tickets_by_qr_code_token($qr_token_arrs);
+		if (isset($rows)) {
+			foreach ($rows as $row) {
+				$gig_ticket_no = $row->ticket_no;
+				$gig_ticket_qr_token = $row->qr_token;
+
+				if (strlen($gig_ticket_qr_token) > 0) {
+
+					$mail_to_name = $row->fname . ' ' . $row->lname;
+					$mail_to = $row->email;
+
+					$gig_title = $row->title;
+					$gig_subtitle = $row->subtitle;
+					$gig_category = $row->category;
+					$gig_poster = $row->poster;
+					$gig_address = $row->address;
+					$gig_poster = $row->poster;
+
+					$mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
+
+					//$this->email->set_newline("\r\n");  
+					$this->email->from($from_email, $from_name);
+
+					$this->email->to($mail_to);
+					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
+
+					// $this->email->to('hamza0952454@gmail.com');
+					// $this->email->to('younasali22@gmail.com');
+					// $this->email->subject($gig_title . ' ' . $gig_ticket_no);
+
+					$this->email->message($mail_text);
+					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+					} else {
+						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+
+						// $this->email->attach($attched_file);
+						$this->email->send();
+					}
+
+					/*if($this->email->send()){
+						echo 'Email send.';
+					}else{
+						show_error($this->email->print_debugger());
+					}*/
+				}
+			}
+			
+			return true;
+		}
+	}
+  
 	public function sendQRCode_Email($sl_gig_id, $sl_usr_id)
 	{
 		/* $config = Array(
