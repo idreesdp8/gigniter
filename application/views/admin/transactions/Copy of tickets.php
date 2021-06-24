@@ -246,9 +246,9 @@
 							</div>
 							<div class="even-info">
 							  <i class="fa fa-map-marker"></i>
-							  <p><?php echo '$ ' . number_format($tickets_row->price, 2, ".", ","); ?></p>
+							  <span><?php echo '$ ' . number_format($tickets_row->price, 2, ".", ","); ?></span>
 							  <p>
-								  <?php echo $tickets_row->category; ?> <br />  
+								<!--  <?php echo $tickets_row->category; ?>  -->
 								<?php echo $tickets_row->address; ?> <br />
 								<?php echo $tickets_row->fname . ' ' . $tickets_row->lname; ?> <br />
 								<?php echo $tickets_row->email; ?> <br /> 
@@ -277,7 +277,77 @@
 			 <strong>No record found!</strong>  
 			<?php } ?> 	 
 			</div>
-			   
+			  
+				<div class="row" style="display:none">
+					<div class="table-responsive">
+						<table class="table table-striped datatable-basic">
+							<thead>
+								<tr>
+									<th>Sr #</th>
+									<th>Ticket #</th>
+									<th>Gig</th>
+									<!-- <th>Price ($)</th> -->
+									<!-- <th>Category</th> -->
+									<th>Address</th>
+									<th>User</th>
+									<th>User Email</th>
+									<th>Purchase Date</th>
+									<th>Ticket</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$sr_no = 1;
+								if (isset($tickets_rows)) {
+									foreach ($tickets_rows as $tickets_row) { ?>
+										<tr>
+											<td><?php echo $sr_no; ?> </td>
+											<td><?php echo $tickets_row->ticket_no; ?> </td>
+											<td><?php echo $tickets_row->title ?> </td>
+											<!-- <td><?php echo '$ ' . number_format($tickets_row->price, 2, ".", ","); ?> </td> -->
+											<!-- <td><?php echo $tickets_row->category; ?> </td> -->
+											<td><?php echo $tickets_row->address; ?> </td>
+											<td><?php echo $tickets_row->fname . ' ' . $tickets_row->lname; ?> </td>
+											<td><?php echo $tickets_row->email; ?> </td>
+											<td><?php echo date('M d, Y H:i A', strtotime($tickets_row->created_on)) ?></td>
+											<td>
+												<?php
+												/* if(strlen($tickets_row->qr_token)>0){
+												$qr_code_url = ''; 
+												if($_SERVER['HTTP_HOST'] == "localhost"){  
+													$qr_code_url = qrcode_url()."ticket_".$tickets_row->qr_token.".png";		
+												}else{
+													$qr_code_url = qrcode_url()."ticket_".$tickets_row->qr_token.".png"; 
+												} ?> <img src="<?php echo $qr_code_url; ?>" style="width:60px; height:60px;">
+												<?php   
+												}else{
+													echo "N/A";
+												} */
+	
+												$venues_txt = $tickets_row->venues;
+												$venues_arrs = explode(',', $venues_txt);
+	
+												if (in_array('Physical', $venues_arrs)) { ?>
+													<button type="button" class="btn btn-primary" id="send_ticket" data-ticket_id="<?php echo $tickets_row->ticket_id; ?>">Send Ticket</button>
+												<?php } else {
+													echo 'N/A';
+												} ?>
+											</td>
+										</tr>
+									<?php
+										$sr_no++;
+									}
+								}
+	
+								if ($sr_no == 1) {  ?>
+									<tr>
+										<td colspan="9" style="text-align:center"><strong>No record found!</strong></td>
+									</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
 					</div>
 				</div>
 			</div>
