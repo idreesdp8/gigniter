@@ -432,9 +432,9 @@ class Cart extends CI_Controller
 					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
 						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 					} else {
-						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-
-						// $this->email->attach($attched_file);
+						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png"; 
+						
+						$this->email->attach($attched_file);
 						$this->email->send();
 					}
 
