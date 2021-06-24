@@ -73,10 +73,10 @@ class Transactions extends CI_Controller
             // $status = $this->configurations_model->get_configuration_by_key_value(['key' => $this->gig_status_key, 'value' => $gig->status]);
             // $gig->status_label = $status->label;
             $booking = $this->bookings_model->get_booking_by_id($transaction->booking_id);
-            if($transaction->user_received) {
+            if ($transaction->user_received) {
                 $user = $this->users_model->get_user_by_id($transaction->user_received);
             }
-            if($transaction->user_send) {
+            if ($transaction->user_send) {
                 $user = $this->users_model->get_user_by_id($transaction->user_send);
             }
             $cart_items = $this->bookings_model->get_booking_items($booking->id);
@@ -192,13 +192,15 @@ class Transactions extends CI_Controller
                         $gig_ticket_qr_token = uniqid();
                     }
 
+                    $url = user_base_url() . 'validate/qr/' . $gig_ticket_qr_token;
+
                     if (strlen($gig_ticket_qr_token) > 0) {
 
                         $this->gigs_model->update_tickets_data($ticketid, array('qr_token' => $gig_ticket_qr_token));
 
                         //$this->load->model('user/General_model', 'frontend_general_model');
 
-                        $this->general_model->custom_qr_img_generate($gig_ticket_qr_token, "downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png");
+                        $this->general_model->custom_qr_img_generate($url, "downloads/tickets_qr_code_imgs/ticket_" . $gig_ticket_qr_token . ".png");
 
                         $mail_to_name = $row->fname . ' ' . $row->lname;
                         $mail_to = $row->email;
@@ -220,21 +222,21 @@ class Transactions extends CI_Controller
                         // if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
                         //     $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
                         // } else {
-                            $attched_file = qrcode_url()."ticket_" . $gig_ticket_qr_token . ".png";
+                        $attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 
-                            // $this->email->attach($attched_file);
-                            // $this->email->send(); 
-                            if($this->email->send()){
-                                echo 'Email send.';
-                            }else{
-                                echo json_encode($this->email->print_debugger());
-                            }
+                        $this->email->attach($attched_file);
+                        // $this->email->send(); 
+                        if ($this->email->send()) {
+                            echo 'Email send.';
+                        } else {
+                            echo json_encode($this->email->print_debugger());
+                        }
                         // }
 
                     }
                 }
             }
-die();
+            die();
             redirect(admin_base_url() . 'transactions/tickets/');
         } else {
             redirect(admin_base_url() . 'transactions/tickets/');
@@ -246,25 +248,25 @@ die();
 
     function mail_test()
     {
-		$this->load->library('email');
-		$from_email = $this->config->item('info_email');
-		$from_name = $this->config->item('from_name');
+        $this->load->library('email');
+        $from_email = $this->config->item('info_email');
+        $from_name = $this->config->item('from_name');
 
 
-        
-		$data['link'] = user_base_url() . 'bookings/download_tickets?booking_id=70&gig_id=98&ticket_tier_id=356&user_id=55';
-		$msg = $this->load->view('email/ticket_download', $data, TRUE);
-        
+
+        $data['link'] = user_base_url() . 'bookings/download_tickets?booking_id=70&gig_id=98&ticket_tier_id=356&user_id=55';
+        $msg = $this->load->view('email/ticket_download', $data, TRUE);
+
         $this->email->from('info@gigniter.com', 'Gigniter');
         $this->email->to('hamza0952454@gmail.com');
         $this->email->subject('Live');
-		$this->email->message($msg);
-        
-        
+        $this->email->message($msg);
+
+
         if ($this->email->send()) {
             echo 'Mail sent';
         } else {
-			echo json_encode($this->email->print_debugger());
+            echo json_encode($this->email->print_debugger());
         }
         die();
     }

@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: #dadde6;
+            background-color: #fff;
             font-family: arial
         }
 
@@ -50,8 +50,8 @@
         .card {
             display: block;
             width: 100%;
-            background-color: #fff;
-            color: #989898;
+            background: linear-gradient(45deg, #58b9c3, #f5f5fb);
+            color: #585858;
             margin-bottom: 10px;
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
@@ -68,7 +68,7 @@
             width: 25%;
             position: relative;
             text-align: center;
-            border-right: 2px dashed #dadde6
+            border-right: 2px dashed #ffffff
         }
 
         .date:before,
@@ -77,7 +77,7 @@
             display: block;
             width: 30px;
             height: 30px;
-            background-color: #DADDE6;
+            background-color: #ffffff;
             position: absolute;
             top: -15px;
             right: -15px;
@@ -159,20 +159,19 @@
         .card-cont a {
             display: block;
             text-decoration: none;
-            width: 80px;
             height: 30px;
-            background-color: #D8DDE0;
             color: #fff;
             text-align: center;
             line-height: 30px;
             border-radius: 2px;
             position: absolute;
             right: 10px;
-            bottom: 10px
+            bottom: 10px;
+            padding: 0px 1rem;
         }
 
         .row:last-child .card:first-child .card-cont a {
-            background-color: #037FDD
+            /* background-color: #037FDD */
         }
 
         .row:last-child .card:last-child .card-cont a {
@@ -180,8 +179,8 @@
         }
 
         .qr_code {
-            width: 70px;
-            height: 70px;
+            width: 90px;
+            height: 90px;
             position: absolute;
             top: 10px;
             right: 10px;
@@ -242,8 +241,21 @@
                     </div>
                     <div class="qr_code">
                         <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png' ?>" />
+                        <div>
+                            <?php echo $ticket->ticket_no ?>
+                        </div>
                     </div>
-                    <a href=" #">tickets</a>
+                    <?php
+                    if ($ticket->is_validated) :
+                    ?>
+                        <a href="#" style="background-color: #037FDD;">Validated</a>
+                    <?php
+                    else :
+                    ?>
+                        <a href="#" style="background-color: #D8DDE0;">Not Validated</a>
+                    <?php
+                    endif;
+                    ?>
                 </section>
             </article>
         </section>

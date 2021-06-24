@@ -326,6 +326,11 @@ class Gigs_model extends CI_Model
 		return $res->row();
 	}
 	
+	function get_ticket_data_by_qr_token($qr_token){
+		$res = $this->db->get_where('tickets', array('qr_token' => $qr_token));
+		return $res->row();
+	}
+	
 	
 	function get_complete_ticket_detail_by_qr_token($qr_token){ 
 	 

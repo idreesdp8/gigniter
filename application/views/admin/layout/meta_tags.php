@@ -24,6 +24,8 @@
 	</script>
 
 	<!-- Theme JS files -->
+	<!-- for Sweet Alert -->
+	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/notifications/sweet_alert.min.js"></script>
 	<!-- for radio buttons -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script>
 	<!-- for switching checkboxes -->

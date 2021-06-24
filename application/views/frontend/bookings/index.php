@@ -15,26 +15,6 @@
             color: black;
             padding: 5px !important;
         } */
-
-        .bundle-pill {
-            padding: 3px 8px;
-            margin: 2px;
-            border-radius: .75rem;
-            font-weight: 600;
-            color: #0e1e5e;
-        }
-
-        .pill-warning {
-            background: #f1c40c;
-        }
-
-        .pill-success {
-            background: #28a745;
-        }
-
-        .pill-danger {
-            background: #e0004d;
-        }
     </style>
 </head>
 

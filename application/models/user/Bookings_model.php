@@ -273,7 +273,7 @@ class Bookings_model extends CI_Model
 	}
 	
 	function get_tickets_by_tierid_cartid($sl_tierid, $sl_cartid){
-		$query = $this->db->query("SELECT ticket_no, qr_token FROM tickets WHERE ticket_tier_id='".$sl_tierid."' AND cart_id='".$sl_cartid."' ");
+		$query = $this->db->query("SELECT * FROM tickets WHERE ticket_tier_id='".$sl_tierid."' AND cart_id='".$sl_cartid."' ");
 		return $query->result(); 
 	}
 }

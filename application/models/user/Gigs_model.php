@@ -515,5 +515,16 @@ class Gigs_model extends CI_Model
 		WHERE t1.gig_id='".$sl_gig_id."' ");
 		return $query->result(); 
 	}
+
+	
+	function get_ticket_data_by_qr_token($qr_token){
+		$res = $this->db->get_where('tickets', array('qr_token' => $qr_token));
+		return $res->row();
+	}
+	
+	function update_tickets_data($args1, $datas) {
+		$this->db->where('id', $args1);
+		return $this->db->update('tickets', $datas);
+	}
 	
 }

@@ -47,7 +47,7 @@
             object-fit: contain;
         }
 
-        .img-wrapper > div {
+        .img-wrapper>div {
             width: 120px;
             margin-bottom: 10px;
         }
@@ -205,6 +205,36 @@
                                                     <span class="card-text">Total Price</span>
                                                     <span class="card-text">$<?php echo $item->price ?></span>
                                                 </div>
+                                                <div class="mt-3 mb-3">
+                                                    <h6 class="card-subtitle mb-2 text-muted">Ticket Validation</h6>
+                                                    <?php
+                                                    if (isset($item->ticket_tier_id)) :
+                                                        $rows = $this->bookings_model->get_tickets_by_tierid_cartid($item->ticket_tier_id, $item->id);
+                                                        if (isset($rows)) :
+                                                            foreach ($rows as $row) :
+                                                    ?>
+                                                                <div class="ticket_info">
+                                                                    <span class="card-text"><?php echo $row->ticket_no ?></span>
+                                                                    <span class="card-text">
+                                                                        <?php
+                                                                        if ($row->is_validated) :
+                                                                        ?>
+                                                                            <span class="bundle-pill pill-success">Yes</span>
+                                                                        <?php
+                                                                        else :
+                                                                        ?>
+                                                                            <span class="bundle-pill pill-warning">No</span>
+                                                                        <?php
+                                                                        endif;
+                                                                        ?>
+                                                                    </span>
+                                                                </div>
+                                                    <?php
+                                                            endforeach;
+                                                        endif;
+                                                    endif;
+                                                    ?>
+                                                </div>
                                                 <?php
                                                 if ($booking->is_paid == 1) :
                                                 ?>
@@ -214,35 +244,36 @@
                                                             <input type="hidden" name="gig_id" value="<?php echo $item->gig_id ?>">
                                                             <input type="hidden" name="ticket_tier_id" value="<?php echo $item->ticket_tier_id ?>">
                                                             <input type="hidden" name="user_id" value="<?php echo $item->user_id ?>">
-                                                            <button type="submit" class="btn btn-success">Download Tickets</button>
+                                                            <button type="submit" class="btn btn-theme-primary">Download Tickets</button>
                                                         </form>
                                                     </div>
-                                                    <?php
-                                                endif;
-                                                if (isset($item->ticket_tier_id)) {
-                                                    $rows = $this->bookings_model->get_tickets_by_tierid_cartid($item->ticket_tier_id, $item->id);
-                                                    if (isset($rows)) { ?>
-                                                        <div class="img-wrapper">
-                                                            <?php
-                                                            foreach ($rows as $row) {
-                                                                if (strlen($row->qr_token) > 0) {
-                                                                    $qr_code_url = '';
-
-                                                                    if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-                                                                        $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
-                                                                    } else {
-                                                                        $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
-                                                                    }   ?>
-                                                                    <div>
-                                                                        <img src="<?php echo $qr_code_url; ?>" style="width:120px; height:120px;">
-                                                                    </div>
-                                                            <?php
-                                                                }
-                                                            } ?>
-                                                        </div>
                                                 <?php
-                                                    }
-                                                } ?>
+                                                endif;
+                                                ?>
+                                                <!-- <?php if (isset($item->ticket_tier_id)) {
+                                                            $rows = $this->bookings_model->get_tickets_by_tierid_cartid($item->ticket_tier_id, $item->id);
+                                                            if (isset($rows)) { ?>
+                                                <div class="img-wrapper">
+                                                    <?php
+                                                                foreach ($rows as $row) {
+                                                                    if (strlen($row->qr_token) > 0) {
+                                                                        $qr_code_url = '';
+
+                                                                        if ($_SERVER['HTTP_HOST'] == "localhost") {
+                                                                            $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
+                                                                        } else {
+                                                                            $qr_code_url = qrcode_url() . "ticket_" . $row->qr_token . ".png";
+                                                                        }   ?>
+                                                            <div>
+                                                                <img src="<?php echo $qr_code_url; ?>" style="width:120px; height:120px;">
+                                                            </div>
+                                                    <?php
+                                                                    }
+                                                                } ?>
+                                                </div>
+                                        <?php
+                                                            }
+                                                        } ?> -->
                                             </div>
                                         </div>
                                     </div>

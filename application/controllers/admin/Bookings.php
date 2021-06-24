@@ -52,7 +52,7 @@ class Bookings extends CI_Controller
 		// $res_nums = $this->general_model->check_controller_method_permission_access('Admin/Users', 'index', $this->dbs_role_id, '1');
 		// if ($res_nums > 0) {
 
-			$data = array();
+		$data = array();
 		if ($this->input->get('gig_id') > 0 && $this->input->get('gig_id') != '') {
 			$data['gig_id'] = $this->input->get('gig_id');
 		}
@@ -105,22 +105,47 @@ class Bookings extends CI_Controller
 		$booking = $this->bookings_model->get_booking_by_id($args1);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$transactions = $this->bookings_model->get_transactions_by_booking_id($booking->id);
+		// echo json_encode($transactions);
+		// die();
 		$account = [];
+		$final_transaction = array();
 		if ($transactions) {
 			foreach ($transactions as $transaction) {
+				$final_transaction['booking_id'] = $transaction->booking_id;
+				if ($transaction->type == 'charge') {
+					$charge_temp = [
+						'charge_id' => $transaction->charge_id,
+						'charge_trx_id' => $transaction->transaction_id,
+						'customer_id' => $transaction->customer_id,
+						'charge_amount' => $transaction->amount,
+						'stripe_fee' => $transaction->stripe_fee,
+						'charged_on' => $transaction->created_on,
+					];
+				}
 				if ($transaction->type == 'transfer') {
+					$transfer_temp = [
+						'transfer_trx_id' => $transaction->transaction_id,
+						'transfer_amount' => $transaction->amount,
+						'transfer_id' => $transaction->transfer_id,
+						'destination_id' => $transaction->destination_id,
+						'admin_fee' => $transaction->admin_fee,
+						'transferred_on' => $transaction->created_on,
+					];
 					$destination = $transaction->user_received;
 					$account = $this->users_model->get_user_by_id($destination);
 				}
 			}
+			$final_transaction = array_merge($final_transaction, $charge_temp);
+			$final_transaction = array_merge($final_transaction, $transfer_temp);
+			// echo json_encode($final_transaction);
+			// echo json_encode(count($final_transaction));
+			// die();
 		}
 		$customer = $this->users_model->get_user_by_id($booking->user_id);
-		// echo json_encode($account->individual);
-		// die();
 		$booking->user_name = $user->fname . ' ' . $user->lname;
 		$data['booking'] = $booking;
 		$data['customer'] = $customer;
-		$data['transactions'] = $transactions;
+		$data['transaction'] = $final_transaction;
 		$data['account'] = $account;
 
 		// echo json_encode($data);
@@ -163,13 +188,15 @@ class Bookings extends CI_Controller
 			foreach ($bookings as $key => $value) {
 				$user = $this->users_model->get_user_by_id($value->user_id);
 				$gig = $this->gigs_model->get_gig_by_id($value->gig_id);
-				$count = $this->bookings_model->get_booking_items_count($value->id);
+				$items = $this->bookings_model->get_booking_items_count($value->id);
 				if ($value->is_paid) {
 					$is_paid_html = '<span class="badge badge-success">Yes</span>';
+					$is_disabled = ' disabled';
 				} else {
 					$is_paid_html = '<span class="badge badge-danger">No</span>';
+					$is_disabled = '';
 				}
-				$checkbox_html = '<input type="checkbox" class="booking-checkbox" value="' . $value->id . '">';
+				$checkbox_html = '<input type="checkbox" class="booking-checkbox" value="' . $value->id . '"' . $is_disabled . '>';
 				$buttons = '
 						<div class="d-flex">
 							<a href="' . admin_base_url() . 'bookings/show/' . $value->id . '" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
@@ -183,7 +210,7 @@ class Bookings extends CI_Controller
 					$value->booking_no,
 					$gig->title,
 					'$' . $value->price,
-					$count,
+					$items->quantity,
 					$is_paid_html,
 					date('M d, Y', strtotime($value->created_on)),
 					$buttons
@@ -195,7 +222,7 @@ class Bookings extends CI_Controller
 		echo json_encode($result);
 	}
 
-	function collect_payment() 
+	function collect_payment()
 	{
 		require_once('application/libraries/stripe-php/init.php');
 		$stripeSecret = $this->config->item('stripe_api_key');
@@ -206,8 +233,10 @@ class Bookings extends CI_Controller
 		} else {
 			$booking_ids = array();
 		}
+		// echo json_encode($booking_ids);
+		// die();
 		$currency = $this->config->item('stripe_currency');
-		if($booking_ids){
+		if ($booking_ids) {
 			foreach ($booking_ids as $booking_id) {
 				$booking = $this->bookings_model->get_booking_by_id($booking_id);
 				// echo $booking->customer_stripe_id;
@@ -222,7 +251,7 @@ class Bookings extends CI_Controller
 						'order_id' => $booking->booking_no
 					)
 				]);
-	
+
 				$chargeJson = $charge->jsonSerialize();
 				// echo json_encode($chargeJson);
 				// die();
@@ -230,7 +259,7 @@ class Bookings extends CI_Controller
 					//order details
 					$this->bookings_model->update_booking_data($booking->id, array('is_paid' => 1));
 					$txn_id = $chargeJson['balance_transaction'];
-					$amount = $chargeJson['amount']/100;
+					$amount = $chargeJson['amount'] / 100;
 					// echo $amount;
 					$stripe_fee = ($amount * .029) + .30; // stripe fee is 2.9% + 30 cents
 					// echo $stripe_fee;
@@ -244,47 +273,48 @@ class Bookings extends CI_Controller
 						'transaction_id' => $txn_id,
 						'user_send' => $booking->user_id,
 						'amount' => $final_amount,
+						'stripe_fee' => $stripe_fee,
 						'type' => $chargeJson['object'],
 						'customer_id' => $chargeJson['customer'],
 						'created_on' => date('Y-m-d H:i:s', $chargeJson['created']),
 					];
-	
+
 					$this->bookings_model->insert_transaction_data($charge_param);
-	
-					$cart_items = $this->bookings_model->get_booking_items($booking->id);
+
+					// $cart_items = $this->bookings_model->get_booking_items($booking->id);
 					//if order inserted successfully
 					if ($payment_status == 'succeeded') {
-						foreach ($cart_items as $item) {
-							$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-							$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
-							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
-							$amount = $item->price - ($item->price * $admin_fee->value / 100);
-							if(!$user_stripe_detail->is_restricted){
-								$transfer = \Stripe\Transfer::create([
-									'amount' => $amount * 100,
-									'currency' => $currency,
-									'destination' => $user_stripe_detail->stripe_account_id,
-								]);
-								$transferJson = $transfer->jsonSerialize();
-								// echo json_encode($transferJson);
-								if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
-									$transfer_param = [
-										'booking_id' => $booking->id,
-										'transfer_id' => $transferJson['id'],
-										'transaction_id' => $transferJson['balance_transaction'],
-										'amount' => $transferJson['amount'] / 100,
-										'type' => $transferJson['object'],
-										'destination_id' => $transferJson['destination'],
-										'user_received' => $gig->user_id,
-										'admin_fee' => $item->price * $admin_fee->value / 100,
-										'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
-									];
-									$this->bookings_model->insert_transaction_data($transfer_param);
-								}
+						// foreach ($cart_items as $item) {
+						$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
+						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
+						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
+						$amount = $booking->price - ($booking->price * $admin_fee->value / 100);
+						if (!$user_stripe_detail->is_restricted) {
+							$transfer = \Stripe\Transfer::create([
+								'amount' => $amount * 100,
+								'currency' => $currency,
+								'destination' => $user_stripe_detail->stripe_account_id,
+							]);
+							$transferJson = $transfer->jsonSerialize();
+							// echo json_encode($transferJson);
+							if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+								$transfer_param = [
+									'booking_id' => $booking->id,
+									'transfer_id' => $transferJson['id'],
+									'transaction_id' => $transferJson['balance_transaction'],
+									'amount' => $transferJson['amount'] / 100,
+									'type' => $transferJson['object'],
+									'destination_id' => $transferJson['destination'],
+									'user_received' => $gig->user_id,
+									'admin_fee' => $final_amount - $amount,
+									'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+								];
+								$this->bookings_model->insert_transaction_data($transfer_param);
 							}
-							// echo json_encode($transfer);
-							// die();
 						}
+						// echo json_encode($transfer);
+						// die();
+						// }
 					}
 				}
 			}

@@ -102,7 +102,7 @@
                                     foreach ($records as $record) {
                                     ?>
                                         <tr>
-                                            <td><input type="checkbox" class="booking-checkbox" value="<?php echo $record->id ?>"></td>
+                                            <td><input type="checkbox" class="booking-checkbox" value="<?php echo $record->id ?>" <?php echo $record->is_paid ? 'disabled' : '' ?>></td>
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->booking_no ?></td>
                                             <td><?php echo $record->gig->title ?></td>
@@ -149,6 +149,12 @@
     <!-- /page content -->
 
     <script>
+        var swalInit = swal.mixin({
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-primary',
+            cancelButtonClass: 'btn btn-light'
+        });
+
         function reload_datatable() {
             var is_paid = $('#is_paid').val();
             var gig_id = $('#gig_id').val();
@@ -200,7 +206,7 @@
                 ]
             });
             $('#check-all').change(function() {
-                $('input:checkbox').not(this).prop('checked', this.checked);
+                $('input:checkbox').not(this).not(":disabled").prop('checked', this.checked);
             })
             $('#collect').click(function() {
                 var ids = [];
@@ -210,7 +216,6 @@
                         ids.push(elem.value)
                     }
                 })
-                console.log(ids)
                 $.ajax({
                     url: base_url + 'bookings/collect_payment',
                     data: {
@@ -219,7 +224,6 @@
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
-                        console.log(resp)
                         if (resp) {
                             $('.datatable-custom').DataTable({
                                 "destroy": true,
@@ -244,6 +248,15 @@
                                 }
                             }).ajax.reload();
                             $('#check-all').prop('checked', false)
+                            swalInit.fire({
+                                type: 'success',
+                                title: 'Payment successfuly collected',
+                            });
+                        } else {
+                            swalInit.fire({
+                                type: 'error',
+                                title: 'Payment not collected',
+                            });
                         }
                     }
                 })

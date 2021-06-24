@@ -150,62 +150,43 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <?php
-                                    if ($booking->is_paid && isset($transactions) && count($transactions) > 0) {
-                                        $total_admin_fee = 0;
-                                        $total_transfer = 0;
+                                    if ($transaction) {
+                                        // $total_admin_fee = 0;
+                                        // $total_transfer = 0;
                                     ?>
                                         <thead>
                                             <tr>
-                                                <th>Order #</th>
+                                                <!-- <th>Order #</th> -->
                                                 <th>Customer</th>
-                                                <th>Amount ($)</th>
+                                                <th>Charged Amount ($)</th>
+                                                <th>Stripe fee ($)</th>
+                                                <th>Received Amount ($)</th>
+                                                <th>Charged Date</th>
                                                 <th>Gig Owner</th>
-                                                <th>Admin fee (%)</th>
-                                                <th>Transfered ($)</th>
-                                                <th>Date</th>
+                                                <th>Transferred Amount ($)</th>
+                                                <th>Admin fee ($)</th>
+                                                <th>Transferred Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                            $i = 1;
-                                            foreach ($transactions as $transaction) {
-                                            ?>
-                                                <tr>
-                                                    <td><?php echo $booking->booking_no ?></td>
-                                                    <?php
-                                                    if ($transaction->type == 'charge') :
-                                                    ?>
-                                                        <td><?php echo $customer->fname . ' ' . $customer->lname ?></td>
-                                                        <td><?php echo '$' . $transaction->amount ?></td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                    <?php
-                                                    else :
-                                                    ?>
-                                                        <!-- <td><?php echo $booking->booking_no ?></td> -->
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td><?php echo isset($account) ? $account->fname . ' ' . $account->lname : '' ?></td>
-                                                        <td><?php echo '$' . $transaction->admin_fee ?></td>
-                                                        <td><?php echo '$' . $transaction->amount ?></td>
-                                                    <?php
-                                                        $total_transfer += $transaction->amount;
-                                                    endif;
-                                                    ?>
-                                                    <td><?php echo date('M d, Y', strtotime($transaction->created_on)) ?></td>
-                                                </tr>
-                                            <?php
-                                                $i++;
-                                                $total_admin_fee += $transaction->admin_fee;
-                                            }
-                                            ?>
                                             <tr>
+                                                <!-- <td><?php echo $booking->booking_no ?></td> -->
+                                                <td><?php echo $customer->fname . ' ' . $customer->lname ?></td>
+                                                <td><?php echo '$' . ($transaction['charge_amount'] + $transaction['stripe_fee']) ?></td>
+                                                <td><?php echo '$' . $transaction['stripe_fee'] ?></td>
+                                                <td><?php echo '$' . $transaction['charge_amount'] ?></td>
+                                                <td><?php echo date('M d, Y', strtotime($transaction['charged_on'])) ?></td>
+                                                <td><?php echo isset($account) ? $account->fname . ' ' . $account->lname : '' ?></td>
+                                                <td><?php echo '$' . $transaction['transfer_amount'] ?></td>
+                                                <td><?php echo '$' . $transaction['admin_fee'] ?></td>
+                                                <td><?php echo date('M d, Y', strtotime($transaction['transferred_on'])) ?></td>
+                                            </tr>
+                                            <!-- <tr>
                                                 <td colspan="4">Total</td>
                                                 <td><?php echo '$' . $total_admin_fee ?></td>
                                                 <td><?php echo '$' . $total_transfer ?></td>
                                                 <td></td>
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     <?php } else { ?>
                                         <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
