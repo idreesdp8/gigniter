@@ -255,7 +255,7 @@
 								<select name="is_paid" id="is_paid" class="form-control" onChange="document.getElementById('datas_form').submit();"> 
 									<option value="-1"> Show All</option>
 									<option value="1" <?php echo (isset($_POST['is_paid']) && $_POST['is_paid'] == 1) ? 'selected="selected"' : ''; ?>> Validated </option>
-									<option value="0" <?php echo (isset($_POST['is_paid']) && $_POST['is_paid'] == 0) ? 'selected="selected"' : ''; ?>> Not Validated </option>
+									<option value="0" <?php echo (isset($_POST['is_paid']) && $_POST['is_paid'] == 0) ? 'selected="selected"' : ''; ?>> Non Validated </option>
 								</select>
 							</div>
 						</div>  
