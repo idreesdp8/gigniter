@@ -153,14 +153,25 @@ class Transactions extends CI_Controller
     //     $this->load->view('admin/transactions/report', $data);
     // }
 
-    public function tickets()
-    {
-        $data['tickets_rows'] = $this->gigs_model->get_gigs_tickets();
+    public function tickets(){ 
+		
+		$data['gigs'] = $this->gigs_model->get_id_title_all_gigs(); 
+		
+		$paras_arrs = array();	
+		if(isset($_POST['gig_id']) && $_POST['gig_id']>0){
+			$paras_arrs = array_merge($paras_arrs, array("gig_id" => $_POST['gig_id']));
+		}
+		
+		if(isset($_POST['is_paid']) && $_POST['is_paid']>=0){
+			$paras_arrs = array_merge($paras_arrs, array("is_paid" => $_POST['is_paid']));
+		} 
+		
+		$data['tickets_rows'] = $this->gigs_model->get_filter_gigs_tickets($paras_arrs);
+		
         $this->load->view('admin/transactions/tickets', $data);
     }
 
-    public function resend_qr_code()
-    {
+    public function resend_qr_code(){
 
         $ticketid = $this->input->post('ticket_id');
         // echo $ticketid;

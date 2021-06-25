@@ -313,11 +313,38 @@ class Gigs_model extends CI_Model
 	}
 	
 	function get_gigs_tickets(){ 
-		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price, t5.is_paid FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 
 		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
 		LEFT JOIN bookings t5 ON t5.id = t1.booking_id ");
+		return $query->result(); 
+	}
+	
+	function get_filter_gigs_tickets($params = array()){ 
+	 
+		$whrs = " where t1.id>'0' "; 
+		if(array_key_exists("gig_id",$params)){
+			$gig_id = $params['gig_id']; 
+			if($gig_id >0){
+				$whrs .=" AND t1.gig_id='$gig_id' ";
+			}
+		} 
+		
+		if(array_key_exists("is_paid",$params)){
+			$is_paid = $params['is_paid']; 
+			if($is_paid==0){
+				$whrs .=" AND t5.is_paid='0' ";
+			}else if($is_paid==1){
+				$whrs .=" AND t5.is_paid='1' ";
+			}
+		} 
+	
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price, t5.is_paid FROM tickets t1
+		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
+		LEFT JOIN users t3 ON t3.id = t1.user_id 
+		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
+		LEFT JOIN bookings t5 ON t5.id = t1.booking_id $whrs ");
 		return $query->result(); 
 	}
 	
@@ -334,7 +361,7 @@ class Gigs_model extends CI_Model
 	
 	function get_complete_ticket_detail_by_qr_token($qr_token){ 
 	 
-		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
+		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price, t5.is_paid FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 
 		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  

@@ -222,61 +222,121 @@
 			</div>
 
 			<div class="card-body"> 
-				
-			<div class="row">  
-			<?php
-				$sr_no = 1;
-				if (isset($tickets_rows)) {
-					foreach ($tickets_rows as $tickets_row) { ?>
-						<article class="card fl-left">
-						  <section class="date">
-							<time datetime="<?php echo date('jS M, Y', strtotime($tickets_row->created_on)); ?>">
-							  <span><?php echo date('d', strtotime($tickets_row->created_on)); ?></span><span><?php echo date('M, y', strtotime($tickets_row->created_on)); ?></span>
-							</time>
-						  </section>
-						  <section class="card-cont">
-							<small><?php echo $tickets_row->ticket_no; ?></small>
-							<h3><?php echo $tickets_row->title; ?></h3>
-							<div class="even-date">
-							 <i class="fa fa-calendar"></i>
-							 <time>
-							   <span><?php echo date('M d, Y H:i A', strtotime($tickets_row->created_on)); ?></span>
-							   <!--<span>08:55pm to 12:00 am</span>-->
-							 </time>
+			 
+				<form name="datas_form" id="datas_form" method="post" action="">
+					<div class="row mt-0 ml-0 mr-0 mb-0 align-items-center"> 
+					   <div class="col-md-1">
+							<div class="form-group"> 
+								<label for="gig_id"> Gig: </label> 
 							</div>
-							<div class="even-info">
-							  <i class="fa fa-map-marker"></i>
-							  <p><?php echo '$ ' . number_format($tickets_row->price, 2, ".", ","); ?></p>
-							  <p>
-								  <?php echo $tickets_row->category; ?> <br />  
-								<?php echo $tickets_row->address; ?> <br />
-								<?php echo $tickets_row->fname . ' ' . $tickets_row->lname; ?> <br />
-								<?php echo $tickets_row->email; ?> <br /> 
-							  </p>
+						</div> 
+						<div class="col-md-3">
+							<div class="form-group"> 
+								<select name="gig_id" id="gig_id" class="form-control" onChange="document.getElementById('datas_form').submit();">
+									<option value="0">Select Option</option>
+									<?php
+									if ($gigs) :
+										foreach ($gigs as $gig) : ?>
+											<option value="<?php echo $gig->id; ?>" <?php echo (isset($_POST['gig_id']) && $_POST['gig_id'] == $gig->id) ? 'selected="selected"' : ''; ?>><?php echo $gig->title; ?></option>
+									<?php
+										endforeach;
+									endif;
+									?>
+								</select>
 							</div>
-							<!--<a href="#">tickets</a>--> 
-							<?php
-								$venues_txt = $tickets_row->venues;
-								$venues_arrs = explode(',', $venues_txt);
-				
-								if (in_array('Physical', $venues_arrs)) { ?>
-									<button type="button" class="btn btn-primary" id="send_ticket" data-ticket_id="<?php echo $tickets_row->ticket_id; ?>">Send Ticket</button>
-								<?php } else {
-									echo 'N/A';
-								} ?>
-						  </section>
-						</article> 
-					<?php
-					echo ($sr_no % 2 == 0) ? '</div> <div class="row">' : ''; 
-					$sr_no++;
+						</div> 
+						<div class="col-md-1">
+							<div class="form-group"> 
+								<label for="is_paid"> Paid: </label> 
+							</div>
+						</div> 
+						<div class="col-md-3">
+							<div class="form-group"> 
+								<select name="is_paid" id="is_paid" class="form-control" onChange="document.getElementById('datas_form').submit();"> 
+									<option value="-1"> Show All</option>
+									<option value="1" <?php echo (isset($_POST['is_paid']) && $_POST['is_paid'] == 1) ? 'selected="selected"' : ''; ?>> Validated </option>
+									<option value="0" <?php echo (isset($_POST['is_paid']) && $_POST['is_paid'] == 0) ? 'selected="selected"' : ''; ?>> Not Validated </option>
+								</select>
+							</div>
+						</div>  
+					</div>
+				</form>					
+						 
+				<div class="row">  
+				<?php
+					$sr_no = 1;
+					if (isset($tickets_rows)) {
+						foreach ($tickets_rows as $tickets_row) { ?>
+							<article class="card fl-left">
+							  <section class="date">
+								<time datetime="<?php echo date('jS M, Y', strtotime($tickets_row->created_on)); ?>">
+								  <span><?php echo date('d', strtotime($tickets_row->created_on)); ?></span><span><?php echo date('M, y', strtotime($tickets_row->created_on)); ?></span>
+								</time>
+							  </section>
+							  <section class="card-cont">
+								<small><?php echo $tickets_row->ticket_no; ?></small>
+								<h3><?php echo $tickets_row->title; ?></h3>
+								<div class="even-date">
+								 <i class="fa fa-calendar"></i>
+								 <time>
+								   <span><?php echo date('M d, Y H:i A', strtotime($tickets_row->created_on)); ?></span>
+								   <!--<span>08:55pm to 12:00 am</span>-->
+								 </time> 
+								</div>
+								<div class="even-info">
+								  <i class="fa fa-map-marker"></i>
+								  <p>
+									<?php echo "Price: ".  ' $ ' . number_format($tickets_row->price, 2, ".", ","); ?>  <br />  
+									<?php echo "Category: ". $tickets_row->category; ?> <br />  
+									<?php echo "Address: ". $tickets_row->address; ?> <br />
+									<?php echo "Name: ". $tickets_row->fname . ' ' . $tickets_row->lname; ?> <br />
+									<?php echo "Email: ". $tickets_row->email; ?> <br /> 
+									
+									<?php if($tickets_row->is_paid == 1) {
+										echo "Paid:  Yes <br />";
+										
+									}else if($tickets_row->is_paid == 0) {
+										echo "Paid:  No <br />";
+										
+									} ?>
+									
+									
+								  </p>
+								</div>
+								<!--<a href="#">tickets</a>--> 
+								<?php
+									$venues_txt = $tickets_row->venues;
+									$venues_arrs = explode(',', $venues_txt);
 					
+									if (in_array('Physical', $venues_arrs)) { ?>
+										<button type="button" class="btn btn-primary" id="send_ticket" data-ticket_id="<?php echo $tickets_row->ticket_id; ?>">Send Ticket</button>
+									<?php } else {
+										echo 'N/A';
+									} ?>
+							  </section>
+							   
+							  <section class="card-cont"> 
+								<div class="even-date"> 
+								 <?php
+									if(strlen($tickets_row->qr_token)>0){ 
+										$qr_code_url = qrcode_url()."ticket_".$tickets_row->qr_token.".png"; ?> 
+										<img src="<?php echo $qr_code_url; ?>" style="width:60px; height:60px;">
+									<?php 
+									}  ?>
+								</div>
+							  </section>
+							</article> 
+						<?php
+						echo ($sr_no % 2 == 0) ? '</div> <div class="row">' : ''; 
+						$sr_no++;
+						
+						}
 					}
-				}
-			
-			if ($sr_no == 1) {  ?>  
-			 <strong>No record found!</strong>  
-			<?php } ?> 	 
-			</div>
+				
+				if ($sr_no == 1) {  ?>  
+				 <strong>No record found!</strong>  
+				<?php } ?> 	 
+				</div>
 			   
 					</div>
 				</div>
