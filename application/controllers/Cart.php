@@ -31,6 +31,7 @@ class Cart extends CI_Controller
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
+		$this->load->model('admin/email_templates_model', 'email_templates_model'); 
 		$perms_arrs = array('role_id' => $vs_role_id);
 		// $this->gig_status_key = 'gig-status';
 		// $this->genre_key = 'genre';
@@ -379,7 +380,7 @@ class Cart extends CI_Controller
 		}
 	}
 	
-	public function sendQRCode_mails($qr_token_arrs)
+	public function sendQRCode_mails($qr_token_arrs = '')
 	{
 		/* $config = Array(
 		  'protocol' => 'smtp',
@@ -397,6 +398,8 @@ class Cart extends CI_Controller
 		$this->load->library('email');
 		$from_name = $this->config->item('from_name');
 		$from_email = $this->config->item('info_email');
+
+		$email = $this->email_templates_model->get_email_templates_by_slug('ticket-purchase');
 
 		$rows = $this->gigs_model->get_tickets_by_qr_code_token($qr_token_arrs);
 		if (isset($rows)) {
@@ -416,13 +419,15 @@ class Cart extends CI_Controller
 					$gig_address = $row->address;
 					$gig_poster = $row->poster;
 
-					$mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
+					// $mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
+					$mail_text = $email->content;
+
 
 					//$this->email->set_newline("\r\n");  
 					$this->email->from($from_email, $from_name);
 
 					$this->email->to($mail_to);
-					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
+					$this->email->subject($email->subject);
 
 					// $this->email->to('hamza0952454@gmail.com');
 					//$this->email->to('younasali22@gmail.com');
