@@ -1,0 +1,7 @@
+
+ALTER TABLE `users` ADD `detail_submitted_flag` TEXT NOT NULL AFTER `status`; 
+
+ALTER TABLE `users` CHANGE `detail_submitted_flag` `detail_submitted_flag` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'restricted'; 
+
+
+http://localhost/gigniter/index.php/account/enable_stripe_account?user_id=55

@@ -83,7 +83,7 @@
                                     <div class="image_div">
                                         <img src="<?php echo $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                                     </div>
-                                    <input type='file' id="image" name="image" accept="image/*" onChange="readURL(this);" data-error="#image1" />
+                                    <input type='file' id="image" name="image" accept="image/*" onchange="readURL(this);" data-error="#image1" />
                                     <label class="profile-edit" for="image">Select a file</label>
                                     <span id="image1" class="text-danger" generated="true">
                                         <?php
@@ -99,15 +99,12 @@
                             <label for="description">Bio</label>
                             <textarea id="description" name="description" class="form-control" rows="3"><?php echo $user->description ?></textarea>
                         </div>
-						  
-                        <div class="row">
-							<div class="col-xl-6">
-								<div class="form-group">
+                        <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" value="<?php echo $user->address ?>" name="address" id="address" data-error="#address1">
                             <span id="address1" class="text-danger"><?php echo form_error('address'); ?></span>
                         </div>
-							</div> 
+                        <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="country_id">Location</label>
@@ -123,13 +120,52 @@
                                         endif;
                                         ?>
                                     </select>
-                                <span id="country_id1" class="text-danger"><?php echo form_error('country_id'); ?></span>
-                               </div>
-                            </div>  
-						  </div>
-							
-						<div class="row">
-                            <div class="col-xl-12"> 
+                                    <span id="country_id1" class="text-danger"><?php echo form_error('country_id'); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="stripe_id" class="w-100">Stripe Email
+                                        <!-- <div class=""> -->
+                                        <span class="<?php echo $user->detail_submitted_flag == 'enabled' ? 'text-success' : 'text-danger' ?>">
+                                            <small>
+                                                <?php
+                                                if ($user->detail_submitted_flag == 'NA') {
+                                                    echo 'No stripe account added';
+                                                } else {
+                                                    echo $user->detail_submitted_flag == 'enabled' ? 'Enabled' : 'Restricted';
+                                                }
+                                                // echo $user->detail_submitted_flag == 'NA' ? 'No stripe account added' : ($user->detail_submitted_flag == true ? 'Enabled' : 'Restricted');
+                                                ?>
+                                            </small>
+                                        </span>
+                                        <span class="float-right">
+                                            <?php
+                                            if ($user->detail_submitted_flag != 'NA') :
+                                            ?>
+                                                <?php
+                                                if ($user->detail_submitted_flag == 'restricted') :
+                                                ?>
+                                                    <small>
+                                                        <a class="link" href="<?php echo user_base_url() . 'account/enable_stripe_account?user_id=' . $user->id ?>" target="_blank">Enable Account</a>
+                                                    </small>
+                                                <?php
+                                                endif;
+                                                ?>
+                                            <?php
+                                            endif;
+                                            ?>
+                                        </span>
+                                        <!-- </div> -->
+                                    </label>
+                                    <input type="text" value="<?php echo $user->stripe_id ?>" name="stripe_id" id="stripe_id" data-error="#stripe_id1">
+                                    <span id="stripe_id1" class="text-danger"><?php echo form_error('stripe_id'); ?></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <!-- <div class="form-group">
+                                    <label>Social urls</label>
+                                </div> -->
                                 <h6>Social urls</h6>
                             </div>
                             <div class="col-xl-6">
@@ -160,10 +196,8 @@
                             <div class="col-xl-3">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i> Update</button>
                             </div>
-						</div> 
-						
-                    </form> 
-					<!-- </div> -->
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -95,13 +95,20 @@ class Users_model extends CI_Model
 		$ress = $this->db->insert('user_stripe_details', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}
+	
+	function update_user_stripe_data($args2, $data){ 
+		$this->db->where('id',$args2);
+		return $this->db->update('user_stripe_details', $data);
+	}
 
 	function trash_user_stripe_details($args2)
 	{
 		$this->db->where('user_id', $args2);
 		$this->db->delete('user_stripe_details');
 		return true;
-	}
+	} 
+	 
+	
 
 	function get_social_links($args1)
 	{
@@ -168,5 +175,5 @@ class Users_model extends CI_Model
 	{
 		$query = $this->db->get_where('users', array('email' => $email));
 		return $query->row();
-	}
+	} 
 }

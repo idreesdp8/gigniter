@@ -471,7 +471,7 @@ class Account extends CI_Controller
 				
 				if(isset($data["row"])){
 				
-					$updation_query = $this->users_model->update_user_stripe_data($data["row"]->id, array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id));
+					$updation_query = $this->users_model->update_user_stripe_data($data["row"]->id, array('stripe_id' => $stripe_id, 'stripe_account_id' =>  $stripe_account_id));
 					
 					if($updation_query){ 
 						$this->session->set_flashdata('success_msg', 'Stripe Account info updated successfully!');
@@ -484,7 +484,7 @@ class Account extends CI_Controller
 					
 				}else{
 				
-					$insertion_query = $this->users_model->insert_user_stripe_details($args2, array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id, 'user_id' =>  $usrid, 'is_restricted' =>  '0'));
+					$insertion_query = $this->users_model->insert_user_stripe_details($args2, array('stripe_id' => $stripe_id, 'stripe_account_id' =>  $stripe_account_id, 'user_id' =>  $usrid, 'is_restricted' =>  '0'));
 					
 					if($insertion_query){ 
 						$this->session->set_flashdata('success_msg', 'Stripe Account info saved successfully!');
@@ -504,25 +504,29 @@ class Account extends CI_Controller
 		}else{ 
 		
 			$this->load->view('frontend/account/edit_stripe_account', $data);
-		} 
+		}
+		
 	}
-	  
-	public function edit_profile($user_id = ''){ 
-	
+
+	public function edit_profile($user_id = '')
+	{
 		if (isset($_POST) && !empty($_POST)) {
 			// echo json_encode($_POST);
 			// echo json_encode($_FILES);
 			// die();
-			$data = $_POST; 
+			$data = $_POST;
+
 			// form validation 
 			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
 			$this->form_validation->set_rules("lname", "Last Name", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
-				$this->load->view('frontend/account/profile', $data); 
-				//$this->load->view('frontend/account/profile');
-				//redirect('admin/users/update/' . $data['id']);
+				if (isset($_SESSION['error_msg'])) {
+					unset($_SESSION['error_msg']);
+				}
+				// $this->load->view('frontend/account/profile');
+				redirect('admin/users/update/' . $data['id']);
 			} else {
 
 				$social_links = [];
@@ -588,8 +592,8 @@ class Account extends CI_Controller
 					}
 					if (strlen($prf_img_error) > 0) {
 						$this->session->set_flashdata('prof_img_error', $prf_img_error);
-						//redirect('account/profile');
-						$this->load->view('frontend/account/profile', $data); 
+						redirect('account/profile');
+						// $this->load->view('admin/users/add', $data);
 					}
 				}
 				$res = $this->users_model->update_user_data($data['id'], $datas);
@@ -606,12 +610,26 @@ class Account extends CI_Controller
 						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
 						'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
 					);
-					$this->session->set_userdata($cstm_sess_data); 
+					$this->session->set_userdata($cstm_sess_data);
+					$stripe_id = $this->input->post('stripe_id');
+					$stripe_details = $this->users_model->get_user_stripe_details($data['id']);
+					if ($stripe_details->stripe_id != $stripe_id) {
+						$this->users_model->trash_user_stripe_details($data['id']);
+						if ($stripe_id) {
+							$account = $this->create_user_stripe_account($stripe_id);
+							$temp = [
+								'user_id' => $data['id'],
+								'stripe_id' => $stripe_id,
+								'stripe_account_id' => $account->id,
+							];
+							$this->users_model->insert_user_stripe_details($temp);
+						}
+					}
 					// echo json_encode($stripe_details);
 					// die();
-					$this->session->set_flashdata('success_msg', 'Profile data updated successfully!');
+					$this->session->set_flashdata('success_msg', 'User updated successfully!');
 				} else {
-					$this->session->set_flashdata('error_msg', 'Error: while updating Profile data!');
+					$this->session->set_flashdata('error_msg', 'Error: while updating user!');
 				}
 
 				redirect("account/profile");
@@ -620,7 +638,9 @@ class Account extends CI_Controller
 			if($user_id == '' || $this->dbs_user_id != $user_id) {
 				redirect('/');
 			}
-			
+			// if() {
+			// 	redirect('/');
+			// }
 			$user = $this->users_model->get_user_by_id($user_id);
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
