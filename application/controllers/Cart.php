@@ -94,7 +94,7 @@ class Cart extends CI_Controller
 		} else {
 			$uri = uri_string();
 			$this->session->set_userdata('redirect', $uri);
-			redirect('login');
+			redirect('signin');
 		}
 	}
 
