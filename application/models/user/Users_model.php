@@ -85,7 +85,7 @@ class Users_model extends CI_Model
 	}
 
 	function get_user_stripe_details($args1)
-	{
+	{ 
 		$query = $this->db->get_where('user_stripe_details', array('user_id' => $args1));
 		return $query->row();
 	}
