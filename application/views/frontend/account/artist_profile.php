@@ -30,6 +30,9 @@
                     if ($this->session->userdata('us_id') == $user->id) :
                     ?>
                         <div class="col-md-12 mt-5 text-right">
+                            <a href="<?php echo user_base_url() . 'account/edit_stripe_account/' . $user->id ?>" type="button" class="btn btn-theme-primary">Edit Stripe Account</a>
+
+
                             <a href="<?php echo user_base_url() . 'account/edit_profile/' . $user->id ?>" type="button" class="btn btn-theme-primary">Edit Profile</a>
                         </div>
                     <?php
