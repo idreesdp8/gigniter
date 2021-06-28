@@ -54,8 +54,17 @@ class Bookings extends CI_Controller
 			if ($cart_items) {
 				$temp_gig_titles = array();
 				$temp_tickets_titles = array();
+				$now = strtotime('now');
 				foreach ($cart_items as $item) {
 					$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+					$gig_date = strtotime($gig->gig_date);
+					// $gig_date = new DateTime($gig->gig_date);
+					// $interval = $gig_date->diff($now);
+					// $gig->days_left = $interval->format('%a');
+					// echo json_encode($interval);
+					// echo ($interval->h);
+					$interval = $gig_date - $now;
+					$hours = round($interval/3600, 0);
 					$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 					$temp_gig_titles[] = $gig->title;
 					$temp_gig_ids[] = $gig->id;
@@ -67,6 +76,7 @@ class Bookings extends CI_Controller
 			}
 			// $booking->transaction = $transaction;
 			$booking->gig_name = $gig_name;
+			$booking->hours = $hours;
 			$booking->gig_id = $gig_id;
 			$booking->ticket_names = $ticket_names;
 		}

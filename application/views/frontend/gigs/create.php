@@ -595,17 +595,8 @@
           }).then((willDelete) => {
             if (willDelete) {
               $(this).prop('checked', false)
-              // swal({
-              //   icon: 'error',
-              //   title: resp.message,
-              // });
             } else {
               $(this).prop('checked', true)
-              // swal({
-              //   icon: 'info',
-              //   title: 'Your Item is not removed!',
-              // });
-              // swal("Your Item is not removed!");
             }
           });
         }
