@@ -134,7 +134,7 @@ class Account extends CI_Controller
 				$password = $this->general_model->safe_ci_encoder($password);
 				$role = $this->roles_model->get_role_by_name('User');
 				$created_on = date('Y-m-d H:i:s');
-				$status = 1;
+				$status = 0;
 				$datas = array(
 					'email' => $email,
 					'password' => $password,
@@ -149,32 +149,32 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
-					// echo json_encode($result);
-					// die();
-					$role = $this->roles_model->get_role_by_id($result->role_id);
-					// set session	
-					$cstm_sess_data = array(
-						'us_login' => TRUE,
-						'us_id' => $result->id,
-						'us_role_id' => $result->role_id,
-						'us_username' => ($result->username ? ucfirst($result->username) : ''),
-						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
-						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-						'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
-						'us_email' => $result->email,
-						'us_role_name' => $role->name,
-					);
+					// // echo json_encode($result);
+					// // die();
+					// $role = $this->roles_model->get_role_by_id($result->role_id);
+					// // set session	
+					// $cstm_sess_data = array(
+					// 	'us_login' => TRUE,
+					// 	'us_id' => $result->id,
+					// 	'us_role_id' => $result->role_id,
+					// 	'us_username' => ($result->username ? ucfirst($result->username) : ''),
+					// 	'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+					// 	'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
+					// 	'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
+					// 	'us_email' => $result->email,
+					// 	'us_role_name' => $role->name,
+					// );
 
-					$this->session->set_userdata($cstm_sess_data);
+					// $this->session->set_userdata($cstm_sess_data);
 
-					$this->load->view('frontend/account/account_verified');
-					// $is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
-					// if ($is_sent) {
-					// 	$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
-					// } else {
-					// 	$this->session->set_flashdata("error_msg", "You have encountered an error");
-					// }
-					// $this->load->view('frontend/account/verfication_page');
+					// $this->load->view('frontend/account/account_verified');
+					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					if ($is_sent) {
+						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					} else {
+						$this->session->set_flashdata("error_msg", "You have encountered an error");
+					}
+					$this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('signup');
