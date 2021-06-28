@@ -57,6 +57,7 @@
                         endif;
                         if ($gig->is_approved) :
                         ?>
+                            <a href="<?php echo user_base_url() . 'transactions/tickets/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">tickets</a>
                             <a href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">purchases</a>
                         <?php
                         endif;

@@ -79,7 +79,14 @@
                                                 </a>
                                             </td>
                                             <td><span class="badge badge-secondary badge-pill"><?php echo $record->gig_names ?></span></td>
-                                            <td><?php echo '$' . $record->amount ?></td>
+                                            <td>
+                                                <?php
+                                                if ($record->type == 'charge')
+                                                    echo '$' . $record->booking->price;
+                                                if ($record->type == 'transfer')
+                                                    echo '$' . $record->amount;
+                                                ?>
+                                            </td>
                                             <td><?php echo '$' . $record->stripe_fee ?></td>
                                             <td>
                                                 <?php
@@ -133,9 +140,9 @@
 
     <script>
         $(document).ready(function() {
-			$('#sidebar_transaction').addClass('nav-item-open');
-			$('#sidebar_transaction ul').first().css('display', 'block');
-			$('#sidebar_transaction_view a').addClass('active');
+            $('#sidebar_transaction').addClass('nav-item-open');
+            $('#sidebar_transaction ul').first().css('display', 'block');
+            $('#sidebar_transaction_view a').addClass('active');
         });
     </script>
 </body>

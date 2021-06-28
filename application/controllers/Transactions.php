@@ -117,12 +117,55 @@ class Transactions extends CI_Controller
             $gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
             // $gig->booked = 100;
             $data['gig'] = $gig; 
-			 
-			$data['tickets_rows'] = $this->gigs_model->get_tickets_by_gigid($args1);
 
             // echo json_encode($gig);
             // die();
             $this->load->view('frontend/transactions/show', $data);
         }
+    }
+
+    public function tickets($gig_id = '')
+    {
+        if($gig_id != '') {
+            $params['gig_id'] = $gig_id;
+            $gig = $this->gigs_model->get_gig_by_id($gig_id);
+            $data['gig'] = $gig; 
+            $data['tickets_rows'] = $this->gigs_model->get_filter_gigs_tickets($params);
+            $this->load->view('frontend/transactions/tickets', $data);
+        } else {
+            redirect('my_gigs');
+        }
+    }
+    public function send_ticket()
+    {
+        $ticket_token = $this->input->post('ticket_token');
+        $ticket = $this->gigs_model->get_ticket_data_by_qr_token($ticket_token);
+        $user = $this->users_model->get_user_by_id($ticket->user_id);
+        
+        $this->load->library('email');
+        $from_email = $this->config->item('info_email');
+        $from_name = $this->config->item('from_name');
+
+        $data['link'] = user_base_url() . 'bookings/download_tickets?user_id='.$ticket->user_id.'&gig_id='.$ticket->gig_id.'&booking_id='.$ticket->booking_id.'&ticket_tier_id='.$ticket->ticket_tier_id;
+        $msg = $this->load->view('email/ticket_download', $data, TRUE);
+
+        $this->email->from($from_email, $from_name);
+        $this->email->to($user->email);
+        $this->email->subject('Download Ticket');
+        $this->email->message($msg);
+
+
+        if ($this->email->send()) {
+            $resp = [
+                'status' => true,
+                'message' => 'Ticket has been sent!'
+            ];
+        } else {
+            $resp = [
+                'status' => false,
+                'message' => json_encode($this->email->print_debugger())
+            ];
+        }
+        echo json_encode($resp);
     }
 }
