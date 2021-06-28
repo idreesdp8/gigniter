@@ -16,6 +16,10 @@
     #video {
       border: 0px;
     }
+
+    .align-items-flex-end {
+      align-items: flex-end;
+    }
   </style>
 </head>
 
@@ -229,7 +233,18 @@
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-flex-end">
+                    <label>
+                      <div class="mycheckbox-contain">
+                        <div class="allow-overshoot">
+                          <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1" checked>
+                          <label for="myCheckbox-allow_overshoot">Allow overshoot</label>
+                          <span></span>
+                        </div>
+                        <span id="is_overshoot1" class="text-danger" generated="true"><?php echo form_error('is_overshoot'); ?></span>
+                      </div>
+                    </label>
+                  </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
@@ -259,16 +274,8 @@
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="mycheckbox-contain">
-                      <div class="allow-overshoot">
-                        <input id="myCheckbox-allow_overshoot" type="checkbox" name="is_overshoot" value="1">
-                        <label for="myCheckbox-allow_overshoot">Allow overshoot</label>
-                        <span></span>
-                      </div>
-                      <span id="is_overshoot1" class="text-danger" generated="true"><?php echo form_error('is_overshoot'); ?></span>
-                    </div>
-                  </div>
+                  <!-- <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                  </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
                 </div>
                 <div class="row">
@@ -385,18 +392,18 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Email
-                  <?php
-                  if($this->session->userdata('us_id')) :
-                    ?>
-                    <div><?php echo isset($user) ? $user->email : null ?></div>
-                    <?php
-                    else :
+                      <?php
+                      if ($this->session->userdata('us_id')) :
                       ?>
-                      <input type="email" id="email" name="email" required="required">
-                      <span class="email_error text-danger"></span>
-                    <?php
-                    endif;
-                    ?>
+                        <div><?php echo isset($user) ? $user->email : null ?></div>
+                      <?php
+                      else :
+                      ?>
+                        <input type="email" id="email" name="email" required="required">
+                        <span class="email_error text-danger"></span>
+                      <?php
+                      endif;
+                      ?>
                     </label>
                   </div>
                   <?php
@@ -481,7 +488,8 @@
                       <input type="text" id="stripe" name="stripe" value="<?php echo isset($user) ? $user->stripe : null ?>"" <?php !$this->session->userdata('us_id') ? 'required="required"' : '' ?>>
                     </label>
                   </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12"></div>
+                  <div class=" col-lg-6 col-md-6 col-sm-12 col-12">
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
@@ -573,6 +581,35 @@
     }
 
     $(document).ready(function() {
+
+      $('#myCheckbox-allow_overshoot').click(function() {
+        if ($(this).is(':checked')) {
+
+        } else {
+          swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            buttons: ["No", "Yes"],
+          }).then((willDelete) => {
+            if (willDelete) {
+              $(this).prop('checked', false)
+              // swal({
+              //   icon: 'error',
+              //   title: resp.message,
+              // });
+            } else {
+              $(this).prop('checked', true)
+              // swal({
+              //   icon: 'info',
+              //   title: 'Your Item is not removed!',
+              // });
+              // swal("Your Item is not removed!");
+            }
+          });
+        }
+      })
 
       $('#start_gig_menu').addClass('active');
 
