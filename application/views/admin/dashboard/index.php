@@ -98,7 +98,7 @@
 								<div class="d-flex">
 									<div>
 										<div class="d-flex">
-											<h3 class="font-weight-semibold mb-0"><?php echo '$' . $transaction->admin_fee ?></h3>
+											<h3 class="font-weight-semibold mb-0"><?php echo $transaction->admin_fee == null ? '$0' :  '$' .$transaction->admin_fee ?></h3>
 											<!-- <span class="badge bg-teal-800 badge-pill align-self-center ml-auto">+53,6%</span> -->
 										</div>
 										<div>
