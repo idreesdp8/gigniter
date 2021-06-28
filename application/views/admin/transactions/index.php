@@ -57,6 +57,7 @@
                                         <th>Order #</th>
                                         <th>Gig</th>
                                         <th>Amount</th>
+                                        <th>Stripe Fee</th>
                                         <th>Transaction Type</th>
                                         <th>User</th>
                                         <!-- <th>Account Type</th> -->
@@ -79,6 +80,7 @@
                                             </td>
                                             <td><span class="badge badge-secondary badge-pill"><?php echo $record->gig_names ?></span></td>
                                             <td><?php echo '$' . $record->amount ?></td>
+                                            <td><?php echo '$' . $record->stripe_fee ?></td>
                                             <td>
                                                 <?php
                                                 if ($record->type == 'charge')
