@@ -1289,6 +1289,7 @@ class Gigs extends CI_Controller
 
 	function filter_my_gigs()
 	{
+		$prev_completed = $this->gigs_model->check_completed_gig_by_user_id($this->dbs_user_id);
 		$status = $this->input->post("status");
 		$search = $this->input->post("search");
 		$param = array();
@@ -1340,6 +1341,7 @@ class Gigs extends CI_Controller
 			}
 		}
 		$data['gigs'] = $gigs;
+		$data['prev_completed'] = $prev_completed;
 		// echo json_encode($data);
 		// die();
 
