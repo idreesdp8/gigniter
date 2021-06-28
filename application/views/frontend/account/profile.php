@@ -49,10 +49,10 @@
                 <div class="account-area" style="max-width: 100%;">
                     <?php $this->load->view('alert/alert'); ?>
                     <div class="section-header-3">
-                        <span class="theme-primary-color cate">profile</span>
+                        <span class="theme-primary-color cate">Profile</span>
                         <!-- <h2 class="title">to Gigniter </h2> -->
                     </div>
-                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/edit_profile'); ?>" method="post" enctype="multipart/form-data">
+                    <form class="account-form" id="datas_form" action="<?php echo site_url('account/edit_profile/'. $user_id ); ?>" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-xl-6">
                                 <input type="hidden" name="id" value="<?php echo $user->id ?>">

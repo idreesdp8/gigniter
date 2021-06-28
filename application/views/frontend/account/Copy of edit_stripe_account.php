@@ -57,7 +57,7 @@
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="stripe_id" class="w-100">Stripe Email  
-										<span style="display:none" class="<?php echo ($user->detail_submitted_flag == 'enabled') ? 'text-success' : 'text-danger' ?>">
+										<span class="<?php echo ($user->detail_submitted_flag == 'enabled') ? 'text-success' : 'text-danger' ?>">
                                             <small>
                                                 <?php
                                                 if ($user->detail_submitted_flag == 'NA') {
@@ -67,7 +67,7 @@
                                                 }  ?>
                                             </small>
                                         </span>
-										<span style="display:none" class="float-right">
+										<span class="float-right">
 										<?php  //enable_stripe_account
 											if ($user->detail_submitted_flag == 'restricted'){ ?>
 												<small>
@@ -79,14 +79,20 @@
 									</label>
                                     <input type="text" value="<?php echo isset($row) ? $row->stripe_id : ''; ?>" name="stripe_id" id="stripe_id" data-error="#stripe_id1" /> <span id="stripe_id1" class="text-danger"> <?php echo form_error('stripe_id'); ?> </span>
                                 </div>
-                            </div>  
+                            </div>   
+							<div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="stripe_account_id" class="w-100">Stripe Account ID </label>
+                                    <input type="text" value="<?php echo isset($row) ? $row->stripe_account_id : ''; ?>" name="stripe_account_id" id="stripe_account_id" data-error="#stripe_account_id1" /> <span id="stripe_account_id1" class="text-danger"> <?php echo form_error('stripe_account_id'); ?> </span>
+                                </div>
+                            </div>
 							
 						  </div>	
-						  <div class="row"> 	 
+						  <div class="row"> 	
+                            <div class="col-xl-9"> </div>
                             <div class="col-xl-3">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i> Update</button>
                             </div>
-							<div class="col-xl-9"> </div>
                         </div>
                     </form>
                 </div>
