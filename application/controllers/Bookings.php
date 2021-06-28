@@ -58,11 +58,6 @@ class Bookings extends CI_Controller
 				foreach ($cart_items as $item) {
 					$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 					$gig_date = strtotime($gig->gig_date);
-					// $gig_date = new DateTime($gig->gig_date);
-					// $interval = $gig_date->diff($now);
-					// $gig->days_left = $interval->format('%a');
-					// echo json_encode($interval);
-					// echo ($interval->h);
 					$interval = $gig_date - $now;
 					$hours = round($interval/3600, 0);
 					$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
@@ -99,8 +94,12 @@ class Bookings extends CI_Controller
 		$transaction = $this->bookings_model->get_charged_transaction_by_booking_id($booking->id);
 		$cart_items = $this->bookings_model->get_booking_items($booking->id);
 		$customer = $this->users_model->get_user_by_id($booking->user_id);
+		$now = strtotime('now');
 		foreach ($cart_items as $item) {
 			$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+			$gig_date = strtotime($gig->gig_date);
+			$interval = $gig_date - $now;
+			$hours = round($interval/3600, 0);
 			$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
 			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
@@ -119,6 +118,7 @@ class Bookings extends CI_Controller
 			$item->ticket = $ticket;
 		}
 		$booking->items = $cart_items;
+		$booking->hours = $hours;
 		$booking->customer = $customer;
 		$booking->transaction = $transaction;
 		$data['booking'] = $booking;

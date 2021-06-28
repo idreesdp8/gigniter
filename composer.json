@@ -14,7 +14,8 @@
 		"php": ">=5.3.7",
 		"picqer/php-barcode-generator": "^2.2",
 		"php-ffmpeg/php-ffmpeg": "^0.18.0",
-		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2"
+		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2",
+		"dompdf/dompdf": "^1.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

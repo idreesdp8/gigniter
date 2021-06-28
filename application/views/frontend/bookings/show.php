@@ -78,7 +78,7 @@
                     <div class="checkout-widget checkout-contact">
                         <h5 class="title">Order Details
                             <?php
-                            if ($booking->is_paid == 0) :
+                            if (!$booking->is_paid == 0 || !$booking->hours > 48) :
                             ?>
                                 <a type="button" class="btn btn-danger ml-2 float-right" href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id; ?>">Cancel Order</a>
                             <?php

@@ -344,11 +344,11 @@ class Cart extends CI_Controller
 				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
-			// $is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
-
-
+			
+			
 			if ($is_physical_gig == 1 && count($qr_token_arrs) > 0) {
-				$is_sent = $this->send_ticket_mails($qr_token_arrs, $email_to, 'Booking Done');
+				$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
+				// $is_sent = $this->send_ticket_mails($qr_token_arrs, $email_to, 'Booking Done');
 			} else {
 				$is_sent = false;
 			}
@@ -387,7 +387,7 @@ class Cart extends CI_Controller
 
 	public function send_ticket_mails($qr_token_arrs, $email_to, $subject)
 	{
-		include('pdf.php');
+		require 'vendor/autoload.php';
 
 		$this->load->library('email');
 		$from_name = $this->config->item('from_name');
@@ -418,8 +418,8 @@ class Cart extends CI_Controller
 
 				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
-				$pdf = new Pdf();
-				$pdf->load_html($html_code);
+				$pdf = new Dompdf\Dompdf();
+				$pdf->loadHtml($html_code);
 				$pdf->render();
 				$file = $pdf->output();
 				file_put_contents($file_name, $file);
@@ -794,5 +794,23 @@ class Cart extends CI_Controller
 	function thankyou()
 	{
 		$this->load->view('frontend/cart/thankyou');
+	}
+
+	function pdf_test()
+	{
+		require 'vendor/autoload.php';
+
+		$html = $this->load->view('email/ticket_purchase', '', TRUE);
+		$dompdf = new Dompdf\Dompdf();
+		$dompdf->loadHtml($html);
+		
+		// (Optional) Setup the paper size and orientation
+		$dompdf->setPaper('A4', 'portrait');
+		
+		// Render the HTML as PDF
+		$dompdf->render();
+		
+		// Output the generated PDF to Browser
+		$dompdf->stream();
 	}
 }
