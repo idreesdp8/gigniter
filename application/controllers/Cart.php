@@ -66,30 +66,36 @@ class Cart extends CI_Controller
 
 	public function book_tier($gig_id = '')
 	{
-		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
-		if ($this->dbs_user_id == $data['gig']->user_id) {
-			redirect('/');
-		}
-		$data['venues'] = [];
-		if ($data['gig']->venues) {
-			$data['venues'] = explode(',', $data['gig']->venues);
-		}
-		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
-		foreach ($tiers as $tier) {
-			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
-			$tier->image = '';
-			if ($tier->bundles) {
-				foreach ($tier->bundles as $bundle) {
-					if ($tier->image == '') {
-						$tier->image = $bundle->image;
+		if ($this->dbs_user_id) {
+			$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+			if ($this->dbs_user_id == $data['gig']->user_id) {
+				redirect('/');
+			}
+			$data['venues'] = [];
+			if ($data['gig']->venues) {
+				$data['venues'] = explode(',', $data['gig']->venues);
+			}
+			$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+			foreach ($tiers as $tier) {
+				$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+				$tier->image = '';
+				if ($tier->bundles) {
+					foreach ($tier->bundles as $bundle) {
+						if ($tier->image == '') {
+							$tier->image = $bundle->image;
+						}
 					}
 				}
 			}
+			$data['tiers'] = $tiers;
+			// echo json_encode($tiers);
+			// die();
+			$this->load->view('frontend/cart/book_ticket', $data);
+		} else {
+			$uri = uri_string();
+			$this->session->set_userdata('redirect', $uri);
+			redirect('login');
 		}
-		$data['tiers'] = $tiers;
-		// echo json_encode($tiers);
-		// die();
-		$this->load->view('frontend/cart/book_ticket', $data);
 	}
 
 	public function add()
@@ -408,8 +414,10 @@ class Cart extends CI_Controller
 				$row->user = $user;
 				$row->owner = $owner;
 
+				$datas['tickets'] = [$row];
+
 				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
-				$html_code = $this->load->view('frontend/bookings/download_tickets', $data, TRUE);
+				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 				$pdf = new Pdf();
 				$pdf->load_html($html_code);
 				$pdf->render();
