@@ -359,7 +359,7 @@ class Cart extends CI_Controller
 				$is_sent = false;
 			}*/
 			// exit;
-			if ($is_sent) {
+			if (true) {
 				$this->cart->destroy();
 				// redirect('cart/checkout');
 				// redirect('cart/thankyou');
