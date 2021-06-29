@@ -110,6 +110,8 @@ class Bookings extends CI_Controller
 		$account = [];
 		$final_transaction = array();
 		if ($transactions) {
+			$transfer_temp = array();
+			$charge_temp = array();
 			foreach ($transactions as $transaction) {
 				$final_transaction['booking_id'] = $transaction->booking_id;
 				if ($transaction->type == 'charge') {

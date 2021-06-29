@@ -233,30 +233,30 @@
                     method: 'post',
                     dataType: 'json',
                     success: function(resp) {
-                        if (resp) {
-                            $('.datatable-custom').DataTable({
-                                "destroy": true,
-                                "columnDefs": [{
-                                    "orderable": false,
-                                    "targets": 0
-                                }],
-                                "order": [
-                                    [1, 'asc']
-                                ],
-                                "ajax": {
-                                    "url": base_url + 'bookings/reload_datatable',
-                                    "type": "POST",
-                                    "data": {},
-                                    dataType: 'json',
-                                },
-                                dataSrc: function(json) {
-                                    if (json.tableData === null) {
-                                        return [];
-                                    }
-                                    return json.tableData;
+                        $('.datatable-custom').DataTable({
+                            "destroy": true,
+                            "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }],
+                            "order": [
+                                [1, 'asc']
+                            ],
+                            "ajax": {
+                                "url": base_url + 'bookings/reload_datatable',
+                                "type": "POST",
+                                "data": {},
+                                dataType: 'json',
+                            },
+                            dataSrc: function(json) {
+                                if (json.tableData === null) {
+                                    return [];
                                 }
-                            }).ajax.reload();
-                            $('#check-all').prop('checked', false)
+                                return json.tableData;
+                            }
+                        }).ajax.reload();
+                        $('#check-all').prop('checked', false)
+                        if (resp) {
                             swalInit.fire({
                                 type: 'success',
                                 title: 'Payment successfuly collected',
