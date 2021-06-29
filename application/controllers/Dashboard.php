@@ -54,7 +54,9 @@ class Dashboard extends CI_Controller
 		if ($featured_gigs) {
 			foreach ($featured_gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
@@ -72,7 +74,9 @@ class Dashboard extends CI_Controller
 		if ($just_in) {
 			foreach ($just_in as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
@@ -90,7 +94,9 @@ class Dashboard extends CI_Controller
 		if ($closing_soon) {
 			foreach ($closing_soon as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
@@ -108,7 +114,9 @@ class Dashboard extends CI_Controller
 		if ($now_showing) {
 			foreach ($now_showing as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
@@ -126,7 +134,9 @@ class Dashboard extends CI_Controller
 		if ($popular) {
 			foreach ($popular as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
@@ -144,7 +154,9 @@ class Dashboard extends CI_Controller
 		if ($FE_gigs) {
 			foreach ($FE_gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
-				$gig->user_name = $user->fname . ' ' . $user->lname;
+				$first_name = $user->fname ?? '';
+				$last_name = $user->lname ?? '';
+				$gig->user_name = $first_name   . ' ' . $last_name;
 				$args = [
 					'key' => $this->genre_key,
 					'value' => $gig->genre
