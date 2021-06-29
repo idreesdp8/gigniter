@@ -227,11 +227,27 @@ class Transactions extends CI_Controller
 
                         $this->email->attach($attched_file);
                         // $this->email->send(); 
-                        if ($this->email->send()) {
+						
+						
+						 if ($this->email->send()) {
+							$resp = [
+								'status' => true,
+								'message' => 'Ticket has been sent!'
+							];
+						} else {
+							$resp = [
+								'status' => false,
+								'message' => json_encode($this->email->print_debugger())
+							];
+						}
+						echo json_encode($resp);
+						
+						
+                       /* if ($this->email->send()) {
                             echo 'Email send.';
                         } else {
                             echo json_encode($this->email->print_debugger());
-                        }
+                        }*/
                         // }
 
                     }

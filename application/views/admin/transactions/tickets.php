@@ -298,7 +298,7 @@
 											$venues_arrs = explode(',', $venues_txt);
 
 											if (in_array('Physical', $venues_arrs)) { ?>
-												<button type="button" class="btn btn-primary" id="send_ticket" data-ticket_id="<?php echo $tickets_row->ticket_id; ?>">Send Ticket</button>
+												<button type="button" class="btn btn-primary send_ticket" id="send_ticket_<?php echo $tickets_row->ticket_id; ?>" data-ticket_id="<?php echo $tickets_row->ticket_id; ?>">Send Ticket</button>
 											<?php } else {
 												echo 'N/A';
 											} ?>
@@ -344,8 +344,11 @@
 			$('#sidebar_transaction ul').first().css('display', 'block');
 			$('#sidebar_transaction_tickets a').addClass('active');
 
-			$('#send_ticket').click(function() {
-				var ticket_id = $(this).data('ticket_id')
+			$('.send_ticket').click(function() {
+				var ticket_id = $(this).data('ticket_id');
+				var send_ticket_id = $(this).attr('id'); 
+				$("#" + send_ticket_id).html('Sending Ticket...');
+				
 				$.ajax({
 					url: base_url + 'transactions/send_ticket',
 					data: {
@@ -353,10 +356,25 @@
 					},
 					method: 'post',
 					success: function(resp) {
-
+						 
+						if (resp.status) {
+							$("#" + send_ticket_id).html('Sent Ticket');
+							
+							swal({
+								icon: 'success',
+								title: resp.message,
+							});
+						} else {
+							$("#" + send_ticket_id).html('Send Ticket');
+							
+							swal({
+								icon: 'error',
+								title: resp.message,
+							});
+						} 
 					}
-				})
-			})
+				});
+			});
 		});
 	</script>
 </body>
