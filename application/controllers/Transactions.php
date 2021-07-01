@@ -100,7 +100,7 @@ class Transactions extends CI_Controller
             foreach ($cart_items as $item) {
                 $user = $this->users_model->get_user_by_id($item->user_id);
                 $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-				if($ticket) {
+				if(isset($ticket->id)) {
 					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id); 
 					$ticket->bundles = $bundles;
 				}else{
@@ -109,7 +109,7 @@ class Transactions extends CI_Controller
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
                 $total_sale += $item->price; 
-                $item->user_name = $user->fname . ' ' . $user->lname;
+                $item->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
                 $item->ticket = $ticket;
                 $item->booking = $booking;
             }
