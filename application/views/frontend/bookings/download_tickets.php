@@ -191,9 +191,9 @@
 	if(isset($tickets)){
 		foreach($tickets as $ticket) { ?> 
 		  <tr style="border-bottom:1px solid #CCCCCC; height:320px;">
-			<td <?php echo ($sr == 1) ? 'width="22%"' : ''; ?> style="vertical-align:top"> 
-			<section class="date">
-			  <time datetime="<?php echo date('d M', strtotime($ticket->gig_date)); ?>"> <span><?php echo date('d', strtotime($ticket->gig_date)); ?></span> <span><?php echo date('M', strtotime($ticket->gig_date)); ?></span> </time> </section> 
+			<td <?php echo ($sr == 1) ? 'width="22%"' : ''; ?> style="vertical-align:middle; text-align:center;"> 
+				<h3 style="font-weight:bolder; font-size:24px;"><?php echo date('d', strtotime($ticket->gig_date)); ?> </h5> 
+				<h5 style="font-weight:bold; font-size:20px;"><?php echo date('M', strtotime($ticket->gig_date)); ?> </h5>
 	 		</td>
 			<td <?php echo ($sr == 1) ? 'width="42%"' : ''; ?> style="vertical-align:top"> 
 				<section class="card-cont"> <small><?php echo $ticket->fname . ' ' . $ticket->lname;  ?></small>
