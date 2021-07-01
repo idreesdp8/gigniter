@@ -48,7 +48,7 @@
 		<div class="container">
 			<div class="text-box text-center">
 				<h2 class="exlpore-title">Payment Details</h2>
-				<h5 class="explore-subtitle">Gig Title: <?php echo $gig->title ?? '' ?></h5>
+				<h5 class="explore-subtitle">Gig Title: <?php echo $gig->title ?? ''; ?></h5>
 			</div>
 		</div>
 	</section>
@@ -67,39 +67,39 @@
 								<div class="row">
 									<div class="col-lg-4">
 										<h6>Gig Title</h6>
-										<p><?php echo $gig->title ?></p>
+										<p><?php echo $gig->title; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Quantity</h6>
-										<p><?php echo $gig->ticket_limit ?></p>
+										<p><?php echo $gig->ticket_limit; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Tickets Left</h6>
-										<p><?php echo $gig->ticket_left ?></p>
+										<p><?php echo $gig->ticket_left; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Genre</h6>
-										<p><?php echo $gig->genre_label ?></p>
+										<p><?php echo $gig->genre_label; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Category</h6>
-										<p><?php echo $gig->category_label ?></p>
+										<p><?php echo $gig->category_label; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Total Sales</h6>
-										<p><?php echo '$' . $gig->total_sale ?></p>
+										<p><?php echo '$' . $gig->total_sale; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Venue(s)</h6>
-										<p><?php echo $gig->venues ?></p>
+										<p><?php echo $gig->venues; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Status</h6>
-										<p><?php echo $gig->status_label ?></p>
+										<p><?php echo $gig->status_label; ?></p>
 									</div>
 									<div class="col-lg-4">
 										<h6>Concert Date</h6>
-										<p><?php echo date('M d,Y', strtotime($gig->gig_date)) ?></p>
+										<p><?php echo date('M d,Y', strtotime($gig->gig_date)); ?></p>
 									</div>
 								</div>
 							</div>
@@ -142,14 +142,15 @@
 												if ($gig->cart_items) {
 													foreach ($gig->cart_items as $key => $value) { ?>
 														<tr>
-															<td><?php echo $key + 1 ?></td>
-															<td><?php echo $value->booking->booking_no ?></td>
+															<td><?php echo $key + 1; ?></td> 
+															<td><?php echo (isset($value->booking->booking_no)) ? $value->booking->booking_no : ''; ?></td>
+															
 															<td><?php echo $value->user_name ?></td>
 															<td><?php echo $value->ticket->name ?? '' ?></td>
 															<td><?php echo (isset($value->ticket->price)) ? '$' . $value->ticket->price : ''; ?></td>
 															<td><?php echo $value->quantity ?></td>
 															<td><?php echo '$' . $value->price ?></td>
-															<td><?php echo date('M d, Y H:i A', strtotime($value->created_on)) ?></td>
+															<td><?php echo date('M d, Y H:i A', strtotime($value->created_on)); ?></td>
 															<td>
 																<?php
 																if ($value->ticket->bundles) {
