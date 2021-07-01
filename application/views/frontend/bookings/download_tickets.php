@@ -190,12 +190,12 @@
 	$sr = 1;
 	if(isset($tickets)){
 		foreach($tickets as $ticket) { ?> 
-		  <tr>
-			<td <?php echo ($sr == 1) ? 'width="25%"' : ''; ?>> 
+		  <tr style="border-bottom:1px solid #CCCCCC;">
+			<td <?php echo ($sr == 1) ? 'width="22%"' : ''; ?> style="vertical-align:top"> 
 			<section class="date">
 			  <time datetime="<?php echo date('d M', strtotime($ticket->gig_date)); ?>"> <span><?php echo date('d', strtotime($ticket->gig_date)); ?></span> <span><?php echo date('M', strtotime($ticket->gig_date)); ?></span> </time> </section> 
 	 		</td>
-			<td <?php echo ($sr == 1) ? 'width="45%"' : ''; ?>> 
+			<td <?php echo ($sr == 1) ? 'width="42%"' : ''; ?> style="vertical-align:top"> 
 				<section class="card-cont"> <small><?php echo $ticket->fname . ' ' . $ticket->lname;  ?></small>
 				  <h3><?php echo $ticket->title ?></h3>
 				  <div class="even-date"> <i class="fa fa-calendar"></i>
@@ -206,7 +206,7 @@
 				  </div> 
 				</section> 
 			</td>
-			<td <?php echo ($sr == 1) ? 'width="30%"' : ''; ?>> 
+			<td <?php echo ($sr == 1) ? 'width="28%"' : ''; ?> style="vertical-align:top"> 
 			<section class="card-cont">   
 			  <div class="qr_code"> <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" />
 				<div> <?php echo $ticket->ticket_no; ?> </div>
