@@ -210,14 +210,14 @@
 			<section class="card-cont">   
 			  <div class="qr_code"> <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" />
 				<div> <?php echo $ticket->ticket_no; ?> </div>
-			  </div>
+			  </div> 
 			  <?php 
-			  if ($ticket->is_validated){ ?>
+			  /*if ($ticket->is_validated){ ?>
 				<a href="#" style="background-color: #037FDD;">Validated</a>
 			  <?php 
 			  }else{  ?>
 				<a href="#" style="background-color: #D8DDE0;">Not Validated</a>
-			  <?php } ?>
+			  <?php } */?>
 			</section> 
 			</td>
 		  </tr> 
