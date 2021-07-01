@@ -104,7 +104,7 @@ class Transactions extends CI_Controller
 					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id); 
 					$ticket->bundles = $bundles;
 				}else{
-					$ticket->bundles = '';	
+					//$ticket->bundles = '';	
 				}
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
