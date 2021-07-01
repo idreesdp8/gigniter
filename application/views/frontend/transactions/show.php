@@ -153,7 +153,7 @@
 															<td><?php echo date('M d, Y H:i A', strtotime($value->created_on)); ?></td>
 															<td>
 																<?php
-																if ($value->ticket->bundles) {
+																if (isset($value->ticket->bundles)) {
 																	foreach ($value->ticket->bundles as $bundle) {
 																?>
 																		<img class="bundle_image" src="<?php echo $bundle->image ? bundle_thumbnail_url() . $bundle->image : ''; ?>" width="50" height="auto" />
