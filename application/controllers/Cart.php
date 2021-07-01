@@ -402,7 +402,7 @@ class Cart extends CI_Controller
 
 	public function send_ticket_mails($qr_token_arrs, $email_to, $subject){
 	 
-		//require 'vendor/autoload.php';
+		require 'vendor/autoload.php';
 
 		$this->load->library('email');
 		$from_name = $this->config->item('from_name');
