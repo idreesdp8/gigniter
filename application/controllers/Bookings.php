@@ -225,17 +225,16 @@ class Bookings extends CI_Controller
 		$tickets = $this->gigs_model->get_tickets($data);
 		foreach ($tickets as $ticket) {
 			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
-			$gig_owner = $this->users_model->get_user_by_id($gig->user_id);
-			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
 			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);
-			$user = $this->users_model->get_user_by_id($ticket->user_id);
 			$owner = $this->users_model->get_user_by_id($booking->user_id);
-			$ticket->gig = $gig;
-			$ticket->gig_owner = $gig_owner;
-			$ticket->ticket_tier = $ticket_tier;
-			$ticket->booking = $booking;
-			$ticket->user = $user;
-			$ticket->owner = $owner;
+			$ticket->gig_date = $gig->gig_date;
+			$ticket->title = $gig->title;
+			$ticket->start_time = $gig->start_time;
+			$ticket->start_time = $gig->start_time;
+			$ticket->end_time = $gig->end_time;
+			$ticket->address = $gig->address;
+			$ticket->fname = $owner->fname;
+			$ticket->lname = $owner->lname;
 		}
 		$datas['tickets'] = $tickets;
 		$this->load->view('frontend/bookings/download_tickets', $datas);
