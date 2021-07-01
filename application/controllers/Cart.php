@@ -398,9 +398,9 @@ class Cart extends CI_Controller
 		$email_to = "younasali22@gmail.com";
 		$subject = "testing 1122";
 		
-		$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
+		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
 							
-		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");
+		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
 		
 		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
 	}
@@ -439,8 +439,8 @@ class Cart extends CI_Controller
 				$datas['tickets'] = [$row];
 
 				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
-				echo $html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
-				 exit;
+				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
+			 
 				 
 				$pdf = new Dompdf\Dompdf();  
 				$pdf->loadHtml($html_code);
