@@ -443,9 +443,13 @@ class Cart extends CI_Controller
 			  
 				//$options = new Options();
 				//$options->setIsRemoteEnabled(true); 
-				$pdf = new Dompdf\Dompdf();  
+				
+				$options = new Dompdf\Options();
+				$options->set('isRemoteEnabled', TRUE);
+
+				$pdf = new Dompdf\Dompdf($options);  
 				$pdf->loadHtml($html_code);
-				$pdf->set_option('isRemoteEnabled', TRUE);
+				//$pdf->set_option('isRemoteEnabled', TRUE);
 				$pdf->render(); 
 				/*$options = new Options();
 				$options->setIsRemoteEnabled(true); 
