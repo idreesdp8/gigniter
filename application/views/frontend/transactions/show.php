@@ -146,7 +146,7 @@
 															<td><?php echo $value->booking->booking_no ?></td>
 															<td><?php echo $value->user_name ?></td>
 															<td><?php echo $value->ticket->name ?? '' ?></td>
-															<td><?php echo $value->ticket ? '$' . $value->ticket->price : '' ?></td>
+															<td><?php echo (isset($value->ticket->price)) ? '$' . $value->ticket->price : ''; ?></td>
 															<td><?php echo $value->quantity ?></td>
 															<td><?php echo '$' . $value->price ?></td>
 															<td><?php echo date('M d, Y H:i A', strtotime($value->created_on)) ?></td>
