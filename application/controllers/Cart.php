@@ -455,6 +455,8 @@ class Cart extends CI_Controller
 				 }
 			} 
 		}
+		
+		return true;
 	}
 
 	public function sendQRCode_Email($sl_gig_id, $sl_usr_id)
