@@ -232,8 +232,7 @@ if(isset($tickets)){
     <span style="position: absolute;
     right: 15px;
     top: 15px;
-    width: 90px;
-    height: 90px;"><img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" alt="<?php echo $ticket->qr_token; ?>" title="<?php echo $ticket->qr_token; ?>" />
+    "><img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" style="width: 90px; height: 90px;" alt="<?php echo $ticket->qr_token; ?>" title="<?php echo $ticket->qr_token; ?>" />
        <?php echo $ticket->ticket_no; ?> </span>
 
     <span style="position: absolute;
