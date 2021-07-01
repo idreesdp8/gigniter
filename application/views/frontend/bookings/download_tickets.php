@@ -38,7 +38,7 @@
 		overflow: hidden;
 	} 
 	.card {
-		display: block;
+		display: flex;
 		width: 100%;
 		background: linear-gradient(45deg, #58b9c3, #f5f5fb);
 		color: #585858;

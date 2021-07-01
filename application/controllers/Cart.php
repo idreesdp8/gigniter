@@ -395,7 +395,8 @@ class Cart extends CI_Controller
 	public function send_ticket_mails111(){
 		$qr_token = '60daa82e910d4';
 		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
-		$email_to = "younasali22@gmail.com";
+		// $email_to = "younasali22@gmail.com";
+		$email_to = "hamza09524542@gmail.com";
 		$subject = "testing 1122";
 		
 		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
@@ -443,16 +444,16 @@ class Cart extends CI_Controller
 				//$this->email->to('younasali22@gmail.com');
 
 				$this->email->message($mail_text);
-				if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+				// if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
 					//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-				} else {
+				// } else {
 				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 				
 					$attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
 					$this->email->attach($attched_file);
 					$this->email->send(); 
 
-				 }
+				//  }
 			} 
 		}
 		
