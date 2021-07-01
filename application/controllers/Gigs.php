@@ -48,7 +48,7 @@ class Gigs extends CI_Controller
 		// die();
 		if ($gig->is_approved || ($this->dbs_user_id && $this->dbs_user_id == $gig->user_id)) {
 			$user = $this->users_model->get_user_by_id($gig->user_id);
-			$gig->user_name = $user->fname . ' ' . $user->lname;
+			$gig->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
 			$args1 = [
 				'key' => $this->genre_key,
 				'value' => $gig->genre
