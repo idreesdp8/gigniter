@@ -213,6 +213,7 @@ class Gigs extends CI_Controller
 		// die();
 		$gigs = $this->gigs_model->get_all_gigs();
 		foreach ($gigs as $gig) {
+		
 			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$temp = ['key' => $this->key, 'value' => $gig->status];
 			$status = $this->configurations_model->get_configuration_by_key_value($temp);
@@ -221,7 +222,9 @@ class Gigs extends CI_Controller
 			$gig->status_label = $status->label;
 			$gig->category_label = $category->label;
 			$gig->genre_label = $genre->label;
-			$gig->user_name = $user->fname . ' ' . $user->lname;
+			
+			$gig->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
+			
 			$res = $this->get_tickets_booked_and_left($gig);
 			$gig->booked = $res['booked'];
 			$gig->ticket_left = $res['ticket_left'];
