@@ -167,6 +167,8 @@ if(isset($tickets)){
     foreach($tickets as $ticket) { ?>
 		<section class="container">
 		  <article class="card">
+		 	 <img src="downloads/profile_pictures/1608296685jpg.png">
+		  
 			<section class="date">
 			  <time datetime="<?php echo date('d M', strtotime($ticket->gig->gig_date)); ?>"> <span><?php echo date('d', strtotime($ticket->gig->gig_date)); ?></span> <span><?php echo date('M', strtotime($ticket->gig->gig_date)); ?></span> </time>
 			</section>
