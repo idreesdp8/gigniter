@@ -86,11 +86,11 @@
 	.date time {
 		display: block;
 		position: absolute;
-		top: 50%;
+		/*top: 50%;
 		left: 50%;
 		-webkit-transform: translate(-50%, -50%);
 		-ms-transform: translate(-50%, -50%);
-		transform: translate(-50%, -50%)
+		transform: translate(-50%, -50%); */
 	}
 
 	.date time span {
@@ -100,7 +100,7 @@
 	.date time span:first-child {
 		color: #2b2b2b;
 		font-weight: 600;
-		font-size: 250%
+		/*font-size: 250%*/
 	}
 
 	.date time span:last-child {
@@ -121,13 +121,13 @@
 		font-size: 130%
 	}
 
-	.row:last-child .card:last-of-type .card-cont h3 {
+	/*.row:last-child .card:last-of-type .card-cont h3 {
 		text-decoration: line-through
 	}
 
 	.card-cont>div {
-		/*display: table-row*/
-	}
+		display: table-row
+	}*/
 
 	.card-cont .even-date i,
 	.card-cont .even-info i,
@@ -138,18 +138,18 @@
 
 	.card-cont .even-date i,
 	.card-cont .even-info i {
-		padding: 5% 5% 0 0
+		padding: 5% 5% 0 0;
 	}
 
 	.card-cont .even-info p {
-		padding: 30px 50px 0 0
+		padding: 30px 50px 0 0;
 	}
 
 	.card-cont .even-date time span {
-		display: block
+		display: block;
 	}
 
-	.card-cont a {
+	/*.card-cont a {
 		display: block;
 		text-decoration: none;
 		height: 30px;
@@ -161,7 +161,7 @@
 		right: 10px;
 		bottom: 10px;
 		padding: 0px 1rem;
-	} 
+	} */
 
 	.row:last-child .card:last-child .card-cont a {
 		background-color: #F8504C
