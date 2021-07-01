@@ -445,8 +445,12 @@ class Cart extends CI_Controller
 				//$options->setIsRemoteEnabled(true); 
 				$pdf = new Dompdf\Dompdf();  
 				$pdf->loadHtml($html_code);
-				$pdf->render();
-				$file = $pdf->output(['isRemoteEnabled' => true]);
+				$pdf->set_option('isRemoteEnabled', TRUE);
+				$pdf->render(); 
+				/*$options = new Options();
+				$options->setIsRemoteEnabled(true); 
+				$pdf->setOptions($options);*/ 
+				$file = $pdf->output();
 				file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file);   
 
 				if (strlen($gig_ticket_qr_token) > 0) {
