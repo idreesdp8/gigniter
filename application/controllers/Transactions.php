@@ -27,7 +27,7 @@ class Transactions extends CI_Controller
         // 		redirect('/');
         // 	} 
         }else{
-        	redirect('login');
+        	redirect('/');
         }
 
         $this->load->model('user/users_model', 'users_model');
