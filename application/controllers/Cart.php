@@ -478,7 +478,7 @@ class Cart extends CI_Controller
 					
 					//$attched_file = "downloads/tickets_qr_code_imgs/$file_name";
 
-					$this->email->attach($attched_file);
+					//$this->email->attach($attched_file);
 					$this->email->send(); 
 
 					/*if($this->email->send()){
