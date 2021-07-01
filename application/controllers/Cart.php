@@ -405,6 +405,20 @@ class Cart extends CI_Controller
 		
 		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
 	}
+	
+	public function send_ticket_mails122(){
+		$qr_token = '60daa82e910d4';
+		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
+		// $email_to = "younasali22@gmail.com";
+		$email_to = "asadnisar98@gmail.com";
+		$subject = "testing 1122";
+		
+		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
+							
+		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
+		
+		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
+	}
 	public function send_ticket_mails111(){
 		$qr_token = '60daa82e910d4';
 		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
