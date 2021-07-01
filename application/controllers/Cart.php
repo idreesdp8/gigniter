@@ -395,8 +395,8 @@ class Cart extends CI_Controller
 	public function send_ticket_mails111(){
 		$qr_token = '60daa82e910d4';
 		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
-		// $email_to = "younasali22@gmail.com";
-		$email_to = "hamza09524542@gmail.com";
+		$email_to = "younasali22@gmail.com";
+		//$email_to = "hamza09524542@gmail.com";
 		$subject = "testing 1122";
 		
 		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
