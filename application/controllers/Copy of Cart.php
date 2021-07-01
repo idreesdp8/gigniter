@@ -416,44 +416,88 @@ class Cart extends CI_Controller
 		$template_row = $this->email_templates_model->get_email_templates_by_slug('ticket-purchase');
 
 		$rows = $this->gigs_model->get_tickets_by_qr_code_token($qr_token_arrs);
-		if(isset($rows)){  
-			/*foreach ($rows as $row) {  }*/ 
-			$gig_ticket_no = $rows[0]->ticket_no;
-			$gig_ticket_qr_token = $rows[0]->qr_token;
-			$datas['tickets'] = $rows;
-			$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
-			$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
-			
-			$options = new Dompdf\Options();
-			$options->set('isRemoteEnabled', TRUE); 
-			$pdf = new Dompdf\Dompdf($options);  
-			$pdf->loadHtml($html_code);
-			$pdf->render(); 
-			$file = $pdf->output();
-			file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file); 
-			 
-			if (strlen($gig_ticket_qr_token) > 0) { 
-				$mail_to = $email_to; 
-				$mail_text = $template_row->content; 
-				
-				$this->email->from($from_email, $from_name); 
-				$this->email->to($mail_to);
-				$this->email->subject($subject); 
-				// $this->email->to('hamza0952454@gmail.com');
-				//$this->email->to('younasali22@gmail.com');
+		if (isset($rows)) {
+			foreach ($rows as $row) {
+				$gig_ticket_no = $row->ticket_no;
+				$gig_ticket_qr_token = $row->qr_token;
 
-				$this->email->message($mail_text);
-				if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-					//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-				} else {
-				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+				$gig = $this->gigs_model->get_gig_by_id($row->gig_id);
+				$gig_owner = $this->users_model->get_user_by_id($gig->user_id);
+				$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($row->ticket_tier_id);
+				$booking = $this->bookings_model->get_booking_by_id($row->booking_id);
+				$user = $this->users_model->get_user_by_id($row->user_id);
+				$owner = $this->users_model->get_user_by_id($booking->user_id);
 				
+				$row->gig = $gig;
+				$row->gig_owner = $gig_owner;
+				$row->ticket_tier = $ticket_tier;
+				$row->booking = $booking;
+				$row->user = $user;
+				$row->owner = $owner;
+				$row->is_validated = $row->is_validated;
+				
+				$datas['tickets'] = [$row];
+
+				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
+				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
+			  
+				
+				$options = new Dompdf\Options();
+				$options->set('isRemoteEnabled', TRUE);
+
+				$pdf = new Dompdf\Dompdf($options);  
+				$pdf->loadHtml($html_code);
+				$pdf->render(); 
+				$file = $pdf->output();
+				file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file);   
+
+				if (strlen($gig_ticket_qr_token) > 0) {
+
+					// $mail_to_name = $row->fname . ' ' . $row->lname;
+					// $mail_to = $row->email;
+					$mail_to = $email_to;
+
+					// $gig_title = $row->title;
+					// $gig_subtitle = $row->subtitle;
+					// $gig_category = $row->category;
+					// $gig_poster = $row->poster;
+					// $gig_address = $row->address;
+					// $gig_poster = $row->poster;
+
+					// $mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
+					$mail_text = $template_row->content;
+
+
+					//$this->email->set_newline("\r\n");  
+					$this->email->from($from_email, $from_name);
+
+					$this->email->to($mail_to);
+					// $this->email->subject($email->subject);
+					$this->email->subject($subject);
+
+					// $this->email->to('hamza0952454@gmail.com');
+					//$this->email->to('younasali22@gmail.com');
+					// $this->email->subject($gig_title . ' ' . $gig_ticket_no);
+
+					$this->email->message($mail_text);
+					// if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
+					// 	$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+					// } else {
+					//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+					
 					$attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
 					$this->email->attach($attched_file);
 					$this->email->send(); 
 
-				 }
-			} 
+					/*if($this->email->send()){
+						echo 'Email send.';
+					}else{
+						show_error($this->email->print_debugger());
+					}*/
+				}
+			}
+
+			return true;
 		}
 	}
 

@@ -167,8 +167,6 @@ if(isset($tickets)){
     foreach($tickets as $ticket) { ?>
 		<section class="container">
 		  <article class="card">
-		 	 <img src="https://gigniter.digitalpoin8.com/downloads/profile_pictures/1608296685jpg.png" />
-		  
 			<section class="date">
 			  <time datetime="<?php echo date('d M', strtotime($ticket->gig->gig_date)); ?>"> <span><?php echo date('d', strtotime($ticket->gig->gig_date)); ?></span> <span><?php echo date('M', strtotime($ticket->gig->gig_date)); ?></span> </time>
 			</section>
@@ -180,7 +178,8 @@ if(isset($tickets)){
 			  <div class="even-info"> <i class="fa fa-map-marker"></i>
 				<p> <?php echo $ticket->gig->address; ?> </p>
 			  </div>
-			  <div class="qr_code"> <img src="https://gigniter.digitalpoin8.com/downloads/tickets_qr_code_imgs/ticket_60daa82e910d4.png" alt="<?php echo $ticket->qr_token; ?>" title="<?php echo $ticket->qr_token; ?>"> <div> <?php echo $ticket->ticket_no; ?> </div>
+			  <div class="qr_code"> <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" alt="<?php echo $ticket->qr_token; ?>" title="<?php echo $ticket->qr_token; ?>" /> 
+			  <div> <?php echo $ticket->ticket_no; ?> </div>
 			  </div>
 			  <?php 
 				  if ($ticket->is_validated){ ?>
