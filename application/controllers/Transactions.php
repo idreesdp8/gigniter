@@ -101,10 +101,10 @@ class Transactions extends CI_Controller
                 $user = $this->users_model->get_user_by_id($item->user_id);
                 $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 				if($ticket) {
-					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
-					$ticket->bundles = '';
-				}else{
+					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id); 
 					$ticket->bundles = $bundles;
+				}else{
+					$ticket->bundles = '';	
 				}
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
