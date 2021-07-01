@@ -441,8 +441,10 @@ class Cart extends CI_Controller
 				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 			 
-				 
-				$pdf = new Dompdf\Dompdf();  
+				
+				$options = new Options();
+				$options->setIsRemoteEnabled(true); 
+				$pdf = new Dompdf\Dompdf($options);  
 				$pdf->loadHtml($html_code);
 				$pdf->render();
 				$file = $pdf->output();
