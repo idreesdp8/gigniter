@@ -402,7 +402,7 @@ class Cart extends CI_Controller
 
 	public function send_ticket_mails($qr_token_arrs, $email_to, $subject){
 	 
-		require 'vendor/autoload.php';
+		//require 'vendor/autoload.php';
 
 		$this->load->library('email');
 		$from_name = $this->config->item('from_name');
@@ -433,14 +433,14 @@ class Cart extends CI_Controller
 				
 				$datas['tickets'] = [$row];
 
-				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
+				/*$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 				 
 				$pdf = new Dompdf\Dompdf();  
 				$pdf->loadHtml($html_code);
 				$pdf->render();
 				$file = $pdf->output();
-				file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file);   
+				file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file);  */ 
 
 				if (strlen($gig_ticket_qr_token) > 0) {
 
