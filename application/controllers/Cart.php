@@ -439,7 +439,8 @@ class Cart extends CI_Controller
 				$datas['tickets'] = [$row];
 
 				$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
-				$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
+				echo $html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
+				 exit;
 				 
 				$pdf = new Dompdf\Dompdf();  
 				$pdf->loadHtml($html_code);
