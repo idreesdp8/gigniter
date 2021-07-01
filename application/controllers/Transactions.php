@@ -18,17 +18,17 @@ class Transactions extends CI_Controller
         $this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
         $this->load->model('user/general_model', 'general_model');
         // $this->load->model('user/roles_model', 'roles_model');
-        // if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
+        if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
 
-        // // 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
-        // // 	if($res_nums>0){
+        // 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
+        // 	if($res_nums>0){
 
-        // // 	}else{
-        // // 		redirect('/');
-        // // 	} 
-        // }else{
-        // 	redirect('login');
-        // }
+        // 	}else{
+        // 		redirect('/');
+        // 	} 
+        }else{
+        	redirect('login');
+        }
 
         $this->load->model('user/users_model', 'users_model');
         // $this->load->model('user/transactions_model', 'transactions_model');
