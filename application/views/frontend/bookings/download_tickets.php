@@ -190,7 +190,7 @@
 	$sr = 1;
 	if(isset($tickets)){
 		foreach($tickets as $ticket) { ?> 
-		  <tr style="border-bottom:1px solid #CCCCCC;">
+		  <tr style="border-bottom:1px solid #CCCCCC; height:320px;">
 			<td <?php echo ($sr == 1) ? 'width="22%"' : ''; ?> style="vertical-align:top"> 
 			<section class="date">
 			  <time datetime="<?php echo date('d M', strtotime($ticket->gig_date)); ?>"> <span><?php echo date('d', strtotime($ticket->gig_date)); ?></span> <span><?php echo date('M', strtotime($ticket->gig_date)); ?></span> </time> </section> 
