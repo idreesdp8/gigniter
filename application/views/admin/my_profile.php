@@ -29,12 +29,12 @@
 			<div class="row">
 				<div class="col-md-6"> 
 				  <div class="form-group">
-					<label for="fname">First Name: </label>
+					<label for="fname">First Name  <span class="reds"> * </span></label>
 					<input name="fname" id="fname" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->fname : set_value('fname'); ?>" data-error="#fname1">
 					<span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
 				  </div>
 				  <div class="form-group">
-					<label for="lname">Last Name <span class="reds"> </span></label>
+					<label for="lname">Last Name </label>
 					 <input name="lname" id="lname" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->lname : set_value('lname'); ?>" data-error="#lname1">
 				  <span id="name1" class="text-danger"><?php echo form_error('lname'); ?></span>
 				  </div>   
@@ -59,7 +59,7 @@
 				
 				 <div class="col-md-6"> 
 				  <div class="form-group">
-					<label for="description">Description</label></label>
+					<label for="description">Description </label></label>
 					 <textarea name="description" id="description" class="form-control" rows="5" data-error="#description1"><?php echo (isset($row)) ? $row->description : set_value('description'); ?></textarea>
 				  <span class="text-danger"><?php echo form_error('description'); ?></span> 
 				  </div>
