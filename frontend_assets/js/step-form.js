@@ -4,8 +4,8 @@ $(document).ready(function () {
     //     //Step Movement JQuery START   --
 
     var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),isValid = false, form = document.getElementById('basic_info_form');
-        allNextBtn = $('.nextBtn');
+        allWells = $('.setup-content'), isValid = false, form = document.getElementById('basic_info_form');
+    allNextBtn = $('.nextBtn');
 
 
     allWells.hide();
@@ -35,37 +35,38 @@ $(document).ready(function () {
             prog_step = $("a.btn-default"),
             err_input = '';
         $(curInputs).removeClass("error");
-		
-		var old_uploaded_img = 1;
-		if($('input[name="old_poster"]').length){
-			var old_poster_val = $('input[name="old_poster"]').val();
-			
-			if( old_poster_val == ""){
-				old_uploaded_img = 0;
-			}
-		} 
-		
-		//alert($('input[name="old_poster"]').length);
-		
+
+        var old_uploaded_img = 0;
+        if ($('input[name="old_poster"]').length) {
+            var old_poster_val = $('input[name="old_poster"]').val();
+            old_uploaded_img = 1;
+
+            if (old_poster_val == "") {
+                old_uploaded_img = 0;
+            }
+        }
+
+        //alert($('input[name="old_poster"]').length);
+        console.log(old_uploaded_img)
         for (var i = 0; i < curInputs.length; i++) {
-            // console.log(curInputs[i])
             if (!curInputs[i].validity.valid) {
+                console.log($(curInputs[i]).attr('name'))
                 if (err_input == '') {
                     err_input = curInputs[i];
                 }
                 isValid = false;
                 $(curInputs[i]).addClass("error");
             }
-			 
-            if($(curInputs[i]).attr('name') == 'poster' && old_uploaded_img == 0){
+
+            if ($(curInputs[i]).attr('name') == 'poster' && old_uploaded_img == 0) {
                 var tag = curInputs[i];
                 var fileName = '';
-                if(tag.files[0]) {
+                if (tag.files[0]) {
                     fileName += tag.files[0].name;
                 }
                 console.log(fileName)
                 var div_image = $(curInputs[i]).parents('#div_image')
-                if(fileName == '') {
+                if (fileName == '') {
                     console.log('if');
                     isValid = false;
                     $('.error_poster').empty();
@@ -80,8 +81,8 @@ $(document).ready(function () {
                     div_image.find('.file-preview-thumbnails').removeClass('error').addClass('good');
                 }
             }
-			
-			
+
+
             // console.log($(curInputs[i]).attr('name'));
             if ($(curInputs[i]).attr('name') == 'email') {
                 check_email();
@@ -91,8 +92,8 @@ $(document).ready(function () {
         if (err_input !== '') {
             err_input.focus();
         }
-        // console.log(isValid);
-        // console.log(err_input);
+        console.log(isValid);
+        console.log(err_input);
         if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
     });
 
@@ -100,9 +101,9 @@ $(document).ready(function () {
     $('div.setup-panel div a.btn-success-circle').trigger('click');
     //Step Movement JQuery END  --
 
-    form.addEventListener('submit', function(){
+    form.addEventListener('submit', function () {
         console.log(isValid);
-        if(!isValid) {
+        if (!isValid) {
             alert('Some fields values are incorrect!')
             event.preventDefault();
         }
@@ -120,7 +121,7 @@ $(document).ready(function () {
     var error_subtitle = false;
     var error_category = false;
     var error_genre = false;
-    var error_poster = false;
+    // var error_poster = false;
     var error_gig_address = false;
     var error_goal = false;
     var error_threshold = false;
@@ -312,12 +313,12 @@ $(document).ready(function () {
         if (end_time == '') {
             $("#end_time").addClass("error").removeClass("good");
         } if (end_time !== '') {
-            if (/* input.validity.valid && */ input.type === 'time') {
-                $("#end_time").removeClass("error").addClass("good");
-                error_end_time = true;
-            } else {
-                $("#end_time").addClass("error").removeClass("good");
-            }
+            // if (/* input.validity.valid && */ input.type === 'time') {
+            $("#end_time").removeClass("error").addClass("good");
+            error_end_time = true;
+            // } else {
+            //     $("#end_time").addClass("error").removeClass("good");
+            // }
         }
     }
 
@@ -449,8 +450,8 @@ $(document).ready(function () {
                     email: email
                 },
                 method: 'POST',
-                success: function(resp) {
-                    if(resp == '1') {
+                success: function (resp) {
+                    if (resp == '1') {
                         $("#email").addClass("error").removeClass("good");
                         $("#email").parent().find('.email_error').empty();
                         $("#email").parent().find('.email_error').html('Email already registered!')
@@ -467,7 +468,7 @@ $(document).ready(function () {
                 }
             })
         }
-        
+
     }
     $("#error_user_address").focusout(function () {
         check_user_address();

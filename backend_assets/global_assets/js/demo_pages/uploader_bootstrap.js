@@ -99,6 +99,7 @@ var FileUpload = function() {
             //     modal: modalTemplate
             // },
             initialCaption: "No file selected",
+            autoOrientImage: false,
             // previewZoomButtonClasses: previewZoomButtonClasses,
             // previewZoomButtonIcons: previewZoomButtonIcons,
             fileActionSettings: fileActionSettings
