@@ -321,6 +321,7 @@
                                     } else {
                                         $('.cart-badge').remove();
                                     }
+                                    window.location = "<?php echo user_base_url().'cart/checkout/'; ?>";
                                     if(resp.is_empty) {
                                         $('#is_empty').parent().append('<p>Your Cart is empty!</p>');
                                     }
