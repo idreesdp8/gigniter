@@ -65,7 +65,7 @@ class Bookings extends CI_Controller
 					$temp_gig_ids[] = $gig->id;
 					$gig_id = implode(', ', array_unique($temp_gig_ids));
 					$gig_name = implode(', ', array_unique($temp_gig_titles));
-					$temp_tickets_titles[] = $ticket->name . ' <small>(x' . $item->quantity . ')</small>';
+					$temp_tickets_titles[] = $ticket->name ?? '' . ' <small>(x' . $item->quantity . ')</small>';
 					$ticket_names = implode(', ', /* array_unique */ ($temp_tickets_titles));
 				}
 			}
