@@ -86,7 +86,9 @@
                                                 <?php
                                                 if ($booking->is_paid == 0 && $booking->hours > 48) :
                                                 ?>
-                                                    <a href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger mob-responsive"><i class="fa fa-times"></i></a>
+                                                    <a href="javascript:void(0);" onclick="operate_booking_deletion('<?php echo $booking->id; ?>');" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger mob-responsive"><i class="fa fa-times"></i></a>
+													
+													<!--href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>"-->
                                                 <?php
                                                 endif;
                                                 ?>
@@ -116,7 +118,25 @@
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
+		function operate_booking_deletion(del_id){
+			$( document ).ready(function() {
+				swal({
+					title: "Do you want to Cancel this Booking?",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true, 
+				}).then((willDelete) => {
+					if (willDelete) { 
+						window.location = "<?php echo user_base_url().'bookings/cancel_booking/'; ?>" + del_id; 
+					} else {
+						swal({
+							icon: 'info',
+							title: 'Your booking is safe!',
+						}); 
+					}
+				}); 
+			});  
+		}
     </script>
 </body>
-
 </html>
