@@ -129,11 +129,11 @@
                         if ($this->session->userdata('us_id') == $gig->user_id) :
                             if (!$gig->is_approved) :
                         ?>
-                                <div class="custom-item3 d-flex">
+                                <div class="custom-item3 d-flex skicky-buttons ">
                                     <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                        <button type="submit" class="skicky-buttons btn btn-warning btn-booking" onclick="delete_gig()">Delete</button>
+                                        <button type="submit" class="btn btn-warning btn-booking" onclick="delete_gig()">Delete</button>
                                     </form>
-                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
+                                    <a type="button" class="btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
                                 </div>
                             <?php
                             else :
