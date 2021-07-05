@@ -540,7 +540,7 @@ class Gigs extends CI_Controller
 			if (isset($this->dbs_user_id)) {
 				$user = $this->users_model->get_user_by_id($this->dbs_user_id);
 				$stripe_details = $this->users_model->get_user_stripe_details($user->id);
-				$user->stripe = $stripe_details->stripe_id;
+				$user->stripe = $stripe_details->stripe_id ?? '';
 				$data['user'] = $user;
 			}
 			$data['countries'] = $this->countries_model->get_all_countries();
