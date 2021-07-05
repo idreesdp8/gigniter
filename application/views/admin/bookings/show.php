@@ -176,10 +176,10 @@
                                                 <td><?php echo '$' . $transaction['stripe_fee'] ?></td>
                                                 <td><?php echo '$' . $transaction['charge_amount'] ?></td>
                                                 <td><?php echo date('M d, Y', strtotime($transaction['charged_on'])) ?></td>
-                                                <td><?php echo (isset($account) && !empty($account)) ? ($account->fname ?? '') . ' ' . ($account->lname ?? '') : '' ?></td>
-                                                <td><?php echo '$' . $transaction['transfer_amount'] ?></td>
-                                                <td><?php echo '$' . $transaction['admin_fee'] ?></td>
-                                                <td><?php echo date('M d, Y', strtotime($transaction['transferred_on'])) ?></td>
+                                                <td><?php echo (isset($account) && !empty($account)) ? ($account->fname ?? '') . ' ' . ($account->lname ?? '') : 'NA' ?></td>
+                                                <td><?php echo '$' . ($transaction['transfer_amount'] ?? '0') ?></td>
+                                                <td><?php echo '$' . ($transaction['admin_fee'] ?? '0') ?></td>
+                                                <td><?php echo $transaction['transferred_on'] ? date('M d, Y', strtotime($transaction['transferred_on'])) : 'NA' ?></td>
                                             </tr>
                                             <!-- <tr>
                                                 <td colspan="4">Total</td>
