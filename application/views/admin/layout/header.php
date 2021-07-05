@@ -37,7 +37,7 @@
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
-						<a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+						<a href="<?php echo site_url('admin/settings/my_profile'); ?>" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
 						<a href="<?php echo site_url('admin/settings/logoff'); ?>" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
 					</div>
 				</li>
