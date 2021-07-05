@@ -1,12 +1,15 @@
 <?php
 $vs_user_role_id = $this->session->userdata('us_role_id');
-$role_permissions = $this->general_model->get_role_permissions($vs_user_role_id);
-foreach ($role_permissions as $role_permission) {
-    $permission = $this->permissions_model->get_permission_by_id($role_permission->permission_id);
-    $user_permissions[] = $permission->name;
-}
-$new_gigs = $this->gigs_model->get_count_new_gigs();
-?>
+$role_permissions = $this->general_model->get_role_permissions($vs_user_role_id); 
+if(isset($role_permissions)){
+	foreach ($role_permissions as $role_permission) {
+		if(isset($role_permission->permission_id) && $role_permission->permission_id >0){
+			$permission = $this->permissions_model->get_permission_by_id($role_permission->permission_id);
+			$user_permissions[] = $permission->name;
+		}
+	}
+}  
+$new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
 
 <!-- Main sidebar -->
 <div class="sidebar sidebar-dark sidebar-main sidebar-expand-md">

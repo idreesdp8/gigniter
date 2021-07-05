@@ -7,7 +7,7 @@
 			$vs_id = $this->session->userdata('us_id');
 			$vs_user_role_id = $this->session->userdata('us_role_id');
 			$this->load->model('admin/general_model', 'general_model');
-			if(isset($vs_id) && (isset($vs_user_role_id) && $vs_user_role_id >=1)){
+			if(isset($vs_id) && (isset($vs_user_role_id) && ( $vs_user_role_id ==1 || $vs_user_role_id == 4) )){
 				/* ok */
 				// $res_nums = $this->general_model->check_controller_permission_access('Admin/Settings',$vs_user_role_id,'1');
 				// if($res_nums>0){
@@ -27,18 +27,18 @@
 		
 		function my_profile(){    
 			 //$vs_user_type_id = $this->session->userdata('us_user_type_id');
+			$vs_id = $this->session->userdata('us_id');
 			$this->dbs_user_role_id = $vs_user_role_id = $this->session->userdata('us_role_id');
-			
-			if(isset($vs_user_role_id) && ($vs_user_role_id==1 || $vs_user_role_id==2 || $vs_user_role_id==3)){
+			 
+			if(isset($vs_user_role_id) && ($vs_user_role_id==1 || $vs_user_role_id==4)){
 				/* ok */
 			}else{
 				redirect('admin/login/');
 			}
 			
-			$datas["page_headings"] = "My Profile"; 
-			$vs_id = $this->session->userdata('us_id');   
-			$result = $this->users_model->get_user_by_id($vs_id);
-			if(isset($result)){ //&& count($result)>'0'  
+			$datas["page_headings"] = "My Profile";     
+			$datas["row"] = $this->users_model->get_user_by_id($vs_id);
+			/*if(isset($result)){ //&& count($result)>'0'  
 				$datas['vs_name']= $result->name; 
 				$datas['vs_email']= $result->email; 
 				$datas['vs_phone_no']= $result->phone_no;
@@ -46,17 +46,15 @@
 				$datas['vs_image']= $result->image;
 				$datas['vs_address']= $result->address; 
 				$datas['vs_company_name']= $result->company_name; 
-			}
-			
+			}*/ 
 			if(isset($_POST) && !empty($_POST)){
-		
 				// get form input
-				$name = $this->input->post("name");
+				$fname = $this->input->post("fname");
+				$lname = $this->input->post("lname");
 				$phone_no = $this->input->post("phone_no");
 				$mobile_no = $this->input->post("mobile_no"); 
-				$address = $this->input->post("address");
-				
-				$company_name = $this->input->post("company_name");  
+				$address = $this->input->post("address"); 
+				$description = $this->input->post("description");  
 				   
 				$prf_img_error = ''; 		
 				$alw_typs = array('image/jpg','image/jpeg','image/png','image/gif');
@@ -80,7 +78,7 @@
 				}   
 		
 				// form validation
-				$this->form_validation->set_rules("name","Name",'required|trim|xss_clean');
+				$this->form_validation->set_rules("fname","First Name",'required|trim|xss_clean');
 				$this->form_validation->set_rules("phone_no","Phone No",'required|trim|xss_clean');
 				$this->form_validation->set_rules("address","Address",'required|trim|xss_clean');
 		
@@ -103,7 +101,7 @@
 						unset($_SESSION['prof_img_error']);
 					} 
 					$vs_id = $this->session->userdata('us_id');
-					$data = array('name' => $name,'phone_no' => $phone_no,'mobile_no' => $mobile_no,'address' => $address,'image' => $imagename,'company_name' => $company_name); 
+					$data = array('fname' => $fname,'lname' => $lname,'phone_no' => $phone_no,'mobile_no' => $mobile_no,'address' => $address,'image' => $imagename,'description' => $description); 
 					$res = $this->users_model->update_user_data($vs_id,$data); 
 					if(isset($res)){
 						$this->session->set_flashdata('success_msg', 'Your profile has been updated successfully!');
