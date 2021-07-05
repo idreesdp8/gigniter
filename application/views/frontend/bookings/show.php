@@ -318,27 +318,27 @@
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
+        function operate_booking_deletion(del_id) {
+            $(document).ready(function() {
+                swal({
+                    title: "Do you want to Cancel this Booking?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        window.location = "<?php echo user_base_url() . 'bookings/cancel_booking/'; ?>" + del_id;
+                    } else {
+                        swal({
+                            icon: 'info',
+                            title: 'Your booking is safe!',
+                        });
+                    }
+                });
+            });
+        }
         $(document).ready(function() {
-            
-		function operate_booking_deletion(del_id){
-			$( document ).ready(function() {
-				swal({
-					title: "Do you want to Cancel this Booking?",
-					icon: "warning",
-					buttons: true,
-					dangerMode: true, 
-				}).then((willDelete) => {
-					if (willDelete) { 
-						window.location = "<?php echo user_base_url().'bookings/cancel_booking/'; ?>" + del_id; 
-					} else {
-						swal({
-							icon: 'info',
-							title: 'Your booking is safe!',
-						}); 
-					}
-				}); 
-			});  
-		}
+
             $('.open_modal').on('click', function() {
                 var qty = $(this).data('value');
                 var cart_id = $(this).data('cart_id');
