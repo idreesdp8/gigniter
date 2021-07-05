@@ -1,6 +1,6 @@
 <?php
-echo "hello";
-exit;
+// echo "hello";
+// exit;
 
 
 $account_id = $_GET['account_id'];
