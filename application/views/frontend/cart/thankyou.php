@@ -4,7 +4,7 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <meta http-equiv="refresh" content="4;url=<?php echo isset($gig_id) ? user_base_url().'gigs/detail?gig='.$gig_id : user_base_url() ?>" />
-    <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <title>Gigniter - Online Ticket Booking Service</title>
     <style>
         .exlpore-title,
         .explore-subtitle {

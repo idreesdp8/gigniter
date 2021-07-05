@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
-    <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <title>Gigniter - Online Ticket Booking Service</title>
     <style>
         .account-area .account-form .form-group input {
             color: black !important;

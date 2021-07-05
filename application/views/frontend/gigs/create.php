@@ -3,7 +3,7 @@
 
 <head>
   <?php $this->load->view('frontend/layout/meta_tags'); ?>
-  <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+  <title>Gigniter - Online Ticket Booking Service</title>
   <style>
     .panel>.panel-primary {
       display: none;
@@ -175,7 +175,7 @@
                     <div style="height:200px;" class="gig-poster-wrapper">
                       <div class="mb-1">
 
-                        <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input" class="">
+                        <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input">
                           <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
                         <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" required="required" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
@@ -192,7 +192,7 @@
                     <div class="gig-poster-wrapper">
                       <div class="mb-1 video-wrapper">
                         <img alt="your image" class="d-none" />
-                        <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1" class="">
+                        <label style="z-index: 999;left: 50%;position: absolute;top: 50%;display: inline-flex;" class="icon_upload1 file-dimension custom-file-upload" for="file-input1">
                           <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
                         <input id="file-input1" type="file" name="video" class="file-input" accept="video/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
@@ -249,28 +249,28 @@
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="gig_date" class="date" name="gig_date" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Start Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="start_time" class="time" name="start_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="start_time" class="time" name="start_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'" required="required">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="end_time" class="time" name="end_time" onfocus="(this.type='time')" onblur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="end_time" class="time" name="end_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'" required="required">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -280,7 +280,7 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
+                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
@@ -350,7 +350,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
+                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
                   </div>
                   <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12">
                     <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
@@ -371,7 +371,7 @@
                       <div>
                         <img id="img2" src="<?php echo isset($user) && $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                         <a><img src="<?php echo isset($user) && $user->image ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
-                        <input type='file' id="my-file2" name="image" hidden="hidden" accept="image/*" onchange="readURL2(this);" />
+                        <input type='file' id="my-file2" name="image" hidden="hidden" accept="image/*" onChange="readURL2(this);" />
                       </div>
 
                     </label>
@@ -485,7 +485,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Stripe integration
-                      <input type="text" id="stripe" name="stripe" value="<?php echo isset($user) ? $user->stripe : null ?>"" <?php !$this->session->userdata('us_id') ? 'required="required"' : '' ?>>
+                      <input type="text" id="stripe" name="stripe" value="<?php echo isset($user->stripe) ? $user->stripe : null ?>" required="required" />
                     </label>
                   </div>
                   <div class=" col-lg-6 col-md-6 col-sm-12 col-12">
@@ -493,7 +493,7 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
+                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
@@ -533,7 +533,7 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">save & Continue</button>
+                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
@@ -545,12 +545,12 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onclick="submit_form(2)">Preview</button>
-                      <button type="submit" class="btn-theme-primary btn ml-3" onclick="submit_form(1)">Save as Draft</button>
+                      <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onClick="submit_form(2)">Preview</button>
+                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
                       <?php
                       if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
                       ?>
-                        <button type="submit" class="btn btn-success ml-3" onclick="submit_form(0)">Submit for Approval</button>
+                        <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
                       <?php
                       endif;
                       ?>

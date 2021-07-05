@@ -21,7 +21,7 @@ class Gigs_model extends CI_Model
 		$whrs = " where t1.id>'0' ";
 		if (array_key_exists("gig_id", $params)) {
 			$gig_id = $params['gig_id'];
-			if ($gig_id > 0) {
+			if ($gig_id > 0) { 
 				$whrs .= " AND t1.gig_id='$gig_id' ";
 			}
 		}
@@ -33,8 +33,7 @@ class Gigs_model extends CI_Model
 			} else if ($is_paid == 1) {
 				$whrs .= " AND t5.is_paid='1' ";
 			}
-		}
-
+		} 
 		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t1.is_validated, t2.title, t2.subtitle, t2.gig_date, t2.start_time, t2.end_time, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price, t5.is_paid FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 

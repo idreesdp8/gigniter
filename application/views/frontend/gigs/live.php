@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
-    <title>Gigniter - Online Ticket Booking Website HTML Template</title>
+    <title>Gigniter - Online Ticket Booking Service</title>
     <script src="https://player.live-video.net/1.2.0/amazon-ivs-player.min.js"></script>
 </head>
 

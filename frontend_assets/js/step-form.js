@@ -35,6 +35,18 @@ $(document).ready(function () {
             prog_step = $("a.btn-default"),
             err_input = '';
         $(curInputs).removeClass("error");
+		
+		var old_uploaded_img = 1;
+		if($('input[name="old_poster"]').length){
+			var old_poster_val = $('input[name="old_poster"]').val();
+			
+			if( old_poster_val == ""){
+				old_uploaded_img = 0;
+			}
+		} 
+		
+		//alert($('input[name="old_poster"]').length);
+		
         for (var i = 0; i < curInputs.length; i++) {
             // console.log(curInputs[i])
             if (!curInputs[i].validity.valid) {
@@ -44,9 +56,10 @@ $(document).ready(function () {
                 isValid = false;
                 $(curInputs[i]).addClass("error");
             }
-            if ($(curInputs[i]).attr('name') == 'poster') {
+			 
+            if($(curInputs[i]).attr('name') == 'poster' && old_uploaded_img == 0){
                 var tag = curInputs[i];
-                var fileName = ''
+                var fileName = '';
                 if(tag.files[0]) {
                     fileName += tag.files[0].name;
                 }
@@ -55,18 +68,20 @@ $(document).ready(function () {
                 if(fileName == '') {
                     console.log('if');
                     isValid = false;
-                    $('.error_poster').empty()
-                    $('.error_poster').html('Gig Poster is required field')
-                    div_image.find('.file-preview-thumbnails').addClass('error').removeClass('good')
+                    $('.error_poster').empty();
+                    $('.error_poster').html('Gig Poster is required field');
+                    div_image.find('.file-preview-thumbnails').addClass('error').removeClass('good');
                     var scrollPos = div_image.find('.file-preview-thumbnails').offset().top - $('.header-section').outerHeight(true) - $('#div_image p').outerHeight(true);
                     $(window).scrollTop(scrollPos);
                 } else {
                     console.log('else');
-                    isValid = true
-                    $('.error_poster').empty()
-                    div_image.find('.file-preview-thumbnails').removeClass('error').addClass('good')
+                    isValid = true;
+                    $('.error_poster').empty();
+                    div_image.find('.file-preview-thumbnails').removeClass('error').addClass('good');
                 }
             }
+			
+			
             // console.log($(curInputs[i]).attr('name'));
             if ($(curInputs[i]).attr('name') == 'email') {
                 check_email();
