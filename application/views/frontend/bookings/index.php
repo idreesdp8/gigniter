@@ -84,7 +84,7 @@
                                             <td>
                                                 <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="View order detail" class="btn btn-info mob-responsive"><i class="fa fa-eye"></i></a>
                                                 <?php
-                                                if ($booking->is_paid == 0 || $booking->hours > 48) :
+                                                if ($booking->is_paid == 0 && $booking->hours > 48) :
                                                 ?>
                                                     <a href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger mob-responsive"><i class="fa fa-times"></i></a>
                                                 <?php

@@ -171,7 +171,7 @@
                                         <tbody>
                                             <tr>
                                                 <!-- <td><?php echo $booking->booking_no ?></td> -->
-                                                <td><?php echo $customer->fname . ' ' . $customer->lname ?></td>
+                                                <td><?php echo ($customer->fname ?? '') . ' ' . ($customer->lname ?? '') ?></td>
                                                 <td><?php echo '$' . ($transaction['charge_amount'] + $transaction['stripe_fee']) ?></td>
                                                 <td><?php echo '$' . $transaction['stripe_fee'] ?></td>
                                                 <td><?php echo '$' . $transaction['charge_amount'] ?></td>
