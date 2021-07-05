@@ -559,8 +559,8 @@ class Cart extends CI_Controller
 	function create_customer($token, $email, $name, $booking_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		\Stripe\Stripe::setApiKey($stripeSecret);
+		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+		\Stripe\Stripe::setApiKey($stripe_config->value);
 		try {
 			$customer = \Stripe\Customer::create(array(
 				'email' => $email,
@@ -585,8 +585,8 @@ class Cart extends CI_Controller
 	function charge_and_transfer($gig_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		\Stripe\Stripe::setApiKey($stripeSecret);
+		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+		\Stripe\Stripe::setApiKey($stripe_config->value);
 
 		$currency = $this->config->item('stripe_currency');
 		$bookings = $this->bookings_model->get_bookings_by_gig_id($gig_id);

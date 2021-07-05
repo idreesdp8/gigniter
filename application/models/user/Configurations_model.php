@@ -40,6 +40,12 @@ class Configurations_model extends CI_Model {
 		return $query->row();
 	}
 	
+	function get_configuration_by_key_label($key, $label)
+	{
+		$query = $this->db->get_where('configurations',array('key'=>$key,'label'=>$label));
+		return $query->row();
+	}
+	
 	function get_configuration_by_id($id){ 
 		$query = $this->db->get_where('configurations',array('id'=> $id));
 		return $query->row();

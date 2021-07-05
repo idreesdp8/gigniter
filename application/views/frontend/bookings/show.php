@@ -219,11 +219,11 @@
                                                                         <?php
                                                                         if ($row->is_validated) :
                                                                         ?>
-                                                                            <span class="bundle-pill pill-success">Yes</span>
+                                                                            <span class="bundle-pill pill-success">Validated</span>
                                                                         <?php
                                                                         else :
                                                                         ?>
-                                                                            <span class="bundle-pill pill-warning">No</span>
+                                                                            <span class="bundle-pill pill-warning">Not Validated</span>
                                                                         <?php
                                                                         endif;
                                                                         ?>
