@@ -177,8 +177,8 @@
                                                 <td><?php echo '$' . $transaction['charge_amount'] ?></td>
                                                 <td><?php echo date('M d, Y', strtotime($transaction['charged_on'])) ?></td>
                                                 <td><?php echo (isset($account) && !empty($account)) ? ($account->fname ?? '') . ' ' . ($account->lname ?? '') : 'NA' ?></td>
-                                                <td><?php echo '$' . ($transaction['transfer_amount'] ?? '0') ?></td>
-                                                <td><?php echo '$' . ($transaction['admin_fee'] ?? '0') ?></td>
+                                                <td><?php echo isset($transaction['transfer_amount']) ? '$' . $transaction['transfer_amount'] : 'NA' ?></td>
+                                                <td><?php echo isset($transaction['admin_fee']) ? '$' . $transaction['admin_fee'] : 'NA' ?></td>
                                                 <td><?php echo isset($transaction['transferred_on']) ? date('M d, Y', strtotime($transaction['transferred_on'])) : 'NA' ?></td>
                                             </tr>
                                             <!-- <tr>

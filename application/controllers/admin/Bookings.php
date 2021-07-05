@@ -105,9 +105,10 @@ class Bookings extends CI_Controller
 		$booking = $this->bookings_model->get_booking_by_id($args1);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$transactions = $this->bookings_model->get_transactions_by_booking_id($booking->id);
+		$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
 		// echo json_encode($transactions);
 		// die();
-		$account = [];
+		$account = $this->users_model->get_user_by_id($gig->user_id);
 		$final_transaction = array();
 		if ($transactions) {
 			$transfer_temp = array();
@@ -133,8 +134,6 @@ class Bookings extends CI_Controller
 						'admin_fee' => $transaction->admin_fee,
 						'transferred_on' => $transaction->created_on,
 					];
-					$destination = $transaction->user_received;
-					$account = $this->users_model->get_user_by_id($destination);
 				}
 			}
 			$final_transaction = array_merge($final_transaction, $charge_temp);
