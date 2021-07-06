@@ -52,41 +52,42 @@
                         <span class="theme-primary-color cate">Update Stripe Info</span>
                         <!-- <h2 class="title">to Gigniter </h2> -->
                     </div>
-                    <form name="datas_form" id="datas_form" class="account-form" action="<?php echo site_url('account/edit_stripe_account/'.$usrid); ?>" method="post">  
-                        <div class="row"> 
+                    <form name="datas_form" id="datas_form" class="account-form" action="<?php echo site_url('account/edit_stripe_account/' . $usrid); ?>" method="post">
+                        <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
-                                    <label for="stripe_id" class="w-100">Stripe Email  
-										<span style="display:none" class="<?php echo ($user->detail_submitted_flag == 'enabled') ? 'text-success' : 'text-danger' ?>">
+                                    <label for="stripe_id" class="w-100">Stripe Email
+                                        <span class="<?php echo (isset($row) && !$row->is_restricted) ? 'text-success' : 'text-danger' ?>">
                                             <small>
                                                 <?php
-                                                if ($user->detail_submitted_flag == 'NA') {
-                                                    echo 'No stripe account added';
+                                                if (isset($row)) {
+                                                    echo !$row->is_restricted ? 'Enabled' : 'Restricted';
                                                 } else {
-                                                    echo ($user->detail_submitted_flag == 'enabled') ? 'Enabled' : 'Restricted';
-                                                }  ?>
+                                                    echo 'No stripe account added';
+                                                }
+                                                ?>
                                             </small>
                                         </span>
-										<span style="display:none" class="float-right">
-										<?php  //enable_stripe_account
-											if ($user->detail_submitted_flag == 'restricted'){ ?>
-												<small>
-													<a class="link" href="<?php echo user_base_url() . 'account/create_user_stripe_account?user_id=' . $user->id ?>">Enable Account</a> <!-- target="_blank" -->
-												</small>
-											<?php
-											} ?>
-										</span> 
-									</label>
+                                        <span class="float-right">
+                                            <?php  //enable_stripe_account
+                                            if (isset($row) && $row->is_restricted) { ?>
+                                                <small>
+                                                    <a class="link" target="_blank" href="<?php echo user_base_url() . 'account/enable_stripe_account?user_id=' . $user->id ?>">Enable Account</a> <!-- target="_blank" -->
+                                                </small>
+                                            <?php
+                                            } ?>
+                                        </span>
+                                    </label>
                                     <input type="text" value="<?php echo isset($row) ? $row->stripe_id : ''; ?>" name="stripe_id" id="stripe_id" data-error="#stripe_id1" /> <span id="stripe_id1" class="text-danger"> <?php echo form_error('stripe_id'); ?> </span>
                                 </div>
-                            </div>  
-							
-						  </div>	
-						  <div class="row"> 	 
-                            <div class="col-xl-3">
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i> Update</button>
                             </div>
-							<div class="col-xl-9"> </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-3">
+                                <button type="submit" class="btn btn-theme-primary">Update</button>
+                            </div>
+                            <div class="col-xl-9"> </div>
                         </div>
                     </form>
                 </div>
@@ -99,18 +100,18 @@
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
 
-    <script> 
+    <script>
         $(document).ready(function() {
             var validator = $('#datas_form').validate({
-                rules: { 
+                rules: {
                     stripe_id: {
                         required: true,
-                    } 
+                    }
                 },
                 messages: {
                     stripe_id: {
                         required: "Stripe ID is required field",
-                    } 
+                    }
                 },
                 errorPlacement: function(error, element) {
                     var placement = $(element).data('error');
@@ -123,7 +124,7 @@
                 submitHandler: function() {
                     document.forms["datas_form"].submit();
                 }
-            }); 
+            });
         });
     </script>
 </body>

@@ -25,7 +25,7 @@ class Account extends CI_Controller
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/countries_model', 'countries_model');
-		
+
 		$this->genre_key = 'genre';
 		$this->category_key = 'category';
 		$this->gig_status_key = 'gig-status';
@@ -260,6 +260,7 @@ class Account extends CI_Controller
 		if ($user_id != '') {
 			$user = $this->users_model->get_user_by_id($user_id);
 			$links = $this->users_model->get_social_links($user_id);
+			$stripe_details = $this->users_model->get_user_stripe_details($user_id);
 			$gigs = $this->gigs_model->get_artist_gigs($user_id);
 			// echo json_encode($links);
 			foreach ($links as $link) {
@@ -273,11 +274,12 @@ class Account extends CI_Controller
 					$user->twitter = $link->url;
 				}
 			}
+			$user->is_restricted = (isset($stripe_details) && !$stripe_details->is_restricted) ? false : true;
 			// echo json_encode($user);
 			// die();
 
 			$now = new DateTime();
-			if($gigs){
+			if ($gigs) {
 				foreach ($gigs as $gig) {
 					$gig->user_name = $user->fname . ' ' . $user->lname;
 					$args = [
@@ -426,18 +428,18 @@ class Account extends CI_Controller
 		$this->session->sess_destroy();
 		redirect('/');
 	}
-	
-	
-	public function create_user_stripe_account(){
-		$usrid = $this->input->get('user_id'); 
-		$rws = $this->users_model->get_user_stripe_details($usrid);  
-		if ($rws) {  
-			$stripe_id = $rws->stripe_id;  
+
+
+	public function create_user_stripe_account()
+	{
+		$usrid = $this->input->get('user_id');
+		$rws = $this->users_model->get_user_stripe_details($usrid);
+		if ($rws) {
+			$stripe_id = $rws->stripe_id;
 			require_once('application/libraries/stripe-php/init.php');
-			$stripeSecret = $this->config->item('stripe_api_key');
-	
-			$stripe = new \Stripe\StripeClient($stripeSecret);
-	
+			$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+			$stripe = new \Stripe\StripeClient($stripe_config->value);
+
 			$account = $stripe->accounts->create([
 				'type' => 'custom',
 				'email' => $stripe_id,
@@ -450,25 +452,23 @@ class Account extends CI_Controller
 			//return $account;
 			// echo json_encode($account);
 			// die(); 
-			
-			
-			redirect("account/edit_stripe_account/". $usrid ); 
-			
-		}else{
-		
+
+
+			redirect("account/edit_stripe_account/" . $usrid);
+		} else {
+
 			$this->session->set_flashdata('error_msg', 'Please enter your Stripe Account info first to activate your account!');
-			redirect("account/edit_profile/". $usrid );
+			redirect("account/edit_profile/" . $usrid);
 			return true;
-		} 
+		}
 	}
-	
-	
+
+
 	public function create_user_stripe_account_old($stripe_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-
-		$stripe = new \Stripe\StripeClient($stripeSecret);
+		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+		$stripe = new \Stripe\StripeClient($stripe_config->value);
 
 		$account = $stripe->accounts->create([
 			'type' => 'custom',
@@ -482,136 +482,106 @@ class Account extends CI_Controller
 		// echo json_encode($account);
 		// die();
 	}
-	
-	public function edit_stripe_account($usrid = ''){
-	
-		$data = array(); 
+
+	public function edit_stripe_account($usrid = '')
+	{
+
+		$data = array();
 		$data["usrid"] = $usrid;
 		//$data["row"] = ($usrid >0) ? $this->users_model->get_user_by_id($usrid) : false;
-		
-		$data["row"] = ($usrid >0) ? $this->users_model->get_user_stripe_details($usrid) : false; 
-		$data["user"] = ($usrid >0) ? $this->users_model->get_user_by_id($usrid) : false; 
+
+		$stripe_details = ($usrid > 0) ? $this->users_model->get_user_stripe_details($usrid) : false;
+		if ($stripe_details) {
+			$account = $this->check_user_account_details($stripe_details->stripe_account_id);
+			$charges_enabled = $account["charges_enabled"];
+			$this->users_model->update_user_stripe_data($stripe_details->id, array('is_restricted' => !$charges_enabled));
+		}
+		$data["row"] = ($usrid > 0) ? $this->users_model->get_user_stripe_details($usrid) : false;
+		$data["user"] = ($usrid > 0) ? $this->users_model->get_user_by_id($usrid) : false;
 		//print_r( $data["user"]);
-		
-		if (isset($_POST) && !empty($_POST)){
+
+		if (isset($_POST) && !empty($_POST)) {
 			$stripe_id = $this->input->post("stripe_id");
 			//$stripe_account_id = $this->input->post("stripe_account_id");
-			
-			$this->form_validation->set_rules("stripe_id", "Stripe Email", "trim|required|xss_clean"); 
+
+			$this->form_validation->set_rules("stripe_id", "Stripe Email", "trim|required|xss_clean");
 			//$this->form_validation->set_rules("stripe_account_id", "Stripe Account ID", "trim|required|xss_clean"); 
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
 				$this->load->view('frontend/account/edit_stripe_account', $data);
-			} else { 
-				
-				if(isset($data["row"])){
-				
-					require_once('application/libraries/stripe-php/init.php');
-					$stripeSecret = $this->config->item('stripe_api_key');
-			
-					$stripe = new \Stripe\StripeClient($stripeSecret);
-					 
-					/*$account1 = $stripe->accounts->retrieve(
-					  'younasali22aasdasdasd@gmail.com', //'acct_1J7J4eRJuvkbVDX1',
-					  ['email']
-					); 
-					echo "<pre>";
-					print_r($account1);
-					echo "</pre>";
-					exit;*/ 
-					
-					$account = $stripe->accounts->create([
-						'type' => 'custom',
-						'email' => $stripe_id,
-						'capabilities' => [
-							'card_payments' => ['requested' => true],
-							'transfers' => ['requested' => true],
-						],
-					]);
-					
-					if($account["id"]){
-					
+			} else {
+
+				if (isset($data["row"])) {
+					$account = $this->create_user_stripe_account_old($stripe_id);
+
+					if ($account["id"]) {
+
 						$stripe_account_id = $account["id"];
-						  
-						$updation_query = $this->users_model->update_user_stripe_data($data["row"]->id, array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id)); 
-					
-						if($updation_query){ 
+						$charges_enabled = $account["charges_enabled"];
+
+						$updation_query = $this->users_model->update_user_stripe_data($data["row"]->id, array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id, 'is_restricted' => !$charges_enabled));
+
+						if ($updation_query) {
 							$this->session->set_flashdata('success_msg', 'Stripe Account info updated successfully!');
 							//$this->load->view('frontend/account/edit_stripe_account', $data);  
-							redirect('account/edit_stripe_account/'.$usrid);
+							redirect('account/edit_stripe_account/' . $usrid);
 						} else {
 							$this->session->set_flashdata('error_msg', 'Unable to update Stripe Account info, please try again!');
-							$this->load->view('frontend/account/edit_stripe_account', $data);  
-						}
-					
-					}else{
-						$this->session->set_flashdata('error_msg', 'Unable to save Stripe Account info, please try again!');
-						$this->load->view('frontend/account/edit_stripe_account', $data);  
-					}  
-					
-				}else{  
-					
-					require_once('application/libraries/stripe-php/init.php');
-					$stripeSecret = $this->config->item('stripe_api_key');
-			
-					$stripe = new \Stripe\StripeClient($stripeSecret);
-					
-					$account = $stripe->accounts->create([
-						'type' => 'custom',
-						'email' => $stripe_id,
-						'capabilities' => [
-							'card_payments' => ['requested' => true],
-							'transfers' => ['requested' => true],
-						],
-					]);
-					
-					if($account["id"]){
-					
-						$stripe_account_id = $account["id"];
-					  
-						$insertion_query = $this->users_model->insert_user_stripe_details(array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id, 'user_id' =>  $usrid, 'is_restricted' =>  '0'));  
-						
-						if($insertion_query){ 
-							$this->session->set_flashdata('success_msg', 'Stripe Account info saved successfully!');
-							//$this->load->view('frontend/account/edit_stripe_account', $data);    
-							redirect('account/edit_stripe_account/'.$usrid);
-							
-						} else {
-							$this->session->set_flashdata('error_msg', 'Unable to save Stripe Account info, please try again!');
-							$this->load->view('frontend/account/edit_stripe_account', $data);  
+							$this->load->view('frontend/account/edit_stripe_account', $data);
 						}
 					} else {
 						$this->session->set_flashdata('error_msg', 'Unable to save Stripe Account info, please try again!');
-						$this->load->view('frontend/account/edit_stripe_account', $data);  
-					} 
-					 
-				} 
-				
+						$this->load->view('frontend/account/edit_stripe_account', $data);
+					}
+				} else {
+
+					$account = $this->create_user_stripe_account_old($stripe_id);
+
+					if ($account["id"]) {
+
+						$stripe_account_id = $account["id"];
+						$charges_enabled = $account["charges_enabled"];
+
+						$insertion_query = $this->users_model->insert_user_stripe_details(array('stripe_id' => $stripe_id, 'stripe_account_id' => $stripe_account_id, 'user_id' => $usrid, 'is_restricted' => !$charges_enabled));
+
+						if ($insertion_query) {
+							$this->session->set_flashdata('success_msg', 'Stripe Account info saved successfully!');
+							//$this->load->view('frontend/account/edit_stripe_account', $data);    
+							redirect('account/edit_stripe_account/' . $usrid);
+						} else {
+							$this->session->set_flashdata('error_msg', 'Unable to save Stripe Account info, please try again!');
+							$this->load->view('frontend/account/edit_stripe_account', $data);
+						}
+					} else {
+						$this->session->set_flashdata('error_msg', 'Unable to save Stripe Account info, please try again!');
+						$this->load->view('frontend/account/edit_stripe_account', $data);
+					}
+				}
+
 				//$this->load->view('frontend/account/edit_stripe_account', $data);
 			}
-		
-		}else{ 
-		
+		} else {
 			$this->load->view('frontend/account/edit_stripe_account', $data);
-		} 
+		}
 	}
-	  
-	public function edit_profile($user_id = ''){ 
-		$data["user_id"] = $user_id; 
+
+	public function edit_profile($user_id = '')
+	{
+		$data["user_id"] = $user_id;
 		if (isset($_POST) && !empty($_POST)) {
 			// echo json_encode($_POST);
 			// echo json_encode($_FILES);
 			// die();
-			$data = $_POST; 
-			$data["user_id"] = $user_id; 
+			$data = $_POST;
+			$data["user_id"] = $user_id;
 			// form validation 
 			$this->form_validation->set_rules("fname", "First Name", "trim|required|xss_clean");
 			$this->form_validation->set_rules("lname", "Last Name", "trim|required|xss_clean");
 
 			if ($this->form_validation->run() == FALSE) {
 				// validation fail
-				$this->load->view('frontend/account/profile', $data); 
+				$this->load->view('frontend/account/profile', $data);
 				//$this->load->view('frontend/account/profile');
 				//redirect('admin/users/update/' . $data['id']);
 			} else {
@@ -680,7 +650,7 @@ class Account extends CI_Controller
 					if (strlen($prf_img_error) > 0) {
 						$this->session->set_flashdata('prof_img_error', $prf_img_error);
 						//redirect('account/profile');
-						$this->load->view('frontend/account/profile', $data); 
+						$this->load->view('frontend/account/profile', $data);
 					}
 				}
 				$res = $this->users_model->update_user_data($data['id'], $datas);
@@ -697,7 +667,7 @@ class Account extends CI_Controller
 						'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
 						'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
 					);
-					$this->session->set_userdata($cstm_sess_data); 
+					$this->session->set_userdata($cstm_sess_data);
 					// echo json_encode($stripe_details);
 					// die();
 					$this->session->set_flashdata('success_msg', 'Profile data updated successfully!');
@@ -705,32 +675,32 @@ class Account extends CI_Controller
 					$this->session->set_flashdata('error_msg', 'Error: while updating Profile data!');
 				}
 				//$this->load->view('frontend/account/profile', $data);
-				redirect("account/edit_profile/". $user_id );
+				redirect("account/edit_profile/" . $user_id);
 			}
-		} else { 
-			if($user_id == '' || $this->dbs_user_id != $user_id) {
+		} else {
+			if ($user_id == '' || $this->dbs_user_id != $user_id) {
 				redirect('/');
 			}
-			
+
 			$user = $this->users_model->get_user_by_id($user_id);
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);
-				$stripe_details = $this->users_model->get_user_stripe_details($this->dbs_user_id);
-				$detail_submitted_flag = 'NA';
-				if ($stripe_details) {
-					$detail_submitted_flag = 'restricted';
-					if ($stripe_details) {
-						$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
-						// echo json_encode($stripe_account);
-						// die();
-						if ($stripe_account->charges_enabled) {
-							$detail_submitted_flag = 'enabled';
-						}
-					}
-				}
-				$user->stripe_id = $stripe_details ? $stripe_details->stripe_id : null;
-				$user->detail_submitted_flag = $detail_submitted_flag;
+				// $stripe_details = $this->users_model->get_user_stripe_details($this->dbs_user_id);
+				// $detail_submitted_flag = 'NA';
+				// if ($stripe_details) {
+				// 	$detail_submitted_flag = 'restricted';
+				// 	if ($stripe_details) {
+				// 		$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
+				// 		// echo json_encode($stripe_account);
+				// 		// die();
+				// 		if ($stripe_account->charges_enabled) {
+				// 			$detail_submitted_flag = 'enabled';
+				// 		}
+				// 	}
+				// }
+				// $user->stripe_id = $stripe_details ? $stripe_details->stripe_id : null;
+				// $user->detail_submitted_flag = $detail_submitted_flag;
 				if (isset($links) && !empty($links)) {
 					foreach ($links as $link) {
 						$platform = $link->platform;
@@ -753,9 +723,8 @@ class Account extends CI_Controller
 	function check_user_account_details($account_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-
-		$stripe = new \Stripe\StripeClient($stripeSecret);
+		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+		$stripe = new \Stripe\StripeClient($stripe_config->value);
 		$account = $stripe->accounts->retrieve(
 			$account_id,
 			[]
@@ -767,19 +736,23 @@ class Account extends CI_Controller
 	{
 		$user_id = $this->input->get('user_id');
 		$stripe_details = $this->users_model->get_user_stripe_details($user_id);
-		 
-		require_once('application/libraries/stripe-php/init.php');
-		$stripeSecret = $this->config->item('stripe_api_key');
-		$stripe = new \Stripe\StripeClient($stripeSecret);
-		$response = $stripe->accountLinks->create([
-			'account' => $stripe_details->stripe_account_id,
-			'refresh_url' => user_base_url() . 'account/enable_stripe_account?user_id=' . $user_id,
-			'return_url' => user_base_url() . 'profile',
-			'type' => 'account_update',
-		]); 
-		//print_r($response); 
-		redirect($response->url);
-		// echo json_encode($response);
+
+		if ($stripe_details) {
+			require_once('application/libraries/stripe-php/init.php');
+			$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+			$stripe = new \Stripe\StripeClient($stripe_config->value);
+			$response = $stripe->accountLinks->create([
+				'account' => $stripe_details->stripe_account_id,
+				'refresh_url' => user_base_url() . 'account/enable_stripe_account?user_id=' . $user_id,
+				'return_url' => user_base_url() . 'account/edit_stripe_account/' . $user_id,
+				'type' => 'account_update',
+			]);
+			//print_r($response); 
+			redirect($response->url);
+			// echo json_encode($response);
+		} else {
+			redirect('account/edit_stripe_account/' . $user_id);
+		}
 	}
 
 	function remove_social_links($id)
@@ -854,7 +827,7 @@ class Account extends CI_Controller
 			$this->load->view('frontend/account/create_account', $data);
 		}
 	}
-	
+
 
 	function get_tickets_booked_and_left($gig)
 	{
@@ -874,7 +847,7 @@ class Account extends CI_Controller
 	{
 		$email = $this->input->post('email');
 		$res = $this->users_model->validate_email($email);
-		if($res) {
+		if ($res) {
 			echo 1;
 		} else {
 			echo 0;

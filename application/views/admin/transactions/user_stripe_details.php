@@ -3,7 +3,7 @@
 
 <head>
     <?php $this->load->view('admin/layout/meta_tags'); ?>
-    <title>Users Stripe Record</title>
+    <title>User Stripe Record</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
                     <div class="d-flex">
                         <div class="breadcrumb">
                             <a href="<?php echo admin_base_url(); ?>dashboard" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                            <span class="breadcrumb-item active">Users Stripe Record</span>
+                            <span class="breadcrumb-item active">User Stripe Record</span>
                         </div>
 
                         <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -34,7 +34,7 @@
                 <!-- Striped rows -->
                 <div class="card">
                     <div class="card-header header-elements-inline">
-                        <h5 class="card-title">Users Stripe Record</h5>
+                        <h5 class="card-title">User Stripe Record</h5>
                         <div class="header-elements">
                             <div class="list-icons">
                                 <!-- <a class="list-icons-item" data-action="collapse"></a> -->
@@ -67,15 +67,20 @@
                                     ?>
                                         <tr>
                                             <td><?php echo $i ?></td>
-                                            <td><?php echo (isset($record->user) && !empty($record->user)) ? ($record->user->fname ?? '').' '.($record->user->lname ?? '') : 'NA' ?></td>
+                                            <td><?php echo (isset($record->user) && !empty($record->user)) ? ($record->user->fname ?? '') . ' ' . ($record->user->lname ?? '') : 'NA' ?></td>
                                             <td><?php echo (isset($record->stripe_details) && !empty($record->stripe_details)) ? $record->stripe_details->stripe_id : 'NA' ?></td>
                                             <td><?php echo (isset($record->stripe_details) && !empty($record->stripe_details)) ? $record->stripe_details->stripe_account_id : 'NA' ?></td>
                                             <td>
                                                 <?php
-                                                if (isset($record->stripe_details) && !empty($record->stripe_details) && !$record->stripe_details->is_restricted)
-                                                    echo '<span class="badge badge-success badge-pill">No</span>';
-                                                else
-                                                    echo '<span class="badge badge-danger badge-pill">Yes</span>';
+                                                if (isset($record->stripe_details) && !empty($record->stripe_details)) :
+                                                    if ($record->stripe_details->is_restricted) :
+                                                        echo '<span class="badge badge-danger badge-pill">Yes</span>';
+                                                    else :
+                                                        echo '<span class="badge badge-success badge-pill">No</span>';
+                                                    endif;
+                                                else :
+                                                    echo 'NA';
+                                                endif;
                                                 ?>
                                             </td>
                                         </tr>
