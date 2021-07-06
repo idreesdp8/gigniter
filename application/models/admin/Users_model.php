@@ -48,6 +48,27 @@ class Users_model extends CI_Model {
 		$query = $this->db->query("SELECT * FROM users WHERE id >'0' $whrs ORDER BY id ASC $limits "); 
 		return $query->result(); 
 	}  
+
+	function get_filtered_user_stripe_details($params)
+	{
+		$whrs = '';
+		if(array_key_exists("search",$params)){
+			$q_val = $params['search']; 
+			if(strlen($q_val)>0){
+				// OR phone_no LIKE '%$q_val%' OR mobile_no LIKE '%$q_val%' OR address LIKE '%$q_val%' 
+				$whrs .=" AND ( users.fname LIKE '%$q_val%' OR users.lname LIKE '%$q_val%' OR user_stripe_details.stripe_id LIKE '%$q_val%')";
+			}
+		} 
+		if(array_key_exists("is_restricted",$params)){
+			$is_restricted = $params['is_restricted'];
+			if($is_restricted > -1) {
+				$whrs .= " AND user_stripe_details.is_restricted = '$is_restricted'";
+			}
+		}
+		
+		$query = $this->db->query("SELECT * FROM users LEFT JOIN user_stripe_details ON user_stripe_details.user_id = users.id WHERE users.id >'0' $whrs"); 
+		return $query->result();
+	}
 	
 
 

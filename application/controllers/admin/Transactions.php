@@ -227,23 +227,23 @@ class Transactions extends CI_Controller
 
                         $this->email->attach($attched_file);
                         // $this->email->send(); 
-						
-						
-						 if ($this->email->send()) {
-							$resp = [
-								'status' => true,
-								'message' => 'Ticket has been sent!'
-							];
-						} else {
-							$resp = [
-								'status' => false,
-								'message' => json_encode($this->email->print_debugger())
-							];
-						}
-						echo json_encode($resp);
-						
-						
-                       /* if ($this->email->send()) {
+
+
+                        if ($this->email->send()) {
+                            $resp = [
+                                'status' => true,
+                                'message' => 'Ticket has been sent!'
+                            ];
+                        } else {
+                            $resp = [
+                                'status' => false,
+                                'message' => json_encode($this->email->print_debugger())
+                            ];
+                        }
+                        echo json_encode($resp);
+
+
+                        /* if ($this->email->send()) {
                             echo 'Email send.';
                         } else {
                             echo json_encode($this->email->print_debugger());
@@ -265,19 +265,46 @@ class Transactions extends CI_Controller
 
     public function user_stripe_details()
     {
-        $gig_owners = $this->gigs_model->get_all_gig_owners();
-        if($gig_owners) {
-            foreach($gig_owners as $gig_owner) {
-                $user = $this->users_model->get_user_by_id($gig_owner->user_id);
-                $stripe_details = $this->users_model->get_user_stripe_details($gig_owner->user_id);
-                $gig_owner->user = $user;
-                $gig_owner->stripe_details = $stripe_details;
+        $users = $this->users_model->get_all_users();
+        if ($users) {
+            foreach ($users as $user) {
+                // $user = $this->users_model->get_user_by_id($gig_owner->user_id);
+                $stripe_details = $this->users_model->get_user_stripe_details($user->id);
+                $user->fullname = ($user->fname ?? '') . ' ' . ($user->lname ?? '');
+                $user->stripe_id = $stripe_details->stripe_id ?? 'NA';
+                $user->stripe_account_id = $stripe_details->stripe_account_id ?? 'NA';
+                $user->is_restricted = $stripe_details->is_restricted ?? 'NA';
             }
         }
-        $data['records'] = $gig_owners;
+        $data['records'] = $users;
         // echo json_encode($data);
         // die();
         $this->load->view('admin/transactions/user_stripe_details', $data);
+    }
+
+    public function filter_user_stripe_details()
+    {
+        $param = array();
+        if ($this->input->post('search') != '') {
+            $param['search'] = $this->input->post('search');
+        }
+        if ($this->input->post('is_restricted') != '' && $this->input->post('is_restricted') > -1) {
+            $param['is_restricted'] = $this->input->post('is_restricted');
+        }
+
+        $stripe_details = $this->users_model->get_filtered_user_stripe_details($param);
+        if($stripe_details) {
+            foreach($stripe_details as $stripe_detail) {
+                $stripe_detail->fullname = ($stripe_detail->fname ?? '') . ' ' . ($stripe_detail->lname ?? '');
+                $stripe_detail->stripe_id = $stripe_detail->stripe_id ?? 'NA';
+                $stripe_detail->stripe_account_id = $stripe_detail->stripe_account_id ?? 'NA';
+                $stripe_detail->is_restricted = $stripe_detail->is_restricted ?? 'NA';
+            }
+        }
+        $data['records'] = $stripe_details;
+        echo json_encode(array(
+            'view' => $this->load->view('admin/transactions/user_stripe_details_partial',$data,TRUE)
+        ));
     }
 
     function mail_test()

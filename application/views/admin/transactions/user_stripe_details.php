@@ -44,55 +44,29 @@
                         </div>
                     </div>
 
-                    <!-- <div class="card-body">
-						Example of a table with <code>striped</code> rows. Use <code>.table-striped</code> added to the base <code>.table</code> class to add zebra-striping to any table odd row within the <code>&lt;tbody&gt;</code>. This styling doesn't work in IE8 and lower as <code>:nth-child</code> CSS selector isn't supported in these browser versions. Striped table can be combined with other table styles.
-					</div> -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Search: </label>
+                                    <input type="search" name="search" id="search" class="form-control" placeholder="Search by name">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Restricted: </label>
+                                    <select name="is_restricted" id="is_restricted" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="table-responsive">
-                        <?php if (isset($records) && count($records) > 0) { ?>
-                            <table class="table table-striped datatable-basic">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>User Name</th>
-                                        <th>Stripe Email</th>
-                                        <th>Stripe Account ID</th>
-                                        <th>Restricted</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 1;
-                                    foreach ($records as $record) {
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $i ?></td>
-                                            <td><?php echo (isset($record->user) && !empty($record->user)) ? ($record->user->fname ?? '') . ' ' . ($record->user->lname ?? '') : 'NA' ?></td>
-                                            <td><?php echo (isset($record->stripe_details) && !empty($record->stripe_details)) ? $record->stripe_details->stripe_id : 'NA' ?></td>
-                                            <td><?php echo (isset($record->stripe_details) && !empty($record->stripe_details)) ? $record->stripe_details->stripe_account_id : 'NA' ?></td>
-                                            <td>
-                                                <?php
-                                                if (isset($record->stripe_details) && !empty($record->stripe_details)) :
-                                                    if ($record->stripe_details->is_restricted) :
-                                                        echo '<span class="badge badge-danger badge-pill">Yes</span>';
-                                                    else :
-                                                        echo '<span class="badge badge-success badge-pill">No</span>';
-                                                    endif;
-                                                else :
-                                                    echo 'NA';
-                                                endif;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                        $i++;
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        <?php } else { ?>
-                            <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
-                        <?php } ?>
+                    <div class="table-responsive" id="table">
+                        <?php $this->load->view('admin/transactions/user_stripe_details_partial', $records); ?>
                     </div>
                 </div>
             </div>
@@ -108,7 +82,39 @@
     <script>
         $(document).ready(function() {
             $('#sidebar_user-stripe a').addClass('active');
+
+            // var timer;
+            $('#search').change(function() {
+                // clearTimeout(timer);
+                // var ms = 2000;
+                // timer = setTimeout(function() {
+                reload_table()
+                // }, ms);
+            });
+            $('#is_restricted').change(function() {
+                reload_table()
+            })
         });
+
+        function reload_table() {
+            var search = $('#search').val();
+            var is_restricted = $('#is_restricted').val();
+            console.log(search);
+            console.log(is_restricted);
+            $.ajax({
+                url: base_url + 'transactions/filter_user_stripe_details',
+                data: {
+                    search: search,
+                    is_restricted: is_restricted,
+                },
+                method: 'POST',
+                dataType: 'json',
+                success: function(resp) {
+                    $('#table').empty();
+                    $('#table').html(resp.view);
+                }
+            })
+        }
     </script>
 </body>
 
