@@ -1409,8 +1409,8 @@ class Gigs extends CI_Controller
 		$data['gigs'] = $gigs;
 		$data['prev_completed'] = $prev_completed;
 		// $data['prev_active'] = $prev_active;
-		// echo json_encode($data);
-		// die();
+		echo json_encode($data);
+		die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
 	}
 
