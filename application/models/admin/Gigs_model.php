@@ -390,4 +390,12 @@ class Gigs_model extends CI_Model
 		$this->db->where('id', $args1);
 		return $this->db->update('tickets', $datas);
 	}
+
+	function get_all_gig_owners()
+	{
+		$this->db->group_by('user_id');
+		$this->db->select('user_id');
+		$query = $this->db->get('gigs');
+		return $query->result();
+	}
 }

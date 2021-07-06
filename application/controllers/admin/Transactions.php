@@ -263,10 +263,21 @@ class Transactions extends CI_Controller
         //$this->load->view('admin/transactions/tickets', $data);
     }
 
-    public function send_ticket()
+    public function user_stripe_details()
     {
-        $ticketid = $this->input->post('ticket_id');
-        echo $ticketid;
+        $gig_owners = $this->gigs_model->get_all_gig_owners();
+        if($gig_owners) {
+            foreach($gig_owners as $gig_owner) {
+                $user = $this->users_model->get_user_by_id($gig_owner->user_id);
+                $stripe_details = $this->users_model->get_user_stripe_details($gig_owner->user_id);
+                $gig_owner->user = $user;
+                $gig_owner->stripe_details = $stripe_details;
+            }
+        }
+        $data['records'] = $gig_owners;
+        // echo json_encode($data);
+        // die();
+        $this->load->view('admin/transactions/user_stripe_details', $data);
     }
 
     function mail_test()

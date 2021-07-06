@@ -96,16 +96,16 @@ $new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
                         </ul>
                     </li>
                 <?php endif; ?>
-                <!-- <?php if (in_array('edit-customer', $user_permissions) || in_array('view-customer', $user_permissions) || in_array('delete-customer', $user_permissions)) : ?>
-                <li class="nav-item" id="sidebar_customer">
-                    <a href="<?php echo admin_base_url(); ?>customers" class="nav-link">
-                        <i class="icon-cart"></i>
+                <?php if (in_array('edit-user-stripe', $user_permissions) || in_array('view-user-stripe', $user_permissions) || in_array('delete-user-stripe', $user_permissions)) : ?>
+                <li class="nav-item" id="sidebar_user-stripe">
+                    <a href="<?php echo admin_base_url(); ?>user_stripe_details" class="nav-link">
+                        <i class="icon-coins"></i>
                         <span>
-                            Customers
+                            User Stripe details
                         </span>
                     </a>
                 </li>
-                <?php endif; ?> -->
+                <?php endif; ?>
 
 
                 <?php if (in_array('create-email-template', $user_permissions) || in_array('edit-email-template', $user_permissions) || in_array('view-email-template', $user_permissions) || in_array('delete-email-template', $user_permissions)) : ?>
