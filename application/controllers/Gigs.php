@@ -1315,7 +1315,7 @@ class Gigs extends CI_Controller
 		// echo json_encode($gigs);
 		// die();
 		if ($gigs) {
-			$now = new DateTime();
+			$now = strtotime('now');
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
 				$gig->user_name = $user->fname . ' ' . $user->lname;
@@ -1331,9 +1331,13 @@ class Gigs extends CI_Controller
 				];
 				$category = $this->configurations_model->get_configuration_by_key_value($args2);
 				$gig->category_name = $category->label;
-				$gig_date = new DateTime($gig->gig_date);
-				$interval = $gig_date->diff($now);
-				$gig->days_left = $interval->format('%a');
+				if ($gig->gig_date) {
+					$gig_date = strtotime($gig->gig_date);
+					$interval = $gig_date - $now;
+					$gig->days_left = ceil($interval/3600/24)/* ->format('%a') */;
+				} else {
+					$gig->days_left = 'NA';
+				}
 				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
 				$ticket_bought = 0;
 				foreach ($cart_items as $item) {
@@ -1374,7 +1378,7 @@ class Gigs extends CI_Controller
 
 		$gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
 		if ($gigs) {
-			$now = new DateTime();
+			$now = strtotime('now');
 			foreach ($gigs as $gig) {
 				$user = $this->users_model->get_user_by_id($gig->user_id);
 				$gig->user_name = $user->fname . ' ' . $user->lname;
@@ -1391,9 +1395,9 @@ class Gigs extends CI_Controller
 				$category = $this->configurations_model->get_configuration_by_key_value($args2);
 				$gig->category_name = $category->label;
 				if ($gig->gig_date) {
-					$gig_date = new DateTime($gig->gig_date);
-					$interval = $gig_date->diff($now);
-					$gig->days_left = $interval->format('%a');
+					$gig_date = strtotime($gig->gig_date);
+					$interval = $gig_date - $now;
+					$gig->days_left = ceil($interval/3600/24)/* ->format('%a') */;
 				} else {
 					$gig->days_left = 'NA';
 				}
@@ -1409,8 +1413,8 @@ class Gigs extends CI_Controller
 		$data['gigs'] = $gigs;
 		$data['prev_completed'] = $prev_completed;
 		// $data['prev_active'] = $prev_active;
-		echo json_encode($data);
-		die();
+		// echo json_encode($data);
+		// die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
 	}
 

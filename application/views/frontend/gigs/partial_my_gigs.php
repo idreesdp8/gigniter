@@ -30,7 +30,18 @@
                                 <h6><?php echo $gig->user_name ?></h6>
                                 <p><?php echo $gig->gig_date ? date('d M Y', strtotime($gig->gig_date)) : 'Not set' ?></p>
                                 <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
-                                <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo $gig->days_left == 'NA' ? 'NA' : (abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today') ?></p>
+                                <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>
+                                    <?php
+                                        if($gig->days_left < 0)
+                                            echo abs($gig->days_left) . ' days ago';
+                                        elseif($gig->days_left == 'NA')
+                                            echo 'NA';
+                                        elseif($gig->days_left > 0) 
+                                            echo $gig->days_left . ' days left';
+                                        else 
+                                            echo 'Today'; 
+                                    ?>
+                                </p>
                             </div>
                             <div>
                                 <div class="add-gallery">
