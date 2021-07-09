@@ -2,7 +2,7 @@
 
 application/cache/*
 !application/cache/index.html
-downloads
+#downloads
 
 application/logs/*
 !application/logs/index.html
