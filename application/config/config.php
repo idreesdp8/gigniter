@@ -23,7 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://gigniter.digitalpoin8.com';
+// $config['base_url'] = 'https://gigniter.digitalpoin8.com';
+$config['base_url'] = 'https://gigniter.ca';
 // $config['base_url'] = 'http://localhost/CodeIgniter/gigniter/';
 
 /*
