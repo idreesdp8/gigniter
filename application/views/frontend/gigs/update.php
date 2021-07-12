@@ -591,7 +591,7 @@
 <!-- /page content -->
 <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
 <?php $this->load->view('frontend/layout/scripts'); ?>
-<script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
+<script src="<?php echo user_asset_url(); ?>js/step-form-update.js"></script>
 <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
 <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
 <!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script> -->

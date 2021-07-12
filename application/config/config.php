@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'https://gigniter.digitalpoin8.com';
-$config['base_url'] = 'https://gigniter.ca';
+$config['base_url'] = 'https://gigniter.ca/stagging';
 // $config['base_url'] = 'http://localhost/CodeIgniter/gigniter/';
 
 /*
@@ -37,7 +37,8 @@ $config['base_url'] = 'https://gigniter.ca';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+// $config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
