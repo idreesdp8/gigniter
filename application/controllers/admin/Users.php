@@ -450,5 +450,43 @@ class Users extends CI_Controller
 		$this->bookings_model->remove_bookings_by_user_id($id);
 		$this->bookings_model->remove_cart_items_by_user_id($id);
 	}
+
+	function send_verification_email($id)
+	{
+		$result = $this->users_model->get_user_by_id($id);
+		$send = $this->send_email($result->email, 'Verification Code', 'verification');
+		echo $send;
+	}
+	
+	function send_email($to_email, $subject, $email_for)
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		if ($email_for == 'verification') {
+			$this->load->helper('string');
+			$code = random_string('alnum', 6);
+			$this->session->set_userdata(['verification_code' => $code]);
+			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+			$msg = $this->load->view('email/verification_code', $data, TRUE);
+		}
+		if ($email_for == 'forgot_password') {
+			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
+
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	/* users functions ends */
 }

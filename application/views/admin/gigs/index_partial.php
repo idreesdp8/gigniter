@@ -1,5 +1,5 @@
-<table class="table table-striped datatable-custom">
-    <?php if (isset($records) && count($records) > 0) { ?>
+<?php if (isset($records) && count($records) > 0) { ?>
+    <table class="table table-striped datatable-custom">
         <thead>
             <tr>
                 <th>#</th>
@@ -75,7 +75,14 @@
             }
             ?>
         </tbody>
-    <?php } else { ?>
-        <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
-    <?php } ?>
-</table>
+    </table>
+    <script>
+        $('.datatable-custom').DataTable({
+            // 'bFilter': false,
+            // 'searching': true,
+            // "sDom":"ltipr"
+        });
+    </script>
+<?php } else { ?>
+    <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+<?php } ?>

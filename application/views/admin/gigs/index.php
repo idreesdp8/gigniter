@@ -181,7 +181,7 @@
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_gig_view a').addClass('active');
 
-            reload_datatable()
+            // reload_datatable()
 
             // $('#is_featured').change(function() {
             //     console.log($(this).val());
