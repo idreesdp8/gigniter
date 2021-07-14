@@ -131,7 +131,7 @@ class Gigs extends CI_Controller
 		// $password = $data['password'];
 		$password = $this->general_model->safe_ci_encoder($data['password']);
 		$created_on = date('Y-m-d H:i:s');
-		$status = 1;
+		$status = 0;
 		$datas = array(
 			'fname' => $data['fname'],
 			'lname' => $data['lname'],
@@ -186,29 +186,30 @@ class Gigs extends CI_Controller
 				$this->users_model->insert_user_social_link($temp);
 			}
 			// set session	
-			$cstm_sess_data = array(
-				'us_login' => TRUE,
-				'us_id' => $res,
-				'us_role_id' => $role->id,
-				'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
-				'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
-				'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
-				'us_email' => $data['email'],
-				'us_role_name' => 'User',
-			);
+			// $cstm_sess_data = array(
+			// 	'us_login' => TRUE,
+			// 	'us_id' => $res,
+			// 	'us_role_id' => $role->id,
+			// 	'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
+			// 	'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
+			// 	'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
+			// 	'us_email' => $data['email'],
+			// 	'us_role_name' => 'User',
+			// );
 
-			$this->session->set_userdata($cstm_sess_data);
+			// $this->session->set_userdata($cstm_sess_data);
 
 
 			$stripe_id = $data['stripe'];
 
 			$account = $this->create_user_stripe_account($stripe_id);
 			$temp = [
-				'user_id' => $data['id'],
+				'user_id' => $res,
 				'stripe_id' => $stripe_id,
 				'stripe_account_id' => $account->id,
 			];
 			$this->users_model->insert_user_stripe_details($temp);
+			$this->send_email($data['email'], 'Verification Code', 'verification');
 		}
 		return $res;
 	}
@@ -366,6 +367,7 @@ class Gigs extends CI_Controller
 
 	public function add()
 	{
+		$is_new = 0;
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
@@ -422,6 +424,9 @@ class Gigs extends CI_Controller
 					$this->update_user_data($data, $user_image, $this->dbs_user_id);
 					$data['user_id'] = $this->dbs_user_id;
 				} else {
+					$is_new = 1;
+					// echo $is_new;
+					// die();
 					$data['user_id'] = $this->create_user($data, $user_image);
 				}
 
@@ -519,6 +524,9 @@ class Gigs extends CI_Controller
 				if ($res) {
 					// $this->create_channel($data['title'], $res);
 					$this->add_tickets($data, $res);
+					if($is_new){
+						redirect('account/verfication_page');
+					}
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
 					// if ($data['is_draft'] == 2) {
@@ -1579,5 +1587,42 @@ class Gigs extends CI_Controller
 			$res = false;
 		}
 		echo $res;
+	}
+	
+	function send_email($to_email, $subject, $email_for)
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		if ($email_for == 'verification') {
+			$this->load->helper('string');
+			$code = random_string('alnum', 6);
+			$this->session->set_userdata(['verification_code' => $code]);
+			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+			$msg = $this->load->view('email/verification_code', $data, TRUE);
+		}
+		if ($email_for == 'forgot_password') {
+			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
+
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function test()
+	{
+		$send = $this->send_email('hamza0952454@gmail.com', 'Verification Code', 'verification');
+		echo $send;
 	}
 }

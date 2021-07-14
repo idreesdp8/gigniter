@@ -853,4 +853,10 @@ class Account extends CI_Controller
 			echo 0;
 		}
 	}
+
+	function verfication_page()
+	{
+		$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+		$this->load->view('frontend/account/verfication_page');
+	}
 }
