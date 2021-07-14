@@ -19,5 +19,6 @@
 <script src="<?php echo user_asset_url(); ?>js/sweetalert.min.js"></script>
 <script>
     const base_url = '<?php echo user_base_url() ?>';
+    const user_id = '<?php echo $this->session->userdata('us_id') ?>';
     $('[data-toggle="tooltip"]').tooltip();
 </script>

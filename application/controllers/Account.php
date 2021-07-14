@@ -852,7 +852,5 @@ class Account extends CI_Controller
 		} else {
 			echo 0;
 		}
-		// echo json_encode($res);
-		// die();
 	}
 }

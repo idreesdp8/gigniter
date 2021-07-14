@@ -218,16 +218,16 @@
                                                     <div class="cast-item mb-2">
                                                         <div class="cast-thumb tier-cast-thumb">
                                                             <a href="#0">
-                                                            <?php
-                                                            $bundle = $tier['bundle'][0];
-                                                            ?>
+                                                                <?php
+                                                                $bundle = $tier['bundle'][0];
+                                                                ?>
                                                                 <img src="<?php echo $bundle['image'] != '' ? session_url() . $bundle['image'] : user_asset_url() . 'images/cap.png' ?>" alt="cast">
                                                             </a>
                                                         </div>
                                                         <div class="cast-content">
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier['name'] ?></a></h6>
                                                             <span class="cate">$<?php echo $tier['price'] ?>/<?php echo $tier['quantity'];
-                                                                                                            echo $tier['quantity'] > 1 ? ' Tickets' : ' Ticket' ?></span>
+                                                                                                                echo $tier['quantity'] > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                         </div>
                                                     </div>
                                                 <?php
@@ -259,9 +259,17 @@
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
     <script>
         function close_window() {
-            if (confirm("Close Window?")) {
-                close();
-            }
+            swal({
+                title: "Are you sure you want to close the preview?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                buttons: ["No", "Yes"],
+            }).then((willDelete) => {
+                if (willDelete) {
+                    close();
+                }
+            });
         }
         $(document).ready(function() {
 

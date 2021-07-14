@@ -199,9 +199,9 @@ class Gigs extends CI_Controller
 
 			$this->session->set_userdata($cstm_sess_data);
 
-			
+
 			$stripe_id = $data['stripe'];
-			
+
 			$account = $this->create_user_stripe_account($stripe_id);
 			$temp = [
 				'user_id' => $data['id'],
@@ -213,7 +213,7 @@ class Gigs extends CI_Controller
 		return $res;
 	}
 
-	
+
 	public function create_user_stripe_account($stripe_id)
 	{
 		require_once('application/libraries/stripe-php/init.php');
@@ -291,11 +291,17 @@ class Gigs extends CI_Controller
 			'stream_url' => '',
 			'stream_key' => '',
 		);
-		$tickets = $gig_data['ticket_name'];
-		$length = count($tickets);
+		// $length = 0;
+		// if($gig_data['ticket_name'] && !empty($gig_data['ticket_name'])){
+		// 	$tickets = $gig_data['ticket_name'];
+		// 	$length = count($tickets);
+		// }
 		// echo $length;
 		// die();
-		for ($i = 0; $i < $length; $i++) {
+		// for ($i = 0; $i < $length; $i++) {
+		$i = 0;
+		foreach ($gig_data['ticket_name'] as $ticket_name) {
+			if ($ticket_name == '') continue;
 			$tier = [];
 			$j = $i + 1;
 			if ($gig_data['ticket_name'][$i] != '') {
@@ -305,10 +311,15 @@ class Gigs extends CI_Controller
 					'quantity' => $gig_data['ticket_quantity'][$i],
 				];
 			}
-			$bundle_tiers = $gig_data["bundle_title_tier$j"];
-			$bundle_length = count($bundle_tiers);
+			// $bundle_tiers = array();
+			// if ($gig_data["bundle_title_tier$j"] && !empty($gig_data["bundle_title_tier$j"])) {
+			// 	$bundle_tiers = $gig_data["bundle_title_tier$j"];
+			// }
+			// $bundle_length = count($bundle_tiers);
 			$bundle = [];
-			for ($k = 0; $k < $bundle_length; $k++) {
+			// for ($k = 0; $k < $bundle_length; $k++) {
+			foreach ($gig_data['bundle_title_tier$j'] as $bundle_title) {
+				if ($bundle_title == '') continue;
 				// $j = $i + 1;
 				$imagename = '';
 				if (isset($gig_files["bundle_image_tier$j"]['tmp_name'][$k]) && $gig_files["bundle_image_tier$j"]['tmp_name'][$k] != '') {
@@ -332,6 +343,7 @@ class Gigs extends CI_Controller
 			}
 			$tier['bundle'] = $bundle;
 			$tiers[] = $tier;
+			$i++;
 		}
 		$data['tiers'] = $tiers;
 
@@ -385,7 +397,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("start_time", "Start Time", "trim|required|xss_clean");
 			$this->form_validation->set_rules("end_time", "End Time", "trim|required|xss_clean");
-			if(!$this->dbs_user_id) {
+			if (!$this->dbs_user_id) {
 				$this->form_validation->set_rules(
 					'email',
 					'Email',
@@ -671,7 +683,7 @@ class Gigs extends CI_Controller
 			$this->session->set_userdata($cstm_sess_data);
 			$stripe_id = $data['stripe'];
 			$stripe_details = $this->users_model->get_user_stripe_details($user_id);
-			if ($stripe_details->stripe_id != $stripe_id) {
+			if (!$stripe_details || ($stripe_details && $stripe_details->stripe_id != $stripe_id)) {
 				$this->users_model->trash_user_stripe_details($user_id);
 				if ($stripe_id) {
 					$account = $this->create_user_stripe_account($stripe_id);
@@ -1334,7 +1346,7 @@ class Gigs extends CI_Controller
 				if ($gig->gig_date) {
 					$gig_date = strtotime($gig->gig_date);
 					$interval = $gig_date - $now;
-					$gig->days_left = ceil($interval/3600/24)/* ->format('%a') */;
+					$gig->days_left = ceil($interval / 3600 / 24)/* ->format('%a') */;
 				} else {
 					$gig->days_left = 'NA';
 				}
@@ -1397,7 +1409,7 @@ class Gigs extends CI_Controller
 				if ($gig->gig_date) {
 					$gig_date = strtotime($gig->gig_date);
 					$interval = $gig_date - $now;
-					$gig->days_left = ceil($interval/3600/24)/* ->format('%a') */;
+					$gig->days_left = ceil($interval / 3600 / 24)/* ->format('%a') */;
 				} else {
 					$gig->days_left = 'NA';
 				}

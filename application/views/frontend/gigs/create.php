@@ -20,6 +20,22 @@
     .align-items-flex-end {
       align-items: flex-end;
     }
+
+    .close.kv-error-close {
+      display: none;
+    }
+
+    #div_image .kv-fileinput-error ul {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .kv-fileinput-error {
+      color: red;
+    }
+    .btn.disabled, .btn:disabled {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -47,19 +63,19 @@
                   <p><small>Basic Info</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-2" type="button" class="btn btn-default btn-circle line progress_step_2">2</a>
+                  <a href="#step-2" type="button" class="btn btn-default btn-circle line progress_step_2 disabled">2</a>
                   <p><small>Ticket Tiers</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3">3</a>
+                  <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3 disabled">3</a>
                   <p><small>About You</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4">4</a>
+                  <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4 disabled">4</a>
                   <p><small>Test link</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5">5</a>
+                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5 disabled">5</a>
                   <p><small>Review & Confirm</small></p>
                 </div>
               </div>
@@ -81,21 +97,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig Title <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Title"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="title" name="title" required="required">
+                      <input type="text" id="title" name="title">
                       <span id="title1" class="text-danger" generated="true"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig subtitle <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig subtitle"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="subtitle" name="subtitle" required="required">
+                      <input type="text" id="subtitle" name="subtitle">
                       <span id="subtitle1" class="text-danger" generated="true"><?php echo form_error('subtitle'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Category <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Category"><i class="fas fa-question-circle"></i></span>
-                      <select id="category" name="category" class="select" required="required">
+                      <select id="category" name="category" class="select">
                         <option value="">Select Category</option>
                         <?php
                         if (isset($categories)) :
@@ -113,7 +129,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Genre <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Genre"><i class="fas fa-question-circle"></i></span>
-                      <select id="genre" name="genre" class="select" required="required">
+                      <select id="genre" name="genre" class="select">
                         <option value="">Select Genre</option>
                         <?php
                         if (isset($genres)) :
@@ -178,7 +194,7 @@
                         <label style="z-index: 3;left: 50%;position: absolute;top: 50%;float: left;width: 50px;" class="icon_upload1 file-dimension custom-file-upload" for="file-input">
                           <img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" class="icon_upload2">
                         </label>
-                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" required="required" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                        <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                       </div>
                       <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
                         <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
@@ -186,8 +202,8 @@
                     </div>
                     <div class="error_poster text-danger"></div>
                   </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
-                    <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-4" id="div_video">
+                    <p>Upload Pitch Video <small class="text-warning">max 5mb</small><span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
                     <!-- or Pitch Video -->
                     <div class="gig-poster-wrapper">
                       <div class="mb-1 video-wrapper">
@@ -215,21 +231,21 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal" name="goal" min="1" required="required">
+                      <input type="number" id="goal" name="goal" min="1">
                       <span id="goal1" class="text-danger" generated="true"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="threshold" name="threshold" min="1" required="required">
+                      <input type="number" id="threshold" name="threshold" min="1">
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal_amount" name="goal_amount" min="1" required="required">
+                      <input type="number" id="goal_amount" name="goal_amount" min="1">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
@@ -249,28 +265,28 @@
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="gig_date" class="date" name="gig_date" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required">
+                      <input type="date" id="gig_date" class="date" name="gig_date" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'">
                       <span id="gig_date1" class="text-danger" generated="true"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Start Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Start Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="start_time" class="time" name="start_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="start_time" class="time" name="start_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'">
                       <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="end_time" class="time" name="end_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'" required="required">
+                      <input type="time" id="end_time" class="time" name="end_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -380,13 +396,13 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       First Name
-                      <input type="text" id="fname" name="fname" value="<?php echo isset($user) ? $user->fname : null ?>" required="required">
+                      <input type="text" id="fname" name="fname" value="<?php echo isset($user) ? $user->fname : null ?>">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Last Name
-                      <input type="text" id="lname" name="lname" value="<?php echo isset($user) ? $user->lname : null ?>" required="required">
+                      <input type="text" id="lname" name="lname" value="<?php echo isset($user) ? $user->lname : null ?>">
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -399,7 +415,7 @@
                       <?php
                       else :
                       ?>
-                        <input type="email" id="email" name="email" required="required">
+                        <input type="email" id="email" name="email">
                         <span class="email_error text-danger"></span>
                       <?php
                       endif;
@@ -412,7 +428,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                       <label>
                         Password
-                        <input type="password" id="password" name="password" required="required">
+                        <input type="password" id="password" name="password">
                       </label>
                     </div>
                   <?php
@@ -458,7 +474,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                           <label>
                             Email
-                            <input type="text" class="social_url" name="mail" id="mail" value="<?php echo $link[0]['mail'] ?? null ?>">
+                            <input type="email" class="social_url" name="mail" id="mail" value="<?php echo $link[0]['mail'] ?? null ?>">
                           </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -484,8 +500,8 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Stripe integration 
-                      <input type="text" id="stripe" name="stripe" value="<?php echo isset($user) ? $user->stripe : null ?>" <?php !$this->session->userdata('us_id') ? 'required="required"' : '' ?>>
+                      Stripe Email
+                      <input type="email" id="stripe" name="stripe" value="<?php echo isset($user) ? $user->stripe : null ?>">
 
                     </label>
                   </div>
@@ -575,8 +591,41 @@
   <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
-  <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script>
+  <!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script> -->
   <script>
+    var fileActionSettings = {
+      zoomClass: '',
+      zoomIcon: '<i class="icon-zoomin3"></i>',
+      dragClass: 'p-2',
+      dragIcon: '<i class="icon-three-bars"></i>',
+      removeClass: '',
+      removeErrorClass: 'text-danger',
+      removeIcon: '<i class="icon-bin"></i>',
+      indicatorNew: '<i class="icon-file-plus text-success"></i>',
+      indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+      indicatorError: '<i class="icon-cross2 text-danger"></i>',
+      indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>'
+    };
+    $('#file-input1').fileinput({
+      browseLabel: 'Browse',
+      previewFileType: 'any',
+      browseIcon: '<i class="icon-image2 mr-2"></i>',
+      initialCaption: "No file selected",
+      autoOrientImage: false,
+      maxFileSize: 5000,
+      fileActionSettings: fileActionSettings
+    });
+    $('#file-input').fileinput({
+      browseLabel: 'Browse',
+      previewFileType: 'image',
+      browseIcon: '<i class="icon-image2 mr-2"></i>',
+      initialCaption: "No file selected",
+      autoOrientImage: false,
+      minImageHeight: 354,
+      minImageWidth: 360,
+      fileActionSettings: fileActionSettings
+    });
+
     function submit_form(val) {
       $('#is_draft').val(val);
     }
