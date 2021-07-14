@@ -211,25 +211,25 @@ class Gigs extends CI_Controller
 		$statuses = $this->configurations_model->get_all_configurations_by_key($this->key);
 		// echo json_encode($categories);
 		// die();
-		// $gigs = $this->gigs_model->get_all_gigs();
-		// foreach ($gigs as $gig) {
+		$gigs = $this->gigs_model->get_all_gigs();
+		foreach ($gigs as $gig) {
 		
-		// 	$user = $this->users_model->get_user_by_id($gig->user_id);
-		// 	$temp = ['key' => $this->key, 'value' => $gig->status];
-		// 	$status = $this->configurations_model->get_configuration_by_key_value($temp);
-		// 	$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
-		// 	$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
-		// 	$gig->status_label = $status->label;
-		// 	$gig->category_label = $category->label;
-		// 	$gig->genre_label = $genre->label;
+			$user = $this->users_model->get_user_by_id($gig->user_id);
+			$temp = ['key' => $this->key, 'value' => $gig->status];
+			$status = $this->configurations_model->get_configuration_by_key_value($temp);
+			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+			$gig->status_label = $status->label;
+			$gig->category_label = $category->label;
+			$gig->genre_label = $genre->label;
 			
-		// 	$gig->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
+			$gig->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
 			
-		// 	$res = $this->get_tickets_booked_and_left($gig);
-		// 	$gig->booked = $res['booked'];
-		// 	$gig->ticket_left = $res['ticket_left'];
-		// }
-		// $data['records'] = $gigs;
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
+		}
+		$data['records'] = $gigs;
 		$data['categories'] = $categories;
 		$data['genres'] = $genres;
 		$data['statuses'] = $statuses;
