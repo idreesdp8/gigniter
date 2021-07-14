@@ -769,11 +769,11 @@ class Gigs extends CI_Controller
 				if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 					$file = $_FILES['image'];
 				}
-				$this->update_user_data($data, $file, $user_id);
+				// $this->update_user_data($data, $file, $user_id);
 				$res = $this->gigs_model->update_gig_data($data['id'], $datas);
 				if (isset($res)) {
-					$this->remove_tickets($data['id']);
-					$this->add_tickets($data, $data['id']);
+					// $this->remove_tickets($data['id']);
+					// $this->add_tickets($data, $data['id']);
 					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating gig!');

@@ -61,8 +61,8 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/loaders/progressbar.min.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/components_progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/echarts/light/lines/lines_stacked.js"></script>
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/echarts/echarts.min.js"></script> -->
+	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/echarts/light/lines/lines_stacked.js"></script> -->
 	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script> -->
 	<!-- /theme JS files -->
