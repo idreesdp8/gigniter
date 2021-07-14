@@ -15,14 +15,26 @@ class Bookings_model extends CI_Model
 		return true;
 	}
 
+	function remove_bookings_by_user_id($args2)
+	{
+		$this->db->where('user_id', $args2);
+		$this->db->delete('bookings');
+		return true;
+	}
+
+	function remove_cart_items_by_user_id($args2)
+	{
+		$this->db->where('user_id', $args2);
+		$this->db->delete('cart');
+		return true;
+	}
+
 	function remove_booking_cart_items($args2)
 	{
 		$this->db->where('booking_id', $args2);
 		$this->db->delete('cart');
 		return true;
 	}
-
-
 
 	function get_all_filter_bookings_admin($params = array())
 	{

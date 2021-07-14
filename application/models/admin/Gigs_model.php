@@ -180,6 +180,12 @@ class Gigs_model extends CI_Model
 		return $query->row();
 	}
 
+	function get_gigs_by_user_id($args1)
+	{
+		$query = $this->db->get_where('gigs', array('user_id' => $args1));
+		return $query->result();
+	}
+
 	function insert_gig_data($data)
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;
@@ -229,10 +235,66 @@ class Gigs_model extends CI_Model
 		return true;
 	}
 
+	function remove_bundle_by_ticket_tier_id($args2)
+	{
+		$this->db->where('ticket_tier_id', $args2);
+		$this->db->delete('ticket_bundles');
+		return true;
+	}
+
 	function remove_ticket_tiers_by_id($args2)
 	{
 		$this->db->where('id', $args2);
 		$this->db->delete('ticket_tiers');
+		return true;
+	}
+
+	function remove_ticket_tiers_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('ticket_tiers');
+		return true;
+	}
+
+	function trash_bookings_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('bookings');
+		return true;
+	}
+
+	function trash_cart_items_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('cart');
+		return true;
+	}
+
+	function trash_gig_images_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('gig_images');
+		return true;
+	}
+
+	function trash_gig_popularity_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('gig_popularity');
+		return true;
+	}
+
+	function trash_gig_reactions_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('gig_reactions');
+		return true;
+	}
+
+	function trash_gig_stream_by_gig_id($args2)
+	{
+		$this->db->where('gig_id', $args2);
+		$this->db->delete('gig_stream');
 		return true;
 	}
 

@@ -11,8 +11,8 @@ class Users extends CI_Controller
 			redirect("admin/login");
 		}
 		$vs_user_role_name = $this->session->userdata('us_role_name');
-		if(isset($vs_user_role_name)){
-			if($vs_user_role_name!='Admin'){
+		if (isset($vs_user_role_name)) {
+			if ($vs_user_role_name != 'Admin') {
 				redirect('dashboard');
 			}
 		}
@@ -37,6 +37,7 @@ class Users extends CI_Controller
 		$this->load->model('admin/roles_model', 'roles_model');
 		$this->load->model('admin/users_model', 'users_model');
 		$this->load->model('admin/gigs_model', 'gigs_model');
+		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('admin/countries_model', 'countries_model');
 		$this->load->model('admin/admin_model', 'admin_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
@@ -74,6 +75,8 @@ class Users extends CI_Controller
 		@unlink("downloads/profile_pictures/thumb/$user->image");
 		@unlink("downloads/profile_pictures/$user->image");
 		$this->remove_social_links($args2);
+		$this->remove_gigs($args2);
+		$this->remove_bookings($args2);
 		$this->users_model->trash_user($args2);
 		$this->session->set_flashdata('deleted_msg', 'User is deleted');
 		redirect('admin/users');
@@ -198,16 +201,16 @@ class Users extends CI_Controller
 				$created_on = date('Y-m-d H:i:s');
 				$password = $this->general_model->safe_ci_encoder($data['password']);
 				$social_links = [];
-				if(isset($data['mail']) && $data['mail'] != ''){
+				if (isset($data['mail']) && $data['mail'] != '') {
 					$social_links['mail'] = $data['mail'];
 				}
-				if(isset($data['facebook']) && $data['facebook'] != ''){
+				if (isset($data['facebook']) && $data['facebook'] != '') {
 					$social_links['facebook'] = $data['facebook'];
 				}
-				if(isset($data['instagram']) && $data['instagram'] != ''){
+				if (isset($data['instagram']) && $data['instagram'] != '') {
 					$social_links['instagram'] = $data['instagram'];
 				}
-				if(isset($data['twitter']) && $data['twitter'] != ''){
+				if (isset($data['twitter']) && $data['twitter'] != '') {
 					$social_links['twitter'] = $data['twitter'];
 				}
 				$datas = array(
@@ -230,8 +233,8 @@ class Users extends CI_Controller
 				$res = $this->users_model->insert_user_data($datas);
 
 				if (isset($res)) {
-					foreach($social_links as $key=>$value){
-						$temp = ['user_id'=>$res, 'platform'=>$key, 'url'=>$value, 'created_on'=>$created_on];
+					foreach ($social_links as $key => $value) {
+						$temp = ['user_id' => $res, 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
 						$this->users_model->insert_user_social_link($temp);
 					}
 					$this->session->set_flashdata('success_msg', 'User added successfully!');
@@ -283,16 +286,16 @@ class Users extends CI_Controller
 			} else {
 
 				$social_links = [];
-				if(isset($data['mail']) && $data['mail'] != ''){
+				if (isset($data['mail']) && $data['mail'] != '') {
 					$social_links['mail'] = $data['mail'];
 				}
-				if(isset($data['facebook']) && $data['facebook'] != ''){
+				if (isset($data['facebook']) && $data['facebook'] != '') {
 					$social_links['facebook'] = $data['facebook'];
 				}
-				if(isset($data['instagram']) && $data['instagram'] != ''){
+				if (isset($data['instagram']) && $data['instagram'] != '') {
 					$social_links['instagram'] = $data['instagram'];
 				}
-				if(isset($data['twitter']) && $data['twitter'] != ''){
+				if (isset($data['twitter']) && $data['twitter'] != '') {
 					$social_links['twitter'] = $data['twitter'];
 				}
 				$datas = array(
@@ -355,8 +358,8 @@ class Users extends CI_Controller
 				if (isset($res)) {
 					$created_on = date('Y-m-d H:i:s');
 					$this->remove_social_links($data['id']);
-					foreach($social_links as $key=>$value){
-						$temp = ['user_id'=>$data['id'], 'platform'=>$key, 'url'=>$value, 'created_on'=>$created_on];
+					foreach ($social_links as $key => $value) {
+						$temp = ['user_id' => $data['id'], 'platform' => $key, 'url' => $value, 'created_on' => $created_on];
 						$this->users_model->insert_user_social_link($temp);
 					}
 					$this->session->set_flashdata('success_msg', 'User updated successfully!');
@@ -370,9 +373,9 @@ class Users extends CI_Controller
 			$data['user'] = $this->users_model->get_user_by_id($args1);
 			$data['countries'] = $this->countries_model->get_all_countries();
 			$links = $this->users_model->get_social_links($args1);
-			if(isset($links) && !empty($links)){
-				foreach($links as $key=>$val){
-					$temp[] = [$val->platform=>$val->url];
+			if (isset($links) && !empty($links)) {
+				foreach ($links as $key => $val) {
+					$temp[] = [$val->platform => $val->url];
 				}
 				$data['link'] = $temp;
 			} else {
@@ -393,15 +396,15 @@ class Users extends CI_Controller
 		$role_id = $this->input->post('role_id');
 		$search = $this->input->post('search');
 		$paras_arrs = [];
-		if($role_id){
+		if ($role_id) {
 			$paras_arrs['role_id'] = $role_id;
 		}
-		if($search){
+		if ($search) {
 			$paras_arrs['q_val'] = $search;
 		}
 		$users = $this->users_model->get_all_filter_users($paras_arrs);
-		foreach($users as $user){
-			$role= $this->roles_model->get_role_by_id($user->role_id);
+		foreach ($users as $user) {
+			$role = $this->roles_model->get_role_by_id($user->role_id);
 			$user->role_name = $role->name;
 		}
 		$data['records'] = $users;
@@ -417,6 +420,34 @@ class Users extends CI_Controller
 				$this->users_model->trash_social_link($value->id);
 			}
 		}
+	}
+
+	function remove_gigs($id)
+	{
+		$gigs = $this->gigs_model->get_gigs_by_user_id($id);
+		if ($gigs) {
+			foreach ($gigs as $key => $value) {
+				$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($value->id);
+				if ($tickets) {
+					foreach ($tickets as $ticket) {
+						$this->gigs_model->remove_bundle_by_ticket_tier_id($ticket->id);
+					}
+				}
+				$this->gigs_model->remove_ticket_tiers_by_gig_id($value->id);
+				$this->gigs_model->trash_bookings_by_gig_id($value->id);
+				$this->gigs_model->trash_cart_items_by_gig_id($value->id);
+				$this->gigs_model->trash_gig_images_by_gig_id($value->id);
+				$this->gigs_model->trash_gig_popularity_by_gig_id($value->id);
+				$this->gigs_model->trash_gig_reactions_by_gig_id($value->id);
+				$this->gigs_model->trash_gig_stream_by_gig_id($value->id);
+			}
+		}
+	}
+
+	function remove_bookings($id)
+	{
+		$this->bookings_model->remove_bookings_by_user_id($id);
+		$this->bookings_model->remove_cart_items_by_user_id($id);
 	}
 	/* users functions ends */
 }
