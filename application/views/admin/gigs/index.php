@@ -187,25 +187,25 @@
             //     // $('.datatable-basic').draw();
             // });
 
-            manageTable = $('.datatable-custom').DataTable({
-                // 'bFilter': false,
-                // 'searching': true,
-                // "sDom":"ltipr"
-            });
+            // manageTable = $('.datatable-custom').DataTable({
+            //     // 'bFilter': false,
+            //     // 'searching': true,
+            //     // "sDom":"ltipr"
+            // });
 
             $('#is_featured', this).change(function() {
                 reload_datatable();
             });
-            $('#category', this).change(function() {
-                if (manageTable.column(3).search() !== this.value) {
-                    manageTable.column(3).search(this.value).draw();
-                }
-            });
-            $('#genre', this).change(function() {
-                if (manageTable.column(4).search() !== this.value) {
-                    manageTable.column(4).search(this.value).draw();
-                }
-            });
+            // $('#category', this).change(function() {
+            //     if (manageTable.column(3).search() !== this.value) {
+            //         manageTable.column(3).search(this.value).draw();
+            //     }
+            // });
+            // $('#genre', this).change(function() {
+            //     if (manageTable.column(4).search() !== this.value) {
+            //         manageTable.column(4).search(this.value).draw();
+            //     }
+            // });
             $('#status', this).change(function() {
                 reload_datatable();
             });
