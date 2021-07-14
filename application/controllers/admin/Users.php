@@ -440,6 +440,7 @@ class Users extends CI_Controller
 				$this->gigs_model->trash_gig_popularity_by_gig_id($value->id);
 				$this->gigs_model->trash_gig_reactions_by_gig_id($value->id);
 				$this->gigs_model->trash_gig_stream_by_gig_id($value->id);
+				$this->gigs_model->trash_gig($value->id);
 			}
 		}
 	}
