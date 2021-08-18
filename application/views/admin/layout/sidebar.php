@@ -52,7 +52,7 @@ $new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
                         <a href="#" class="nav-link"><i class="icon-mic2"></i> <span>Gigs</span></a>
                         <ul class="nav nav-group-sub" data-submenu-title="Gigs">
                             <?php if (in_array('create-gig', $user_permissions)) : ?>
-                                <li class="nav-item" id="sidebar_gig_add"><a href="<?php echo admin_base_url(); ?>gigs/add" class="nav-link">Add Gig</a></li>
+                                <!-- <li class="nav-item" id="sidebar_gig_add"><a href="<?php echo admin_base_url(); ?>gigs/add" class="nav-link">Add Gig</a></li> -->
                             <?php endif; ?>
                             <?php if (in_array('edit-gig', $user_permissions) || in_array('view-gig', $user_permissions) || in_array('delete-gig', $user_permissions)) : ?>
                                 <li class="nav-item" id="sidebar_gig_view"><a href="<?php echo admin_base_url(); ?>gigs" class="nav-link">All Gigs</a></li>
