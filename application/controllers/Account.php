@@ -931,6 +931,9 @@ class Account extends CI_Controller
 			echo $e->getMessage();
 		}
 	}
+	function facebook_redirect() {
+		
+	}
 
 	function callback_google() 
 	{
