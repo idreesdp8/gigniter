@@ -931,8 +931,8 @@ class Account extends CI_Controller
 			];
 		}
 
-		echo json_encode($config);
-		die();
+		// echo json_encode($config);
+		// die();
 		try {
 			$hybridauth = new Hybridauth($config);
 
