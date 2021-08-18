@@ -150,8 +150,6 @@ class Account extends CI_Controller
 					'status' => $status,
 					'created_on' => $created_on
 				);
-				// echo json_encode($datas);
-				// die();
 				$insert_data = $this->users_model->insert_user_data($datas);
 				if (isset($insert_data)) {
 					$result = $this->users_model->get_user_by_id($insert_data);
@@ -917,12 +915,27 @@ class Account extends CI_Controller
 
 			$adapter = $hybridauth->authenticate($provider);
 
-			// $adapter = $hybridauth->authenticate('Google');
-			// $adapter = $hybridauth->authenticate('Facebook');
-			// $adapter = $hybridauth->authenticate('Twitter');
-
 			$tokens = $adapter->getAccessToken();
 			$userProfile = $adapter->getUserProfile();
+			$user = $this->users_model->get_user_by_email($userProfile->email);
+			if(!$user) {
+				if($provider == 'facebook') {
+					$role = $this->roles_model->get_role_by_name('User');
+					$created_on = date('Y-m-d H:i:s');
+					$status = 0;
+					$datas = array(
+						'email' => $userProfile->email,
+						'fname' => $userProfile->firstName,
+						'lname' => $userProfile->lastName,
+						'role_id' => $role->id,
+						'status' => $status,
+						'created_on' => $created_on,
+						'provider_name' => $provider,
+						'provider_id' => $userProfile->identifier
+					);
+					$insert_data = $this->users_model->insert_user_data($datas);
+				}
+			}
 
 			echo 'Hi ' . $userProfile->displayName;
 			echo json_encode($userProfile);
