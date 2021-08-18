@@ -946,15 +946,15 @@ class Account extends CI_Controller
 			$userProfile = $adapter->getUserProfile();
 
 			echo 'Hi ' . $userProfile->displayName;
-			
+
 			$adapter->disconnect();
 		} catch (\Exception $e) {
 			echo $e->getMessage();
 		}
 	}
 
-	function callback($provider) 
+	function callback_google() 
 	{
-		echo json_encode($provider);
+		
 	}
 }
