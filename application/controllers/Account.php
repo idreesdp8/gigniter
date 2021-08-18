@@ -871,7 +871,7 @@ class Account extends CI_Controller
 		$provider = $this->input->get('provider');
 		if ($provider == 'google') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl(),
+				'callback' => HttpClient\Util::getCurrentUrl().'?provider=google',
 				'providers' => [
 					'Google' => [
 						'enabled' => true,
@@ -884,7 +884,7 @@ class Account extends CI_Controller
 			];
 		} else if ($provider == 'twitter') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl(),
+				'callback' => HttpClient\Util::getCurrentUrl().'?provider=twitter',
 				'providers' => [
 					'Twitter' => [
 						'enabled' => true,
@@ -897,7 +897,7 @@ class Account extends CI_Controller
 			];
 		} else {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl(),
+				'callback' => HttpClient\Util::getCurrentUrl().'?provider=facebook',
 				'providers' => [
 					'Facebook' => [
 						'enabled' => true,
@@ -925,6 +925,7 @@ class Account extends CI_Controller
 			$userProfile = $adapter->getUserProfile();
 
 			echo 'Hi ' . $userProfile->displayName;
+			echo json_encode($userProfile);
 
 			$adapter->disconnect();
 		} catch (\Exception $e) {
