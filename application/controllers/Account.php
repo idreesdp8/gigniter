@@ -868,31 +868,10 @@ class Account extends CI_Controller
 
 	function social_signin()
 	{
-
 		$provider = $this->input->get('provider');
-		$config = [
-			'callback' => HttpClient\Util::getCurrentUrl(),
-
-			// 'providers' => [
-			// 	'Google' => [
-			// 		'enabled' => true,
-			// 		'keys' => ['id' => '', 'secret' => ''],
-			// 	],
-
-			// 	'Facebook' => [
-			// 		'enabled' => true,
-			// 		'keys' => ['id' => '', 'secret' => ''],
-			// 	],
-
-			// 	'Twitter' => [
-			// 		'enabled' => true,
-			// 		'keys' => ['key' => '', 'secret' => ''],
-			// 	]
-			// ],
-		];
 		if ($provider == 'google') {
 			$config = [
-				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'google-redirect')->value,
+				'callback' => HttpClient\Util::getCurrentUrl(),
 				'providers' => [
 					'Google' => [
 						'enabled' => true,
@@ -905,7 +884,7 @@ class Account extends CI_Controller
 			];
 		} else if ($provider == 'twitter') {
 			$config = [
-				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'twitter-redirect')->value,
+				'callback' => HttpClient\Util::getCurrentUrl(),
 				'providers' => [
 					'Twitter' => [
 						'enabled' => true,
@@ -918,7 +897,7 @@ class Account extends CI_Controller
 			];
 		} else {
 			$config = [
-				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'facebook-redirect')->value,
+				'callback' => HttpClient\Util::getCurrentUrl(),
 				'providers' => [
 					'Facebook' => [
 						'enabled' => true,
@@ -955,6 +934,6 @@ class Account extends CI_Controller
 
 	function callback_google() 
 	{
-		
+
 	}
 }
