@@ -897,7 +897,7 @@ class Account extends CI_Controller
 			];
 		} else {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl(),
+				'callback' => $this->configurations_model->get_configuration_by_key_label('social-login', 'facebook-redirect')->value,
 				'providers' => [
 					'Facebook' => [
 						'enabled' => true,
