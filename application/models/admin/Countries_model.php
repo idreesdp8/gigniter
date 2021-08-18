@@ -18,6 +18,7 @@ class Countries_model extends CI_Model {
 	}
 	
 	function get_all_countries(){
+		$this->db->order_by('name');
 	   $query = $this->db->get('countries');
 	   return $query->result();
 	} 

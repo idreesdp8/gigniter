@@ -15,7 +15,8 @@
 		"picqer/php-barcode-generator": "^2.2",
 		"php-ffmpeg/php-ffmpeg": "^0.18.0",
 		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2",
-		"dompdf/dompdf": "^1.0"
+		"dompdf/dompdf": "^1.0",
+		"hybridauth/hybridauth" : "~3.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

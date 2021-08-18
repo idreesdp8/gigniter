@@ -1,5 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+
+include 'vendor/autoload.php';
+
+use Hybridauth\Hybridauth;
+use Hybridauth\HttpClient;
+
 class Account extends CI_Controller
 {
 
@@ -858,5 +864,90 @@ class Account extends CI_Controller
 	{
 		$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
 		$this->load->view('frontend/account/verfication_page');
+	}
+
+	function social_signin()
+	{
+
+		$provider = $this->input->get('provider');
+		$config = [
+			'callback' => HttpClient\Util::getCurrentUrl(),
+
+			// 'providers' => [
+			// 	'Google' => [
+			// 		'enabled' => true,
+			// 		'keys' => ['id' => '', 'secret' => ''],
+			// 	],
+
+			// 	'Facebook' => [
+			// 		'enabled' => true,
+			// 		'keys' => ['id' => '', 'secret' => ''],
+			// 	],
+
+			// 	'Twitter' => [
+			// 		'enabled' => true,
+			// 		'keys' => ['key' => '', 'secret' => ''],
+			// 	]
+			// ],
+		];
+		if ($provider == 'google') {
+			$config = [
+				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'google-redirect')->value,
+				'providers' => [
+					'Google' => [
+						'enabled' => true,
+						'keys' => [
+							'id' => $this->configurations_model->get_configuration_by_key_label('social-login', 'google-client-id')->value,
+							'secret' => $this->configurations_model->get_configuration_by_key_label('social-login', 'google-client-secret')->value
+						],
+					]
+				],
+			];
+		} else if ($provider == 'twitter') {
+			$config = [
+				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'twitter-redirect')->value,
+				'providers' => [
+					'Twitter' => [
+						'enabled' => true,
+						'keys' => [
+							'id' => $this->configurations_model->get_configuration_by_key_label('social-login', 'twitter-client-id')->value,
+							'secret' => $this->configurations_model->get_configuration_by_key_label('social-login', 'twitter-client-secret')->value
+						],
+					]
+				],
+			];
+		} else {
+			$config = [
+				'callback' => user_base_url() . $this->configurations_model->get_configuration_by_key_label('social-login', 'facebook-redirect')->value,
+				'providers' => [
+					'Facebook' => [
+						'enabled' => true,
+						'keys' => [
+							'id' => $this->configurations_model->get_configuration_by_key_label('social-login', 'facebook-client-id')->value,
+							'secret' => $this->configurations_model->get_configuration_by_key_label('social-login', 'facebook-client-secret')->value
+						],
+					]
+				]
+			];
+		}
+		try {
+			$hybridauth = new Hybridauth($config);
+
+			$adapter = $hybridauth->authenticate($provider);
+
+			// $adapter = $hybridauth->authenticate('Google');
+			// $adapter = $hybridauth->authenticate('Facebook');
+			// $adapter = $hybridauth->authenticate('Twitter');
+
+			$tokens = $adapter->getAccessToken();
+			$userProfile = $adapter->getUserProfile();
+
+			print_r($tokens);
+			print_r($userProfile);
+
+			$adapter->disconnect();
+		} catch (\Exception $e) {
+			echo $e->getMessage();
+		}
 	}
 }

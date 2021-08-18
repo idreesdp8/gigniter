@@ -38,6 +38,10 @@ class ComposerStaticInitcd7d706119921306ab574c4d196b7b9f
             'Prophecy\\' => 9,
             'Picqer\\Barcode\\' => 15,
         ),
+        'H' => 
+        array (
+            'Hybridauth\\' => 11,
+        ),
         'F' => 
         array (
             'FontLib\\' => 8,
@@ -55,8 +59,8 @@ class ComposerStaticInitcd7d706119921306ab574c4d196b7b9f
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -101,6 +105,10 @@ class ComposerStaticInitcd7d706119921306ab574c4d196b7b9f
         'Picqer\\Barcode\\' => 
         array (
             0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
+        ),
+        'Hybridauth\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hybridauth/hybridauth/src',
         ),
         'FontLib\\' => 
         array (
