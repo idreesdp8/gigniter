@@ -226,7 +226,7 @@
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span> </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label> Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
+                    <label> Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
                       <input type="number" id="goal_amount" name="goal_amount" min="1" value="<?php echo $gig->goal_amount ?>" required="required">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span> </label>
                   </div>

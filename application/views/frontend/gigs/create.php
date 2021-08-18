@@ -33,7 +33,9 @@
     .kv-fileinput-error {
       color: red;
     }
-    .btn.disabled, .btn:disabled {
+
+    .btn.disabled,
+    .btn:disabled {
       opacity: 1;
     }
   </style>
@@ -244,7 +246,7 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
-                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
+                      Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
                       <input type="number" id="goal_amount" name="goal_amount" min="1">
                       <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
@@ -365,11 +367,11 @@
                 </div>
 
                 <div class="row">
+                  <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
+                  </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
-                  </div>
-                  <div class="col-lg-9 order-first order-md-last col-md-9 col-sm-12 col-12">
-                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
                   </div>
                 </div>
                 <!-- </form> -->
@@ -801,49 +803,6 @@
       $('#threshold').val(threshold);
     })
 
-    // function preview(input) {
-    //   var e_val = input.value;
-    //   var e_name = input.getAttribute("name");
-    //   var e_type = input.type;
-    //   if (e_name == 'venues[]') {
-    //     if (e_name == 'venues[]' && input.checked) {
-    //       $('#gig_venues').append('<div id="gig_' + e_val + '">' + e_val + '</div>');
-    //     } else {
-    //       // console.log(e_val);
-    //       $('#gig_' + e_val).remove();
-    //     }
-    //   }
-    //   if (e_name == 'is_overshoot') {
-    //     // console.log(input.checked);
-    //     if (input.checked) {
-    //       $('#gig_' + e_name).removeClass('d-none');
-    //     } else {
-    //       $('#gig_' + e_name).addClass('d-none');
-    //     }
-    //   }
-    //   if (e_type == 'text') {
-    //     $('#gig_' + e_name).html(e_val);
-    //   }
-    // }
-
-    // function ticket_preview(input) {
-    //   var t_val = input.value;
-    //   var t_name = input.getAttribute("name").slice(0, -2);
-    //   var t_type = input.type;
-    //   if (t_type == 'text' || t_type == 'textarea' || t_type == 'number') {
-    //     var tier = input.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-    //     $('#gig_' + tier).find('.' + t_name).html(t_val);
-    //   }
-    //   if (t_type == 'checkbox') {
-    //     var tier = input.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
-    //     if (input.checked) {
-    //       $('#gig_' + tier).find('.' + t_name).removeClass('d-none');
-    //     } else {
-    //       $('#gig_' + tier).find('.' + t_name).addClass('d-none');
-    //     }
-    //   }
-    // }
-
     function readURL(input) {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -855,6 +814,15 @@
         reader.readAsDataURL(input.files[0]);
       }
     }
+
+    $('#myCheckbox-physical').click(function() {
+      console.log($(this).is(':checked'))
+      if($(this).is(':checked')) {
+        $('#gig_address').show('slow')
+      } else {
+        $('#gig_address').hide('slow')
+      }
+    })
 
     // const videoSrc = document.querySelector("#video-source");
     // const videoTag = document.querySelector("#video-tag");
