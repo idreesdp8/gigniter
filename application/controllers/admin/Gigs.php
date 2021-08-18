@@ -878,4 +878,10 @@ class Gigs extends CI_Controller
 		return $param;
 	}
 	/* users functions ends */
+
+	function update_gig_data()
+	{
+		$data = $this->input->post();
+		echo json_encode($data);
+	}
 }

@@ -44,7 +44,7 @@
             <div class="content">
                 <?php $this->load->view('alert/alert'); ?>
                 <!-- Basic layout-->
-                <form action="<?php echo admin_base_url() ?>gigs/update" method="post" id="basic_info_form" enctype="multipart/form-data">
+                <!-- <form action="<?php echo admin_base_url() ?>gigs/update" method="post" id="basic_info_form" enctype="multipart/form-data"> -->
                     <div class="card">
                         <div class="card-header header-elements-inline">
                             <h6 class="card-title">Update Gig</h6>
@@ -68,7 +68,7 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="justified-right-icon-tab1">
                                     <div class="row">
-                                        <input type="hidden" name="id" value="<?php echo $gig->id ?>">
+                                        <input type="hidden" id="gig_id" name="id" value="<?php echo $gig->id ?>">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Title <span class="text-danger">*</span></label>
@@ -667,9 +667,9 @@
                     </div>
                     <div class="text-right">
                         <a href="<?php echo $this->agent->referrer(); ?>" type="button" class="btn bg-slate">Cancel</a>
-                        <button type="submit" class="btn btn-success">Update Gig</button>
+                        <!-- <button type="submit" class="btn btn-success">Update Gig</button> -->
                     </div>
-                </form>
+                <!-- </form> -->
                 <!-- /basic layout -->
 
             </div>
@@ -840,6 +840,26 @@
                     document.forms["basic_info_form"].submit();
                 }
             });
+
+            $('input').change(function() {
+                console.log(this)
+                update_gig_data(this);
+            })
+
+            function update_gig_data(elem) {
+                $.ajax({
+                    url: base_url + 'gigs/update_gig_data',
+                    data: {
+                        id: $('#gig_id').val(),
+                        field: elem
+                    },
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function(resp) {
+                        
+                    }
+                })
+            }
         });
     </script>
 
