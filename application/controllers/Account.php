@@ -950,4 +950,9 @@ class Account extends CI_Controller
 			echo $e->getMessage();
 		}
 	}
+
+	function callback($provider) 
+	{
+		echo json_encode($provider);
+	}
 }
