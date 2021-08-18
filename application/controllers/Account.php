@@ -945,9 +945,8 @@ class Account extends CI_Controller
 			$tokens = $adapter->getAccessToken();
 			$userProfile = $adapter->getUserProfile();
 
-			print_r($tokens);
-			print_r($userProfile);
-
+			echo 'Hi ' . $userProfile->displayName;
+			
 			$adapter->disconnect();
 		} catch (\Exception $e) {
 			echo $e->getMessage();
