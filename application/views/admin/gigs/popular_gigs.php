@@ -44,11 +44,11 @@
                             </div>
                             <div class="col-md-6"></div>
                             <div class="col-md-2 text-center align-self-center">
-                            <a href="<?php echo user_base_url().'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
+                                <a href="<?php echo user_base_url() . 'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
                             </div>
                         </div>
-                        <table class="table table-striped datatable-basic">
-                            <?php if (isset($records) && count($records) > 0) { ?>
+                        <?php if (isset($records) && count($records) > 0) { ?>
+                            <table class="table table-striped datatable-basic">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -79,8 +79,8 @@
                                             <td><?php echo $record->popularity ?></td>
                                             <td><?php echo $record->popularity_data->backers ?? '0' ?></td>
                                             <td><?php echo $record->popularity_data->date_diff ?? '0' ?></td>
-                                            <td><?php echo '$'.$record->goal_amount ?></td>
-                                            <td><?php echo $record->popularity_data ? '$'.$record->popularity_data->amount_raised : '$0' ?></td>
+                                            <td><?php echo '$' . $record->goal_amount ?></td>
+                                            <td><?php echo $record->popularity_data ? '$' . $record->popularity_data->amount_raised : '$0' ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">
@@ -98,10 +98,10 @@
                                     }
                                     ?>
                                 </tbody>
-                            <?php } else { ?>
-                                <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
-                            <?php } ?>
-                        </table>
+                            </table>
+                        <?php } else { ?>
+                            <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
+                        <?php } ?>
                     </div>
                 </div>
                 <!-- /striped rows -->
