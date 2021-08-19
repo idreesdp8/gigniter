@@ -877,6 +877,7 @@ class Account extends CI_Controller
 							'id' => $this->configurations_model->get_configuration_by_key_label('social-login', 'google-client-id')->value,
 							'secret' => $this->configurations_model->get_configuration_by_key_label('social-login', 'google-client-secret')->value
 						],
+						'scope' => 'email',
 					]
 				],
 			];
