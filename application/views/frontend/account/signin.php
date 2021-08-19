@@ -50,23 +50,32 @@
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=facebook" 
+                            <!-- <a href="<?php echo user_base_url() ?>account/social_signin?provider=facebook" 
                             target="popup" 
                             onclick="window.open(this.href, 'popup', 'width=600,height=600');return false;">
+                                <i class="fab fa-facebook-f"></i>
+                            </a> -->
+                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=facebook">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=twitter" class="active"
+                            <!-- <a href="<?php echo user_base_url() ?>account/social_signin?provider=twitter" class="active"
                             target="popup"
                             onclick="window.open(this.href, 'popup', 'width=600, height=600');return false;">
+                                <i class="fab fa-twitter"></i>
+                            </a> -->
+                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=twitter" class="active">
                                 <i class="fab fa-twitter"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=google"
+                            <!-- <a href="<?php echo user_base_url() ?>account/social_signin?provider=google"
                             target="popup" 
                             onclick="window.open(this.href, 'popup', 'width=600,height=600');return false;">
+                                <i class="fab fa-google"></i>
+                            </a> -->
+                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=google">
                                 <i class="fab fa-google"></i>
                             </a>
                         </li>

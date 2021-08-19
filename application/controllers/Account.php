@@ -869,7 +869,7 @@ class Account extends CI_Controller
 		$provider = $this->input->get('provider') ?? 'twitter';
 		if ($provider == 'google') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl().'?provider=google',
+				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=google',
 				'providers' => [
 					'Google' => [
 						'enabled' => true,
@@ -896,7 +896,7 @@ class Account extends CI_Controller
 			];
 		} else {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl().'?provider=facebook',
+				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=facebook',
 				'providers' => [
 					'Facebook' => [
 						'enabled' => true,
@@ -918,40 +918,74 @@ class Account extends CI_Controller
 
 			$tokens = $adapter->getAccessToken();
 			$userProfile = $adapter->getUserProfile();
+			$adapter->disconnect();
 			$user = $this->users_model->get_user_by_email($userProfile->email);
-			if(!$user) {
-				if($provider == 'facebook') {
-					$role = $this->roles_model->get_role_by_name('User');
-					$created_on = date('Y-m-d H:i:s');
-					$status = 0;
-					$datas = array(
-						'email' => $userProfile->email,
-						'fname' => $userProfile->firstName,
-						'lname' => $userProfile->lastName,
-						'role_id' => $role->id,
-						'status' => $status,
-						'created_on' => $created_on,
-						'provider_name' => $provider,
-						'provider_id' => $userProfile->identifier
-					);
-					$insert_data = $this->users_model->insert_user_data($datas);
+			if ($user && $user->status) {
+				$role = $this->roles_model->get_role_by_id($user->role_id);
+				// set session	
+				$cstm_sess_data = array(
+					'us_login' => TRUE,
+					'us_id' => $user->id,
+					'us_role_id' => $user->role_id,
+					'us_username' => ($user->username ? ucfirst($user->username) : ''),
+					'us_fname' => ($user->fname ? ucfirst($user->fname) : ''),
+					'us_lname' => ($user->lname ? ucfirst($user->lname) : ''),
+					'us_fullname' => ($user->fname ? ucfirst($user->fname) : '') . ' ' . ($user->lname ? ucfirst($user->lname) : ''),
+					'us_email' => $user->email,
+					'us_role_name' => $role->name,
+				);
+				$this->session->set_userdata($cstm_sess_data);
+				// echo json_encode($this->session->userdata());
+				// die();
+				if ($this->cart->contents()) {
+					redirect('cart/checkout');
+				} else {
+					if ($this->session->has_userdata('redirect')) {
+						redirect($this->session->redirect);
+					} else {
+						redirect('/');
+					}
+				}
+			} else {
+				$role = $this->roles_model->get_role_by_name('User');
+				$created_on = date('Y-m-d H:i:s');
+				$status = 0;
+				$datas = array(
+					'email' => $userProfile->email,
+					'fname' => $userProfile->firstName,
+					'lname' => $userProfile->lastName,
+					'role_id' => $role->id,
+					'status' => $status,
+					'created_on' => $created_on,
+					'provider_name' => $provider,
+					'provider_id' => $userProfile->identifier
+				);
+				$insert_data = $this->users_model->insert_user_data($datas);
+
+				if (isset($insert_data)) {
+					$result = $this->users_model->get_user_by_id($insert_data);
+					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					if ($is_sent) {
+						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					} else {
+						$this->session->set_flashdata("error_msg", "You have encountered an error");
+					}
+					$this->load->view('frontend/account/verfication_page');
+				} else {
+					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
+					redirect('signup');
 				}
 			}
 
-			echo 'Hi ' . $userProfile->displayName;
-			echo json_encode($userProfile);
-
-			$adapter->disconnect();
 		} catch (\Exception $e) {
 			echo $e->getMessage();
 		}
 	}
-	function facebook_redirect() {
-		
+	function facebook_redirect()
+	{
 	}
 
-	function callback_google() 
+	function callback_google()
 	{
-
 	}
 }
