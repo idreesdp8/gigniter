@@ -882,7 +882,7 @@ class Account extends CI_Controller
 			];
 		} else if ($provider == 'twitter') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl().'?provider=twitter',
+				'callback' => HttpClient\Util::getCurrentUrl(),
 				'providers' => [
 					'Twitter' => [
 						'enabled' => true,
