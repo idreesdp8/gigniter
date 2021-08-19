@@ -866,7 +866,7 @@ class Account extends CI_Controller
 
 	function social_signin()
 	{
-		$provider = $this->input->get('provider');
+		$provider = $this->input->get('provider') ?? 'twitter';
 		if ($provider == 'google') {
 			$config = [
 				'callback' => HttpClient\Util::getCurrentUrl().'?provider=google',
