@@ -353,7 +353,7 @@
                                                     <div class="cast-item mb-2">
                                                         <div class="cast-thumb tier-cast-thumb">
                                                             <a href="#0">
-                                                                <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/cap.png' ?>" alt="cast">
+                                                                <img src="<?php echo $tier->image != '' ? bundle_url() . $tier->image : user_asset_url() . 'images/default.png' ?>" alt="cast">
                                                             </a>
                                                         </div>
                                                         <div class="cast-content">

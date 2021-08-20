@@ -221,7 +221,7 @@
                                                                 <?php
                                                                 $bundle = $tier['bundle'][0];
                                                                 ?>
-                                                                <img src="<?php echo $bundle['image'] != '' ? session_url() . $bundle['image'] : user_asset_url() . 'images/cap.png' ?>" alt="cast">
+                                                                <img src="<?php echo $bundle['image'] != '' ? session_url() . $bundle['image'] : user_asset_url() . 'images/default.png' ?>" alt="cast">
                                                             </a>
                                                         </div>
                                                         <div class="cast-content">
