@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-6"> 
 				  <div class="form-group">
-					<label for="fname">First Name  <span class="reds"> * </span></label>
+					<label for="fname">First Name  <span class="text-danger"> * </span></label>
 					<input name="fname" id="fname" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->fname : set_value('fname'); ?>" data-error="#fname1">
 					<span id="fname1" class="text-danger"><?php echo form_error('fname'); ?></span>
 				  </div>
@@ -40,18 +40,23 @@
 				  </div>   
 				  
 				  <div class="form-group">
-					<label  for="email">Email <span class="reds">*</span> </label>
+					<label  for="email">Email <span class="text-danger">*</span> </label>
 					<input name="email" id="email" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->email : set_value('email'); ?>" readonly disabled="disabled">
 					<span id="email1" class="text-danger"><?php echo form_error('email'); ?></span>
 				  </div>
 				  <div class="form-group">
-					<label for="phone_no">Phone No <span class="reds">*</span></label>
+					<label  for="password">Password <span class="text-warning">Leave it empty, if you do not want to change it</span> </label>
+					<input name="password" id="password" type="text" class="form-control">
+					<span id="password1" class="text-danger"><?php echo form_error('password'); ?></span>
+				  </div>
+				  <div class="form-group">
+					<label for="phone_no">Phone No <span class="text-danger">*</span></label>
 					  <input name="phone_no" id="phone_no" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->phone_no : set_value('phone_no'); ?>" data-error="#phone_no1">
 				  	  <span id="phone_no1" class="text-danger"><?php echo form_error('phone_no'); ?></span> 
 				  </div>  
 				  
 				   <div class="form-group">
-					<label for="mobile_no">Mobile No <span class="reds">*</span></label>
+					<label for="mobile_no">Mobile No <span class="text-danger">*</span></label>
 					 <input name="mobile_no" id="mobile_no" type="text" class="form-control" value="<?php echo (isset($row)) ? $row->mobile_no : set_value('mobile_no'); ?>" data-error="#mobile_no1">
 				  <span id="mobile_no1" class="text-danger"><?php echo form_error('mobile_no'); ?></span> 
 				  </div>  
@@ -64,13 +69,13 @@
 				  <span class="text-danger"><?php echo form_error('description'); ?></span> 
 				  </div>
 				  <div class="form-group">
-					<label  for="address">Address <span class="reds">*</span></label>
+					<label  for="address">Address <span class="text-danger">*</span></label>
 					 <textarea name="address" id="address" class="form-control" rows="5" data-error="#address1"><?php echo (isset($row)) ? $row->address : set_value('address'); ?></textarea>
 				  <span id="address1" class="text-danger"><?php echo form_error('address'); ?></span>
 				  </div> 
 				  
 				  <div class="form-group">
-					<label for="image">Picture <span class="reds">*</span></label>
+					<label for="image">Picture <span class="text-danger">*</span></label>
 					<input type="file" name="image" id="image" class="file-styled" data-error="#image1">
 					<?php if(isset($row->image) && strlen($row->image)>0){ ?>
 					<input type="hidden" name="old_image" id="old_image" value="<?php echo $row->image; ?>">
