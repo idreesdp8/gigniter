@@ -17,6 +17,14 @@
             object-fit: cover;
         }
 
+        .object-cover {
+            object-fit: cover;
+        }
+
+        .object-center {
+            object-position: center;
+        }
+
         .gallery_image {
             width: 100% !important;
             height: 100%;
