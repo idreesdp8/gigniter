@@ -78,6 +78,12 @@ class Users_model extends CI_Model
 		return $query->row();
 	}
 
+	function get_user_by_email_provider($email, $provider)
+	{
+		$query = $this->db->get_where('users', array('email' => $email, 'provider_name' => $provider));
+		return $query->row();
+	}
+
 	function get_user_by_id($args1)
 	{
 		$query = $this->db->get_where('users', array('id' => $args1));

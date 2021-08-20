@@ -919,7 +919,7 @@ class Account extends CI_Controller
 			$tokens = $adapter->getAccessToken();
 			$userProfile = $adapter->getUserProfile();
 			$adapter->disconnect();
-			$user = $this->users_model->get_user_by_email($userProfile->email);
+			$user = $this->users_model->get_user_by_email_provider($userProfile->email, $provider);
 			if ($user && $user->status) {
 				$role = $this->roles_model->get_role_by_id($user->role_id);
 				// set session	
