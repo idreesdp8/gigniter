@@ -30,7 +30,10 @@
                             <div class="carousel-item">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+                                    <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
                                         <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" class="w-100">
+                                    </a>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                                         <p class="custom-badge"><?php echo $gig->genre_name ?></p>
@@ -91,8 +94,11 @@
                                 ?>
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
+
+                                        <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
                                             <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="speaker">
                                             <p class="custom-badge"><?php echo $gig->genre ?></p>
+                                </a>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
