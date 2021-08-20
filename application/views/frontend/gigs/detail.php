@@ -271,7 +271,7 @@
                                         <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
                                     </video>
                                 <?php else : ?>
-                                    <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog">
+                                    <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog" class="object-cover object-center">
                                 <?php
                                 endif;
                                 if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
