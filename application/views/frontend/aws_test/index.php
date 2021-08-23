@@ -40,14 +40,18 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div>
-                                Stream URL: <span id="stream_url"></span>
+                                    Stream URL: <span id="stream_url"></span>
                                 </div>
                                 <div>
-                                Stream Secret Key: <span id="stream_key"></span>
+                                    Stream Secret Key: <span id="stream_key"></span>
                                 </div>
                             </div>
+
                             <div class="col-lg-12">
-                    <video id="video-player" playsinline controls width="100%" height="100%"></video>
+                                <button type="button" class="btn btn-warning w-25" id="play_video">Play Stream</button>
+                            </div>
+                            <div class="col-lg-12">
+                                <video id="video-player" playsinline controls width="100%" height="100%"></video>
                             </div>
                         </div>
                     </div>
@@ -63,6 +67,11 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
         $(document).ready(function() {
+            const player;
+            if (IVSPlayer.isPlayerSupported) {
+                player = IVSPlayer.create();
+                player.attachHTMLVideoElement(document.getElementById('video-player'));
+            }
             $('#create_channel').click(function() {
                 $.ajax({
                     url: base_url + 'aws_test/create_channel',
@@ -71,14 +80,13 @@
                     success: function(data) {
                         $('#stream_url').html(data.stream_url)
                         $('#stream_key').html(data.stream_key)
-        if (IVSPlayer.isPlayerSupported) {
-            const player = IVSPlayer.create();
-            player.attachHTMLVideoElement(document.getElementById('video-player'));
-            player.load(data.playback_url);
-            player.play();
-        }
+                        player.load(data.playback_url);
                     }
+
                 })
+            })
+            $('#play_video').click(function() {
+                player.play();
             })
         })
     </script>
