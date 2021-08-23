@@ -213,7 +213,8 @@ if (isset($tickets)) {
 								<h3><?php echo date('D d M, Y', strtotime($ticket->gig_date)); ?></h3>
 								<h4><?php echo date('H:i A', strtotime($ticket->start_time)) . ' to ' . date('H:i A', strtotime($ticket->end_time)); ?></h4>
 								<h5 style="margin-top: 30px;"><?php echo $ticket->address; ?></h5>
-								<button style="position: absolute; bottom: 10px; right: 15px; padding: 5px 25px; color: #fff; background: #d8dde0; font-size: medium; text-transform: uppercase; border-radius: 2px;">
+								<img src="<?php echo qrcode_url().'ticket_' . $ticket->qr_token . '.png' ?>" style="position: absolute;top: 0;width: 70px;right: 10px;" />
+								<button type="button" style="position: absolute; bottom: 10px; right: 15px; padding: 5px 25px; color: #fff; background: #d8dde0; font-size: medium; text-transform: uppercase; border-radius: 2px;">
 									Tickets
 								</button>
 							</div>
