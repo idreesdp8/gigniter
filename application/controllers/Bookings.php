@@ -307,4 +307,9 @@ class Bookings extends CI_Controller
 		];
 		$this->load->view('frontend/bookings/amend_order', $data);
 	}
+
+	function ticket_html()
+	{
+		$this->load->view('frontend/bookings/download_tickets2');
+	}
 }

@@ -262,5 +262,48 @@ class Configurations extends CI_Controller
 		}
 	}
 
+	function aws_config()
+	{
+		if(isset($_POST) && !empty($_POST)){
+			$data = $this->input->post();
+			$created_on = date('Y-m-d H:i:s');
+			foreach($data as $key => $value){
+				$params[] = [
+					'key' => 'aws',
+					'value' => $value,
+					'label' => $key,
+					'created_on' => $created_on
+				];
+			}
+			// echo json_encode($params);
+			// die();
+			
+			$stripe = $this->configurations_model->get_all_configurations_by_key('aws');
+			foreach($stripe as $key=>$value) {
+				$this->configurations_model->trash_configuration($value->id);
+			}
+
+			$res = $this->configurations_model->insert_batch_configuration_data($params);
+			if (isset($res)) {
+				$this->session->set_flashdata('success_msg', 'AWS Configuration added successfully!');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Error while adding AWS Configuration!');
+			}
+			redirect("admin/configurations/aws_config");
+
+		} else {
+			$aws = $this->configurations_model->get_all_configurations_by_key('aws');
+			$data = array();
+			if($aws){
+				foreach($aws as $key=>$value) {
+					$data[$value->label] = $value->value;
+				}
+			}
+			// echo json_encode($data);
+			// die();
+			$this->load->view('admin/configurations/aws', $data);
+		}
+	}
+
 	/* Permission module ends */
 }

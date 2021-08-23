@@ -161,6 +161,7 @@ $new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
                         <ul class="nav nav-group-sub" data-submenu-title="Configurations">
                             <li class="nav-item" id="sidebar_config"><a href="<?php echo admin_base_url(); ?>configurations" class="nav-link">All Configurations</a></li>
                             <li class="nav-item" id="sidebar_stripe"><a href="<?php echo admin_base_url(); ?>configurations/stripe" class="nav-link">Stripe Configuration</a></li>
+                            <li class="nav-item" id="sidebar_aws"><a href="<?php echo admin_base_url(); ?>configurations/aws_config" class="nav-link">AWS Configuration</a></li>
                             <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Gig Genres</a></li>
                             <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Gig Categories</a></li>
                             <li class="nav-item" id="sidebar_gig_status"><a href="<?php echo admin_base_url(); ?>gig_statuses" class="nav-link">Gig Statuses</a></li>
