@@ -450,6 +450,8 @@ class Cart extends CI_Controller
 		$template_row = $this->email_templates_model->get_email_templates_by_slug('ticket-purchase');
 
 		$rows = $this->gigs_model->get_tickets_by_qr_code_token($qr_token_arrs);
+		// echo json_encode($rows);
+		// exit;
 		if(isset($rows)){  
 			/*foreach ($rows as $row) {  }*/ 
 			$gig_ticket_no = $rows[0]->ticket_no;
@@ -457,7 +459,8 @@ class Cart extends CI_Controller
 			$datas['tickets'] = $rows;
 			$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 			$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
-			
+			// echo $html_code;
+			// exit;
 			$options = new Dompdf\Options();
 			$options->set('isRemoteEnabled', TRUE); 
 			$pdf = new Dompdf\Dompdf($options);  

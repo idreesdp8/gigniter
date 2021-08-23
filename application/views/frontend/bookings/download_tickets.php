@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Tickets</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<meta http-equiv="content-type" content="text-html; charset=utf-8">
 <style>
-	@import url('https://fonts.googleapis.com/css?family=Oswald');
+
 
 	* {
 		margin: 0;
@@ -16,7 +10,7 @@
 
 	body {
 		background-color: #fff;
-		font-family: arial
+		/* font-family: arial */
 	}
 
 	.fl-left {
@@ -30,28 +24,46 @@
 	.container {
 		width: 80%;
 		margin: 100px auto
-	} 
+	}
+
 	h1 {
+		font-weight: 600;
+		font-size: 40px;
+	}
+
+	h3,
+	h4,
+	h5 {
+		color: #989898;
+		font-weight: 500;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		/* font-family: 'Oswald', sans-serif; */
 		text-transform: uppercase;
-		font-weight: 900;
-		border-left: 10px solid #fec500;
-		padding-left: 10px;
-		margin-bottom: 30px
-	} 
+	}
+
 	.row {
 		overflow: hidden
-	} 
+	}
+
 	.card {
 		display: block;
 		width: 100%;
 		background: linear-gradient(45deg, #58b9c3, #f5f5fb);
 		color: #585858;
 		margin-bottom: 10px;
-		font-family: 'Oswald', sans-serif;
+		/* font-family: 'Oswald', sans-serif; */
 		text-transform: uppercase;
 		border-radius: 4px;
 		position: relative
-	} 
+	}
+
 	.card+.card {
 		margin-left: 2%
 	}
@@ -178,61 +190,43 @@
 	.qr_code img {
 		width: inherit;
 		height: inherit;
-	} 
+	}
 </style>
-</head>
-<body>
-<section class="container" style="text-align:center">
-  <article class="card">
-	<table width="100%" border="0" cellspacing="0" cellpadding="5">
-	<tbody>
-	 <?php
-	$sr = 1;
-	if(isset($tickets)){
-		foreach($tickets as $ticket) { ?> 
-		  <tr style="border-bottom:1px solid #CCCCCC; height:320px;">
-			<td <?php echo ($sr == 1) ? 'width="22%"' : ''; ?> style="vertical-align:middle; text-align:center;"> 
-				<h3 style="font-weight:bolder; font-size:24px;"><?php echo date('d', strtotime($ticket->gig_date)); ?> </h5> 
-				<h5 style="font-weight:bold; font-size:20px;"><?php echo date('M', strtotime($ticket->gig_date)); ?> </h5>
-	 		</td>
-			<td <?php echo ($sr == 1) ? 'width="42%"' : ''; ?> style="vertical-align:top"> 
-				<section class="card-cont"> <small><?php echo $ticket->fname . ' ' . $ticket->lname;  ?></small>
-				  <h3><?php echo $ticket->title ?></h3>
-				  <div class="even-date"> <i class="fa fa-calendar"></i>
-					<time> <span><?php echo date('D d M, Y', strtotime($ticket->gig_date)); ?></span> <span><?php echo date('H:i A', strtotime($ticket->start_time)) . ' to ' . date('H:i A', strtotime($ticket->end_time)); ?></span> </time>
-				  </div>
-				  <div class="even-info"> <i class="fa fa-map-marker"></i>
-					<p> <?php echo $ticket->address; ?> </p>
-				  </div> 
-				</section> 
-			</td>
-			<td <?php echo ($sr == 1) ? 'width="28%"' : ''; ?> style="vertical-align:top"> 
-			<section class="card-cont">   
-			  <div class="qr_code"> <img src="<?php echo qrcode_url() . 'ticket_' . $ticket->qr_token . '.png'; ?>" />
-				<div> <?php echo $ticket->ticket_no; ?> </div>
-			  </div> 
-			  <?php 
-			  /*if ($ticket->is_validated){ ?>
-				<a href="#" style="background-color: #037FDD;">Validated</a>
-			  <?php 
-			  }else{  ?>
-				<a href="#" style="background-color: #D8DDE0;">Not Validated</a>
-			  <?php } */?>
-			</section> 
-			</td>
-		  </tr> 
-	  <?php 
-	  		$sr++;
-		 }
-		 
-	  }else{ ?> 
-		  <tr>
-			<td colspan="3" style="text-align:center"> <strong> No ticket found! </strong> </td> 
-		  </tr>
-	 <?php } ?>
-	 </tbody>
-	</table>
-	</article>
-</section> 
-</body>
-</html>
+<?php
+$sr = 1;
+if (isset($tickets)) {
+	foreach ($tickets as $ticket) { ?>
+		<div class="container">
+			<div style="background: #fff; padding: 15px; border-radius: 4px; position: relative; border: 1px solid #ccc;">
+				<table>
+					<tr>
+						<td>
+							<div style="text-align: center; padding: 0 30px;">
+								<h1><?php echo date('d', strtotime($ticket->gig_date)); ?></h1>
+								<h3><?php echo date('M', strtotime($ticket->gig_date)); ?></h3>
+							</div>
+						</td>
+						<td>
+							<div style="margin-left: 35px;">
+								<h5><?php echo $ticket->fname . ' ' . $ticket->lname;  ?></h5>
+								<div style="text-transform: uppercase; font-size:large;"><?php echo $ticket->title ?></div>
+								<h3><?php echo date('D d M, Y', strtotime($ticket->gig_date)); ?></h3>
+								<h4><?php echo date('H:i A', strtotime($ticket->start_time)) . ' to ' . date('H:i A', strtotime($ticket->end_time)); ?></h4>
+								<h5 style="margin-top: 30px;"><?php echo $ticket->address; ?></h5>
+								<button style="position: absolute; bottom: 10px; right: 15px; padding: 5px 25px; color: #fff; background: #d8dde0; font-size: medium; text-transform: uppercase; border-radius: 2px;">
+									Tickets
+								</button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	<?php
+		$sr++;
+	}
+} else { ?>
+	<tr>
+		<td colspan="3" style="text-align:center"> <strong> No ticket found! </strong> </td>
+	</tr>
+<?php } ?>
