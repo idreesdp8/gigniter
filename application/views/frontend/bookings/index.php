@@ -87,8 +87,13 @@
                                                 if ($booking->is_paid == 0 && $booking->hours > 48) :
                                                 ?>
                                                     <a href="javascript:void(0);" onclick="operate_booking_deletion('<?php echo $booking->id; ?>');" type="button" data-toggle="tooltip" data-placement="top" title="Cancel order" class="btn btn-danger mob-responsive"><i class="fa fa-times"></i></a>
-													
-													<!--href="<?php echo user_base_url() . 'bookings/cancel_booking/' . $booking->id ?>"-->
+                                                <?php
+                                                endif;
+                                                ?>
+                                                <?php
+                                                if ($booking->is_paid == 0 && $booking->hours < 48) :
+                                                ?>
+                                                    <a href="<?php echo user_base_url().'bookings/amend_order/'.$booking->id; ?>" type="button" data-toggle="tooltip" data-placement="top" title="Amend order" class="btn btn-warning mob-responsive"><i class="fa fa-cog"></i></a>
                                                 <?php
                                                 endif;
                                                 ?>

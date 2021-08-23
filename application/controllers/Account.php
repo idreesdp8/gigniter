@@ -155,21 +155,21 @@ class Account extends CI_Controller
 					$result = $this->users_model->get_user_by_id($insert_data);
 					// // echo json_encode($result);
 					// // die();
-					// $role = $this->roles_model->get_role_by_id($result->role_id);
-					// // set session	
-					// $cstm_sess_data = array(
-					// 	'us_login' => TRUE,
-					// 	'us_id' => $result->id,
-					// 	'us_role_id' => $result->role_id,
-					// 	'us_username' => ($result->username ? ucfirst($result->username) : ''),
-					// 	'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
-					// 	'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-					// 	'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
-					// 	'us_email' => $result->email,
-					// 	'us_role_name' => $role->name,
-					// );
+					$role = $this->roles_model->get_role_by_id($result->role_id);
+					// set session	
+					$cstm_sess_data = array(
+						'us_login' => TRUE,
+						'us_id' => $result->id,
+						'us_role_id' => $result->role_id,
+						'us_username' => ($result->username ? ucfirst($result->username) : ''),
+						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
+						'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
+						'us_email' => $result->email,
+						'us_role_name' => $role->name,
+					);
 
-					// $this->session->set_userdata($cstm_sess_data);
+					$this->session->set_userdata($cstm_sess_data);
 
 					// $this->load->view('frontend/account/account_verified');
 					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
@@ -178,7 +178,8 @@ class Account extends CI_Controller
 					} else {
 						$this->session->set_flashdata("error_msg", "You have encountered an error");
 					}
-					$this->load->view('frontend/account/verfication_page');
+					// $this->load->view('frontend/account/verfication_page');
+					$this->load->view('frontend/account/account_verified');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('signup');
@@ -919,7 +920,7 @@ class Account extends CI_Controller
 			$tokens = $adapter->getAccessToken();
 			$userProfile = $adapter->getUserProfile();
 			$adapter->disconnect();
-			$user = $this->users_model->get_user_by_email($userProfile->email);
+			$user = $this->users_model->get_user_by_emailf($userProfile->email);
 			if ($user && $user->status) {
 				$role = $this->roles_model->get_role_by_id($user->role_id);
 				// set session	
@@ -987,5 +988,22 @@ class Account extends CI_Controller
 
 	function callback_google()
 	{
+	}
+
+	function verify_account()
+	{
+		$this->load->view('frontend/account/verify_account');
+	}
+
+	function send_verification_email()
+	{
+		$email = $this->session->userdata('us_email');
+		$res = $this->send_email($email, 'Verification Code', 'verification');
+		if($res) {
+			$this->session->set_flashdata('success_msg', 'Email is sent to your email address.');
+		} else {
+			$this->session->set_flashdata('error_msg', 'An error has occured!');
+		}
+		redirect('account/verify_account');
 	}
 }

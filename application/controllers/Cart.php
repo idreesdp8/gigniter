@@ -66,6 +66,12 @@ class Cart extends CI_Controller
 
 	public function book_tier($gig_id = '')
 	{
+		if($this->dbs_user_id) {
+			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+			if(!$user->status) {
+				redirect('account/verify_account');
+			}
+		}
 		if ($this->dbs_user_id) {
 			$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
 			if ($this->dbs_user_id == $data['gig']->user_id) {

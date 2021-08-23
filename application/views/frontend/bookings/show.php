@@ -84,6 +84,13 @@
                             <?php
                             endif;
                             ?>
+                            <?php
+                            if ($booking->is_paid == 0 && $booking->hours < 48) :
+                            ?>
+                                <a type="button" class="btn btn-warning ml-2 float-right" href="<?php echo user_base_url().'bookings/amend_order/'.$booking->id; ?>">Amend Order</a>
+                            <?php
+                            endif;
+                            ?>
                         </h5>
                         <div class="row">
                             <div class="col-lg-9">

@@ -367,6 +367,12 @@ class Gigs extends CI_Controller
 
 	public function add()
 	{
+		if($this->dbs_user_id) {
+			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+			if(!$user->status) {
+				redirect('account/verify_account');
+			}
+		}
 		$is_new = 0;
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;

@@ -288,4 +288,9 @@ class Bookings_model extends CI_Model
 		$query = $this->db->query("SELECT * FROM tickets WHERE ticket_tier_id='".$sl_tierid."' AND cart_id='".$sl_cartid."' ");
 		return $query->result(); 
 	}
+
+	function add_bulk_booking_items($data) {
+		$ress = $this->db->insert_batch('cart', $data);
+		return $ress;
+	}
 }

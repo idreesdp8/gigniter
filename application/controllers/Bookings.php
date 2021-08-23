@@ -239,4 +239,72 @@ class Bookings extends CI_Controller
 		$datas['tickets'] = $tickets;
 		$this->load->view('frontend/bookings/download_tickets', $datas);
 	}
+
+	function amend_order($booking_id = '')
+	{
+		if(isset($_POST) && !empty($_POST)) {
+			$booking_id = $this->input->post('booking_id');
+			$tiers = $this->input->post('ticket_tier_id');
+			$quantity = $this->input->post('qty');
+			$data = array();
+			if($tiers) {
+				$i = 0;
+				$total_price = 0;
+				foreach($tiers as $tier) {
+					$item = $this->gigs_model->get_ticket_tier_by_id($tier);
+					// $gig = $this->gigs_model->get_gig_by_id();
+					$data[] = [
+						'gig_id' => $item->gig_id,
+						'ticket_tier_id' => $item->id,
+						'quantity' => $quantity[$i],
+						'price' => $item->price,
+						'user_id' => $this->dbs_user_id,
+						'booking_id' => $booking_id
+					];
+					$sub_price = $item->price * $quantity[$i];
+					$total_price += $sub_price;
+					$i++;
+				}
+			}
+			// echo json_encode($data);
+			// echo json_encode($total_price);
+			// exit;
+			$this->bookings_model->remove_booking_cart_items($booking_id);
+			$res = $this->bookings_model->add_bulk_booking_items($data);
+			$this->bookings_model->update_booking_data($booking_id, ['price' => $total_price]);
+			if ($res) {
+				$this->session->set_flashdata('success_msg', 'Your Booking is amended');
+			} else {
+				$this->session->set_flashdata('error_msg', 'Error occured');
+			}
+			redirect('bookings');
+		}
+		$booking = $this->bookings_model->get_booking_by_id($booking_id);
+		// $gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
+		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($booking->gig_id);
+		foreach ($tiers as $tier) {
+			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+			$tier->image = '';
+			if ($tier->bundles) {
+				foreach ($tier->bundles as $bundle) {
+					if ($tier->image == '') {
+						$tier->image = $bundle->image;
+					}
+				}
+			}
+		}
+		$cart_items = $this->bookings_model->get_booking_items($booking->id);
+		foreach ($cart_items as $item) {
+			$tier = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
+			$item->name = $tier->name;
+		}
+		// echo json_encode($cart_items);
+		// die();
+		$data = [
+			'booking' => $booking,
+			'tiers' => $tiers,
+			'cart_items' => $cart_items,
+		];
+		$this->load->view('frontend/bookings/amend_order', $data);
+	}
 }
