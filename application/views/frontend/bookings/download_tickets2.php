@@ -219,7 +219,7 @@
 						<h3>WEDNESDAY 28 DECEMBER 2014</h3>
 						<h4>08:55PM TO 12:00 AM</h4>
 						<h5 style="margin-top: 30px;">NEXEN SQUARE FOR PEOPLE AUSTRALIA, SYDNEY</h5>
-						<img src="<?php echo qrcode_url().'ticket_61238ffcdb86b.png' ?>" style="position: absolute;top: 0;width: 70px;right: 10px;" />
+						<img src="<?php echo qrcode_url().'ticket_6123940874306.png' ?>" style="position: absolute;top: 0;width: 70px;right: 10px;" />
 						<button style="position: absolute; bottom: 10px; right: 15px; padding: 5px 25px; color: #fff; background: #d8dde0; font-family: 'Oswald', sans-serif; font-size: medium; text-transform: uppercase; border-radius: 2px;">
 							Tickets
 						</button>
