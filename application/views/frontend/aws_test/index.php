@@ -14,6 +14,10 @@
 </head>
 
 <body>
+    <?php
+		header('Access-Control-Allow-Origin: *');
+		header("Access-Control-Allow-Methods: GET, OPTIONS");
+        ?>
     <?php $this->load->view('frontend/layout/preloader'); ?>
     <?php $this->load->view('frontend/layout/header'); ?>
     <!-- Page content -->
@@ -67,7 +71,7 @@
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script>
         $(document).ready(function() {
-            const player;
+            let player = '';
             if (IVSPlayer.isPlayerSupported) {
                 player = IVSPlayer.create();
                 player.attachHTMLVideoElement(document.getElementById('video-player'));
