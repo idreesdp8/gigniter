@@ -4,7 +4,7 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
-    <script src="https://player.live-video.net/1.2.0/amazon-ivs-player.min.js"></script>
+    <script src="https://player.live-video.net/1.4.0/amazon-ivs-player.min.js"></script>
     <style>
         .exlpore-title,
         .explore-subtitle {
@@ -14,10 +14,6 @@
 </head>
 
 <body>
-    <?php
-		header('Access-Control-Allow-Origin: *');
-		header("Access-Control-Allow-Methods: GET, OPTIONS");
-        ?>
     <?php $this->load->view('frontend/layout/preloader'); ?>
     <?php $this->load->view('frontend/layout/header'); ?>
     <!-- Page content -->
@@ -51,7 +47,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
+                                <input type="text" id="playback_url">
+                            </div>
+                            <div class="col-lg-6">
                                 <button type="button" class="btn btn-warning w-25" id="play_video">Play Stream</button>
                             </div>
                             <div class="col-lg-12">
@@ -72,10 +71,6 @@
     <script>
         $(document).ready(function() {
             let player = '';
-            if (IVSPlayer.isPlayerSupported) {
-                player = IVSPlayer.create();
-                player.attachHTMLVideoElement(document.getElementById('video-player'));
-            }
             $('#create_channel').click(function() {
                 $.ajax({
                     url: base_url + 'aws_test/create_channel',
@@ -84,13 +79,19 @@
                     success: function(data) {
                         $('#stream_url').html(data.stream_url)
                         $('#stream_key').html(data.stream_key)
-                        player.load(data.playback_url);
+                        $('#playback_url').val(data.playback_url)
                     }
 
                 })
             })
             $('#play_video').click(function() {
-                player.play();
+                var playback_url = $('#playback_url').val();
+                if (IVSPlayer.isPlayerSupported) {
+                    player = IVSPlayer.create();
+                    player.attachHTMLVideoElement(document.getElementById('video-player'));
+                    player.load(playback_url);
+                    player.play();
+                }
             })
         })
     </script>
