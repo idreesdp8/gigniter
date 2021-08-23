@@ -139,20 +139,16 @@ class Bookings extends CI_Controller
 
 	public function cancel_booking($id)
 	{
-		// $booking_id = $this->input->post('id');
-		$param = [
-			'is_paid' => 2
-		];
-		// $res = $this->bookings_model->update_booking_data($id, $param);
+		$booking = $this->bookings_model->get_booking_by_id($id);
+		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$res = $this->bookings_model->trash_booking($id);
 		if ($res) {
+			$this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');
 			$this->session->set_flashdata('success_msg', 'Your Booking is cancelled!');
 		} else {
 			$this->session->set_flashdata('error_msg', 'Error occured');
 		}
 		redirect('bookings');
-		// echo $booking_id;
-		// die();
 	}
 
 	public function invite_friends()
@@ -173,7 +169,7 @@ class Bookings extends CI_Controller
 		$error = 1;
 		foreach ($data['email'] as $email) {
 			$temp['friend_email'] = $email;
-			$send = $this->send_email($email, 'Invitation to Gigniter');
+			$send = $this->send_invite_email($email, 'Invitation to Gigniter');
 			if ($send) {
 				$this->bookings_model->add_ticket_share($temp);
 				$error = 0;
@@ -189,7 +185,7 @@ class Bookings extends CI_Controller
 		}
 		redirect('bookings');
 	}
-	function send_email($to_email, $subject)
+	function send_invite_email($to_email, $subject)
 	{
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
@@ -208,6 +204,33 @@ class Bookings extends CI_Controller
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+
+	function send_email($to_email, $subject, $email_for)
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		if ($email_for == 'cancel_booking') {
+			// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
+			$msg = $this->load->view('email/cancel_booking', '', TRUE);
+		}
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		// echo json_encode($this->email);
+		// die();
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			// return false;
+			echo json_encode($this->email->print_debugger());
+			die();
 		}
 	}
 
