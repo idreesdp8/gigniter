@@ -15,6 +15,12 @@ class Bookings_model extends CI_Model
 		return true;
 	}
 
+	function cancel_booking($args1, $data)
+	{
+		$this->db->where('id', $args1);
+		return $this->db->update('bookings', $data);
+	}
+
 	function remove_bookings_by_user_id($args2)
 	{
 		$this->db->where('user_id', $args2);

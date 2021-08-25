@@ -16,6 +16,7 @@ class Verification extends CI_Controller
 		
         $this->load->model('user/general_model', 'general_model'); 
         $this->load->model('user/users_model', 'users_model'); 
+        $this->load->model('user/bookings_model', 'bookings_model'); 
         $this->load->model('user/configurations_model', 'configurations_model'); 
         $this->load->model('user/gigs_model', 'gigs_model'); 
     }
@@ -31,9 +32,13 @@ class Verification extends CI_Controller
 		if ($this->dbs_user_id) {
 		
 			if ($qr_token != '') {
-				$rows = $this->gigs_model->get_tickets_by_qr_code_token(array($qr_token));  
+				$rows = $this->gigs_model->get_tickets_by_qr_code_token(array($qr_token));
 				if ($rows) {
 					$row = $rows[0];
+					$booking = $this->bookings_model->get_booking_by_id($row->booking_id);
+					if($booking->is_cancelled) {
+						redirect('/');
+					}
 					/*//print_r($rows);
 					echo $this->dbs_user_id; 
 					echo $row->gig_user_id;
