@@ -528,7 +528,7 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
-					// $this->create_channel($data['title'], $res);
+					$this->create_channel($data['title'], $res);
 					$this->add_tickets($data, $res);
 					if($is_new){
 						redirect('account/verfication_page');
@@ -595,13 +595,18 @@ class Gigs extends CI_Controller
 	function create_channel($title, $gig_id)
 	{
 		$channel_name = str_replace(' ', '_', $title);
+		$data = $this->configurations_model->get_all_configurations_by_key('aws');
+		$key = $data[0]->value;
+		$secret = $data[1]->value;
+		$version = $data[2]->value;
+		$region = $data[3]->value;
 		require 'amazonivs/aws-autoloader.php';
 		$ivs = new Aws\IVS\IVSClient([
-			'version' => $this->config->item('version'),
-			'region' => $this->config->item('region'),
+			'version' => $version,
+			'region' => $region,
 			'credentials' => [
-				'key'    => $this->config->item('amazon_key'),
-				'secret' => $this->config->item('amazon_secret'),
+				'key'    => $key,
+				'secret' => $secret,
 			],
 		]);
 		$result = $ivs->createChannel([
@@ -609,13 +614,13 @@ class Gigs extends CI_Controller
 		]);
 		$channel = $result->get('channel');
 		$streamKey = $result->get('streamKey');
-		$data['channel_arn'] = $channel['arn'];
-		$data['playback_url'] = $channel['playbackUrl'];
-		$data['stream_url'] = 'rtmps://' . $channel['ingestEndpoint'] . ':443/app/';
-		$data['stream_arn'] = $streamKey['arn'];
-		$data['stream_key'] = $streamKey['value'];
-		$data['gig_id'] = $gig_id;
-		$this->gigs_model->add_channel($data);
+		$datas['channel_arn'] = $channel['arn'];
+		$datas['playback_url'] = $channel['playbackUrl'];
+		$datas['stream_url'] = 'rtmps://' . $channel['ingestEndpoint'] . ':443/app/';
+		$datas['stream_arn'] = $streamKey['arn'];
+		$datas['stream_key'] = $streamKey['value'];
+		$datas['gig_id'] = $gig_id;
+		$this->gigs_model->add_channel($datas);
 	}
 
 	function update_user_data($data, $file, $user_id = '')
