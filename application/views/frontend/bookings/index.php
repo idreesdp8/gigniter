@@ -62,7 +62,7 @@
                                     ?>
                                         <tr>
                                             <td><?php echo $booking->booking_no ?></td>
-                                            <td><?php echo '$' . $booking->price  ?></td>
+                                            <td><?php echo '$'.number_format($booking->price, 2, '.', ',');  ?></td>
                                             <td>
                                                 <a class="theme-primary-color" href="<?php echo user_base_url() . 'gigs/detail?gig=' . $booking->gig_id ?>" target="_blank">
                                                 <?php echo $booking->gig_name ?>

@@ -202,7 +202,7 @@
 													<div class="w-25"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
 												</h6>
 												<div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
-												<div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
+												<div class="info"><span>Tickets Price</span> <span class="item_subtotal"><?php echo '$'.number_format($item['subtotal'], 2, '.', ',');  ?></span></div>
 											</li>
 											<!-- <li>
 												<h6 class="subtitle mb-0"><span>Tickets Price</span><span>$<?php echo $item['subtotal']; ?></span></h6>
@@ -230,13 +230,13 @@
                                                 ?>
                                             </span>
                                         </span>
-										<span class="info"><span>vat</span><span>$0</span></span>
+										<span class="info"><span>vat</span><span>$0.00</span></span>
 									</li>
 								</ul>
 							</div>
 							 
 							<div class="proceed-area  text-center">
-								<h6 class="subtitle"><span>Amount Payable</span><span id="payable_amount">$<?php echo $total_amount; ?></span></h6>
+								<h6 class="subtitle"><span>Amount Payable</span><span id="payable_amount"><?php echo '$'.number_format($total_amount, 2, '.', ','); ?></span></h6>
 								<button type="submit" class="custom-button back-button">proceed</button>
 							</div>
 							 

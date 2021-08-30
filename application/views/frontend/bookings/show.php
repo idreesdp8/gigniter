@@ -109,7 +109,7 @@
                                     </div> -->
                                     <div class="col-lg-4">
                                         <h6>Total Amount</h6>
-                                        <p>$<?php echo $booking->price ?></p>
+                                        <p><?php echo '$'.number_format($booking->price, 2, '.', ','); ?></p>
                                     </div>
                                     <div class="col-lg-4">
                                         <h6>Status</h6>
@@ -188,7 +188,7 @@
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Unit Price</span>
-                                                    <span class="card-text">$<?php echo $item->ticket->price ?></span>
+                                                    <span class="card-text"><?php echo '$'.number_format($item->ticket->price, 2, '.', ','); ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Quantity</span>
@@ -210,7 +210,7 @@
                                                 ?>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Total Price</span>
-                                                    <span class="card-text">$<?php echo $item->price ?></span>
+                                                    <span class="card-text"><?php echo '$'.number_format($item->price, 2, '.', ','); ?></span>
                                                 </div>
                                                 <div class="mt-3 mb-3">
                                                     <h6 class="card-subtitle mb-2 text-muted">Ticket Validation</h6>
