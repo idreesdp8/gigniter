@@ -16,7 +16,9 @@
 		"php-ffmpeg/php-ffmpeg": "^0.18.0",
 		"aminyazdanpanah/php-ffmpeg-video-streaming": "^1.2",
 		"dompdf/dompdf": "^1.0",
-		"hybridauth/hybridauth" : "~3.0"
+		"hybridauth/hybridauth" : "~3.0",
+		"spipu/html2pdf": "^5.2",
+		"mpdf/mpdf": "^8.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

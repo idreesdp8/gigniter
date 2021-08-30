@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+
+require 'vendor/autoload.php';
+
+use Spipu\Html2Pdf\Html2Pdf;
+
 class Aws_test extends CI_Controller
 {
 
@@ -26,7 +31,7 @@ class Aws_test extends CI_Controller
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, OPTIONS");
 		$data = $this->configurations_model->get_all_configurations_by_key('aws');
-			// echo json_encode($data);
+		// echo json_encode($data);
 		// $key = $secret = '';
 		// foreach($data as $key => $value) {
 		// 	if($value->label == 'aws_key') {
@@ -55,7 +60,7 @@ class Aws_test extends CI_Controller
 		]);
 
 		$result = $ivs->createChannel([
-			'name' => 'Test_Channel_'.rand()
+			'name' => 'Test_Channel_' . rand()
 		]);
 		$channel = $result->get('channel');
 		$streamKey = $result->get('streamKey');
@@ -65,5 +70,34 @@ class Aws_test extends CI_Controller
 		$resp['stream_arn'] = $streamKey['arn'];
 		$resp['stream_key'] = $streamKey['value'];
 		echo json_encode($resp);
+	}
+
+	public function print_pdf_html2pdf()
+	{
+		$html_code = $this->load->view('frontend/bookings/download_tickets_html', '', TRUE);
+		define("DOMPDF_ENABLE_REMOTE", true);
+		$html2pdf = new Html2Pdf();
+		$html2pdf->writeHTML($html_code);
+		$html2pdf->output('myPdf.pdf');
+	}
+
+	public function print_pdf_dompdf()
+	{
+		$html_code = $this->load->view('frontend/bookings/download_tickets_html', '', TRUE);
+		$options = new Dompdf\Options();
+		$options->set('isRemoteEnabled', TRUE);
+		$pdf = new Dompdf\Dompdf($options);
+		$pdf->loadHtml($html_code);
+		$pdf->render();
+		$pdf->stream('myPdf.pdf', array('Attachment' => 0));
+		// $pdf->output();
+	}
+
+	public function print_pdf_mpdf()
+	{
+		$html_code = $this->load->view('frontend/bookings/download_tickets_html', '', TRUE);
+		$mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
+		$mpdf->WriteHTML($html_code);
+		$mpdf->Output();
 	}
 }
