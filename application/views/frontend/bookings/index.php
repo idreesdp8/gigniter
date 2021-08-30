@@ -80,7 +80,7 @@
                                                 // echo $booking->is_paid ? 'Paid' : 'Pending'
                                                 ?>
                                             </td>
-                                            <td><?php echo date('M d, Y H:i A', strtotime($booking->created_on)) ?></td>
+                                            <td><?php echo date('M d, Y', strtotime($booking->created_on)) ?></td>
                                             <td>
                                                 <a href="<?php echo user_base_url() . 'bookings/show/' . $booking->id ?>" type="button" data-toggle="tooltip" data-placement="top" title="View order detail" class="btn btn-info mob-responsive"><i class="fa fa-eye"></i></a>
                                                 <?php
