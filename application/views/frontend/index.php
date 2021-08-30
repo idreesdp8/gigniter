@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="book-btn ml-5">
                                                 <?php
-                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                                 ?>
                                                     <a href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>"><button type="button" class="btn btn-primary btn-booknow">book now</button></a>
 
@@ -120,7 +120,7 @@
                                             </div>
                                             <div class="book-btn m-auto">
                                                 <?php
-                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                                 ?>
 
                                                     <a href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>"><button type="button" class="btn btn-primary btn-booknow">book now</button></a>
@@ -260,7 +260,7 @@
                                             </div>
                                             <div class="d-flex">
                                                 <?php
-                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                                 ?>
                                                     <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                                 <?php
@@ -316,7 +316,7 @@
                                                 </div>
                                             </div>
                                             <?php
-                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                             ?>
                                                 <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                             <?php
@@ -399,7 +399,7 @@
                                             </div>
                                             <div class="d-flex">
                                                 <?php
-                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                                 ?>
                                                     <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                                 <?php
@@ -455,7 +455,7 @@
                                                 </div>
                                             </div>
                                             <?php
-                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                             ?>
                                                 <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                             <?php
@@ -539,7 +539,7 @@
                                             </div>
                                             <div class="d-flex">
                                                 <?php
-                                                if ($this->session->userdata('us_id') != $gig->user_id) :
+                                                if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                                 ?>
                                                     <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                                 <?php
@@ -595,7 +595,7 @@
                                                 </div>
                                             </div>
                                             <?php
-                                            if ($this->session->userdata('us_id') != $gig->user_id) :
+                                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
                                             ?>
                                                 <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                                             <?php
