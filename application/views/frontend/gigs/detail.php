@@ -152,7 +152,7 @@
                                 <?php
                             endif;
                         endif;
-                        if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
+                        if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left != 0) :
                             if ($gig->status == 1) :
                                 if (!empty($user_bookings)) :
                                 ?>
@@ -361,7 +361,7 @@
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <?php
-                                                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
+                                                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left != 0) :
                                                             ?>
                                                                 <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                             <?php

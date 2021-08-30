@@ -33,7 +33,7 @@ if ($gigs) :
                         </div>
                         <div class="d-flex" style="align-items: flex-start;">
                             <?php
-                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left == 0) :
+                            if ($this->session->userdata('us_id') != $gig->user_id || $gig->ticket_left != 0) :
                             ?>
                                 <a style="margin-right:10px;width:100%;" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id; ?>"><button type="button" class="btn btn-warning btn-watch mb-4">book now</button></a>
                             <?php
