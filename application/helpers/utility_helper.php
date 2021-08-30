@@ -159,9 +159,3 @@ function downloads_url()
 {
 	return base_url() . 'downloads/';
 }
-
-function currency_format($amount, $format)
-{
-	$fmt = new NumberFormatter($format, NumberFormatter::CURRENCY);
-	return $fmt->formatCurrency($amount, "USD");
-}

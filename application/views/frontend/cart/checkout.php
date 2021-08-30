@@ -224,13 +224,9 @@
 									<li>
 										<span class="info">
                                             <span>total price</span>
-                                            <span id="total_amount">$
+                                            <span id="total_amount">
                                                 <?php 
-                                                if($this->config->item('server') == 'localhost'){
-                                                    echo currency_format($total_amount, 'en_US');
-                                                } else {
-                                                    echo number_format($total_amount, 2, ',', '.'); 
-                                                }
+                                                    echo '$'.number_format($total_amount, 2, '.', ','); 
                                                 ?>
                                             </span>
                                         </span>
