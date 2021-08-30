@@ -201,7 +201,7 @@
 													</div>
 													<div class="w-25"><input type="number" class="qty h-auto" min="1" value="<?php echo $item['qty'] ?>"></div>
 												</h6>
-												<div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?>, <?php echo date('H:i A', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
+												<div class="info"><span><?php echo date('d M D', strtotime($item['created_on'])) ?></span> <span>Tickets</span></div>
 												<div class="info"><span>Tickets Price</span> <span class="item_subtotal">$<?php echo $item['subtotal']; ?></span></div>
 											</li>
 											<!-- <li>
@@ -222,7 +222,7 @@
 								</ul>
 								<ul class="side-shape">
 									<li>
-										<span class="info"><span>total price</span><span id="total_amount">$<?php echo $total_amount; ?></span></span>
+										<span class="info"><span>total price</span><span id="total_amount">$<?php echo currency_format($total_amount, 'en_US') ?></span></span>
 										<span class="info"><span>vat</span><span>$0</span></span>
 									</li>
 								</ul>

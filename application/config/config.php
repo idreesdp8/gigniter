@@ -27,6 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['base_url'] = 'https://gigniter.ca/staging/';
 // $config['base_url'] = 'http://localhost/CodeIgniter/gigniter/';
 
+$config['server'] = 'localhost';
+
 /*
 |--------------------------------------------------------------------------
 | Index File
