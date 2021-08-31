@@ -6,10 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            font-family:'Roboto', sans-serif;
         }
     </style>
 </head>
@@ -58,13 +63,15 @@
                 </div>
                 <div style="width: 45%; margin-left:20px; float: left;">
                         <div>
-                            <div style="font-size: 2em;text-transform: uppercase;">Title of concert</div>
-                            <div style="font-size: 1em;text-transform: capitalize;">subtitle</div>
-                            <div style="font-size: 1em;text-transform: capitalize;">from <span style="font-weight: 600;text-transform: uppercase;">02:00 pm</span> to <span style="font-weight: 600;text-transform: uppercase;">04:00 pm</span></div>
+                            <div style="font-size: 1.5em;text-transform: uppercase;">Title of concert</div>
+                            <div style="font-size: 0.75em;text-transform: capitalize;">subtitle</div>
+                            <div style="font-size: 0.75em;text-transform: capitalize;">from <span style="font-weight: 600;text-transform: uppercase;">02:00 pm</span> to <span style="font-weight: 600;text-transform: uppercase;">04:00 pm</span></div>
                          </div>  
-                         <div style="margin-top:30px;">
-                            <div style="font-size: 1.5em;text-transform: uppercase;font-weight: 600;">name of purchaser</div>
-                             <div style="font-size: 1.5em;text-transform: capitalize;font-weight: 600;">paid: <span>$38.76</span></div>
+                         <div style="margin-top:35px;">
+                            <div style="font-size: 1.25em;text-transform: uppercase;font-weight: 600;">name of purchaser</div>
+                             <div style="font-size: 1.25em;text-transform: capitalize;font-weight: 600;">paid: <span>$38.76</span></div>
+                            
+                                <div style="font-size: 0.75em;text-transform: capitalize;">Venue: <span>ABCD Street</span></div>
                          </div>
                  </div>
                            
