@@ -460,7 +460,7 @@ class Cart extends CI_Controller
 			$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 			$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 			$mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
-			$mpdf->WriteHTML($html_code);
+			$mpdf->WriteHTML(utf8_encode($html_code));
 			// echo $html_code;
 			// exit;
 			// $options = new Dompdf\Options();
@@ -468,8 +468,9 @@ class Cart extends CI_Controller
 			// $pdf = new Dompdf\Dompdf($options);  
 			// $pdf->loadHtml($html_code);
 			// $pdf->render(); 
-			$file =  $mpdf->Output();
-			file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file); 
+			// $file =  $mpdf->Output($file_name.'pdf');
+			$content = $mpdf->Output('', 'S');
+			// file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file); 
 			 
 			if (strlen($gig_ticket_qr_token) > 0) { 
 				$mail_to = $email_to; 
@@ -487,10 +488,12 @@ class Cart extends CI_Controller
 				// } else {
 				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 				
-					$attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
-					$this->email->attach($attched_file);
+					// $attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
+					// $this->email->attach($attched_file);
+					$this->email->attach($content, 'attachment', $file_name, 'application/pdf');
 					if($this->email->send()){
-						@unlink($attched_file);
+						// @unlink($attched_file);
+						rmdir(__DIR__ . '/tmp');
 					}
 			} 
 		}
