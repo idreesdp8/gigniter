@@ -99,5 +99,19 @@ class Aws_test extends CI_Controller
 		$mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
 		$mpdf->WriteHTML($html_code);
 		$mpdf->Output();
+		$dir = __DIR__ . '/tmp';
+		$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+		$files = new RecursiveIteratorIterator(
+			$it,
+			RecursiveIteratorIterator::CHILD_FIRST
+		);
+		foreach ($files as $file) {
+			if ($file->isDir()) {
+				rmdir($file->getRealPath());
+			} else {
+				unlink($file->getRealPath());
+			}
+		}
+		rmdir($dir);
 	}
 }
