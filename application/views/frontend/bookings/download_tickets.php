@@ -26,7 +26,7 @@ if (isset($tickets)) {
     <div style="border: .15em solid black;border-radius:10px;  width: 100%; position: relative; margin-bottom:20px; ">
             <div style="display:inline-block; width:100%;">
                 <div style="width:35%;float: left;">
-                    <img src="<?php echo poster_url().$ticket->poster ?>" alt="" style="width: 100%; margin: 5px;">
+                    <img src="<?php echo downloads_url() ?>gig8.jpg" alt="" style="width: 100%; margin: 5px;">
                 </div>
                 <div style="width: 45%; margin-left:20px; float: left;">
                         <div>

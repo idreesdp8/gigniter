@@ -460,7 +460,7 @@ class Cart extends CI_Controller
 			$file_name = 'ticket_' . $gig_ticket_qr_token . '.pdf';
 			$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 			$mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
-			$mpdf->WriteHTML(utf8_encode($html_code));
+			$mpdf->WriteHTML($html_code);
 			// echo $html_code;
 			// exit;
 			// $options = new Dompdf\Options();
@@ -493,7 +493,18 @@ class Cart extends CI_Controller
 					$this->email->attach($content, 'attachment', $file_name, 'application/pdf');
 					if($this->email->send()){
 						// @unlink($attched_file);
-						rmdir(__DIR__ . '/tmp');
+						$dir = __DIR__ . '/tmp';
+						$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+						$files = new RecursiveIteratorIterator($it,
+									RecursiveIteratorIterator::CHILD_FIRST);
+						foreach($files as $file) {
+							if ($file->isDir()){
+								rmdir($file->getRealPath());
+							} else {
+								unlink($file->getRealPath());
+							}
+						}
+						rmdir($dir);
 					}
 			} 
 		}
