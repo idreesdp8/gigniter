@@ -546,7 +546,7 @@
                     <button class="btn btn-primary btn-step-launch">Launch campaign</button>
                   </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button class="btn btn-primary btn-step-test">test</button>
+                    <button type="button" class="btn btn-primary btn-step-test">test</button>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>

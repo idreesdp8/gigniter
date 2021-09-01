@@ -190,29 +190,29 @@ function runValidationOn(formStep) {
             }
         }
     }
-    if (formStep == 'step-4') {
-        //check fields for the 3rd tab
-        if (!checkMeetingPlatform()) {
-            if (!errorElems.includes('#meeting_platform')) {
-                errorElems.push('#meeting_platform');
-            }
-        } else {
-            indexError = errorElems.indexOf('#meeting_platform');
-            if (indexError > -1) {
-                errorElems.splice(indexError, 1);
-            }
-        }
-        if (!checkMeetingURL()) {
-            if (!errorElems.includes('#meeting_url')) {
-                errorElems.push('#meeting_url');
-            }
-        } else {
-            indexError = errorElems.indexOf('#meeting_url');
-            if (indexError > -1) {
-                errorElems.splice(indexError, 1);
-            }
-        }
-    }
+    // if (formStep == 'step-4') {
+    //     //check fields for the 4th tab
+    //     if (!checkMeetingPlatform()) {
+    //         if (!errorElems.includes('#meeting_platform')) {
+    //             errorElems.push('#meeting_platform');
+    //         }
+    //     } else {
+    //         indexError = errorElems.indexOf('#meeting_platform');
+    //         if (indexError > -1) {
+    //             errorElems.splice(indexError, 1);
+    //         }
+    //     }
+    //     if (!checkMeetingURL()) {
+    //         if (!errorElems.includes('#meeting_url')) {
+    //             errorElems.push('#meeting_url');
+    //         }
+    //     } else {
+    //         indexError = errorElems.indexOf('#meeting_url');
+    //         if (indexError > -1) {
+    //             errorElems.splice(indexError, 1);
+    //         }
+    //     }
+    // }
     // console.log(errorElems);
     if (errorElems.length) {
         if (errorElems[0] == '#file-input') {
@@ -222,6 +222,7 @@ function runValidationOn(formStep) {
         $(errorElems[0]).focus();
     } else {
         var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
+        console.log(nextStepWizard);
         nextStepWizard.removeClass('disabled').trigger('click');
         $(window).scrollTop('0');
         validForm = true;
@@ -308,33 +309,33 @@ $(document).ready(function () {
     $("#stripe").change(function () {
         checkStripeId();
     });
-    $("#meeting_platform").change(function () {
-        checkMeetingPlatform();
-    });
-    $("#meeting_url").change(function () {
-        checkMeetingURL();
-    });
+    // $("#meeting_platform").change(function () {
+    //     checkMeetingPlatform();
+    // });
+    // $("#meeting_url").change(function () {
+    //     checkMeetingURL();
+    // });
 });
-function checkMeetingPlatform() {
-    var val = $("#meeting_platform").val();
-    if (val !== '') {
-        $("#meeting_platform").removeClass("error").addClass("good");
-        return true;
-    } else {
-        $("#meeting_platform").removeClass("good").addClass("error");
-        return false;
-    }
-}
-function checkMeetingURL() {
-    var val = $("#meeting_url").val();
-    if (val !== '') {
-        $("#meeting_url").removeClass("error").addClass("good");
-        return true;
-    } else {
-        $("#meeting_url").removeClass("good").addClass("error");
-        return false;
-    }
-}
+// function checkMeetingPlatform() {
+//     var val = $("#meeting_platform").val();
+//     if (val !== '') {
+//         $("#meeting_platform").removeClass("error").addClass("good");
+//         return true;
+//     } else {
+//         $("#meeting_platform").removeClass("good").addClass("error");
+//         return false;
+//     }
+// }
+// function checkMeetingURL() {
+//     var val = $("#meeting_url").val();
+//     if (val !== '') {
+//         $("#meeting_url").removeClass("error").addClass("good");
+//         return true;
+//     } else {
+//         $("#meeting_url").removeClass("good").addClass("error");
+//         return false;
+//     }
+// }
 function checkFirstName() {
     var val = $("#fname").val();
     if (val !== '') {
