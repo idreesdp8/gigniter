@@ -41,6 +41,8 @@ class Gigs extends CI_Controller
 
 	public function detail()
 	{
+		header('Access-Control-Allow-Origin: *');
+		header("Access-Control-Allow-Methods: GET, OPTIONS");
 		$id = $_GET['gig'];
 		$gig = $this->gigs_model->get_gig_by_id($id);
 		$user_bookings = $this->bookings_model->get_bookings_by_user_and_gig_id($this->dbs_user_id, $id);
