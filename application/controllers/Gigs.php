@@ -1029,11 +1029,9 @@ class Gigs extends CI_Controller
 		}
 	}
 
-	public function live($gig_id)
+	public function test_stream($gig_id)
 	{
 		$stream_details = $this->gigs_model->get_stream_details($gig_id);
-		// echo json_encode($stream_details);
-		// die();
 		$data['playback_url'] = $stream_details->playback_url;
 		$this->load->view('frontend/gigs/live', $data);
 	}

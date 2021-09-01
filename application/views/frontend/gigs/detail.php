@@ -4,6 +4,7 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
+    <script src="https://player.live-video.net/1.4.0/amazon-ivs-player.min.js"></script>
     <style>
         .detail_image_holder {
             overflow: hidden;
@@ -147,6 +148,7 @@
                             else :
                             ?>
                                 <div class="custom-item3">
+                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/test_stream/' . $gig->id ?>">Test Stream</a>
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
                                 </div>
                                 <?php
@@ -270,18 +272,24 @@
                     <div class="post-item post-details mb-1">
                         <div class="post-thumb">
                             <div id="wrapper-video">
-                                <?php if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
+                                <?php 
+                                    if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : 
+                                ?>
                                     <div class="overlay-video"></div>
                                 <?php
                                 endif;
-                                if (isset($gig->video) && $gig->video != '') : ?>
-                                    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                                        <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
-                                    </video>
-                                <?php else : ?>
-                                    <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog" class="object-cover object-center">
-                                <?php
-                                endif;
+                                if($gig->status == 2 && in_array($this->dbs_user_id, $gig->buyers)){
+                                    echo '<video id="video-player" playsinline controls width="100%" height="100%"></video>';
+                                } else {
+                                    if (isset($gig->video) && $gig->video != '') : ?>
+                                        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                            <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
+                                        </video>
+                                    <?php else : ?>
+                                        <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/blog/blog01.jpg' ?>" alt="blog" class="object-cover object-center">
+                                    <?php
+                                    endif;
+                                }
                                 if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
 
                                     <div class=" container h-100 particlesContainer">
@@ -740,6 +748,30 @@
                     get_reactions();
                 }
             }, 5000);
+
+            // let player = '';
+            // $('#create_channel').click(function() {
+            //     $.ajax({
+            //         url: base_url + 'aws_test/create_channel',
+            //         method: 'get',
+            //         dataType: 'json',
+            //         success: function(data) {
+            //             $('#stream_url').html(data.stream_url)
+            //             $('#stream_key').html(data.stream_key)
+            //             $('#playback_url').val(data.playback_url)
+            //         }
+
+            //     })
+            // })
+            // $('#play_video').click(function() {
+                var playback_url = $('#playback_url').val();
+                if (IVSPlayer.isPlayerSupported) {
+                    let player = IVSPlayer.create();
+                    player.attachHTMLVideoElement(document.getElementById('video-player'));
+                    player.load('<?php echo $stream_details->playback_url ?>');
+                    player.play();
+                }
+            // })
 
 
 
