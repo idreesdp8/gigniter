@@ -15,7 +15,7 @@ navListItems.click(function (e) {
     var $target = $($(this).attr('href')),
         $item = $(this);
 
-    if (!$item.hasClass('disabled')) {
+    if (!$item.hasClass('disabled2')) {
         navListItems.removeClass('btn-success-circle').addClass('btn-default');
         $item.addClass('btn-success-circle');
         steps.hide();
@@ -222,7 +222,7 @@ function runValidationOn(formStep) {
     } else {
         var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
         console.log(nextStepWizard);
-        nextStepWizard.removeClass('disabled').trigger('click');
+        nextStepWizard.removeClass('disabled2').trigger('click');
         $(window).scrollTop('0');
         validForm = true;
     }

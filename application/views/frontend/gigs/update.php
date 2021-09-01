@@ -25,7 +25,7 @@
       color: red;
     }
 
-    .btn.disabled,
+    .btn.disabled2,
     .btn:disabled {
       opacity: 1;
     }
@@ -56,19 +56,19 @@
                   <p><small>Basic Info</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-2" type="button" class="btn btn-default btn-circle line progress_step_2 disabled">2</a>
+                  <a href="#step-2" type="button" class="btn btn-default btn-circle line progress_step_2 disabled2">2</a>
                   <p><small>Ticket Tiers</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3 disabled">3</a>
+                  <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3 disabled2">3</a>
                   <p><small>About You</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4 disabled">4</a>
+                  <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4 disabled2">4</a>
                   <p><small>Test link</small></p>
                 </div>
                 <div class="stepwizard-step">
-                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5 disabled">5</a>
+                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5 disabled2">5</a>
                   <p><small>Review & Confirm</small></p>
                 </div>
               </div>
