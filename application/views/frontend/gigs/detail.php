@@ -279,6 +279,8 @@
                                 <?php
                                 endif;
                                 if($gig->status == 2 && in_array($this->dbs_user_id, $gig->buyers)){
+                                    header('Access-Control-Allow-Origin: *');
+                                    header("Access-Control-Allow-Methods: GET, OPTIONS");
                                     echo '<video id="video-player" playsinline controls width="100%" height="100%"></video>';
                                 } else {
                                     if (isset($gig->video) && $gig->video != '') : ?>
