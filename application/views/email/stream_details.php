@@ -111,7 +111,7 @@
                                                             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                                 <tr>
                                                                     <td style="padding-right: 0px;padding-left: 0px;" align="center">
-                                                                        <img align="center" border="0" src="./logo.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 32%;max-width: 179.2px;" width="179.2" />
+                                                                        <img align="center" border="0" src="<?php echo user_asset_url(); ?>images/logo/logo.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 32%;max-width: 179.2px;" width="179.2" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -139,7 +139,7 @@
                                                             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                                                 <tr>
                                                                     <td style="padding-right: 0px;padding-left: 0px;" align="center">
-                                                                        <img align="center" border="0" src="./image-1.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 26%;max-width: 150.8px;" width="150.8" />
+                                                                        <img align="center" border="0" src="<?php echo user_asset_url(); ?>images/email/image-1.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 26%;max-width: 150.8px;" width="150.8" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -180,10 +180,14 @@
                                                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Your Gig Stream Details are listed Below </span></p>
                                                                 <p style="font-size: 14px; line-height: 160%;">
                                                                     <span style="font-size: 22px; line-height: 35.2px;">Stream Server: </span>
+                                                                </p>
+                                                                <p>
                                                                     <span style="font-size: 18px; line-height: 28.8px;"><?php echo $stream_server_url ?></span>
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 160%;">
                                                                     <span style="font-size: 22px; line-height: 35.2px;">Stream Secret: </span>
+                                                                </p>
+                                                                <p>
                                                                     <span style="font-size: 18px; line-height: 28.8px;"><?php echo $stream_secret ?></span>
                                                                 </p>
                                                             </div>

@@ -324,9 +324,10 @@ class Cart extends CI_Controller
 			$this->create_customer($token, $email_to, $name, $res);
 			if ($ticket_bought->quantity > $threshold) {
 				$stream_details = $this->create_channel($gig_id);
-				$is_sent = $this->send_stream_email($stream_details);
-				echo json_encode($is_sent);
-				die();
+				$subject = 'Stream Details';
+				$to_email = 'hamza362207@gmail.com';
+				$email_for = 'stream_details';
+				$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
 				// $this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
@@ -648,7 +649,7 @@ class Cart extends CI_Controller
 		// die();
 	}
 
-	function send_email($to_email, $subject, $email_for)
+	function send_email($to_email, $subject, $email_for, $data = '')
 	{
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
@@ -675,6 +676,12 @@ class Cart extends CI_Controller
 			// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
 			$msg = $this->load->view('email/ticket_purchase', '', TRUE);
 		}
+		if($email_for == 'stream_details')
+		{
+			$datas['stream_server_url'] = $data['stream_url'];
+			$datas['stream_secret'] = $data['stream_key'];
+			$msg = $this->load->view('email/stream_details', $datas, TRUE);
+		}
 		$this->email->from($from_email, $from_name);
 		$this->email->to($to_email);
 		$this->email->subject($subject);
@@ -698,12 +705,12 @@ class Cart extends CI_Controller
 		$from_name = $this->config->item('from_name');
 		$datas['stream_server_url'] = $data['stream_url'];
 		$datas['stream_secret'] = $data['stream_key'];
+		// echo json_encode($datas);
+		// die();
 		$gig = $this->gigs_model->get_gig_by_id($data['gig_id']);
 		$user = $this->users_model->get_user_by_id($gig->user_id);
 		$msg = $this->load->view('email/stream_details', $datas, TRUE);
 		$subject = 'Stream Details';
-		// echo $user->email;die();
-		// $to_email = $user->email;
 		$to_email = 'hamza0952454@gmail.com';
 
 		$this->email->from($from_email, $from_name);
@@ -711,6 +718,7 @@ class Cart extends CI_Controller
 		$this->email->subject($subject);
 		$this->email->message($msg);
 		if ($this->email->send()) {
+
 			return true;
 		} else {
 			// return false;
