@@ -311,6 +311,11 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_stream_details($gig_id)
+	{
+		$query = $this->db->get_where('gig_stream', array('gig_id' => $gig_id));
+		return $query->row();
+	}
 	function get_previous_gigs()
 	{
 		$sql = "SELECT * FROM gigs WHERE date(gig_date) < CURDATE() AND status <= 2";

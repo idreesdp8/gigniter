@@ -154,7 +154,7 @@
                                 <?php
                             endif;
                         endif;
-                        if ($this->session->userdata('us_id') != $gig->user_id&& $gig->ticket_left != 0) :
+                        if ($this->session->userdata('us_id') != $gig->user_id && $gig->ticket_left != 0) :
                             if ($gig->status == 1) :
                                 if (!empty($user_bookings)) :
                                 ?>
@@ -204,16 +204,27 @@
             if ($gig->user_id == $this->session->userdata('us_id')) :
             ?>
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                         <div class="photo-heading">
-                            <h3>Stream Details</h3>
+                            <h3>
+                                Stream Details
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="photo-heading">
+                            <button class="btn btn-theme-primary" data-toggle="modal" data-target="#exampleModal">Important Information</button>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="row"> -->
-                <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details ? $stream_details->stream_url : 'NA' ?></p>
-                <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details ? $stream_details->stream_key : 'NA' ?></p>
-                <!-- </div> -->
+                <div class="d-flex">
+                    <p class="sub-title"><strong>Stream URL: </strong><?php echo $stream_details ? '<span id="stream_url">' . $stream_details->stream_url . '</span>' : 'NA' ?></p>
+                    <span><i class="fa fa-copy ml-2 cursor-pointer" onclick="copy(this)"></i></span>
+                </div>
+                <div class="d-flex">
+                    <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details ? '<span id="stream_key">' . $stream_details->stream_key . '</span>' : 'NA' ?></p>
+                    <span><i class="fa fa-copy ml-2 cursor-pointer" onclick="copy(this)"></i></span>
+                </div>
 
 
 
@@ -272,13 +283,13 @@
                     <div class="post-item post-details mb-1">
                         <div class="post-thumb">
                             <div id="wrapper-video">
-                                <?php 
-                                    if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : 
+                                <?php
+                                if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) :
                                 ?>
                                     <div class="overlay-video"></div>
-                                <?php
+                                    <?php
                                 endif;
-                                if($gig->status == 2 && in_array($this->dbs_user_id, $gig->buyers)){
+                                if ($gig->status == 2 && in_array($this->dbs_user_id, $gig->buyers)) {
                                     header('Access-Control-Allow-Origin: *');
                                     header("Access-Control-Allow-Methods: GET, OPTIONS");
                                     echo '<video id="video-player" playsinline controls width="100%" height="100%"></video>';
@@ -371,7 +382,7 @@
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <?php
-                                                            if ($this->session->userdata('us_id') != $gig->user_id&& $gig->ticket_left != 0) :
+                                                            if ($this->session->userdata('us_id') != $gig->user_id && $gig->ticket_left != 0) :
                                                             ?>
                                                                 <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                             <?php
@@ -619,6 +630,29 @@
         </div>
     </section>
     <!-- ==========photo-Section========== -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Streaming Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Here is some important information regarding your streaming.</p>
+                    <ol>
+                        <li><p>Download OBS Studio from here: <a target="_blank" href="https://obsproject.com/download">Download OBS</a></p></li>
+                    </ol>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary w-25" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /page content -->
 
     <?php $this->load->view('frontend/gigs/book_now'); ?>
@@ -766,13 +800,13 @@
             //     })
             // })
             // $('#play_video').click(function() {
-                var playback_url = $('#playback_url').val();
-                if (IVSPlayer.isPlayerSupported) {
-                    let player = IVSPlayer.create();
-                    player.attachHTMLVideoElement(document.getElementById('video-player'));
-                    player.load('<?php echo $stream_details->playback_url ?>');
-                    player.play();
-                }
+            var playback_url = $('#playback_url').val();
+            if (IVSPlayer.isPlayerSupported) {
+                let player = IVSPlayer.create();
+                player.attachHTMLVideoElement(document.getElementById('video-player'));
+                player.load('<?php echo $stream_details->playback_url ?>');
+                player.play();
+            }
             // })
 
 
@@ -835,6 +869,16 @@
                 }
             }
         });
+
+        function copy(elem) {
+            var span = $(elem).parents('.d-flex').find('p > span');
+            console.log(span.html());
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(span.html()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
     </script>
 </body>
 

@@ -67,6 +67,7 @@
                             <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
                                 <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
                             </form>
+                            <a href="<?php echo admin_base_url() ?>gigs/streaming_details/<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Streaming Details" type="button" class="btn btn-secondary btn-icon ml-2"><i class="icon-search4"></i></a>
                         </div>
                     </td>
                 </tr>

@@ -884,4 +884,15 @@ class Gigs extends CI_Controller
 		$data = $this->input->post();
 		echo json_encode($data);
 	}
+
+	function streaming_details($gig_id)
+	{
+		$gig = $this->gigs_model->get_gig_by_id($gig_id);
+		$stream_details = $this->gigs_model->get_stream_details($gig_id);
+		$data = [
+			'gig' => $gig,
+			'stream_details' => $stream_details,
+		];
+		$this->load->view('admin/gigs/stream_details', $data);
+	}
 }
