@@ -420,16 +420,7 @@ class Cart extends CI_Controller
 			$html_code = $this->load->view('frontend/bookings/download_tickets', $datas, TRUE);
 			$mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/tmp']);
 			$mpdf->WriteHTML($html_code);
-			// echo $html_code;
-			// exit;
-			// $options = new Dompdf\Options();
-			// $options->set('isRemoteEnabled', TRUE); 
-			// $pdf = new Dompdf\Dompdf($options);  
-			// $pdf->loadHtml($html_code);
-			// $pdf->render(); 
-			// $file =  $mpdf->Output($file_name.'pdf');
 			$content = $mpdf->Output('', 'S');
-			// file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file); 
 
 			if (strlen($gig_ticket_qr_token) > 0) {
 				$mail_to = $email_to;
@@ -438,20 +429,10 @@ class Cart extends CI_Controller
 				$this->email->from($from_email, $from_name);
 				$this->email->to($mail_to);
 				$this->email->subject($subject);
-				// $this->email->to('hamza0952454@gmail.com');
-				//$this->email->to('younasali22@gmail.com');
 
 				$this->email->message($mail_text);
-				// if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-				// } else {
-				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-
-				// $attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
-				// $this->email->attach($attched_file);
 				$this->email->attach($content, 'attachment', $file_name, 'application/pdf');
 				if ($this->email->send()) {
-					// @unlink($attched_file);
 					$dir = __DIR__ . '/tmp';
 					$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
 					$files = new RecursiveIteratorIterator(

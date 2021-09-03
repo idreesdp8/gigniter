@@ -529,6 +529,8 @@ class Gigs extends CI_Controller
 
 				if ($res) {
 					// $this->create_channel($data['title'], $res);
+					$user = $this->users_model->get_user_by_id($data['user_id']);
+					$this->send_email($user->email, 'Gig Created', 'gig_created');
 					$this->add_tickets($data, $res);
 					if($is_new){
 						redirect('account/verfication_page');
@@ -1619,6 +1621,9 @@ class Gigs extends CI_Controller
 		if ($email_for == 'forgot_password') {
 			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
 			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
+		if ($email_for == 'gig_created') {
+			$msg = $this->load->view('email/gig_created', '', TRUE);
 		}
 
 
