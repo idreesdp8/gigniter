@@ -325,8 +325,8 @@ class Cart extends CI_Controller
 			if ($ticket_bought->quantity > $threshold) {
 				$stream_details = $this->create_channel($gig_id);
 				$is_sent = $this->send_stream_email($stream_details);
-				// echo json_encode($is_sent);
-				// die();
+				echo json_encode($is_sent);
+				die();
 				// $this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
