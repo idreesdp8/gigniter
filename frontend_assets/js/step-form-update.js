@@ -244,6 +244,7 @@ $(document).ready(function () {
             })
             console.log(errorElems)
             $.each(errorElems, function(index, value){
+                
                 // console.log(value)
                 value = value.slice(1,value.length)
                 error += value+', ';

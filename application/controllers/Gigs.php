@@ -528,7 +528,7 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
-					$this->create_channel($data['title'], $res);
+					// $this->create_channel($data['title'], $res);
 					$this->add_tickets($data, $res);
 					if($is_new){
 						redirect('account/verfication_page');

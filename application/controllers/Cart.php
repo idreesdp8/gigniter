@@ -66,9 +66,9 @@ class Cart extends CI_Controller
 
 	public function book_tier($gig_id = '')
 	{
-		if($this->dbs_user_id) {
+		if ($this->dbs_user_id) {
 			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-			if(!$user->status) {
+			if (!$user->status) {
 				redirect('account/verify_account');
 			}
 		}
@@ -245,30 +245,10 @@ class Cart extends CI_Controller
 
 			// $user = $this->users_model->get_user_by_email($email_to);
 			$user_id = $this->dbs_user_id;
-			// if (!$user_id) {
-			// 	$this->load->helper('string');
-			// 	$password = random_string('alnum', 8);
-			// 	$this->session->set_userdata(['password' => $password]);
-			// 	$password = $this->general_model->safe_ci_encoder($password);
-			// 	$role = $this->roles_model->get_role_by_name('User');
-			// 	$created_on = date('Y-m-d H:i:s');
-			// 	$status = 0;
-			// 	$datas = array(
-			// 		'email' => $email_to,
-			// 		'fname' => $fname,
-			// 		'lname' => $lname ?? '',
-			// 		'password' => $password,
-			// 		'role_id' => $role->id,
-			// 		'status' => $status,
-			// 		'created_on' => $created_on
-			// 	);
-			// 	$user_id = $this->users_model->insert_user_data($datas);
-			// 	// $is_sent1 = $this->send_email($email_to, 'Account Registration', 'account_password');
-			// 	// $is_sent2 = $this->send_email($email_to, 'Verification Code', 'verification');
-			// }
 
 			$ticket_limit = $this->gigs_model->get_gig_ticket_limit($gig_id);
-			$threshold = floor($ticket_limit * .6);
+			// $threshold = floor($ticket_limit * .6);
+			$threshold = 3;
 
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');
@@ -313,15 +293,11 @@ class Cart extends CI_Controller
 								'cart_id' => $resp,
 								'qr_token' => $qr_token,
 							];
-							
-							//http://localhost/gigniter/index.php/cart/checkout
-							  
-							$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
-							 
-							/*$this->general_model->custom_qr_img_generate($qr_token, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
-							
+
+							$qr_token_url =  user_base_url() . 'verification/qr_token/' . $qr_token;
+
 							$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");
-							
+
 							$qr_token_arrs[] = $qr_token;
 						} else {
 							$ticket_params[] = [
@@ -344,38 +320,26 @@ class Cart extends CI_Controller
 			}
 
 			$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig_id);
-			// $items = $this->bookings_model->get_booking_items_by_gig_id($gig_id);
-			// $ticket_bought = 0;
-			// foreach ($items as $item) {
-			// 	$ticket_bought += $item->quantity;
-			// }
-			// echo json_encode($ticket_bought->quantity);
-			// die();
 
 			$this->create_customer($token, $email_to, $name, $res);
 			if ($ticket_bought->quantity > $threshold) {
-				$this->charge_and_transfer($gig_id);
+				$stream_details = $this->create_channel($gig_id);
+				$is_sent = $this->send_stream_email($stream_details);
+				// echo json_encode($is_sent);
+				// die();
+				// $this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
-			
-			
+
+
 			if ($is_physical_gig == 1 && count($qr_token_arrs) > 0) {
-				//$is_sent = $this->send_email($email_to, 'Booking Done', 'ticket_purchase');
 				$is_sent = $this->send_ticket_mails($qr_token_arrs, $email_to, 'Booking Done');
 			} else {
 				$is_sent = false;
 			}
-
-			/*if ($is_physical_gig == 1 && (isset($gig_id) && $gig_id > 0)) { 
-				$is_sent = $this->sendQRCode_Email($gig_id, $user_id);
-			} else {
-				$is_sent = false;
-			}*/
 			// exit;
 			if (true) {
 				$this->cart->destroy();
-				// redirect('cart/checkout');
-				// redirect('cart/thankyou');
 				$this->load->view('frontend/cart/thankyou', ['gig_id' => $gig_id]);
 			} else {
 				$this->session->set_flashdata('error_msg', 'Problem occured!');
@@ -397,50 +361,44 @@ class Cart extends CI_Controller
 			$this->load->view('frontend/cart/checkout', $data);
 		}
 	}
-	
-	public function send_ticket_mails123(){
-		$qr_token = '60daa82e910d4';
-		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
-		// $email_to = "younasali22@gmail.com";
-		$email_to = "hamza0952454@gmail.com";
-		$subject = "testing 1122";
-		
-		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
-							
-		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
-		
-		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
-	}
-	
-	public function send_ticket_mails122(){
-		$qr_token = '60daa82e910d4';
-		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
-		// $email_to = "younasali22@gmail.com";
-		$email_to = "asadnisar98@gmail.com";
-		$subject = "testing 1122";
-		
-		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
-							
-		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
-		
-		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
-	}
-	public function send_ticket_mails111(){
-		$qr_token = '60daa82e910d4';
-		$qr_token_arrs = array('60daa82e910d4'); //, '60db30e348060' 
-		$email_to = "younasali22@gmail.com";
-		//$email_to = "hamza09524542@gmail.com";
-		$subject = "testing 1122";
-		
-		/*$qr_token_url =  user_base_url() . 'verification/qr_token/'.$qr_token;
-							
-		$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");*/
-		
-		$this->send_ticket_mails($qr_token_arrs, $email_to, $subject);
+
+
+	function create_channel($gig_id)
+	{
+		$gig = $this->gigs_model->get_gig_by_id($gig_id);
+		$channel_name = str_replace(' ', '_', $gig->title);
+		$data = $this->configurations_model->get_all_configurations_by_key('aws');
+		$key = $data[0]->value;
+		$secret = $data[1]->value;
+		$version = $data[2]->value;
+		$region = $data[3]->value;
+		require 'amazonivs/aws-autoloader.php';
+		$ivs = new Aws\IVS\IVSClient([
+			'version' => $version,
+			'region' => $region,
+			'credentials' => [
+				'key'    => $key,
+				'secret' => $secret,
+			],
+		]);
+		$result = $ivs->createChannel([
+			'name' => $channel_name
+		]);
+		$channel = $result->get('channel');
+		$streamKey = $result->get('streamKey');
+		$datas['channel_arn'] = $channel['arn'];
+		$datas['playback_url'] = $channel['playbackUrl'];
+		$datas['stream_url'] = 'rtmps://' . $channel['ingestEndpoint'] . ':443/app/';
+		$datas['stream_arn'] = $streamKey['arn'];
+		$datas['stream_key'] = $streamKey['value'];
+		$datas['gig_id'] = $gig_id;
+		$this->gigs_model->add_channel($datas);
+		return $datas;
 	}
 
-	public function send_ticket_mails($qr_token_arrs, $email_to, $subject){
-	 
+	public function send_ticket_mails($qr_token_arrs, $email_to, $subject)
+	{
+
 		require 'vendor/autoload.php';
 
 		$this->load->library('email');
@@ -452,8 +410,8 @@ class Cart extends CI_Controller
 		$rows = $this->gigs_model->get_tickets_by_qr_code_token($qr_token_arrs);
 		// echo json_encode($rows);
 		// exit;
-		if(isset($rows)){  
-			/*foreach ($rows as $row) {  }*/ 
+		if (isset($rows)) {
+			/*foreach ($rows as $row) {  }*/
 			$gig_ticket_no = $rows[0]->ticket_no;
 			$gig_ticket_qr_token = $rows[0]->qr_token;
 			$datas['tickets'] = $rows;
@@ -471,114 +429,47 @@ class Cart extends CI_Controller
 			// $file =  $mpdf->Output($file_name.'pdf');
 			$content = $mpdf->Output('', 'S');
 			// file_put_contents("downloads/tickets_qr_code_imgs/$file_name", $file); 
-			 
-			if (strlen($gig_ticket_qr_token) > 0) { 
-				$mail_to = $email_to; 
-				$mail_text = $template_row->content; 
-				
-				$this->email->from($from_email, $from_name); 
+
+			if (strlen($gig_ticket_qr_token) > 0) {
+				$mail_to = $email_to;
+				$mail_text = $template_row->content;
+
+				$this->email->from($from_email, $from_name);
 				$this->email->to($mail_to);
-				$this->email->subject($subject); 
+				$this->email->subject($subject);
 				// $this->email->to('hamza0952454@gmail.com');
 				//$this->email->to('younasali22@gmail.com');
 
 				$this->email->message($mail_text);
 				// if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-					//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
+				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
 				// } else {
 				//$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-				
-					// $attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
-					// $this->email->attach($attched_file);
-					$this->email->attach($content, 'attachment', $file_name, 'application/pdf');
-					if($this->email->send()){
-						// @unlink($attched_file);
-						$dir = __DIR__ . '/tmp';
-						$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-						$files = new RecursiveIteratorIterator($it,
-									RecursiveIteratorIterator::CHILD_FIRST);
-						foreach($files as $file) {
-							if ($file->isDir()){
-								rmdir($file->getRealPath());
-							} else {
-								unlink($file->getRealPath());
-							}
+
+				// $attched_file = "downloads/tickets_qr_code_imgs/$file_name"; 
+				// $this->email->attach($attched_file);
+				$this->email->attach($content, 'attachment', $file_name, 'application/pdf');
+				if ($this->email->send()) {
+					// @unlink($attched_file);
+					$dir = __DIR__ . '/tmp';
+					$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+					$files = new RecursiveIteratorIterator(
+						$it,
+						RecursiveIteratorIterator::CHILD_FIRST
+					);
+					foreach ($files as $file) {
+						if ($file->isDir()) {
+							rmdir($file->getRealPath());
+						} else {
+							unlink($file->getRealPath());
 						}
-						rmdir($dir);
 					}
-			} 
-		}
-		
-		return true;
-	}
-
-	public function sendQRCode_Email($sl_gig_id, $sl_usr_id)
-	{
-		/* $config = Array(
-		  'protocol' => 'smtp',
-		  'smtp_host' => 'ssl://smtp.googlemail.com',
-		  'smtp_port' => 465,
-		  'smtp_user' => 'abc@gmail.com', 
-		  'smtp_pass' => 'passwrd', 
-		  'mailtype' => 'html',
-		  'charset' => 'iso-8859-1',
-		  'wordwrap' => TRUE
-		);
-		
-		$this->load->library('email', $config);*/
-
-		$this->load->library('email');
-		$from_name = $this->config->item('from_name');
-		$from_email = $this->config->item('info_email');
-
-		$rows = $this->gigs_model->get_tickets_by_gig_and_userid($sl_gig_id, $sl_usr_id);
-		if (isset($rows)) {
-			foreach ($rows as $row) {
-				$gig_ticket_no = $row->ticket_no;
-				$gig_ticket_qr_token = $row->qr_token;
-
-				if (strlen($gig_ticket_qr_token) > 0) {
-
-					$mail_to_name = $row->fname . ' ' . $row->lname;
-					$mail_to = $row->email;
-
-					$gig_title = $row->title;
-					$gig_subtitle = $row->subtitle;
-					$gig_category = $row->category;
-					$gig_poster = $row->poster;
-					$gig_address = $row->address;
-					$gig_poster = $row->poster;
-
-					$mail_text = "Hi $mail_to_name, <br> <br> Gigniter is sending you, your new created Tick QR Code as attached below. <br> <br> Regards, <br> Gigniter Team";
-
-					//$this->email->set_newline("\r\n");  
-					$this->email->from($from_email, $from_name);
-
-					$this->email->to($mail_to);
-					$this->email->subject($gig_title . ' ' . $gig_ticket_no);
-
-					// $this->email->to('hamza0952454@gmail.com');
-					// $this->email->to('younasali22@gmail.com');
-					// $this->email->subject($gig_title . ' ' . $gig_ticket_no);
-
-					$this->email->message($mail_text);
-					if ($_SERVER['HTTP_HOST'] == "localhost") { /* skip mail sending */
-						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-					} else {
-						$attched_file = qrcode_url() . "ticket_" . $gig_ticket_qr_token . ".png";
-
-						// $this->email->attach($attched_file);
-						$this->email->send();
-					}
-
-					/*if($this->email->send()){
-						echo 'Email send.';
-					}else{
-						show_error($this->email->print_debugger());
-					}*/
+					rmdir($dir);
 				}
 			}
 		}
+
+		return true;
 	}
 
 	function create_customer($token, $email, $name, $booking_id)
@@ -678,37 +569,10 @@ class Cart extends CI_Controller
 							];
 							$this->bookings_model->insert_transaction_data($transfer_param);
 						}
-						// echo json_encode($transfer);
-						// die();
 					}
 				}
-				// else {
-
-				// 	$out['status'] = '2';
-				// 	$out['message'] = 'Error: Customer Charge has been failed!';
-				// 	// $out['txn_id'] = $txn_id;
-				// 	// $out['amount'] = $amount;
-				// 	// $out['currency'] = $payment_currency;
-				// 	// $out['payment_status'] = $payment_status;
-				// 	// $out['transfer'] = '';
-				// 	$this->session->set_flashdata('error_msg', $out['message']);
-				// 	redirect('cart/checkout');
-				// 	echo json_encode($out);
-				// 	die();
-				// }
 			}
-			// else {
-
-			// 	$out['status'] = '3';
-			// 	$out['message'] = 'Error: Transaction has been failed!';
-			// 	$this->session->set_flashdata('error_msg', $out['message']);
-			// 	redirect('cart/checkout');
-			// 	echo json_encode($out);
-			// 	die();
-			// }
 		}
-		// echo json_encode($bookings);
-		// die();
 	}
 
 	function calculate_popularity($gig_id, $backers)
@@ -784,8 +648,6 @@ class Cart extends CI_Controller
 		// die();
 	}
 
-
-
 	function send_email($to_email, $subject, $email_for)
 	{
 		$this->load->library('email');
@@ -829,6 +691,34 @@ class Cart extends CI_Controller
 		}
 	}
 
+	function send_stream_email($data)
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+		$datas['stream_server_url'] = $data['stream_url'];
+		$datas['stream_secret'] = $data['stream_key'];
+		$gig = $this->gigs_model->get_gig_by_id($data['gig_id']);
+		$user = $this->users_model->get_user_by_id($gig->user_id);
+		$msg = $this->load->view('email/stream_details', $datas, TRUE);
+		$subject = 'Stream Details';
+		// echo $user->email;die();
+		// $to_email = $user->email;
+		$to_email = 'hamza0952454@gmail.com';
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		if ($this->email->send()) {
+			return true;
+		} else {
+			// return false;
+			echo json_encode($this->email->print_debugger());
+			die();
+		}
+	}
+
 	function thankyou()
 	{
 		$this->load->view('frontend/cart/thankyou');
@@ -841,13 +731,13 @@ class Cart extends CI_Controller
 		$html = $this->load->view('email/ticket_purchase', '', TRUE);
 		$dompdf = new Dompdf\Dompdf();
 		$dompdf->loadHtml($html);
-		
+
 		// (Optional) Setup the paper size and orientation
 		$dompdf->setPaper('A4', 'portrait');
-		
+
 		// Render the HTML as PDF
 		$dompdf->render();
-		
+
 		// Output the generated PDF to Browser
 		$dompdf->stream();
 	}
