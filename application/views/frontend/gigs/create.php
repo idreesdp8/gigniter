@@ -680,13 +680,12 @@
         if($('#start_time').val() != '') {
           gig_min_time = 'T'+$('#start_time').val();
         }
-        var end_time_min = gig_min_date + gig_min_time
         console.log(gig_max_date);
         console.log(gig_min_value);
         $('#gig_date').attr('min', gig_min_value);
-        $('#end_time').attr('min', end_time_min);
         $('#gig_date').val(gig_min_value);
         $('#gig_date').attr('max', gig_max_date);
+        set_end_time_min(gig_min_value, gig_min_time)
       });
 
       $('#gig_date').change(function() {
@@ -698,13 +697,22 @@
         if($('#start_time').val() != '') {
           gig_min_time = 'T'+$('#start_time').val();
         }
-        var end_time_min = gig_min_date + gig_min_time
-        $('#end_time').attr('min', end_time_min);
+        set_end_time_min(gig_min_date, gig_min_time)
       })
 
       $('#start_time').change(function() {
-        
+        var gig_min_date = new Date().toISOString().substring(0, 10)
+        if($('#gig_date').val() != '') {
+          gig_min_date = new Date($('#gig_date').val()).toISOString().substring(0, 10);
+        }
+        var gig_min_time = 'T'+$(this).val();
+        set_end_time_min(gig_min_date, gig_min_time)
       })
+
+      function set_end_time_min(gig_min_date, gig_min_time) {
+        var end_time_min = gig_min_date + gig_min_time
+        $('#end_time').attr('min', end_time_min);
+      }
 
       $('#add_tier_button').click(function() {
         var tier = $(this).attr('data-tier');
