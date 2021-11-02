@@ -11,8 +11,8 @@ class Gigs extends CI_Controller
 			redirect("admin/login");
 		}
 		$vs_user_role_name = $this->session->userdata('us_role_name');
-		if(isset($vs_user_role_name)){
-			if($vs_user_role_name!='Admin'){
+		if (isset($vs_user_role_name)) {
+			if ($vs_user_role_name != 'Admin') {
 				redirect('dashboard');
 			}
 		}
@@ -65,7 +65,7 @@ class Gigs extends CI_Controller
 		}
 		// echo json_encode($data);
 		$gigs = $this->gigs_model->get_all_filter_gigs($data);
-		if($gigs) {
+		if ($gigs) {
 			foreach ($gigs as $key => $value) {
 				$user = $this->users_model->get_user_by_id($value->user_id);
 				$temp = ['key' => $this->key, 'value' => $value->status];
@@ -103,7 +103,7 @@ class Gigs extends CI_Controller
 							</form>
 						</div>';
 				$result['data'][$key] = array(
-					$key+1,
+					$key + 1,
 					$user_name,
 					$value->title,
 					// $category_label,
@@ -141,7 +141,7 @@ class Gigs extends CI_Controller
 		}
 		// echo json_encode($data);
 		$gigs = $this->gigs_model->get_all_filter_popular_gigs($data);
-		if($gigs) {
+		if ($gigs) {
 			foreach ($gigs as $key => $value) {
 				$user = $this->users_model->get_user_by_id($value->user_id);
 				$temp = ['key' => $this->key, 'value' => $value->status];
@@ -179,7 +179,7 @@ class Gigs extends CI_Controller
 							</form>
 						</div>';
 				$result['data'][$key] = array(
-					$key+1,
+					$key + 1,
 					$user_name,
 					$value->title,
 					// $category_label,
@@ -187,8 +187,8 @@ class Gigs extends CI_Controller
 					$value->popularity,
 					$value->popularity_data->backers ?? '0',
 					$value->popularity_data->date_diff ?? '0',
-					'$'.$value->goal_amount,
-					$value->popularity_data ? '$'.$value->popularity_data->amount_raised : '$0',
+					'$' . $value->goal_amount,
+					$value->popularity_data ? '$' . $value->popularity_data->amount_raised : '$0',
 					date('M d, Y', strtotime($value->created_on)),
 					// $paid_status,
 					$buttons
@@ -213,7 +213,7 @@ class Gigs extends CI_Controller
 		// die();
 		$gigs = $this->gigs_model->get_all_gigs();
 		foreach ($gigs as $gig) {
-		
+
 			$user = $this->users_model->get_user_by_id($gig->user_id);
 			$temp = ['key' => $this->key, 'value' => $gig->status];
 			$status = $this->configurations_model->get_configuration_by_key_value($temp);
@@ -222,9 +222,9 @@ class Gigs extends CI_Controller
 			$gig->status_label = $status->label;
 			$gig->category_label = $category->label;
 			$gig->genre_label = $genre->label;
-			
+
 			$gig->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
-			
+
 			$res = $this->get_tickets_booked_and_left($gig);
 			$gig->booked = $res['booked'];
 			$gig->ticket_left = $res['ticket_left'];
@@ -333,7 +333,7 @@ class Gigs extends CI_Controller
 
 	function approve_gig($gig_id = '')
 	{
-		if($gig_id == '') {
+		if ($gig_id == '') {
 			redirect('admin/gigs/new');
 		}
 		$data = [
@@ -346,19 +346,33 @@ class Gigs extends CI_Controller
 		redirect('admin/gigs/new');
 	}
 
-	function reject_gig($gig_id = '')
+	function reject_gig()
 	{
-		if($gig_id == '') {
-			redirect('admin/gigs/new');
+		$gig_id = $this->input->post('gig_id');
+		$gig = $this->gigs_model->get_gig_by_id($gig_id);
+		$user = $this->users_model->get_user_by_id($gig->user_id);
+		$rejection_reason = $this->input->post('rejection_reason');
+		if ($gig_id == '') {
+			// redirect('admin/gigs/new');
+			echo json_encode([
+				'status' => false,
+			]);
+			die();
 		}
 		$data = [
 			'is_approved' => 0,
 			'is_rejected' => 1,
-			'status' => 0
+			'status' => 0,
+			'rejection_reason' => $rejection_reason
 		];
+		$this->send_email($user->email, 'Gig Rejected', $rejection_reason);
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		$this->session->set_flashdata('deleted_msg', 'Gig is rejected');
-		redirect('admin/gigs/new');
+		echo json_encode([
+			'status' => true,
+			'route' => 'gigs/new'
+		]);
+		// redirect('admin/gigs/new');
 	}
 
 	function trash($args2 = '')
@@ -824,26 +838,26 @@ class Gigs extends CI_Controller
 		$code = 'error_msg';
 		$message = 'Error: Gigs status could not be changed!';
 		$res = false;
-		if($status == "2") {
+		if ($status == "2") {
 			$gigs = $this->gigs_model->get_today_gigs();
-			if($gigs) {
+			if ($gigs) {
 				$data = [
 					'status' => $status
 				];
-				foreach($gigs as $gig){
+				foreach ($gigs as $gig) {
 					$res = $this->gigs_model->update_gig_data($gig->id, $data);
 				}
 			} else {
 				$code = 'warning_msg';
 				$message = 'No Gigs Found';
 			}
-		} else if($status == '3') {
+		} else if ($status == '3') {
 			$gigs = $this->gigs_model->get_previous_gigs();
-			if($gigs) {
+			if ($gigs) {
 				$data = [
 					'status' => $status
 				];
-				foreach($gigs as $gig){
+				foreach ($gigs as $gig) {
 					$res = $this->gigs_model->update_gig_data($gig->id, $data);
 				}
 			} else {
@@ -851,7 +865,7 @@ class Gigs extends CI_Controller
 				$message = 'No Gigs Found';
 			}
 		}
-		if($res) {
+		if ($res) {
 			$code = 'success_msg';
 			$message = 'Gigs status changed!';
 		}
@@ -894,5 +908,26 @@ class Gigs extends CI_Controller
 			'stream_details' => $stream_details,
 		];
 		$this->load->view('admin/gigs/stream_details', $data);
+	}
+
+	function send_email($to_email, $subject, $reason = '')
+	{
+		$this->load->library('email');
+		$from_email = $this->config->item('info_email');
+		$from_name = $this->config->item('from_name');
+
+		$data['reason'] = $reason;
+		$msg = $this->load->view('email/gig_rejected', $data, TRUE);
+
+		$this->email->from($from_email, $from_name);
+		$this->email->to($to_email);
+		$this->email->subject($subject);
+		$this->email->message($msg);
+		//Send mail
+		if ($this->email->send()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

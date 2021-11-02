@@ -5,6 +5,7 @@
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
     <script src="https://player.live-video.net/1.4.0/amazon-ivs-player.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
     <style>
         .detail_image_holder {
             overflow: hidden;
@@ -67,6 +68,32 @@
         .breadcrumb-item.active {
             color: #fff;
         }
+
+        .chat-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .card-body {
+            background-color: rgba(0, 0, 0, 0.8);
+            height: 300px;
+            padding: 1.25rem .75rem;
+            overflow-y: auto;
+        }
+
+        .emojionearea .emojionearea-editor {
+            min-height: 4rem;
+        }
+
+        .emojionearea {
+            border-radius: 0 !important;
+        }
+
+        #chat_form button {
+            border-radius: 0 0 0.25rem 0.25rem !important;
+        }
     </style>
 </head>
 
@@ -84,10 +111,70 @@
                         <img src="<?php echo $gig->poster ? poster_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="image">
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-6">
+                <div class="col-lg-9 col-md-9 col-sm-6 col-6">
                     <div class="custom-text">
                         <h5 class="title"><?php echo $gig->title; ?></h5>
-                        <h6><a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a></h6>
+                        <h6 class="d-md-flex align-items-md-center">
+                            <a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a>
+                            <ul class="social-icons">
+                                <?php
+                                if (isset($user->facebook)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->instagram)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->twitter)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->linkedin)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->pinterest)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
+                                            <i class="fab fa-pinterest"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->behance)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
+                                            <i class="fab fa-behance"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                ?>
+                            </ul>
+                        </h6>
                         <p>
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
                         </p>
@@ -225,13 +312,6 @@
                     <p class="sub-title"><strong>Stream Secret Key: </strong><?php echo $stream_details ? '<span id="stream_key">' . $stream_details->stream_key . '</span>' : 'NA' ?></p>
                     <span><i class="fa fa-copy ml-2 cursor-pointer" onclick="copy(this)"></i></span>
                 </div>
-
-
-
-
-
-
-
             <?php
             endif;
             ?>
@@ -623,8 +703,64 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <img src="<?php echo user_asset_url(); ?>images/detail-page/custom-text-box.png" class="w-100">
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+                </div> -->
+                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                    <div class="card" style="background-color: #5560ff;border: 0px;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 style="text-align: center">Chat Room</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" id="messages_area">
+                            <!-- <div class="d-flex align-items-center justify-content-between mb-2">
+                                <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img">
+                                <span>2:58 PM</span>
+                                <span>Nelson Mandella</span>
+                                <span>Hi</span>
+                            </div> -->
+                            <?php
+                            //     foreach ($chat_data as $chat) {
+                            //         if (isset($_SESSION['user_data'][$chat['userid']])) {
+                            //             $from = 'Me';
+                            //             $row_class = 'row justify-content-start';
+                            //             $background_class = 'text-dark alert-light';
+                            //         } else {
+                            //             $from = $chat['user_name'];
+                            //             $row_class = 'row justify-content-end';
+                            //             $background_class = 'alert-success';
+                            //         }
+
+                            //         echo '
+                            // <div class="' . $row_class . '">
+                            // 	<div class="col-sm-10">
+                            // 		<div class="shadow-sm alert ' . $background_class . '">
+                            // 			<b>' . $from . ' - </b>' . $chat["msg"] . '
+                            // 			<br />
+                            // 			<div class="text-right">
+                            // 				<small><i>' . $chat["created_on"] . '</i></small>
+                            // 			</div>
+                            // 		</div>
+                            // 	</div>
+                            // </div>
+                            // ';
+                            //     }
+                            ?>
+                        </div>
+                    </div>
+                    <form method="post" id="chat_form">
+                        <div class="mb-3">
+                            <textarea class="form-control" id="chat_message" name="chat_message" placeholder="Type Message Here" required></textarea>
+                            <div class="">
+                                <button type="submit" name="send" id="send" class="btn btn-theme-primary">Send <i class="fa fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -643,9 +779,11 @@
                 <div class="modal-body">
                     <p>Here is some important information regarding your streaming.</p>
                     <ol>
-                        <li><p>Download OBS Studio from here: <a target="_blank" href="https://obsproject.com/download">Download OBS</a></p></li>
+                        <li>
+                            <p>Download OBS Studio from here: <a target="_blank" href="https://obsproject.com/download">Download OBS</a></p>
+                        </li>
                     </ol>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary w-25" data-dismiss="modal">Close</button>
@@ -660,6 +798,7 @@
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
     <script>
         function delete_gig() {
             event.preventDefault()
@@ -682,6 +821,34 @@
             });
         }
         $(document).ready(function() {
+            var conn = new WebSocket('ws://localhost:8080');
+            conn.onopen = function(e) {
+                console.log("Connection established!");
+            };
+
+            $('#chat_form').on('submit', function(event) {
+                event.preventDefault();
+                var user_id = <?php echo $this->session->userdata('us_id') ?? 0 ?>;
+                var message = $('#chat_message').val();
+                var gig_id = <?php echo $gig->id ?>;
+                var data = {
+                    userId: user_id,
+                    msg: message,
+                    gigId: gig_id,
+                };
+                conn.send(JSON.stringify(data));
+                $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
+            });
+            $('#send').click(function(e) {
+                e.preventDefault();
+                var message = $('#chat_message').val();
+
+            })
+
+            $("#chat_message").emojioneArea({
+                picketPosition: "top",
+                toneStyle: "bullet"
+            });
 
             $(window).scroll(function() {
                 var sticky = $('.skicky-buttons'),
@@ -785,26 +952,13 @@
                 }
             }, 5000);
 
-            // let player = '';
-            // $('#create_channel').click(function() {
-            //     $.ajax({
-            //         url: base_url + 'aws_test/create_channel',
-            //         method: 'get',
-            //         dataType: 'json',
-            //         success: function(data) {
-            //             $('#stream_url').html(data.stream_url)
-            //             $('#stream_key').html(data.stream_key)
-            //             $('#playback_url').val(data.playback_url)
-            //         }
-
-            //     })
-            // })
-            // $('#play_video').click(function() {
             var playback_url = $('#playback_url').val();
             if (IVSPlayer.isPlayerSupported) {
                 let player = IVSPlayer.create();
-                player.attachHTMLVideoElement(document.getElementById('video-player'));
-                player.load('<?php echo $stream_details->playback_url ?>');
+                if (document.getElementById('video-player')) {
+                    player.attachHTMLVideoElement(document.getElementById('video-player'));
+                }
+                player.load('<?php echo $stream_details ? $stream_details->playback_url : "" ?>');
                 player.play();
             }
             // })

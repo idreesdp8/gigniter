@@ -133,7 +133,7 @@
                                 <a type="button" class="btn btn-secondary w-100" href="<?php echo admin_base_url().'gigs/change_status/3' ?>">Off Air Concerts</a>
                             </div>
                         </div>
-                        <div id="table">
+                        <div id="table" class="p-3">
                             <?php $this->load->view('admin/gigs/index_partial'); ?>
                         </div>
                     </div>

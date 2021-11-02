@@ -171,15 +171,14 @@ class Account extends CI_Controller
 
 					$this->session->set_userdata($cstm_sess_data);
 
-					// $this->load->view('frontend/account/account_verified');
-					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
-					if ($is_sent) {
-						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
-					} else {
-						$this->session->set_flashdata("error_msg", "You have encountered an error");
-					}
-					// $this->load->view('frontend/account/verfication_page');
 					$this->load->view('frontend/account/account_verified');
+					// $is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
+					// if ($is_sent) {
+					// 	$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					// } else {
+					// 	$this->session->set_flashdata("error_msg", "You have encountered an error");
+					// }
+					// $this->load->view('frontend/account/verfication_page');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('signup');
@@ -190,7 +189,7 @@ class Account extends CI_Controller
 		}
 	}
 
-	function send_email($to_email, $subject, $email_for)
+	function send_email($to_email, $subject, $email_for, $data = [])
 	{
 		$this->load->library('email');
 		$from_email = $this->config->item('info_email');
@@ -199,13 +198,22 @@ class Account extends CI_Controller
 		if ($email_for == 'verification') {
 			$this->load->helper('string');
 			$code = random_string('alnum', 6);
-			$this->session->set_userdata(['verification_code' => $code]);
+			$this->users_model->update_user_data($this->dbs_user_id, ['code'=>$code]);
+			// $this->session->set_userdata(['verification_code' => $code]);
 			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
 		}
 		if ($email_for == 'forgot_password') {
 			$data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
 			$msg = $this->load->view('email/forgot_password', $data, TRUE);
+		}
+		if ($email_for == 'send_email_to_artist') {
+			$data = [
+				'email_from' => $this->session->userdata('us_email'),
+				'subject' => $subject,
+				'message' => $data['message'],
+			];
+			$msg = $this->load->view('email/mail_sent_to_artist', $data, TRUE);
 		}
 
 
@@ -231,13 +239,14 @@ class Account extends CI_Controller
 		$email = $this->general_model->safe_ci_decoder($this->input->get('email'));
 		$code = $this->general_model->safe_ci_decoder($this->input->get('code'));
 		$user = $this->users_model->get_user_by_email($email);
-		$sess_code = $this->session->userdata('verification_code');
+		// $sess_code = $this->session->userdata('verification_code');
+		$sess_code = $user->code;
 		if ($user && ($sess_code == $code)) {
 			$data_arr = [
 				'status' => 1
 			];
 			$this->users_model->update_user_data($user->id, $data_arr);
-			$this->session->unset_userdata('verification_code');
+			// $this->session->unset_userdata('verification_code');
 			$result = $this->users_model->get_user_by_id($user->id);
 			$role = $this->roles_model->get_role_by_id($result->role_id);
 			// set session	
@@ -982,13 +991,6 @@ class Account extends CI_Controller
 			echo $e->getMessage();
 		}
 	}
-	function facebook_redirect()
-	{
-	}
-
-	function callback_google()
-	{
-	}
 
 	function verify_account()
 	{
@@ -1005,5 +1007,27 @@ class Account extends CI_Controller
 			$this->session->set_flashdata('error_msg', 'An error has occured!');
 		}
 		redirect('account/verify_account');
+	}
+
+	function send_email_to_artist()
+	{
+		$data = $this->input->post();
+		$res = $this->send_email($data['email'], $data['subject'], 'send_email_to_artist', $data);
+		if($res) {
+			$response = [
+				'status' => true,
+				'message' => 'Email sent to Artist'
+			];
+		} else {
+			$response = [
+				'status' => true,
+				'message' => 'Error: Email could not be sent to Artist'
+			];
+		}
+		echo json_encode($response);
+	}
+
+	function start_server() {
+		require_once('bin/server.php');
 	}
 }

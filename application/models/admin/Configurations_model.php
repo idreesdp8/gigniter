@@ -28,9 +28,14 @@ class Configurations_model extends CI_Model
 
 	function get_all_configurations_except($data)
 	{
-		$sql = "SELECT * FROM configurations WHERE `key` != ? AND `key` != ? AND `key` != ? AND `key` != ? ORDER BY created_on";
-		$query = $this->db->query($sql, array($data['key1'], $data['key2'], $data['key3'], $data['key4']));
-		//    $query = $this->db->get('configurations');
+		$where = '';
+		$arr = [];
+		foreach($data as $key => $value) {
+			$where .= " AND `key` != ?";
+			array_push($arr, $value);
+		}
+		$sql = "SELECT * FROM configurations WHERE id > 0 ".$where." ORDER BY created_on";
+		$query = $this->db->query($sql, $arr);
 		return $query->result();
 	}
 

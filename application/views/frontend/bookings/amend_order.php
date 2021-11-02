@@ -20,17 +20,6 @@
             justify-content: space-between;
         }
 
-        .modal-title {
-            width: 100%;
-        }
-
-        .close {
-            color: red;
-            width: auto;
-            text-shadow: none;
-            opacity: 1;
-        }
-
         .friend-input {
             margin: 10px;
         }

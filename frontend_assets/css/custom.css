@@ -30,7 +30,7 @@ textarea {
 	color: red !important;
 }
 
-#step-5 .step-form-buttons {
+#step-4 .step-form-buttons {
 	width: 60%;
 	display: flex;
 	margin: auto;
@@ -291,6 +291,9 @@ button.btn.btn-default.btn-secondary.kv-hidden.fileinput-cancel.fileinput-cancel
 .btn-success-circle,
 .btn-success-circle p {
 	background-color: #efc400 !important;
+}
+.stepwizard-step .line:before {
+	width: 250px;
 }
 a.btn-success-circle.line:before {
 	background-color: #efc500 !important;
@@ -640,7 +643,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 		width: 100%;
 		height: auto;
 	}
-	#step-5 .step-form-buttons {
+	#step-4 .step-form-buttons {
 		width: 100%;
 	}
 	.teir-button {
@@ -697,7 +700,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	color: blue;
 }
 
-# @media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio:0) {
 	#carousel_3 .card-footer .btn-watch:hover {
 		background-color: transparent;
 		color: #e0004d;

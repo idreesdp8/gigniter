@@ -32,21 +32,6 @@
                     </div>
 
                     <div class="table-responsive">
-                        <!-- <div class="row mx-0">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>From:</label>
-                                    <select name="from" id="from" class="form-control">
-                                        <option value="1">Current Gigs</option>
-                                        <option value="0">Past Gigs</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6"></div>
-                            <div class="col-md-2 text-center align-self-center">
-                            <a href="<?php echo user_base_url() . 'cart/refresh_popularity' ?>" type="button" class="btn btn-primary">Refresh Popularity</a>
-                            </div>
-                        </div> -->
                         <?php if (isset($records) && count($records) > 0) { ?>
                             <table class="table table-striped datatable-basic">
                                 <thead>
@@ -82,14 +67,8 @@
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
-                                                                                                                                                                                ?>><i class="icon-search4"></i></button> -->
                                                     <a href="<?php echo admin_base_url() . 'gigs/approve_gig/' . $record->id ?>" data-popup="tooltip" data-original-title="Approve Gig" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-checkmark4"></i></a>
-                                                    <a href="<?php echo admin_base_url() . 'gigs/reject_gig/' . $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a>
-                                                    <!-- <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
-                                                    <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
-                                                        <button type="submit" class="btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
-                                                    </form> -->
+                                                    <a href="<?php echo admin_base_url() . 'gigs/reject_gig/' ?>" data-id="<?php echo $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" id="reject_gig" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -114,36 +93,91 @@
     </div>
 
     <script>
-        // function reload_datatable() {
-        //     var from = $('#from').val();
-        //     console.log('From ' + from);
-        //     $('.datatable-basic').DataTable({
-        //         "destroy": true,
-        //         "ajax": {
-        //             "url": base_url + 'gigs/reload_popular_datatable',
-        //             "type": "POST",
-        //             "data": {
-        //                 from: from,
-        //             },
-        //             dataType: 'json',
-        //         },
-        //         dataSrc: function(json) {
-        //             console.log(json);
-        //             if (json.tableData === null) {
-        //                 return [];
-        //             }
-        //             return json.tableData;
-        //         }
-        //     }).ajax.reload();
-        // }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_approval_gig_view a').addClass('active');
 
-            // $('#from', this).change(function() {
-            //     reload_datatable();
-            // });
+            var swalInit = swal.mixin({
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-light'
+            });
+
+            $('#reject_gig').click(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                var gig_id = $(this).attr('data-id');
+                console.log(url);
+                // swalInit.fire({
+                //     title: 'Please select a Reason for rejecting the gig!',
+                //     showCloseButton: true,
+                //     html: '<h5>Meow</h5>'
+                // })
+                $.ajax({
+                    url: base_url + 'rejection_reasons/get_rejection_reasons',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        var inputOptions = new Promise(function(resolve) {
+                            resolve(response);
+                        });
+                        swalInit.fire({
+                            title: 'Select a Reason for rejecting the gig',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes, reject!',
+                            cancelButtonText: 'No, cancel!',
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger',
+                            input: 'radio',
+                            inputOptions: inputOptions,
+                            inputClass: 'form-check-styled',
+                            inputValidator: function(value) {
+                                return !value && 'You need to choose something!'
+                            },
+                            onOpen: function() {
+                                $('.swal2-radio').css("flex-direction", "column")
+                                $('.swal2-radio label+label').css("margin-left", "0")
+                                $('.swal2-radio.form-check-styled input[type=radio]').uniform();
+                            }
+                        }).then(function(result) {
+                            if (result.value) {
+                                $.ajax({
+                                    url: url,
+                                    method: 'post',
+                                    data: {
+                                      gig_id: gig_id,
+                                      rejection_reason: result.value
+                                    },
+                                    dataType: 'json',
+                                    success: function(resp) {
+                                        if(resp.status) {
+                                            window.location.href = base_url + resp.route;
+                                            // swalInit.fire({
+                                            //     type: 'success',
+                                            //     title: 'Success',
+                                            //     text: 'Gig has been rejected!',
+                                            // });
+                                        } else {
+                                            swalInit.fire({
+                                                title: 'Error',
+                                                type: 'warning'
+                                            });
+                                        }
+                                    }
+                                })
+                            } else if (result.dismiss === swal.DismissReason.cancel) {
+                                swalInit.fire(
+                                    'Cancelled',
+                                    'Gig is not rejected!',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                })
+            })
         });
     </script>
 </body>

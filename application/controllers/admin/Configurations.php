@@ -48,10 +48,13 @@ class Configurations extends CI_Controller
 		// $res_nums =  $this->general_model->check_controller_method_permission_access('Admin/Permissions','index',$this->dbs_role_id,'1'); 
 		// if($res_nums>0){ 
 		$param = [
-			'key1' => 'gig-status',
-			'key2' => 'genre',
-			'key3' => 'category',
-			'key4' => 'popularity_weightage'
+			'gig-status',
+			'genre',
+			'category',
+			'popularity_weightage',
+			'gig-rejection-reason',
+			'aws',
+			'stripe',
 		];
 		$data['records'] = $this->configurations_model->get_all_configurations_except($param);
 		// echo json_encode($data);

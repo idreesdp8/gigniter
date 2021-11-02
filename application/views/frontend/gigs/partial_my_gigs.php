@@ -17,7 +17,7 @@
                             <?php elseif ($gig->is_approved == 0 && $gig->is_rejected == 0 && $gig->is_draft == 0) : ?>
                                 <span class="badge badge-danger exclusive-badge">Waiting for Approval</span>
                             <?php elseif ($gig->is_rejected == 1 && $gig->is_approved == 0 && $gig->is_draft == 0) : ?>
-                                <span class="badge badge-danger exclusive-badge">Rejected</span>
+                                <span class="badge badge-danger exclusive-badge text-danger border-danger text-left">Rejected:<br><?php echo $gig->rejection_reason ?></span>
                             <?php endif; ?>
                         </a>
                     </div>
@@ -32,14 +32,14 @@
                                 <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
                                 <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>
                                     <?php
-                                        if($gig->days_left < 0)
-                                            echo abs($gig->days_left) . ' days ago';
-                                        elseif($gig->days_left == 'NA')
-                                            echo 'NA';
-                                        elseif($gig->days_left > 0) 
-                                            echo $gig->days_left . ' days left';
-                                        else 
-                                            echo 'Today'; 
+                                    if ($gig->days_left < 0)
+                                        echo abs($gig->days_left) . ' days ago';
+                                    elseif ($gig->days_left == 'NA')
+                                        echo 'NA';
+                                    elseif ($gig->days_left > 0)
+                                        echo $gig->days_left . ' days left';
+                                    else
+                                        echo 'Today';
                                     ?>
                                 </p>
                             </div>
@@ -64,19 +64,22 @@
                         if (!$gig->is_approved) :
                         ?>
                             <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
+                            <?php
+                            if ($gig->is_rejected) :
+                            ?>
+                                <a href="<?php echo user_base_url() ?>gigs/resubmit_for_approval/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">Resubmit for Approval</a>
+                            <?php
+                            endif;
+                            ?>
+                            <form class="datas_form" method="post" action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
+                                <button type="submit" class="btn btn-warning btn-watch mb-4 delete_btn" onclick="delete_gig()">Delete</button>
+                            </form>
                         <?php
                         endif;
                         if ($gig->is_approved) :
                         ?>
                             <a href="<?php echo user_base_url() . 'transactions/tickets/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">tickets</a>
                             <a href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">purchases</a>
-                        <?php
-                        endif;
-                        if (!$gig->is_approved) :
-                        ?>
-                            <form class="datas_form" method="post" action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                <button type="submit" class="btn btn-warning btn-watch mb-4 delete_btn" onclick="delete_gig()">Delete</button>
-                            </form>
                         <?php
                         endif;
                         ?>

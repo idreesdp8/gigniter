@@ -18,7 +18,8 @@
 		"dompdf/dompdf": "^1.0",
 		"hybridauth/hybridauth" : "~3.0",
 		"spipu/html2pdf": "^5.2",
-		"mpdf/mpdf": "^8.0"
+		"mpdf/mpdf": "^8.0",
+        "cboden/ratchet": "v0.4"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

@@ -72,12 +72,12 @@
                   <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3 disabled">3</a>
                   <p><small>About You</small></p>
                 </div>
-                <div class="stepwizard-step">
+                <!-- <div class="stepwizard-step">
                   <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4 disabled">4</a>
                   <p><small>Test link</small></p>
-                </div>
+                </div> -->
                 <div class="stepwizard-step">
-                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5 disabled">5</a>
+                  <a href="#step-4" type="button" class="btn btn-default btn-circle progress_step_4 disabled">4</a>
                   <p><small>Review & Confirm</small></p>
                 </div>
               </div>
@@ -240,15 +240,8 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="threshold" name="threshold" min="1">
+                      <input type="text" id="threshold" name="threshold" readonly>
                       <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal_amount" name="goal_amount" min="1">
-                      <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-flex-end">
@@ -264,11 +257,19 @@
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <!-- <label>
+                      Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Goal Amount"><i class="fas fa-question-circle"></i></span>
+                      <input type="number" id="goal_amount" name="goal_amount" min="1">
+                      <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
+                    </label> -->
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
                       <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $curr_date ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'">
                       <span id="campaign_date1" class="text-danger" generated="true"><?php echo form_error('campaign_date'); ?></span>
+                      <!-- <input type="hidden" id="buffer_days" value=""> -->
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -288,7 +289,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="time" id="end_time" class="time" name="end_time" onFocus="(this.type='time')" onBlur="if(!this.value)this.type='text'">
+                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'">
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -519,8 +520,7 @@
                 <!-- </form> -->
               </div>
 
-              <div class="panel panel-primary setup-content" id="step-4">
-                <!-- <form id="form_step_3"> -->
+              <!-- <div class="panel panel-primary setup-content" id="step-4">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
@@ -542,9 +542,6 @@
                       <input type="text" id="meeting_url" name="meeting_url">
                     </label>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button class="btn btn-primary btn-step-launch">Launch campaign</button>
-                  </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-test">test</button>
                   </div>
@@ -556,11 +553,13 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
-                <!-- </form> -->
-              </div>
+              </div> -->
 
-              <div class="panel panel-primary setup-content" id="step-5">
+              <div class="panel panel-primary setup-content" id="step-4">
                 <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 class="text-success d-flex justify-content-center mb-4 text-center">You will get streams keys after admin approval.</h6>
+                  </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
@@ -671,16 +670,41 @@
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
         var gig_min_date = campaign_date.toISOString().substring(0, 10);
-        var gig_date_value = new Date(campaign_date.setDate(campaign_date.getDate() + 1));
+        var gig_min_value = new Date(campaign_date.setDate(parseInt(campaign_date.getDate()) + parseInt(<?php echo $buffer_days; ?>)));
         var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
         gig_max_date = gig_max_date.toISOString().substring(0, 10);
-        gig_date_value = gig_date_value.toISOString().substring(0, 10);
+        gig_min_value = gig_min_value.toISOString().substring(0, 10);
+        var gig_min_time = campaign_date.toISOString().substring(10, 16);
+        console.log(gig_min_date)
+        console.log(gig_min_time)
+        if($('#start_time').val() != '') {
+          gig_min_time = 'T'+$('#start_time').val();
+        }
+        var end_time_min = gig_min_date + gig_min_time
         console.log(gig_max_date);
-        console.log(gig_date_value);
-        $('#gig_date').attr('min', gig_min_date);
-        $('#gig_date').val(gig_date_value);
+        console.log(gig_min_value);
+        $('#gig_date').attr('min', gig_min_value);
+        $('#end_time').attr('min', end_time_min);
+        $('#gig_date').val(gig_min_value);
         $('#gig_date').attr('max', gig_max_date);
       });
+
+      $('#gig_date').change(function() {
+        var gig_date = new Date($(this).val()).toISOString();
+        var gig_min_date = gig_date.substring(0, 10);
+        var gig_min_time = gig_date.substring(10, 16);
+        console.log(gig_min_date)
+        console.log(gig_min_time)
+        if($('#start_time').val() != '') {
+          gig_min_time = 'T'+$('#start_time').val();
+        }
+        var end_time_min = gig_min_date + gig_min_time
+        $('#end_time').attr('min', end_time_min);
+      })
+
+      $('#start_time').change(function() {
+        
+      })
 
       $('#add_tier_button').click(function() {
         var tier = $(this).attr('data-tier');
@@ -799,7 +823,7 @@
     // })
     $('#goal').change(function() {
       var goal = $(this).val();
-      var threshold = Math.round(goal * .6);
+      var threshold = Math.round(goal * <?php echo $threshold_value->value ?>);
       $('#threshold').val(threshold);
     })
 
@@ -817,7 +841,7 @@
 
     $('#myCheckbox-physical').click(function() {
       console.log($(this).is(':checked'))
-      if($(this).is(':checked')) {
+      if ($(this).is(':checked')) {
         $('#gig_address').show('slow')
       } else {
         $('#gig_address').hide('slow')

@@ -165,6 +165,7 @@ $new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
                             <li class="nav-item" id="sidebar_genre"><a href="<?php echo admin_base_url(); ?>genres" class="nav-link">Gig Genres</a></li>
                             <li class="nav-item" id="sidebar_category"><a href="<?php echo admin_base_url(); ?>categories" class="nav-link">Gig Categories</a></li>
                             <li class="nav-item" id="sidebar_gig_status"><a href="<?php echo admin_base_url(); ?>gig_statuses" class="nav-link">Gig Statuses</a></li>
+                            <li class="nav-item" id="sidebar_gig_rejection"><a href="<?php echo admin_base_url(); ?>rejection_reasons" class="nav-link">Gig Rejection Reasons</a></li>
                             <li class="nav-item" id="sidebar_popularity_weightage"><a href="<?php echo admin_base_url(); ?>configurations/popularity_weightage" class="nav-link">Popularity Weightages</a></li>
                             <li class="nav-item" id="sidebar_country"><a href="<?php echo admin_base_url(); ?>countries" class="nav-link">Countries</a></li>
                         </ul>

@@ -68,25 +68,25 @@
 	<!-- /theme JS files -->
 
 	<script>
-		var light; 
-        $(document).bind("ajaxSend", function() {
+		var light;
+		$(document).bind("ajaxSend", function() {
 			light = $('.content .card');
-            // console.log('Ajax Start')
-            $(light).block({
-                message: '<i class="icon-spinner spinner"></i>',
-                overlayCSS: {
-                    backgroundColor: '#fff',
-                    opacity: 0.8,
-                    cursor: 'wait'
-                },
-                css: {
-                    border: 0,
-                    padding: 0,
-                    backgroundColor: 'none'
-                }
-            });
-        }).bind("ajaxComplete", function() {
-            // console.log('Ajax Stop')
-            $(light).unblock();
-        });
+			// console.log('Ajax Start')
+			$(light).block({
+				message: '<i class="icon-spinner spinner"></i>',
+				overlayCSS: {
+					backgroundColor: '#fff',
+					opacity: 0.8,
+					cursor: 'wait'
+				},
+				css: {
+					border: 0,
+					padding: 0,
+					backgroundColor: 'none'
+				}
+			});
+		}).bind("ajaxComplete", function() {
+			// console.log('Ajax Stop')
+			$(light).unblock();
+		});
 	</script>

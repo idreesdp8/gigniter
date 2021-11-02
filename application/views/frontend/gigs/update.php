@@ -63,12 +63,12 @@
                   <a href="#step-3" type="button" class="btn btn-default btn-circle line progress_step_3 disabled2">3</a>
                   <p><small>About You</small></p>
                 </div>
-                <div class="stepwizard-step">
+                <!-- <div class="stepwizard-step">
                   <a href="#step-4" type="button" class="btn btn-default btn-circle line progress_step_4 disabled2">4</a>
                   <p><small>Test link</small></p>
-                </div>
+                </div> -->
                 <div class="stepwizard-step">
-                  <a href="#step-5" type="button" class="btn btn-default btn-circle progress_step_5 disabled2">5</a>
+                  <a href="#step-4" type="button" class="btn btn-default btn-circle progress_step_4 disabled2">4</a>
                   <p><small>Review & Confirm</small></p>
                 </div>
               </div>
@@ -206,15 +206,8 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="threshold" name="threshold" min="1" required="required" value="<?php echo $gig->threshold ?>">
+                      <input type="text" id="threshold" name="threshold" readonly required="required" value="<?php echo $gig->threshold ?>">
                       <span id="threshold1" class="text-danger" ><?php echo form_error('threshold'); ?></span>
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal_amount" name="goal_amount" min="1" required="required" value="<?php echo $gig->goal_amount ?>">
-                      <span id="goal_amount1" class="text-danger" ><?php echo form_error('goal_amount'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12 d-flex align-items-flex-end">
@@ -228,6 +221,13 @@
                         <span id="is_overshoot1" class="text-danger" ><?php echo form_error('is_overshoot'); ?></span>
                       </div>
                     </label>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <!-- <label>
+                      Target Goal Amount <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Goal Amount"><i class="fas fa-question-circle"></i></span>
+                      <input type="number" id="goal_amount" name="goal_amount" min="1" required="required" value="<?php echo $gig->goal_amount ?>">
+                      <span id="goal_amount1" class="text-danger" ><?php echo form_error('goal_amount'); ?></span>
+                    </label> -->
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
@@ -568,8 +568,7 @@
                 <!-- </form> -->
               </div>
 
-              <div class="panel panel-primary setup-content" id="step-4">
-                <!-- <form id="form_step_3"> -->
+              <!-- <div class="panel panel-primary setup-content" id="step-4">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-heading">
@@ -580,8 +579,8 @@
                     <label>
                       Select the meeting platform
                       <select id="meeting_platform" name="meeting_platform" class="select"> 
-						<option value="google" <?php echo ($gig->meeting_platform == 'google') ? 'selected="selected"' : ''; ?>>Google Meeting</option>
-						<option value="zoom" <?php echo ($gig->meeting_platform == 'zoom') ? 'selected="selected"' : ''; ?>>Zoom Meeting</option>
+                        <option value="google" <?php echo ($gig->meeting_platform == 'google') ? 'selected="selected"' : ''; ?>>Google Meeting</option>
+                        <option value="zoom" <?php echo ($gig->meeting_platform == 'zoom') ? 'selected="selected"' : ''; ?>>Zoom Meeting</option>
 				
                       </select>
                     </label>
@@ -592,9 +591,6 @@
                       <input type="text" id="meeting_url" name="meeting_url" value="<?php echo $gig->meeting_url; ?>">
                     </label>
                   </div>
-                  <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button class="btn btn-primary btn-step-launch">Launch campaign</button>
-                  </div> -->
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button class="btn btn-primary btn-step-test">test</button>
                   </div>
@@ -606,28 +602,9 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
-                <!-- </form> -->
-              </div>
-
-              <!-- <div class="panel panel-primary setup-content" id="step-5">
-                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-buttons">
-                      <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onClick="submit_form(2)">Preview</button>
-                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
-                      <?php
-                      if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
-                      ?>
-                        <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
-                      <?php
-                      endif;
-                      ?>
-                    </div>
-                  </div>
-                </div>
               </div> -->
-              <div class="panel panel-primary setup-content" id="step-5">
+
+              <div class="panel panel-primary setup-content" id="step-4">
                 <div class="row justify-content-center">
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <div class="step-form-heading">
@@ -847,7 +824,7 @@
     });
     $('#goal').change(function() {
         var goal = $(this).val();
-        var threshold = Math.round(goal * .6);
+        var threshold = Math.round(goal * <?php echo $threshold_value->value ?>);
         $('#threshold').val(threshold);
     });
 

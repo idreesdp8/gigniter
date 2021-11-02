@@ -4,6 +4,24 @@
 <head>
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
+
+    <style>
+        .modal-title {
+            width: 100%;
+        }
+
+        .close {
+            color: red;
+            width: auto;
+            text-shadow: none;
+            opacity: 1;
+        }
+
+        label.error {
+            border: 0 !important;
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,13 +74,17 @@
                                         <?php
                                         if (isset($user->mail)) :
                                         ?>
-                                            <div class="item">
+                                            <div class="item align-items-center">
                                                 <div class="item-thumb">
                                                     <img src="<?php echo user_asset_url(); ?>images/event-icon03.png" alt="event">
                                                 </div>
                                                 <div class="item-content">
-                                                    <span class="up">Contact Artist:</span>
-                                                    <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a>
+                                                    <!-- <span class="up">Contact Artist:</span> -->
+                                                    <button type="button" class="btn btn-theme-primary" id="openModal" data-toggle="modal" data-target="#exampleModal">
+                                                        Contact Artist
+                                                    </button>
+                                                    <!-- <button type="button" class="btn-theme-primary btn" data-mail="<?php echo $user->mail ?>">Contact Artist</button> -->
+                                                    <!-- <a class="theme-primary-color" href="MailTo:<?php echo $user->mail ?>"><?php echo $user->mail ?></a> -->
                                                 </div>
                                             </div>
                                         <?php
@@ -220,6 +242,40 @@
     </section>
 
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form role="form" method="post" action="<?php echo user_base_url() ?>account/send_email_to_artist" id="basic_info_form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Contact Artist</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group error_message">
+
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="email" id="email" class="form-control" placeholder="Email" value="<?php echo $user->mail ?>" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" />
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" cols="30" rows="4" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="submitForm" class="btn btn-primary">Send Email</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
@@ -234,6 +290,75 @@
                 console.log($(this).parent().children('.owl-carousel'));
                 $(this).parent().children('.owl-carousel').trigger('play.owl.autoplay');
             });
+            $('#exampleModal').on('show.bs.modal', function() {
+                // var email = $('#openModal').attr('data-mail');
+                // $('#email').val(email);
+                $('#message').val('');
+                $('#subject').val('');
+            });
+            var validation = $('#basic_info_form').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    subject: {
+                        required: true,
+                    },
+                    message: {
+                        required: true
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Email is required field",
+                        email: "Please enter a valid Email address!"
+                    },
+                    subject: {
+                        required: "Subject is required field"
+                    },
+                    message: {
+                        required: "Message is required field"
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function() {
+                    document.forms["basic_info_form"].submit();
+                }
+            });
+            $('#submitForm').on('click', function(e) {
+                e.preventDefault();
+                var form = $('#basic_info_form')[0];
+                console.log(form)
+                $.ajax({
+                    url: form.action,
+                    method: form.method,
+                    data: {
+                        email: $('#email').val(),
+                        subject: $('#subject').val(),
+                        message: $('#message').val(),
+                    },
+                    dataType: 'json',
+                    success: function(resp) {
+                        if (resp.status) {
+                            $('#exampleModal').modal('hide');
+                            swal({
+                                title: resp.message,
+                                icon: "success",
+                            })
+                        } else {
+                            $('#exampleModal .error_message').html('<span class="text-danger">'+resp.message+'</span>');
+                        }
+                    }
+                })
+            })
         });
 
         $('.speaker-slider6').owlCarousel({

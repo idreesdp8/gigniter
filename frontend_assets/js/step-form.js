@@ -89,16 +89,16 @@ function runValidationOn(formStep) {
                 errorElems.splice(indexError, 1);
             }
         }
-        if (!checkGoalAmount()) {
-            if (!errorElems.includes('#goal_amount')) {
-                errorElems.push('#goal_amount');
-            }
-        } else {
-            indexError = errorElems.indexOf('#goal_amount');
-            if (indexError > -1) {
-                errorElems.splice(indexError, 1);
-            }
-        }
+        // if (!checkGoalAmount()) {
+        //     if (!errorElems.includes('#goal_amount')) {
+        //         errorElems.push('#goal_amount');
+        //     }
+        // } else {
+        //     indexError = errorElems.indexOf('#goal_amount');
+        //     if (indexError > -1) {
+        //         errorElems.splice(indexError, 1);
+        //     }
+        // }
         if (!checkCampaignDate()) {
             if (!errorElems.includes('#campaign_date')) {
                 errorElems.push('#campaign_date');
@@ -279,9 +279,9 @@ $(document).ready(function () {
     $("#threshold").change(function () {
         checkThreshold();
     });
-    $("#goal_amount").change(function () {
-        checkGoalAmount();
-    });
+    // $("#goal_amount").change(function () {
+    //     checkGoalAmount();
+    // });
     $("#campaign_date").change(function () {
         checkCampaignDate();
     });
@@ -472,16 +472,16 @@ function checkThreshold() {
         return false;
     }
 }
-function checkGoalAmount() {
-    var val = $("#goal_amount").val();
-    if (val !== '') {
-        $("#goal_amount").removeClass("error").addClass("good");
-        return true;
-    } else {
-        $("#goal_amount").removeClass("good").addClass("error");
-        return false;
-    }
-}
+// function checkGoalAmount() {
+//     var val = $("#goal_amount").val();
+//     if (val !== '') {
+//         $("#goal_amount").removeClass("error").addClass("good");
+//         return true;
+//     } else {
+//         $("#goal_amount").removeClass("good").addClass("error");
+//         return false;
+//     }
+// }
 function checkCampaignDate() {
     var val = $("#campaign_date").val();
     if (val !== '') {
@@ -494,9 +494,12 @@ function checkCampaignDate() {
 }
 function checkGigDate() {
     var val = $("#gig_date").val();
-    var campaign_date = new Date($('#campaign_date').val());
+    // var campaign_date = new Date($('#campaign_date').val());
     var gig_date = new Date($('#gig_date').val());
-    if (val !== '' && campaign_date < gig_date) {
+    var gig_min_date = new Date($('#gig_date').attr('min'));
+    console.log(gig_min_date)
+    console.log(gig_min_date <= gig_date)
+    if (val !== '' && gig_min_date <= gig_date) {
         $("#gig_date").removeClass("error").addClass("good");
         return true;
     } else {

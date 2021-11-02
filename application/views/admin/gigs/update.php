@@ -44,7 +44,7 @@
             <div class="content">
                 <?php $this->load->view('alert/alert'); ?>
                 <!-- Basic layout-->
-                <!-- <form action="<?php echo admin_base_url() ?>gigs/update" method="post" id="basic_info_form" enctype="multipart/form-data"> -->
+                <form action="<?php echo admin_base_url() ?>gigs/update" method="post" id="basic_info_form" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-header header-elements-inline">
                             <h6 class="card-title">Update Gig</h6>
@@ -94,13 +94,13 @@
                                                         <span id="threshold1" class="text-danger" generated="true"><?php echo form_error('threshold'); ?></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <!-- <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Target Goal Amount <span class="text-danger">*</span></label>
                                                         <input type="number" name="goal_amount" id="goal_amount" class="form-control" min="0" value="<?php echo $gig->goal_amount ?>" data-error="#goal_amount1">
                                                         <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Draft</label>
@@ -203,7 +203,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Venue</label>
                                                 <br>
@@ -221,7 +221,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Status</label>
                                                 <select name="status" class="form-control select">
@@ -237,7 +237,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Featured Gig</label>
                                                 <select name="is_featured" class="form-control select">
@@ -254,7 +254,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Exclusive Gig</label>
                                                 <select name="is_exclusive" class="form-control select">
@@ -270,7 +270,7 @@
                                                     ?>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Poster</label>
@@ -669,7 +669,7 @@
                         <a href="<?php echo $this->agent->referrer(); ?>" type="button" class="btn bg-slate">Cancel</a>
                         <!-- <button type="submit" class="btn btn-success">Update Gig</button> -->
                     </div>
-                <!-- </form> -->
+                </form>
                 <!-- /basic layout -->
 
             </div>
@@ -679,7 +679,8 @@
         </div>
     </div>
 
-
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhAY-vqTHNYDuLOP-dRo1Bp87rV4A8_-4&libraries=places&callback=initMap">
+    </script>
     <script>
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
@@ -804,9 +805,9 @@
                     threshold: {
                         required: "Ticket Threshold is required field",
                     },
-                    goal_amount: {
-                        required: "Goal Amount is required field",
-                    },
+                    // goal_amount: {
+                    //     required: "Goal Amount is required field",
+                    // },
                     poster: {
                         required: "This is required field",
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
@@ -856,11 +857,22 @@
                     dataType: 'json',
                     method: 'POST',
                     success: function(resp) {
-                        
+
                     }
                 })
             }
+
         });
+        function initMap()
+        {
+            const input = document.getElementById("address");
+            const options = {
+                fields: ["address_components", "geometry", "icon", "name"],
+                // strictBounds: false,
+                // types: ["establishment"],
+            };
+            const autocomplete = new google.maps.places.Autocomplete(input, options);
+        }
     </script>
 
 </body>

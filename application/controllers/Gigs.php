@@ -101,7 +101,21 @@ class Gigs extends CI_Controller
 					}
 				}
 			}
+			$user;
+			$links = $this->users_model->get_social_links($gig->user_id);
+			foreach ($links as $link) {
+				if ($link->platform == 'mail') {
+					$user->mail = $link->url;
+				} elseif ($link->platform == 'facebook') {
+					$user->facebook = $link->url;
+				} elseif ($link->platform == 'instagram') {
+					$user->instagram = $link->url;
+				} elseif ($link->platform == 'twitter') {
+					$user->twitter = $link->url;
+				}
+			}
 			$data['tiers'] = $tiers;
+			$data['user'] = $user;
 			$data['user_bookings'] = $user_bookings;
 			$data['stream_details'] = $this->gigs_model->get_stream_details($id);
 			// echo json_encode($data);die();
@@ -573,7 +587,9 @@ class Gigs extends CI_Controller
 			}
 			$data['countries'] = $this->countries_model->get_all_countries();
 			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
+			$data['buffer_days'] = $this->configurations_model->get_all_configurations_by_key('buffer-days')[0]->value;
 			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
+			$data['threshold_value'] = $this->configurations_model->get_configuration_by_key('threshold-value');
 			$links = $this->users_model->get_social_links($this->dbs_user_id);
 			if (isset($links) && !empty($links)) {
 				foreach ($links as $key => $val) {
@@ -583,7 +599,7 @@ class Gigs extends CI_Controller
 			} else {
 				$data['link'] = [];
 			}
-			// echo json_encode($data['link']);
+			// echo json_encode($data);
 			// die();
 			$this->load->view('frontend/gigs/create', $data);
 			// } else {
@@ -951,6 +967,7 @@ class Gigs extends CI_Controller
 					$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 					$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
 					$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
+					$data['threshold_value'] = $this->configurations_model->get_configuration_by_key('threshold-value');
 					$data['countries'] = $this->countries_model->get_all_countries();
 					// $data['user'] = $this->users_model->get_user_by_id($gig->user_id);
 
@@ -1452,6 +1469,21 @@ class Gigs extends CI_Controller
 		// echo json_encode($data);
 		// die();
 		$this->load->view('frontend/gigs/my_gigs', $data);
+	}
+
+	function resubmit_for_approval($id = '')
+	{
+		$data = [
+			'is_rejected' => 0,
+			'rejection_reason' => null
+		];
+		$res = $this->gigs_model->update_gig_data($id, $data);
+		if($res) {
+			$this->session->set_flashdata('success_msg', 'Gig is submitted for approval.');
+		} else {
+			$this->session->set_flashdata('warning_msg', 'Error: Gig could not be submitted for approval.');
+		}
+		redirect('my_gigs');
 	}
 
 	function trash($args2 = '')
