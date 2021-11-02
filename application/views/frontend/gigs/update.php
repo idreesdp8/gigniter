@@ -156,7 +156,7 @@
                   </div>
                    
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image">
-                    <p>Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
+                    <p><i class="fas fa-images"></i> Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
                     <!-- or Pitch Video -->
                     <div style="height:200px;" class="gig-poster-wrapper">
                       <div class="mb-1"> 
@@ -171,7 +171,7 @@
                     <div class="error_poster text-danger"></div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_video">
-                    <p>Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
+                    <p><i class="fas fa-video"></i> Upload Pitch Video <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig pitch video"><i class="fas fa-question-circle"></i></span></p>
                     <!-- or Pitch Video -->
                     <div class="gig-poster-wrapper">
                       <div class="mb-1 video-wrapper">
