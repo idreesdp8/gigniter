@@ -116,6 +116,79 @@
                         <h5 class="title"><?php echo $gig->title; ?></h5>
                         <h6 class="d-md-flex align-items-md-center">
                             <a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a>
+                            <!-- <ul class="social-icons">
+                                <?php
+                                if (isset($user->facebook)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->instagram)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->twitter)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->linkedin)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->pinterest)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
+                                            <i class="fab fa-pinterest"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                if (isset($user->behance)) :
+                                ?>
+                                    <li>
+                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
+                                            <i class="fab fa-behance"></i>
+                                        </a>
+                                    </li>
+                                <?php
+                                endif;
+                                ?>
+                            </ul> -->
+                        </h6>
+                        <p class="mb-0">
+                            <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
+                        </p>
+                        <!-- <p>Music <span>|</span> Show <span>|</span> English</p> -->
+                        <!-- <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p> -->
+                        <div class="social-and-duration d-flex align-items-center justify-content-between">
+                            <div class="duration-area d-flex">
+                                <div class="item mr-3">
+                                    <i class="fas fa-calendar-alt mr-2"></i><span><?php echo date('d M, Y', strtotime($gig->gig_date)); ?></span>
+                                </div>
+                                <div class="item">
+                                    <i class="far fa-clock mr-2"></i><span><?php echo $gig->duration ?></span>
+                                </div>
+                            </div>
                             <ul class="social-icons">
                                 <?php
                                 if (isset($user->facebook)) :
@@ -174,27 +247,39 @@
                                 endif;
                                 ?>
                             </ul>
-                        </h6>
-                        <p>
-                            <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
-                        </p>
-                        <!-- <p>Music <span>|</span> Show <span>|</span> English</p> -->
-                        <!-- <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p> -->
-                        <div class="social-and-duration">
-                            <div class="duration-area d-flex">
-                                <div class="item mr-3">
-                                    <i class="fas fa-calendar-alt mr-2"></i><span><?php echo date('d M, Y', strtotime($gig->gig_date)); ?></span>
-                                </div>
-                                <div class="item">
-                                    <i class="far fa-clock mr-2"></i><span><?php echo $gig->duration ?></span>
-                                </div>
-                            </div>
-                            <!-- <ul class="social-share">
-                                <li><a href="#0"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#0"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#0"><i class="fab fa-pinterest-p"></i></a></li>
-                                <li><a href="#0"><i class="fab fa-linkedin-in"></i></a></li>
-                                <li><a href="#0"><i class="fab fa-google-plus-g"></i></a></li>
+                            <!-- <ul class="social-share detail-page">
+                                <?php
+                                if (isset($user->facebook)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->facebook) ?>"><i class="fab fa-facebook-f"></i></a></li>
+                                <?php
+                                endif;
+                                if (isset($user->instagram)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->instagram) ?>"><i class="fab fa-instagram"></i></a></li>
+                                <?php
+                                endif;
+                                if (isset($user->twitter)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->twitter) ?>"><i class="fab fa-twitter"></i></a></li>
+                                <?php
+                                endif;
+                                if (isset($user->linkedin)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->linkedin) ?>"><i class="fab fa-linkedin-in"></i></a></li>
+                                <?php
+                                endif;
+                                if (isset($user->pinterest)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->pinterest) ?>"><i class="fab fa-pinterest-p"></i></a></li>
+                                <?php
+                                endif;
+                                if (isset($user->behance)) :
+                                ?>
+                                    <li><a href="<?php echo prep_url($user->behance) ?>"><i class="fab fa-behance"></i></a></li>
+                                <?php
+                                endif;
+                                ?>
                             </ul> -->
                         </div>
                     </div>

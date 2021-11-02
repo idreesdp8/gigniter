@@ -62,19 +62,19 @@
                         Already have an account? <a class="theme-primary-color" href="<?php echo user_base_url() ?>signin">Login</a>
                     </div>
                     <div class="or"><span>Or</span></div>
-                    <ul class="social-icons">
+                    <ul class="social-icons account-page flex-column align-items-center">
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=facebook">
+                            <a type="button" class="btn w-75 btn-facebook" href="<?php echo user_base_url() ?>account/social_signin?provider=facebook">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=twitter" class="active">
+                            <a type="button" class="btn w-75 btn-twitter" href="<?php echo user_base_url() ?>account/social_signin?provider=twitter" class="active">
                                 <i class="fab fa-twitter"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo user_base_url() ?>account/social_signin?provider=google">
+                            <a type="button" class="btn w-75 btn-google" href="<?php echo user_base_url() ?>account/social_signin?provider=google">
                                 <i class="fab fa-google"></i>
                             </a>
                         </li>

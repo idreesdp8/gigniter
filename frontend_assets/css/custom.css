@@ -123,6 +123,29 @@ textarea {
 	color: #ffffff;
 	font-size: 14px;
 }
+.social-icons.account-page li a {
+	line-height: 36px;
+	height: auto;
+	text-align: center;
+	border-radius: 50px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+	font-size: 1rem;
+	margin: auto;
+	display: block;
+}
+.account-page li {
+	width: 100%;
+}
+.btn-facebook {
+	background-color: #3b5998;
+}
+.btn-twitter {
+	background-color: #00acee;
+}
+.btn-google {
+	background-color: #db4437;
+}
 .speaker-slider6 .owl-nav {
 	display: block;
 }
@@ -700,7 +723,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 	color: blue;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
 	#carousel_3 .card-footer .btn-watch:hover {
 		background-color: transparent;
 		color: #e0004d;

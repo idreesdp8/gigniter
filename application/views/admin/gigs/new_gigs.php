@@ -68,7 +68,8 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="<?php echo admin_base_url() . 'gigs/approve_gig/' . $record->id ?>" data-popup="tooltip" data-original-title="Approve Gig" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-checkmark4"></i></a>
-                                                    <a href="<?php echo admin_base_url() . 'gigs/reject_gig/' ?>" data-id="<?php echo $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" id="reject_gig" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a>
+                                                    <!-- <a href="<?php echo admin_base_url() . 'gigs/reject_gig/' ?>" data-id="<?php echo $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" id="reject_gig" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></a> -->
+                                                    <div data-id="<?php echo $record->id ?>" data-popup="tooltip" data-original-title="Reject Gig" type="button" id="reject_gig" class="btn btn-danger btn-icon ml-2"><i class="icon-x"></i></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -106,6 +107,7 @@
 
             $('#reject_gig').click(function(e) {
                 e.preventDefault();
+                console.log('meow')
                 var url = $(this).attr('href');
                 var gig_id = $(this).attr('data-id');
                 console.log(url);
