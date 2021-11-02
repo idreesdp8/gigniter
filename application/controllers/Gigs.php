@@ -537,8 +537,8 @@ class Gigs extends CI_Controller
 					'is_draft' => $data['is_draft'],
 					'created_on' => $created_on,
 				);
-				// echo json_encode($datas);
-				// die();
+				echo json_encode($datas);
+				die();
 				// die();
 				$res = $this->gigs_model->insert_gig_data($datas);
 
