@@ -333,7 +333,7 @@ class Gigs extends CI_Controller
 			// $bundle_length = count($bundle_tiers);
 			$bundle = [];
 			// for ($k = 0; $k < $bundle_length; $k++) {
-			foreach ($gig_data['bundle_title_tier$j'] as $bundle_title) {
+			foreach ($gig_data["bundle_title_tier$j"] as $bundle_title) {
 				if ($bundle_title == '') continue;
 				// $j = $i + 1;
 				$imagename = '';
@@ -401,6 +401,7 @@ class Gigs extends CI_Controller
 				die();
 			}
 			// echo json_encode($data);
+			// echo date('Y-m-d H:i:s', strtotime($data['end_time']));
 			// echo json_encode($files);
 			// echo $this->dbs_user_id;
 			// die();
@@ -414,7 +415,7 @@ class Gigs extends CI_Controller
 			$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
 			$this->form_validation->set_rules("goal", "Goal", "trim|required|xss_clean");
 			$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
-			$this->form_validation->set_rules("goal_amount", "Goal Amount", "trim|required|xss_clean");
+			// $this->form_validation->set_rules("goal_amount", "Goal Amount", "trim|required|xss_clean");
 			$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 			$this->form_validation->set_rules("start_time", "Start Time", "trim|required|xss_clean");
@@ -531,7 +532,7 @@ class Gigs extends CI_Controller
 					'campaign_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['campaign_date'])) : null,
 					'gig_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['gig_date'])) : null,
 					'start_time' => date('H:i:s', strtotime($data['start_time'])),
-					'end_time' => date('H:i:s', strtotime($data['end_time'])),
+					'end_time' => date('Y-m-d H:i:s', strtotime($data['end_time'])),
 					'status' => $status,
 					'is_draft' => $data['is_draft'],
 					'created_on' => $created_on,
