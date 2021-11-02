@@ -350,7 +350,6 @@ class Gigs extends CI_Controller
 	{
 		$gig_id = $this->input->post('gig_id');
 		$gig = $this->gigs_model->get_gig_by_id($gig_id);
-		echo json_encode($gig);
 		$user = $this->users_model->get_user_by_id($gig->user_id);
 		$rejection_reason = $this->input->post('rejection_reason');
 		if ($gig_id == '') {

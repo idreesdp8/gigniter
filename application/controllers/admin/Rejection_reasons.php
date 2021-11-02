@@ -145,6 +145,7 @@ class Rejection_reasons extends CI_Controller
 		foreach ($records as $record) {
 			$resp[$record->value] = $record->label;
 		}
+		$resp['other'] = 'Other';
 		echo json_encode($resp);
 	}
 
