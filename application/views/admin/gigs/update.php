@@ -679,7 +679,7 @@
 
         </div>
     </div>
-    
+
     <script async src='https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap&key=<?php echo $google_api_key->value ?>'>
     </script>
     <script>
@@ -864,11 +864,12 @@
             }
 
         });
-        function initMap()
-        {
+
+        function initMap() {
             const input = document.getElementById("address");
             const options = {
-                fields: ["address_components", "geometry", "icon", "name"],
+                types: ["geocode"],
+                fields: ["address_components"],
                 // strictBounds: false,
                 // types: ["establishment"],
             };
