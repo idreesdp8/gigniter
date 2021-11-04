@@ -682,6 +682,14 @@
 
     <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key->value ?>&libraries=places"></script>
     <script>
+        function initialize() {
+            var input = document.getElementById('address');
+            new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <script>
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
@@ -875,7 +883,7 @@
             const autocomplete = new google.maps.places.Autocomplete(input, options);
         }
     </script>
-    <script src="<?php echo admin_asset_url(); ?>/js/address-api.js"></script>
+    <!-- <script src="<?php echo admin_asset_url(); ?>/js/address-api.js"></script> -->
 
 </body>
 
