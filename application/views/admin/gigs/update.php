@@ -80,14 +80,14 @@
                                                 <textarea name="subtitle" id="subtitle" cols="30" rows="3" class="form-control" placeholder="Enter subtitle"><?php echo $gig->subtitle ?></textarea>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Audience Goal <span class="text-danger">*</span></label>
                                                         <input type="number" name="ticket_limit" id="ticket_limit" class="form-control" value="<?php echo $gig->ticket_limit ?>" min="0" data-error="#ticket_limit1">
                                                         <span id="ticket_limit1" class="text-danger" generated="true"><?php echo form_error('ticket_limit'); ?></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Ticket Threshold <span class="text-danger">*</span></label>
                                                         <input type="number" name="threshold" id="threshold" class="form-control" min="0" value="<?php echo $gig->threshold ?>" min="0" data-error="#threshold1">
@@ -101,7 +101,7 @@
                                                         <span id="goal_amount1" class="text-danger" generated="true"><?php echo form_error('goal_amount'); ?></span>
                                                     </div>
                                                 </div> -->
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Draft</label>
                                                         <select name="is_draft" id="is_draft" class="form-control select">
@@ -115,7 +115,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea name="address" id="address" cols="30" rows="3" class="form-control" placeholder="Enter address"><?php echo $gig->address ?></textarea>
+                                                <input type="text" name="address" id="address" class="form-control" placeholder="Enter address" value="<?php echo $gig->address ?>">
+                                                <!-- <textarea name="address" id="address" cols="30" rows="3" class="form-control" placeholder="Enter address"><?php echo $gig->address ?></textarea> -->
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-9">
@@ -190,14 +191,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Start Time <span class="text-danger">*</span></label>
-                                                        <input type="time" name="start_time" id="start_time" class="form-control" value="<?php echo $gig->gig_date ? date('H:i:s', strtotime($gig->start_time)) : null ?>">
+                                                        <input type="time" name="start_time" id="start_time" class="form-control" value="<?php echo $gig->start_time ? date('H:i:s', strtotime($gig->start_time)) : null ?>">
                                                         <span id="start_time1" class="text-danger" generated="true"><?php echo form_error('start_time'); ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>End Time <span class="text-danger">*</span></label>
-                                                        <input type="time" name="end_time" id="end_time" class="form-control" value="<?php echo $gig->gig_date ? date('H:i:s', strtotime($gig->end_time)) : null ?>">
+                                                        <input type="datetime-local" name="end_time" id="end_time" class="form-control" value="<?php echo $gig->end_time ? date('Y-m-d\TH:i', strtotime($gig->end_time)) : null ?>">
                                                         <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                                                     </div>
                                                 </div>

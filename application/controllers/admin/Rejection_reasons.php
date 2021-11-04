@@ -146,6 +146,7 @@ class Rejection_reasons extends CI_Controller
 			$resp[$record->value] = $record->label;
 		}
 		$resp['other'] = 'Other';
+		log_message('user_info', json_encode($resp));
 		echo json_encode($resp);
 	}
 

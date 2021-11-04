@@ -365,6 +365,7 @@ class Gigs extends CI_Controller
 			'status' => 0,
 			'rejection_reason' => $rejection_reason
 		];
+		log_message('info', json_encode($data));
 		$this->send_email($user->email, 'Gig Rejected', $rejection_reason);
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		$this->session->set_flashdata('deleted_msg', 'Gig is rejected');
