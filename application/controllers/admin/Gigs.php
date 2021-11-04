@@ -814,7 +814,7 @@ class Gigs extends CI_Controller
 			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
 			$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
-			$data['google_api_key'] = $this->configurations_model->get_configuration_by_key('google-adress-api-key');
+			$data['google_api_key'] = $this->configurations_model->get_configuration_by_key('google-address-api-key');
 			$data['countries'] = $this->countries_model->get_all_countries();
 			$data['user'] = $this->users_model->get_user_by_id($gig->user_id);
 			$links = $this->users_model->get_social_links($gig->user_id);

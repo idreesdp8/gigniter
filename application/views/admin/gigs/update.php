@@ -679,8 +679,8 @@
 
         </div>
     </div>
-
-    <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key ?>&libraries=places&callback=initMap">
+    
+    <script async src='https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap&key=<?php echo $google_api_key->value ?>'>
     </script>
     <script>
         $(document).ready(function() {
