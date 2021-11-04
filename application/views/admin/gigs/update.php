@@ -850,38 +850,27 @@
                 }
             });
 
-            $('input').change(function() {
-                console.log(this)
-                update_gig_data(this);
-            })
+            // $('input').change(function() {
+            //     console.log(this)
+            //     update_gig_data(this);
+            // })
 
-            function update_gig_data(elem) {
-                $.ajax({
-                    url: base_url + 'gigs/update_gig_data',
-                    data: {
-                        id: $('#gig_id').val(),
-                        field: elem
-                    },
-                    dataType: 'json',
-                    method: 'POST',
-                    success: function(resp) {
+            // function update_gig_data(elem) {
+            //     $.ajax({
+            //         url: base_url + 'gigs/update_gig_data',
+            //         data: {
+            //             id: $('#gig_id').val(),
+            //             field: elem
+            //         },
+            //         dataType: 'json',
+            //         method: 'POST',
+            //         success: function(resp) {
 
-                    }
-                })
-            }
+            //         }
+            //     })
+            // }
 
         });
-
-        function initMap() {
-            const input = document.getElementById("address");
-            const options = {
-                types: ["geocode"],
-                fields: ["address_components"],
-                // strictBounds: false,
-                // types: ["establishment"],
-            };
-            const autocomplete = new google.maps.places.Autocomplete(input, options);
-        }
     </script>
     <!-- <script src="<?php echo admin_asset_url(); ?>/js/address-api.js"></script> -->
 

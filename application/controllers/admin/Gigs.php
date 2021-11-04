@@ -895,11 +895,11 @@ class Gigs extends CI_Controller
 	}
 	/* users functions ends */
 
-	function update_gig_data()
-	{
-		$data = $this->input->post();
-		echo json_encode($data);
-	}
+	// function update_gig_data()
+	// {
+	// 	$data = $this->input->post();
+	// 	echo json_encode($data);
+	// }
 
 	function streaming_details($gig_id)
 	{
