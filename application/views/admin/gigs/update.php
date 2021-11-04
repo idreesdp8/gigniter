@@ -687,7 +687,7 @@
             new google.maps.places.Autocomplete(input);
         }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+        $(window).on('load', initialize);
     </script>
     <script>
         $(document).ready(function() {
