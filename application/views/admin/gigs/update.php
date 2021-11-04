@@ -680,7 +680,7 @@
         </div>
     </div>
 
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhAY-vqTHNYDuLOP-dRo1Bp87rV4A8_-4&libraries=places&callback=initMap">
+    <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key ?>&libraries=places&callback=initMap">
     </script>
     <script>
         $(document).ready(function() {
