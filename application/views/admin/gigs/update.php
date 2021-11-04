@@ -691,55 +691,56 @@
                 fields: ["address_components", "geometry"],
                 types: ["address"],
             });
-            autocomplete.addListener("place_changed", fillInAddress);
+            console.log(autocomplete.getPlace())
+            // autocomplete.addListener("place_changed", fillInAddress);
         }
 
-        function fillInAddress() {
-            // Get the place details from the autocomplete object.
-            const place = autocomplete.getPlace();
-            console.log(place)
+        // function fillInAddress() {
+        //     // Get the place details from the autocomplete object.
+        //     const place = autocomplete.getPlace();
+        //     console.log(place)
 
-            // Get each component of the address from the place details,
-            // and then fill-in the corresponding field on the form.
-            // place.address_components are google.maps.GeocoderAddressComponent objects
-            // which are documented at http://goo.gle/3l5i5Mr
+        //     // Get each component of the address from the place details,
+        //     // and then fill-in the corresponding field on the form.
+        //     // place.address_components are google.maps.GeocoderAddressComponent objects
+        //     // which are documented at http://goo.gle/3l5i5Mr
 
-            // for (const component of place.address_components) {
-            //     const componentType = component.types[0];
+        //     // for (const component of place.address_components) {
+        //     //     const componentType = component.types[0];
 
-            //     switch (componentType) {
-            //         case "street_number": {
-            //             address1 = `${component.long_name} ${address1}`;
-            //             break;
-            //         }
+        //     //     switch (componentType) {
+        //     //         case "street_number": {
+        //     //             address1 = `${component.long_name} ${address1}`;
+        //     //             break;
+        //     //         }
 
-            //         case "route": {
-            //             address1 += component.short_name;
-            //             break;
-            //         }
+        //     //         case "route": {
+        //     //             address1 += component.short_name;
+        //     //             break;
+        //     //         }
 
-            //         case "postal_code": {
-            //             postcode = `${component.long_name}${postcode}`;
-            //             break;
-            //         }
+        //     //         case "postal_code": {
+        //     //             postcode = `${component.long_name}${postcode}`;
+        //     //             break;
+        //     //         }
 
-            //         case "postal_code_suffix": {
-            //             postcode = `${postcode}-${component.long_name}`;
-            //             break;
-            //         }
-            //         case "locality":
-            //             document.querySelector("#locality").value = component.long_name;
-            //             break;
-            //         case "administrative_area_level_1": {
-            //             document.querySelector("#state").value = component.short_name;
-            //             break;
-            //         }
-            //         case "country":
-            //             document.querySelector("#country").value = component.long_name;
-            //             break;
-            //     }
-            // }
-        }
+        //     //         case "postal_code_suffix": {
+        //     //             postcode = `${postcode}-${component.long_name}`;
+        //     //             break;
+        //     //         }
+        //     //         case "locality":
+        //     //             document.querySelector("#locality").value = component.long_name;
+        //     //             break;
+        //     //         case "administrative_area_level_1": {
+        //     //             document.querySelector("#state").value = component.short_name;
+        //     //             break;
+        //     //         }
+        //     //         case "country":
+        //     //             document.querySelector("#country").value = component.long_name;
+        //     //             break;
+        //     //     }
+        //     // }
+        // }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
