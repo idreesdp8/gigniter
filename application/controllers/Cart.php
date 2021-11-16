@@ -585,7 +585,7 @@ class Cart extends CI_Controller
 
 		$amount_raised = $this->bookings_model->get_gig_amount_raised($gig_id);
 		$goal_amount = $this->gigs_model->get_gig_goal_amount($gig_id);
-		$percentage_funded = (100 * $amount_raised->price / $goal_amount->goal_amount);
+		$percentage_funded = (100 * $amount_raised->price / $goal_amount->goal_amount ?? 1);
 		$percentage_funded_score = $percentage_funded * $data['percentage_funded_weightage'];
 		$popularity += $percentage_funded_score;
 
