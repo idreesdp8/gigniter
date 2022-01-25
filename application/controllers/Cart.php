@@ -72,9 +72,9 @@ class Cart extends CI_Controller
 				redirect('account/verify_account');
 			}
 		}
-		if ($this->dbs_user_id) {
+		// if ($this->dbs_user_id) {
 			$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
-			if ($this->dbs_user_id == $data['gig']->user_id) {
+			if ($this->dbs_user_id && $this->dbs_user_id == $data['gig']->user_id) {
 				redirect('/');
 			}
 			$data['venues'] = [];
@@ -97,11 +97,11 @@ class Cart extends CI_Controller
 			// echo json_encode($tiers);
 			// die();
 			$this->load->view('frontend/cart/book_ticket', $data);
-		} else {
-			$uri = uri_string();
-			$this->session->set_userdata('redirect', $uri);
-			redirect('signin');
-		}
+		// } else {
+		// 	$uri = uri_string();
+		// 	$this->session->set_userdata('redirect', $uri);
+		// 	redirect('signin');
+		// }
 	}
 
 	public function add()

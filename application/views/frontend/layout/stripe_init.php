@@ -66,18 +66,18 @@
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        var is_empty = document.getElementById('is_empty').value;
-        var user_id = document.getElementById('user_id').value;
+        var is_empty = parseInt(document.getElementById('is_empty').value);
+        var user_id = parseInt(document.getElementById('user_id').value);
         // alert(is_empty);
-        if (is_empty == 1 || user_id == 0) {
-            if (is_empty == 1) {
+        if (is_empty || !user_id) {
+            if (is_empty) {
                 swal({
                     icon: 'warning',
                     title: 'Your Cart is Empty',
                     text: 'Please add some items in your cart first!',
                 });
             }
-            if (user_id == 0) {
+            if (!user_id) {
                 swal({
                     icon: 'warning',
                     title: 'You need to sign in!',

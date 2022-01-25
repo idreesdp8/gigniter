@@ -289,7 +289,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'">
+                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'" required>
                       <span id="end_time1" class="text-danger" generated="true"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -675,8 +675,8 @@
         gig_max_date = gig_max_date.toISOString().substring(0, 10);
         gig_min_value = gig_min_value.toISOString().substring(0, 10);
         var gig_min_time = campaign_date.toISOString().substring(10, 16);
-        console.log(gig_min_date)
-        console.log(gig_min_time)
+        // console.log(gig_min_date)
+        // console.log(gig_min_time)
         if($('#start_time').val() != '') {
           gig_min_time = 'T'+$('#start_time').val();
         }

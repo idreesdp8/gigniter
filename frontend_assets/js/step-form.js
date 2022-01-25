@@ -519,7 +519,10 @@ function checkStartTime() {
 }
 function checkEndTime() {
     var val = $("#end_time").val();
-    if (val !== '') {
+    var minTime = $("#end_time").attr('min');
+    console.log(val<=minTime);
+    console.log(minTime);
+    if (val !== '' && val > minTime) {
         $("#end_time").removeClass("error").addClass("good");
         return true;
     } else {
