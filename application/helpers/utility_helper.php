@@ -159,3 +159,25 @@ function downloads_url()
 {
 	return base_url() . 'downloads/';
 }
+function send_email_helper($to_email, $subject, $template)
+{
+	// $data = [$to_email, $to_name, $subject, $body];
+	// return $data;
+	$CI = &get_instance();
+	$CI->load->library('email');
+	$from_email = $CI->config->item('info_email');
+	$from_name = $CI->config->item('from_name');
+	$msg = $CI->load->view($template, '', TRUE);
+
+
+	$CI->email->from($from_email, $from_name);
+	$CI->email->to($to_email);
+	$CI->email->subject($subject);
+	$CI->email->message($msg);
+	//Send mail
+	if ($CI->email->send()) {
+		return true;
+	} else {
+		return false;
+	}
+}

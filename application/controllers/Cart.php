@@ -247,8 +247,8 @@ class Cart extends CI_Controller
 			$user_id = $this->dbs_user_id;
 
 			$ticket_limit = $this->gigs_model->get_gig_ticket_limit($gig_id);
-			// $threshold = floor($ticket_limit * .6);
-			$threshold = 3;
+			$threshold = floor($ticket_limit * .6);
+			// $threshold = 3;
 
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');
@@ -336,7 +336,10 @@ class Cart extends CI_Controller
 			if ($is_physical_gig == 1 && count($qr_token_arrs) > 0) {
 				$is_sent = $this->send_ticket_mails($qr_token_arrs, $email_to, 'Booking Done');
 			} else {
-				$is_sent = false;
+				$to_email = $this->session->userdata('us_email');
+				$subject = 'Booking Done';
+				$template = 'email/gig_purchase_done';
+				$is_sent = send_email_helper($to_email, $subject, $template);
 			}
 			// exit;
 			if (true) {

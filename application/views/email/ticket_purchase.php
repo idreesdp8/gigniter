@@ -244,7 +244,7 @@
 
                                                             <div style="color: #000000; line-height: 160%; text-align: center; word-wrap: break-word;">
                                                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Hi, </span></p>
-                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Thankyou for purchasing Ticket! </span></p>
+                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Thank you for purchasing Ticket! </span></p>
                                                             </div>
 
                                                         </td>

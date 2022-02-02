@@ -103,7 +103,7 @@
                 },
                 // dataType: 'json',
                 success: function(result) {
-                    console.log(result);
+                    // console.log(result);
                     $('#partial_view').empty();
                     // var parseHTML = $.parseHTML(result);
                     $('#partial_view').html(result);

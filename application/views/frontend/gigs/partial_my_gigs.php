@@ -100,7 +100,7 @@
 
 <script>
     function approval_submit(id) {
-        console.log(id)
+        // console.log(id)
         $.ajax({
             url: base_url + 'gigs/submit_for_approval',
             data: {
@@ -126,7 +126,7 @@
     function delete_gig() {
         event.preventDefault()
         var form = event.target.form
-        console.log(form)
+        // console.log(form)
         swal({
             title: "Are you sure?",
             icon: "warning",

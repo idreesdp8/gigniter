@@ -152,7 +152,7 @@
                                                     <tr>
                                                         <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 31px;font-family:'Cabin',sans-serif;" align="left">
                                                             <div style="color: #e5eaf5; line-height: 140%; text-align: center; word-wrap: break-word;">
-                                                                <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 28px; line-height: 39.2px;"><strong><span style="line-height: 39.2px; font-size: 28px;">Gig Approved</span></strong></span></p>
+                                                                <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 28px; line-height: 39.2px;"><strong><span style="line-height: 39.2px; font-size: 28px;">Gig Tickets Purchased</span></strong></span></p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -177,13 +177,13 @@
                                                         <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
                                                             <div style="color: #000000; line-height: 160%; text-align: center; word-wrap: break-word;">
                                                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Hi, </span></p>
-                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Your Gig has been approved </span></p>
-                                                                <!-- <p style="font-size: 14px; line-height: 160%;">
-                                                                    <span style="font-size: 18px; line-height: 28.8px;">Wait for an admin to approve your gig.</span>
-                                                                </p> -->
+                                                                <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Thank you for purchasing tickets of Gig </span></p>
                                                                 <p style="font-size: 14px; line-height: 160%;">
-                                                                    <span style="font-size: 18px; line-height: 28.8px;">Your Live Streaming Info will be generated when the Gig crosses threshold</span>
+                                                                    <span style="font-size: 18px; line-height: 28.8px;">Enjoy your show!</span>
                                                                 </p>
+                                                                <!-- <p style="font-size: 14px; line-height: 160%;">
+                                                                    <span style="font-size: 18px; line-height: 28.8px;">Your Live Streaming Info will be generated when the Gig crosses threshold</span>
+                                                                </p> -->
                                                             </div>
                                                         </td>
                                                     </tr>

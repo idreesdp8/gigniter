@@ -343,6 +343,13 @@ class Gigs extends CI_Controller
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		$this->session->set_flashdata('success_msg', 'Gig is accepted');
+
+		$gig = $this->gigs_model->get_gig_by_id($gig_id);
+		$user = $this->users_model->get_user_by_id($gig->user_id);
+		$to_email = $user->email;
+		$subject = 'Gig Approved!';
+		$template = 'email/gig_approved';
+		send_email_helper($to_email, $subject, $template);
 		redirect('admin/gigs/new');
 	}
 
