@@ -971,14 +971,28 @@ class Account extends CI_Controller
 				$insert_data = $this->users_model->insert_user_data($datas);
 
 				if ($insert_data) {
-					$result = $this->users_model->get_user_by_id($insert_data);
-					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
-					if ($is_sent) {
-						$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
-					} else {
-						$this->session->set_flashdata("error_msg", "You have encountered an error");
-					}
-					$this->load->view('frontend/account/verfication_page');
+					$user = $this->users_model->get_user_by_id($insert_data);
+					// $is_sent = $this->send_email($user->email, 'Verification Code', 'verification');
+					// if ($is_sent) {
+					// 	$this->session->set_flashdata("success_msg", "A verification email has been sent to your email address");
+					// } else {
+					// 	$this->session->set_flashdata("error_msg", "You have encountered an error");
+					// }
+
+					$cstm_sess_data = array(
+						'us_login' => TRUE,
+						'us_id' => $user->id,
+						'us_role_id' => $user->role_id,
+						'us_username' => ($user->username ? ucfirst($user->username) : ''),
+						'us_fname' => ($user->fname ? ucfirst($user->fname) : ''),
+						'us_lname' => ($user->lname ? ucfirst($user->lname) : ''),
+						'us_fullname' => ($user->fname ? ucfirst($user->fname) : '') . ' ' . ($user->lname ? ucfirst($user->lname) : ''),
+						'us_email' => $user->email,
+						'us_role_name' => $role->name,
+					);
+					$this->session->set_userdata($cstm_sess_data);
+
+					$this->load->view('frontend/account/account_verified');
 				} else {
 					$this->session->set_flashdata('error_msg', 'An error has been generated while creating an account, please try again!');
 					redirect('signup');
