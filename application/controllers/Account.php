@@ -198,7 +198,8 @@ class Account extends CI_Controller
 		if ($email_for == 'verification') {
 			$this->load->helper('string');
 			$code = random_string('alnum', 6);
-			$this->users_model->update_user_data($this->dbs_user_id, ['code' => $code]);
+			$user = $this->users_model->get_user_by_email($to_email);
+			$this->users_model->update_user_data($user->id, ['code' => $code]);
 			// $this->session->set_userdata(['verification_code' => $code]);
 			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
@@ -239,14 +240,12 @@ class Account extends CI_Controller
 		$email = $this->general_model->safe_ci_decoder($this->input->get('email'));
 		$code = $this->general_model->safe_ci_decoder($this->input->get('code'));
 		$user = $this->users_model->get_user_by_email($email);
-		// $sess_code = $this->session->userdata('verification_code');
 		$sess_code = $user->code;
 		if ($user && ($sess_code == $code)) {
 			$data_arr = [
 				'status' => 1
 			];
 			$this->users_model->update_user_data($user->id, $data_arr);
-			// $this->session->unset_userdata('verification_code');
 			$result = $this->users_model->get_user_by_id($user->id);
 			$role = $this->roles_model->get_role_by_id($result->role_id);
 			// set session	
@@ -787,9 +786,6 @@ class Account extends CI_Controller
 			$email = $this->general_model->safe_ci_decoder($this->input->post("encoded_email"));
 			$encoded_email = $this->input->post("encoded_email");
 			$password = $this->input->post("password");
-
-			// $this->send_email($email);
-
 			// echo $email.' '.$password;
 			// die();
 			// form validation 
@@ -974,7 +970,7 @@ class Account extends CI_Controller
 				);
 				$insert_data = $this->users_model->insert_user_data($datas);
 
-				if (isset($insert_data)) {
+				if ($insert_data) {
 					$result = $this->users_model->get_user_by_id($insert_data);
 					$is_sent = $this->send_email($result->email, 'Verification Code', 'verification');
 					if ($is_sent) {
