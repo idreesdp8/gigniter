@@ -1,5 +1,6 @@
 var validForm = false;
 var errorElems = [];
+var ticketTierValues = [];
 var indexError = -1;
 var steps = $('.setup-content');
 var nextButton = $('.nextBtn');
@@ -25,7 +26,7 @@ navListItems.click(function (e) {
 });
 
 function runValidationOn(formStep) {
-    console.log($('#' + formStep).find('input,select'));
+    // console.log($('#' + formStep).find('input,select'));
     if (formStep == 'step-1') {
         //check field for the first tab
         if (!checkTitle()) {
@@ -141,6 +142,25 @@ function runValidationOn(formStep) {
         }
 
     }
+    if (formStep == 'step-2') {
+        var inputs = document.querySelectorAll('input[name^="ticket_quantity"]')
+        var ticketTierQty = 0;
+        var goal = document.getElementById('goal').value;
+        // console.log(inputs)
+        for(var i = 0; i < inputs.length; i++) {
+            // console.log(inputs[i])
+            ticketTierQty += parseInt(inputs[i].value)
+        }
+        console.log(ticketTierQty) 
+        if(ticketTierQty != goal) {
+            $('input[name^="ticket_quantity"]').removeClass("good").addClass("error");
+            errorElems.push('input[name^="ticket_quantity"]');
+        } else {
+            $('input[name^="ticket_quantity"]').removeClass("error").addClass("good");
+            indexError = errorElems.indexOf('input[name^="ticket_quantity"]');
+            errorElems.splice(indexError, 1);
+        }
+    }
     if (formStep == 'step-3') {
         //check fields for the 3rd tab
         if (!checkFirstName()) {
@@ -213,7 +233,7 @@ function runValidationOn(formStep) {
     //         }
     //     }
     // }
-    // console.log(errorElems);
+    console.log(errorElems);
     if (errorElems.length) {
         if (errorElems[0] == '#file-input') {
             var scrollPos = $('#div_image').find('.file-preview-thumbnails').offset().top - $('.header-section').outerHeight(true) - $('#div_image p').outerHeight(true);
@@ -222,7 +242,7 @@ function runValidationOn(formStep) {
         $(errorElems[0]).focus();
     } else {
         var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
-        console.log(nextStepWizard);
+        // console.log(nextStepWizard);
         nextStepWizard.removeClass('disabled').trigger('click');
         $(window).scrollTop('0');
         validForm = true;
@@ -236,22 +256,22 @@ $(document).ready(function () {
         var formStep = $(this).parents('.setup-content').attr('id')
         runValidationOn(formStep);
     })
-    $('.step-form-buttons > button').click(function(e){
-        if(!validForm) {
+    $('.step-form-buttons > button').click(function (e) {
+        if (!validForm) {
             e.preventDefault();
             var error = '';
-            $('.setup-content').each(function(){
+            $('.setup-content').each(function () {
                 runValidationOn($(this).attr('id'));
             })
             console.log(errorElems)
-            $.each(errorElems, function(index, value){
+            $.each(errorElems, function (index, value) {
                 // console.log(value)
-                value = value.slice(1,value.length)
-                error += value+', ';
+                value = value.slice(1, value.length)
+                error += value + ', ';
             })
-            alert('Complete these fields\n'+ error)
+            alert('Complete these fields\n' + error)
         } else {
-            if($('#is_draft').val() == '2') {
+            if ($('#is_draft').val() == '2') {
                 e.preventDefault();
             }
             $('#basic_info_form').submit();
@@ -520,7 +540,7 @@ function checkStartTime() {
 function checkEndTime() {
     var val = $("#end_time").val();
     var minTime = $("#end_time").attr('min');
-    console.log(val<=minTime);
+    console.log(val <= minTime);
     console.log(minTime);
     if (val !== '' && val > minTime) {
         $("#end_time").removeClass("error").addClass("good");

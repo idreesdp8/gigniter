@@ -326,21 +326,17 @@
                                 <?php
                             endif;
                         endif;
-                        if ($this->session->userdata('us_id') != $gig->user_id && $gig->ticket_left != 0) :
+                        if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
                             if ($gig->status == 1) :
-                                if (!empty($user_bookings)) :
                                 ?>
                                     <div class="custom-item3">
-                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book more</a>
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">
+                                        <?php
+                                        echo !empty($user_bookings) ? 'book more' : 'book now';
+                                        ?>
+                                        </a>
                                     </div>
                                 <?php
-                                else :
-                                ?>
-                                    <div class="custom-item3">
-                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
-                                    </div>
-                                <?php
-                                endif;
                             elseif ($gig->status == 2) :
                                 if (empty($user_bookings)) :
                                 ?>
@@ -547,7 +543,7 @@
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <?php
-                                                            if ($this->session->userdata('us_id') != $gig->user_id && $gig->ticket_left != 0) :
+                                                            if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
                                                             ?>
                                                                 <a type="button" class="btn-theme-primary btn" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">book now</a>
                                                             <?php

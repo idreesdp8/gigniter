@@ -166,27 +166,6 @@
                       </div>
                     </label>
                   </div>
-                  <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                    <label>Poster Pitch <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Poster Pitch selection"><i class="fas fa-question-circle"></i></span>
-                      <div class="d-flex">
-                        <div class="mycheckbox-contain">
-                          <div class="allow-overshoot">
-                            <input id="myCheckbox-image" name="poster_pitch" value="image" type="radio">
-                            <label for="myCheckbox-image">Image</label>
-                            <span></span>
-                          </div>
-                        </div>
-                        <div class="mycheckbox-contain">
-                          <div class="allow-overshoot">
-                            <input id="myCheckbox-video" name="poster_pitch" value="video" type="radio">
-                            <label for="myCheckbox-video">Video</label>
-                            <span></span>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-lg-9 col-md-8 col-sm-12 col-12">
-                  </div> -->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="div_image">
                     <p><i class="fas fa-images"></i> Upload Gig Poster <small class="text-warning">min 360px x 354px</small> <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Poster"><i class="fas fa-question-circle"></i></span></p>
                     <!-- or Pitch Video -->
@@ -654,18 +633,6 @@
       })
 
       $('#start_gig_menu').addClass('active');
-
-      // $('input[type=radio]').change(function() {
-      //   var selected_radio = $(this).val();
-      //   console.log(selected_radio)
-      //   if (selected_radio == 'image') {
-      //     $('#div_image').fadeIn();
-      //     $('#div_video').fadeOut();
-      //   } else {
-      //     $('#div_image').fadeOut();
-      //     $('#div_video').fadeIn();
-      //   }
-      // })
 
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
