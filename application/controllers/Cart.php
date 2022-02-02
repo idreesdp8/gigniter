@@ -322,6 +322,7 @@ class Cart extends CI_Controller
 			$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig_id);
 
 			$this->create_customer($token, $email_to, $name, $res);
+			
 			if ($ticket_bought->quantity > $threshold) {
 				$stream_details = $this->create_channel($gig_id);
 				$subject = 'Stream Details';

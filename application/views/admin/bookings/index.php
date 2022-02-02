@@ -114,7 +114,7 @@
                                             <td><input type="checkbox" class="booking-checkbox" value="<?php echo $record->id ?>" <?php echo $record->is_paid ? 'disabled' : '' ?>></td>
                                             <td><?php echo $i ?></td>
                                             <td><?php echo $record->booking_no ?></td>
-                                            <td><?php echo $record->gig->title ?></td>
+                                            <td><?php echo $record->gig->title ?? 'NA' ?></td>
                                             <td>$<?php echo $record->price ?></td>
                                             <td><?php echo $record->item_count ?></td>
                                             <td>
