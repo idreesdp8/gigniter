@@ -198,7 +198,7 @@ class Account extends CI_Controller
 		if ($email_for == 'verification') {
 			$this->load->helper('string');
 			$code = random_string('alnum', 6);
-			$this->users_model->update_user_data($this->dbs_user_id, ['code'=>$code]);
+			$this->users_model->update_user_data($this->dbs_user_id, ['code' => $code]);
 			// $this->session->set_userdata(['verification_code' => $code]);
 			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
@@ -876,10 +876,12 @@ class Account extends CI_Controller
 
 	function social_signin()
 	{
-		$provider = $this->input->get('provider') ?? 'twitter';
+		$provider = $this->input->get('provider');
+		// echo $provider;
+		// die();
 		if ($provider == 'google') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=google',
+				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=' . $provider,
 				'providers' => [
 					'Google' => [
 						'enabled' => true,
@@ -893,7 +895,7 @@ class Account extends CI_Controller
 			];
 		} else if ($provider == 'twitter') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl(),
+				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=' . $provider,
 				'providers' => [
 					'Twitter' => [
 						'enabled' => true,
@@ -904,9 +906,9 @@ class Account extends CI_Controller
 					]
 				],
 			];
-		} else {
+		} else if ($provider == 'facebook') {
 			$config = [
-				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=facebook',
+				'callback' => HttpClient\Util::getCurrentUrl() . '?provider=' . $provider,
 				'providers' => [
 					'Facebook' => [
 						'enabled' => true,
@@ -986,7 +988,6 @@ class Account extends CI_Controller
 					redirect('signup');
 				}
 			}
-
 		} catch (\Exception $e) {
 			echo $e->getMessage();
 		}
@@ -1001,7 +1002,7 @@ class Account extends CI_Controller
 	{
 		$email = $this->session->userdata('us_email');
 		$res = $this->send_email($email, 'Verification Code', 'verification');
-		if($res) {
+		if ($res) {
 			$this->session->set_flashdata('success_msg', 'Email is sent to your email address.');
 		} else {
 			$this->session->set_flashdata('error_msg', 'An error has occured!');
@@ -1013,7 +1014,7 @@ class Account extends CI_Controller
 	{
 		$data = $this->input->post();
 		$res = $this->send_email($data['email'], $data['subject'], 'send_email_to_artist', $data);
-		if($res) {
+		if ($res) {
 			$response = [
 				'status' => true,
 				'message' => 'Email sent to Artist'
@@ -1027,7 +1028,8 @@ class Account extends CI_Controller
 		echo json_encode($response);
 	}
 
-	function start_server() {
+	function start_server()
+	{
 		require_once('bin/server.php');
 	}
 }
