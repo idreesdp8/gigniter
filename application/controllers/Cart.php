@@ -322,14 +322,14 @@ class Cart extends CI_Controller
 			$ticket_bought = $this->bookings_model->get_gig_ticket_bought($gig_id);
 
 			$this->create_customer($token, $email_to, $name, $res);
-			
+
 			if ($ticket_bought->quantity > $threshold) {
 				$stream_details = $this->create_channel($gig_id);
 				$subject = 'Stream Details';
 				$to_email = 'hamza362207@gmail.com';
 				$email_for = 'stream_details';
 				$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
-				// $this->charge_and_transfer($gig_id);
+				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
 
