@@ -1648,7 +1648,9 @@ class Gigs extends CI_Controller
 		if ($email_for == 'verification') {
 			$this->load->helper('string');
 			$code = random_string('alnum', 6);
-			$this->session->set_userdata(['verification_code' => $code]);
+			$user = $this->users_model->get_user_by_email($to_email);
+			$this->users_model->update_user_data($user->id, ['code' => $code]);
+			// $this->session->set_userdata(['verification_code' => $code]);
 			$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($to_email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 			$msg = $this->load->view('email/verification_code', $data, TRUE);
 		}
