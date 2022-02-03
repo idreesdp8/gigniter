@@ -542,8 +542,14 @@
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
-                      <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onClick="submit_form(2)">Preview</button>
-                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
+                      <?php
+                      if ($this->session->userdata('us_id')) :
+                      ?>
+                        <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onClick="submit_form(2)">Preview</button>
+                        <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
+                      <?php
+                      endif;
+                      ?>
                       <?php
                       if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
                       ?>
@@ -644,8 +650,8 @@
         var gig_min_time = campaign_date.toISOString().substring(10, 16);
         // console.log(gig_min_date)
         // console.log(gig_min_time)
-        if($('#start_time').val() != '') {
-          gig_min_time = 'T'+$('#start_time').val();
+        if ($('#start_time').val() != '') {
+          gig_min_time = 'T' + $('#start_time').val();
         }
         console.log(gig_max_date);
         console.log(gig_min_value);
@@ -661,18 +667,18 @@
         var gig_min_time = gig_date.substring(10, 16);
         console.log(gig_min_date)
         console.log(gig_min_time)
-        if($('#start_time').val() != '') {
-          gig_min_time = 'T'+$('#start_time').val();
+        if ($('#start_time').val() != '') {
+          gig_min_time = 'T' + $('#start_time').val();
         }
         set_end_time_min(gig_min_date, gig_min_time)
       })
 
       $('#start_time').change(function() {
         var gig_min_date = new Date().toISOString().substring(0, 10)
-        if($('#gig_date').val() != '') {
+        if ($('#gig_date').val() != '') {
           gig_min_date = new Date($('#gig_date').val()).toISOString().substring(0, 10);
         }
-        var gig_min_time = 'T'+$(this).val();
+        var gig_min_time = 'T' + $(this).val();
         set_end_time_min(gig_min_date, gig_min_time)
       })
 
