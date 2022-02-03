@@ -200,18 +200,19 @@ class Gigs extends CI_Controller
 				$this->users_model->insert_user_social_link($temp);
 			}
 			// set session	
-			// $cstm_sess_data = array(
-			// 	'us_login' => TRUE,
-			// 	'us_id' => $res,
-			// 	'us_role_id' => $role->id,
-			// 	'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
-			// 	'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
-			// 	'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
-			// 	'us_email' => $data['email'],
-			// 	'us_role_name' => 'User',
-			// );
+			$cstm_sess_data = array(
+				'us_login' => TRUE,
+				'us_id' => $res,
+				'us_role_id' => $role->id,
+				'us_username' => 'user'.strtotime('now'),
+				'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
+				'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
+				'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
+				'us_email' => $data['email'],
+				'us_role_name' => $role->id,
+			);
 
-			// $this->session->set_userdata($cstm_sess_data);
+			$this->session->set_userdata($cstm_sess_data);
 
 
 			$stripe_id = $data['stripe'];
@@ -547,9 +548,9 @@ class Gigs extends CI_Controller
 					$user = $this->users_model->get_user_by_id($data['user_id']);
 					$this->send_email($user->email, 'Gig Created', 'gig_created');
 					$this->add_tickets($data, $res);
-					if($is_new){
-						redirect('account/verfication_page');
-					}
+					// if($is_new){
+					// 	redirect('account/verfication_page');
+					// }
 					// die();
 					$this->session->set_flashdata('success_msg', 'Gig added successfully');
 					// if ($data['is_draft'] == 2) {
@@ -1677,7 +1678,8 @@ class Gigs extends CI_Controller
 
 	function test()
 	{
-		$send = $this->send_email('hamza0952454@gmail.com', 'Verification Code', 'verification');
-		echo $send;
+		echo $this->general_model->safe_ci_decoder('cUpGWGVN');
+		// $send = $this->send_email('hamza0952454@gmail.com', 'Verification Code', 'verification');
+		// echo $send;
 	}
 }
