@@ -274,7 +274,7 @@
                     } else if (result.dismiss === swal.DismissReason.cancel) {
                         swalInit.fire(
                             'Cancelled',
-                            'Gig is safe :)',
+                            'Gig is safe',
                             'error'
                         );
                     }
