@@ -242,10 +242,44 @@
                 })
             }
 
-            // $('.showModal').on('show.bs.modal', function() {
-            //     console.log(this.dataset.value)
-            //     alert('onShow callback fired.')
-            // });
+
+            var swalInit = swal.mixin({
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-primary',
+                cancelButtonClass: 'btn btn-light'
+            });
+
+            $('#deleteBtn').on('click', function(e) {
+                e.preventDefault();
+                var form = e.target.form
+                console.log(form)
+                swalInit.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false
+                }).then(function(result) {
+                    if (result.value) {
+                        form.submit();
+                        swalInit.fire(
+                            'Deleted!',
+                            'Gig has been deleted.',
+                            'success'
+                        );
+                    } else if (result.dismiss === swal.DismissReason.cancel) {
+                        swalInit.fire(
+                            'Cancelled',
+                            'Gig is safe :)',
+                            'error'
+                        );
+                    }
+                });
+            });
         });
     </script>
 </body>
