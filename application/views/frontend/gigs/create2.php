@@ -88,10 +88,10 @@
       <div class="container step-container">
         <div class="row">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <form role="form" method="post" action="<?php echo user_base_url() ?>gigs/add" id="basic_info_form" enctype="multipart/form-data">
-              <!-- <div class=""> -->
-              <div class="panel panel-primary setup-content" id="step-1">
-                <!-- <form id="form_step_1" enctype="multipart/form-data"> -->
+            <!-- <form role="form" method="post" action="<?php echo user_base_url() ?>gigs/add" id="basic_info_form" enctype="multipart/form-data"> -->
+            <!-- <div class=""> -->
+            <div class="panel panel-primary setup-content" id="step-1">
+              <form id="form_step_1" enctype="multipart/form-data">
                 <div class="step-form-heading">
                   <h6 class="theme-primary-color">Enter Gig Details</h6>
                 </div>
@@ -177,9 +177,6 @@
                         </label>
                         <input id="file-input" type="file" name="poster" class="file-input" accept="image/*" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
                       </div>
-                      <!-- <img class="object-fit-cover" id="img" src="<?php echo user_asset_url(); ?>images/icons/img-demo-bg.png" alt="your image" />
-                        <a><img src="<?php echo user_asset_url(); ?>images/icons/img-plus.png" id="icons_upload"></a>
-                        <input type='file' name="poster" id="poster" hidden="hidden" accept="image/*" onchange="readURL(this);" /> -->
                     </div>
                     <div class="error_poster text-danger"></div>
                   </div>
@@ -203,12 +200,6 @@
                       <span id="address1" class="text-danger" generated="true"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
-                  <!-- <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div> -->
-                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-heading">
-                      <h6>Enter Gig Details</h6>
-                    </div>
-                  </div> -->
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
@@ -282,11 +273,12 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
-                <!-- </form> -->
-              </div>
+              </form>
+            </div>
 
-              <div class="panel panel-primary setup-content" id="step-2">
-                <!-- <form id="form_step_2" enctype="multipart/form-data"> -->
+            <div class="panel panel-primary setup-content" id="step-2">
+              <form id="form_step_2" enctype="multipart/form-data">
+                <input type="hidden" name="gig_id" id="step_2_gig_id" class="gig_id">
                 <!-- <div class="step-form-heading">
                     <h6>Enter Gig Tiers</h6>
                   </div> -->
@@ -354,11 +346,12 @@
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
                   </div>
                 </div>
-                <!-- </form> -->
-              </div>
+              </form>
+            </div>
 
-              <div class="panel panel-primary setup-content" id="step-3">
-                <!-- <form id="form_step_3" enctype="multipart/form-data"> -->
+            <div class="panel panel-primary setup-content" id="step-3">
+              <form id="form_step_3" enctype="multipart/form-data">
+                <input type="hidden" name="gig_id" id="step_3_gig_id" class="gig_id">
                 <div class="step-form-heading">
                   <h6 class="theme-primary-color">Build Your Profile</h6>
                 </div>
@@ -496,73 +489,38 @@
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
                 </div>
-                <!-- </form> -->
-              </div>
+              </form>
+            </div>
 
-              <!-- <div class="panel panel-primary setup-content" id="step-4">
-                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-heading">
-                      <h6 class="theme-primary-color">Test Links</h6>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Select the meeting platform
-                      <select id="meeting_platform" name="meeting_platform" class="select">
-                        <option value="google">Google Meeting</option>
-                        <option value="zoom">Zoom Meeting</option>
-                      </select>
-                    </label>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label>
-                      Enter url
-                      <input type="text" id="meeting_url" name="meeting_url">
-                    </label>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-test">test</button>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
+            <div class="panel panel-primary setup-content" id="step-4">
+              <input type="hidden" name="gig_id" id="step_4_gig_id" class="gig_id">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <h6 class="text-success d-flex justify-content-center mb-4 text-center">You will get streams keys after admin approval.</h6>
                 </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
-                  </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-12"></div>
-                </div>
-              </div> -->
-
-              <div class="panel panel-primary setup-content" id="step-4">
-                <div class="row">
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="text-success d-flex justify-content-center mb-4 text-center">You will get streams keys after admin approval.</h6>
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="step-form-buttons">
-                      <input type="hidden" name="is_draft" id="is_draft">
-                      <?php
-                      if ($this->session->userdata('us_id')) :
-                      ?>
-                        <!-- <button type="submit" class="btn-theme-primary btn" formtarget="_blank" onClick="submit_form(2)">Preview</button> -->
-                        <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
-                      <?php
-                      endif;
-                      ?>
-                      <?php
-                      if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
-                      ?>
-                        <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
-                      <?php
-                      endif;
-                      ?>
-                    </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="step-form-buttons">
+                    <input type="hidden" name="is_draft" id="is_draft">
+                    <?php
+                    if ($this->session->userdata('us_id')) :
+                    ?>
+                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
+                    <?php
+                    endif;
+                    ?>
+                    <?php
+                    if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
+                    ?>
+                      <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
+                    <?php
+                    endif;
+                    ?>
                   </div>
                 </div>
               </div>
-              <!-- </div> -->
-            </form>
+            </div>
+            <!-- </div> -->
+            <!-- </form> -->
           </div>
         </div>
       </div>
@@ -573,7 +531,7 @@
 
   <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
   <?php $this->load->view('frontend/layout/scripts'); ?>
-  <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script>
+  <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
   <script>
@@ -767,13 +725,6 @@
           '</div>');
         i++;
         $(this).attr('data-bundle', i);
-        // $('.file-input').fileinput({
-        //   browseLabel: 'Browse',
-        //   previewFileType: 'image',
-        //   browseIcon: '<i class="icon-image2 mr-2"></i>',
-        //   initialCaption: "No file selected",
-        //   fileActionSettings: fileActionSettings
-        // });
       });
 
       $(document).on('click', '.image_div', function() {
@@ -795,11 +746,6 @@
         div.remove();
       });
     });
-    // $('#start_time').change(function() {
-    //   var time = $(this).val();
-    //   $('#end_time').attr('min', time);
-    //   $('#end_time').attr('max', '23:59');
-    // })
     $('#goal').change(function() {
       var goal = $(this).val();
       var threshold = Math.round(goal * <?php echo $threshold_value->value ?>);
@@ -826,24 +772,6 @@
         $('#gig_address').hide('slow')
       }
     })
-
-    // const videoSrc = document.querySelector("#video-source");
-    // const videoTag = document.querySelector("#video-tag");
-    // const inputTag = document.querySelector("#video");
-    // inputTag.addEventListener('change', readURLvideo)
-
-    // function readURLvideo(event) {
-    //   if (event.target.files && event.target.files[0]) {
-    //     var reader = new FileReader();
-
-    //     reader.onload = function(e) {
-    //       videoSrc.src = e.target.result
-    //       videoTag.load()
-    //     }.bind(this)
-
-    //     reader.readAsDataURL(event.target.files[0]);
-    //   }
-    // }
   </script>
 </body>
 

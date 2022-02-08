@@ -127,10 +127,10 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <a type="button" class="btn btn-info w-100" href="<?php echo admin_base_url().'gigs/change_status/2' ?>">Publish Live</a>
+                                <a type="button" class="btn btn-info w-100" href="<?php echo admin_base_url() . 'gigs/change_status/2' ?>">Publish Live</a>
                             </div>
                             <div class="col-md-2">
-                                <a type="button" class="btn btn-secondary w-100" href="<?php echo admin_base_url().'gigs/change_status/3' ?>">Off Air Concerts</a>
+                                <a type="button" class="btn btn-secondary w-100" href="<?php echo admin_base_url() . 'gigs/change_status/3' ?>">Off Air Concerts</a>
                             </div>
                         </div>
                         <div id="table" class="p-3">
@@ -181,39 +181,71 @@
             $('#sidebar_gig ul').first().css('display', 'block');
             $('#sidebar_gig_view a').addClass('active');
 
-            // reload_datatable()
-
-            // $('#is_featured').change(function() {
-            //     console.log($(this).val());
-            //     console.log($('.datatable-basic'));
-            //     // $('.datatable-basic').draw();
-            // });
-
-            // manageTable = $('.datatable-custom').DataTable({
-            //     // 'bFilter': false,
-            //     // 'searching': true,
-            //     // "sDom":"ltipr"
-            // });
-
             $('#is_featured', this).change(function() {
                 reload_datatable();
             });
-            // $('#category', this).change(function() {
-            //     if (manageTable.column(3).search() !== this.value) {
-            //         manageTable.column(3).search(this.value).draw();
-            //     }
-            // });
-            // $('#genre', this).change(function() {
-            //     if (manageTable.column(4).search() !== this.value) {
-            //         manageTable.column(4).search(this.value).draw();
-            //     }
-            // });
             $('#status', this).change(function() {
                 reload_datatable();
             });
             $('#sort', this).change(function() {
                 reload_datatable();
             });
+
+            var showModal = document.getElementsByClassName('showModal')
+            for (var i = 0; i < showModal.length; i++) {
+                showModal[i].addEventListener('click', function(e) {
+                    openModal(e.currentTarget.dataset.value)
+                })
+            }
+
+            function openModal(gig_id) {
+                console.log(gig_id)
+                $.ajax({
+                    url: base_url + 'gigs/get_gig_history',
+                    data: {
+                        gig_id: gig_id
+                    },
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        var html_text = ''
+                        $('#gigName').html(response.gig.title)
+                        if (response.gig_history.length > 0) {
+                            response.gig_history.map(function(value, index) {
+                                var class_text = '';
+                                if (value.action === 'gig_approved') {
+                                    class_text += 'text-success';
+                                } else if (value.action === 'gig_rejected') {
+                                    class_text += 'text-danger';
+                                } else if (value.action === 'gig_submitted') {
+                                    class_text += 'text-primary';
+                                } else if (value.action === 'gig_created') {
+                                    class_text += 'text-teal';
+                                }
+                                var dateTime = new Date(value.created_on)
+                                let options = {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    hour12: true
+                                };
+                                html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateTime.toLocaleString('en-GB', options) + '</p></h6>'
+                            })
+                        } else {
+                            html_text += '<div>No gig history found!</div>'
+                        }
+                        $('.modal-body').empty().html(html_text)
+                        $('#showModal').modal('show');
+                    }
+                })
+            }
+
+            // $('.showModal').on('show.bs.modal', function() {
+            //     console.log(this.dataset.value)
+            //     alert('onShow callback fired.')
+            // });
         });
     </script>
 </body>

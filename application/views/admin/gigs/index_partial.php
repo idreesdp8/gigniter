@@ -60,8 +60,7 @@
                     <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                     <td>
                         <div class="d-flex">
-                            <!-- <button type="button" data-toggle="modal" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php //echo $record->id 
-                                                                                                                                                        ?>><i class="icon-search4"></i></button> -->
+                            <button type="button" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><span data-popup="tooltip" data-original-title="See gig history"><i class="icon-list"></i></span></button>
                             <a href="<?php echo admin_base_url() ?>bookings?gig_id=<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Bookings" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-cart5"></i></a>
                             <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
                             <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
@@ -87,3 +86,23 @@
 <?php } else { ?>
     <div style="padding: 10px; text-align: center; color: #333;">No record found</div>
 <?php } ?>
+
+<div id="showModal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Gig History
+                    <small class="d-block text-muted" id="gigName"></small>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

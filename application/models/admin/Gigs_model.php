@@ -465,4 +465,17 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get('gigs');
 		return $query->result();
 	}
+
+	function get_gig_history($gig_id)
+	{
+		$this->db->where('gig_id', $gig_id);
+		$query = $this->db->get('gig_history');
+		return $query->result();
+	}
+
+	function insert_gig_history($data)
+	{
+		$ress = $this->db->insert('gig_history', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
 }

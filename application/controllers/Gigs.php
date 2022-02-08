@@ -204,7 +204,7 @@ class Gigs extends CI_Controller
 				'us_login' => TRUE,
 				'us_id' => $res,
 				'us_role_id' => $role->id,
-				'us_username' => 'user'.strtotime('now'),
+				'us_username' => 'user' . strtotime('now'),
 				'us_fname' => ($data['fname'] ? ucfirst($data['fname']) : ''),
 				'us_lname' => ($data['lname'] ? ucfirst($data['lname']) : ''),
 				'us_fullname' => ($data['fname'] ? ucfirst($data['fname']) : '') . ' ' . ($data['lname'] ? ucfirst($data['lname']) : ''),
@@ -382,13 +382,13 @@ class Gigs extends CI_Controller
 
 	public function add()
 	{
-		if($this->dbs_user_id) {
+		if ($this->dbs_user_id) {
 			$user = $this->users_model->get_user_by_id($this->dbs_user_id);
-			if(!$user->status) {
+			if (!$user->status) {
 				redirect('account/verify_account');
 			}
 		}
-		$is_new = 0;
+		$is_new_user = 0;
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
@@ -397,10 +397,10 @@ class Gigs extends CI_Controller
 			// 	'gig_files' => $files
 			// ];
 			// $this->session->set_userdata($session_data);
-			if ($data['is_draft'] == 2) {
-				$this->preview($data, $files);
-				die();
-			}
+			// if ($data['is_draft'] == 2) {
+			// 	$this->preview($data, $files);
+			// 	die();
+			// }
 			// echo json_encode($data);
 			// echo date('Y-m-d H:i:s', strtotime($data['end_time']));
 			// echo json_encode($files);
@@ -446,8 +446,8 @@ class Gigs extends CI_Controller
 					$this->update_user_data($data, $user_image, $this->dbs_user_id);
 					$data['user_id'] = $this->dbs_user_id;
 				} else {
-					$is_new = 1;
-					// echo $is_new;
+					$is_new_user = 1;
+					// echo $is_new_user;
 					// die();
 					$data['user_id'] = $this->create_user($data, $user_image);
 				}
@@ -487,7 +487,7 @@ class Gigs extends CI_Controller
 					}
 				}
 				$prf_vid_error = '';
-				$alw_typs = array('video/mp4', 'video/mkv');
+				$alw_typs = array('video/mp4');
 				// $imagename = (isset($_POST['old_image']) && $_POST['old_image'] != '') ? $_POST['old_image'] : '';
 				$videoname = '';
 				// echo 'gg';
@@ -548,7 +548,7 @@ class Gigs extends CI_Controller
 					$user = $this->users_model->get_user_by_id($data['user_id']);
 					$this->send_email($user->email, 'Gig Created', 'gig_created');
 					$this->add_tickets($data, $res);
-					// if($is_new){
+					// if($is_new_user){
 					// 	redirect('account/verfication_page');
 					// }
 					// die();
@@ -603,7 +603,16 @@ class Gigs extends CI_Controller
 			}
 			// echo json_encode($data);
 			// die();
-			$this->load->view('frontend/gigs/create', $data);
+
+			if ($this->dbs_user_id) {
+				$user = $this->users_model->get_user_by_id($this->dbs_user_id);
+				if ($user->status) {
+					$this->load->view('frontend/gigs/create2', $data);
+					// die();
+				} else {
+					$this->load->view('frontend/gigs/create', $data);
+				}
+			}
 			// } else {
 			// 	$uri = uri_string();
 			// 	$this->session->set_userdata('redirect', $uri);
@@ -706,7 +715,7 @@ class Gigs extends CI_Controller
 			}
 		}
 		$res = $this->users_model->update_user_data($user_id, $datas);
-		if (isset($res)) {
+		if ($res) {
 			$created_on = date('Y-m-d H:i:s');
 			$this->remove_social_links($user_id);
 			foreach ($social_links as $key => $value) {
@@ -734,7 +743,9 @@ class Gigs extends CI_Controller
 					$this->users_model->insert_user_stripe_details($temp);
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 
 	function remove_social_links($id)
@@ -759,7 +770,7 @@ class Gigs extends CI_Controller
 				$res = false;
 				if ($data['ticket_name'][$i] != '') {
 					$tier = [
-						'user_id' => $data['user_id'],
+						'user_id' => $data['user_id'] ?? $this->dbs_user_id,
 						'gig_id' => $gig_id,
 						'name' => $data['ticket_name'][$i],
 						'price' => $data['ticket_price'][$i],
@@ -776,7 +787,9 @@ class Gigs extends CI_Controller
 					// die();
 				}
 			}
+			return true;
 		}
+		return false;
 	}
 
 	function add_ticket_bundles($data, $res, $tier)
@@ -907,7 +920,7 @@ class Gigs extends CI_Controller
 							}
 						}
 						$prf_vid_error = '';
-						$alw_typs = array('video/mp4', 'video/mkv');
+						$alw_typs = array('video/mp4');
 						// $videoname = '';
 						if (isset($_FILES['video']['tmp_name']) && $_FILES['video']['tmp_name'] != '') {
 							// echo json_encode($_FILES['poster']);
@@ -970,6 +983,7 @@ class Gigs extends CI_Controller
 					$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
 					$data['status'] = $this->configurations_model->get_all_configurations_by_key('gig-status');
 					$data['threshold_value'] = $this->configurations_model->get_configuration_by_key('threshold-value');
+					$data['buffer_days'] = $this->configurations_model->get_all_configurations_by_key('buffer-days')[0]->value;
 					$data['google_api_key'] = $this->configurations_model->get_configuration_by_key('google-adress-api-key');
 					$data['countries'] = $this->countries_model->get_all_countries();
 					// $data['user'] = $this->users_model->get_user_by_id($gig->user_id);
@@ -1481,7 +1495,14 @@ class Gigs extends CI_Controller
 			'rejection_reason' => null
 		];
 		$res = $this->gigs_model->update_gig_data($id, $data);
-		if($res) {
+
+		$gig_history = [
+			'gig_id' => $id,
+			'action' => 'gig_submitted',
+			'text' => 'Gig resumbitted for approval'
+		];
+		$this->gigs_model->insert_gig_history($gig_history);
+		if ($res) {
 			$this->session->set_flashdata('success_msg', 'Gig is submitted for approval.');
 		} else {
 			$this->session->set_flashdata('warning_msg', 'Error: Gig could not be submitted for approval.');
@@ -1634,12 +1655,19 @@ class Gigs extends CI_Controller
 				'is_draft' => 0,
 			];
 			$res = $this->gigs_model->update_gig_data($id, $param);
+
+			$gig_history = [
+				'gig_id' => $id,
+				'action' => 'gig_submitted',
+				'text' => 'Gig sumbitted for approval'
+			];
+			$this->gigs_model->insert_gig_history($gig_history);
 		} else {
 			$res = false;
 		}
 		echo $res;
 	}
-	
+
 	function send_email($to_email, $subject, $email_for)
 	{
 		$this->load->library('email');
@@ -1676,10 +1704,207 @@ class Gigs extends CI_Controller
 		}
 	}
 
+	function save_gig_data_step_one()
+	{
+		// echo json_encode($_FILES);
+		// echo json_encode($_POST);
+		// die();
+
+		$data = $_POST;
+
+		//upload image
+		$imagename = '';
+		if (isset($_FILES['poster']['tmp_name']) && $_FILES['poster']['tmp_name'] != '') {
+			$image_path = poster_relative_path();
+			$thumbnail_path = poster_thumbnail_relative_path();
+			$imagename = time() . $this->general_model->fileExists($_FILES['poster']['name'], $image_path);
+			$target_file = $image_path . $imagename;
+			@move_uploaded_file($_FILES["poster"]["tmp_name"], $target_file);
+			$width = 360;
+			$height = 354;
+			$thumbnail = $this->general_model->_resize_and_crop($imagename, $image_path, $thumbnail_path, $width, $height);
+			if ($thumbnail == '1') {
+				$thumbnail_file = $thumbnail_path . $imagename;
+			}
+			@move_uploaded_file($_FILES["poster"]["tmp_name"], $thumbnail_file);
+		}
+		//upload video
+		$videoname = '';
+		if (isset($_FILES['video']['tmp_name']) && $_FILES['video']['tmp_name'] != '') {
+			$video_path = video_relative_path();
+			$videoname = time() . $this->general_model->fileExists($_FILES['video']['name'], $video_path);
+			$target_file = $video_path . $videoname;
+			@move_uploaded_file($_FILES["video"]["tmp_name"], $target_file);
+		}
+
+		$created_on = date('Y-m-d H:i:s');
+		$status = 0;
+		$datas = array(
+			'user_id' => $this->dbs_user_id,
+			'title' => $data['title'] ?? null,
+			'subtitle' => $data['subtitle'] ?? null,
+			'category' => $data['category'] ?? null,
+			'genre' => $data['genre'] ?? null,
+			'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
+			'address' => $data['address'] ?? null,
+			'poster' => $imagename,
+			'video' => $videoname,
+			'ticket_limit' => $data['goal'] ?? null,
+			'threshold' => $data['threshold'] ?? null,
+			'is_overshoot' => $data['is_overshoot'] ?? 0,
+			'campaign_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['campaign_date'])) : null,
+			'gig_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['gig_date'])) : null,
+			'start_time' => date('H:i:s', strtotime($data['start_time'])),
+			'end_time' => date('Y-m-d H:i:s', strtotime($data['end_time'])),
+			'status' => $status,
+			'is_draft' => 1,
+			'is_complete' => 0,
+			'created_on' => $created_on,
+		);
+		$res = $this->gigs_model->insert_gig_data($datas);
+
+		if ($res) {
+			$gig_history = [
+				'gig_id' => $res,
+				'action' => 'gig_created',
+				'text' => 'Step 1 done'
+			];
+			$this->gigs_model->insert_gig_history($gig_history);
+			$response = [
+				'status' => 1,
+				'gig_id' => $res,
+				'message' => 'Step 1 done'
+			];
+		} else {
+			$response = [
+				'status' => 0,
+				'message' => 'Error! Something went wrong.'
+			];
+		}
+		echo json_encode($response);
+	}
+	function save_gig_data_step_two()
+	{
+		// echo json_encode($_POST);
+
+		$res = $this->add_tickets($_POST, $_POST['gig_id']);
+		// $res = $this->gigs_model->insert_gig_data($datas);
+
+		if ($res) {
+			$gig_history = [
+				'gig_id' => $_POST['gig_id'],
+				'action' => 'gig_created',
+				'text' => 'Step 2 done'
+			];
+			$this->gigs_model->insert_gig_history($gig_history);
+			$response = [
+				'status' => 1,
+				'gig_id' => $_POST['gig_id'],
+				'message' => 'Step 2 done'
+			];
+		} else {
+			$response = [
+				'status' => 0,
+				'message' => 'Error! Something went wrong.'
+			];
+		}
+		echo json_encode($response);
+	}
+	function save_gig_data_step_three()
+	{
+		// echo json_encode($_POST);
+		// echo json_encode($_FILES);
+		// die();
+		$user_image = [];
+		if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
+			$user_image = $_FILES['image'];
+		}
+		$res = $this->update_user_data($_POST, $user_image, $this->dbs_user_id);
+
+		if ($res) {
+			$gig_history = [
+				'gig_id' => $_POST['gig_id'],
+				'action' => 'gig_created',
+				'text' => 'Step 3 done'
+			];
+			$this->gigs_model->insert_gig_history($gig_history);
+			$response = [
+				'status' => 1,
+				'gig_id' => $_POST['gig_id'],
+				'message' => 'Step 3 done'
+			];
+		} else {
+			$response = [
+				'status' => 0,
+				'message' => 'Error! Something went wrong.'
+			];
+		}
+		echo json_encode($response);
+	}
+	function save_gig_data_step_final()
+	{
+		// echo json_encode($_POST);
+		// // echo json_encode($_FILES);
+		// die();
+		$data = [
+			'is_draft' => $_POST['is_draft'],
+			'is_complete' => 1
+		];
+		$res = $this->gigs_model->update_gig_data($_POST['gig_id'], $data);
+
+		if ($res) {
+			$text = $_POST['is_draft'] ? 'Gig saved as draft' : 'Gig sumbitted for approval';
+			$gig_history = [
+				'gig_id' => $_POST['gig_id'],
+				'action' => 'gig_submitted',
+				'text' => $text
+			];
+			$this->gigs_model->insert_gig_history($gig_history);
+			$response = [
+				'status' => 1,
+				'return_url' => 'gigs/detail?gig=' . $_POST['gig_id'],
+			];
+		} else {
+			$response = [
+				'status' => 0,
+				'message' => 'Error! Something went wrong.'
+			];
+		}
+		echo json_encode($response);
+	}
+
+	function get_gig_history()
+	{
+		$gig_id = $this->input->post('gig_id');
+		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		$data['gig_history'] = $this->gigs_model->get_gig_history($gig_id);
+		echo json_encode($data);
+	}
+
+	function check_user_incomplete_gigs()
+	{
+		$incomplete_gig_count = $this->gigs_model->get_count_incomplete_gigs($this->dbs_user_id);
+		if ($incomplete_gig_count > 0) {
+			$response = [
+				'status' => 1,
+				'count' => $incomplete_gig_count,
+				'redirect_url' => '/my_gigs'
+			];
+		} else {
+			$response = [
+				'status' => 0,
+				'redirect_url' => '/gigs/add'
+			];
+		}
+		echo json_encode($response);
+	}
+
 	function test()
 	{
-		echo $this->general_model->safe_ci_decoder('cUpGWGVN');
+		// echo $this->general_model->safe_ci_decoder('cUpGWGVN');
 		// $send = $this->send_email('hamza0952454@gmail.com', 'Verification Code', 'verification');
 		// echo $send;
+		$res = $this->gigs_model->test_query();
+		echo json_encode($res);
 	}
 }

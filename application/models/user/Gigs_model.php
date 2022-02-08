@@ -165,21 +165,21 @@ class Gigs_model extends CI_Model
 
 	function get_featured_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 AND is_featured = 1";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) < NOW() AND status = 1 AND is_approved = 1 AND is_featured = 1";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_featured_and_exclusive_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 AND (is_featured = 1 OR is_exclusive = 1)";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) < NOW() AND status = 1 AND is_approved = 1 AND (is_featured = 1 OR is_exclusive = 1)";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_just_in_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 ORDER BY created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) < NOW() AND status = 1 AND is_approved = 1 ORDER BY created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -227,14 +227,14 @@ class Gigs_model extends CI_Model
 
 	function get_closing_soon_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) < NOW() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_popular_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1 ORDER BY popularity DESC, created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) < NOW() AND status = 1 AND is_approved = 1 ORDER BY popularity DESC, created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -290,6 +290,19 @@ class Gigs_model extends CI_Model
 	function insert_gig_data($data)
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
+	function get_gig_history($gig_id)
+	{
+		$this->db->where('gig_id', $gig_id);
+		$query = $this->db->get('gig_history');
+		return $query->result();
+	}
+
+	function insert_gig_history($data)
+	{
+		$ress = $this->db->insert('gig_history', $data) ? $this->db->insert_id() : false;
 		return $ress;
 	}
 
@@ -578,4 +591,15 @@ class Gigs_model extends CI_Model
 		return $this->db->update('tickets', $datas);
 	}
 	
+	function test_query() {
+		$query = $this->db->query("SELECT NOW()");
+		return $query->result(); 
+
+	}
+
+	function get_count_incomplete_gigs($user_id)
+	{
+		$query = $this->db->get_where('gigs', array('is_complete' => 0, 'user_id' => $user_id));
+		return $query->num_rows();
+	}
 }

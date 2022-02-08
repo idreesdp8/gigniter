@@ -61,7 +61,7 @@ class Account extends CI_Controller
 				$password = $this->general_model->safe_ci_encoder($password);
 				$result = $this->users_model->get_user($email, $password);
 				if (isset($result)) {
-					if ($result->status == 1) {
+					// if ($result->status == 1) {
 						$role = $this->roles_model->get_role_by_id($result->role_id);
 						// set session	
 						$cstm_sess_data = array(
@@ -88,10 +88,10 @@ class Account extends CI_Controller
 							}
 						}
 						// redirect("dashboard");
-					} else {
-						$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
-						$this->load->view('frontend/account/signin');
-					}
+					// } else {
+					// 	$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
+					// 	$this->load->view('frontend/account/signin');
+					// }
 				} else {
 					$this->session->set_flashdata('error_msg', 'Email or Password is incorrect!');
 					redirect('signin');

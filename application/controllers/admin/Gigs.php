@@ -342,6 +342,14 @@ class Gigs extends CI_Controller
 			'status' => 1
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
+		//insert gig history
+		$gig_history = [
+			'gig_id' => $gig_id,
+			'action' => 'gig_approved',
+			'text' => 'Gig approved'
+		];
+		$this->gigs_model->insert_gig_history($gig_history);
+
 		$this->session->set_flashdata('success_msg', 'Gig is accepted');
 
 		$gig = $this->gigs_model->get_gig_by_id($gig_id);
@@ -372,9 +380,17 @@ class Gigs extends CI_Controller
 			'status' => 0,
 			'rejection_reason' => $rejection_reason
 		];
-		log_message('info', json_encode($data));
-		$this->send_email($user->email, 'Gig Rejected', $rejection_reason);
+
 		$this->gigs_model->update_gig_data($gig_id, $data);
+		//insert gig history
+		$gig_history = [
+			'gig_id' => $gig_id,
+			'action' => 'gig_rejected',
+			'text' => 'Gig rejected: ' . $rejection_reason
+		];
+		$this->gigs_model->insert_gig_history($gig_history);
+
+		$this->send_email($user->email, 'Gig Rejected', $rejection_reason);
 		$this->session->set_flashdata('deleted_msg', 'Gig is rejected');
 		echo json_encode([
 			'status' => true,
@@ -938,5 +954,13 @@ class Gigs extends CI_Controller
 		} else {
 			return false;
 		}
+	}
+
+	function get_gig_history()
+	{
+		$gig_id = $this->input->post('gig_id');
+		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		$data['gig_history'] = $this->gigs_model->get_gig_history($gig_id);
+		echo json_encode($data);
 	}
 }

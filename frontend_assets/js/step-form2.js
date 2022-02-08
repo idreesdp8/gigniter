@@ -17,12 +17,12 @@ navListItems.click(function (e) {
     var $target = $($(this).attr('href')),
         $item = $(this);
 
-    // if (!$item.hasClass('disabled2')) {
-    navListItems.removeClass('btn-success-circle').addClass('btn-default');
-    $item.addClass('btn-success-circle');
-    steps.hide();
-    $target.fadeIn();
-    // }
+    if (!$item.hasClass('disabled')) {
+        navListItems.removeClass('btn-success-circle').addClass('btn-default');
+        $item.addClass('btn-success-circle');
+        steps.hide();
+        $target.fadeIn();
+    }
 });
 
 function runValidationOn(formStep) {
@@ -130,7 +130,6 @@ function runValidationOn(formStep) {
                 errorElems.splice(indexError, 1);
             }
         }
-
     }
     if (formStep == 'step-2') {
         var inputs = document.querySelectorAll('input[name^="ticket_quantity"]')
@@ -144,9 +143,7 @@ function runValidationOn(formStep) {
         // console.log(ticketTierQty)
         if (ticketTierQty != goal) {
             $('input[name^="ticket_quantity"]').removeClass("good").addClass("error");
-            if (!errorElems.includes('input[name^="ticket_quantity"]')) {
-                errorElems.push('input[name^="ticket_quantity"]');
-            }
+            errorElems.push('input[name^="ticket_quantity"]');
         } else {
             $('input[name^="ticket_quantity"]').removeClass("error").addClass("good");
             indexError = errorElems.indexOf('input[name^="ticket_quantity"]');
@@ -210,12 +207,71 @@ function runValidationOn(formStep) {
         }
         $(errorElems[0]).focus();
     } else {
-        var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
-        // console.log(nextStepWizard);
-        nextStepWizard/* .removeClass('disabled2') */.trigger('click');
-        $(window).scrollTop('0');
         validForm = true;
+        // var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
+        // // console.log(nextStepWizard);
+        // nextStepWizard.removeClass('disabled').trigger('click');
+        // $(window).scrollTop('0');
+        if (formStep == 'step-1') {
+            var form = new FormData($('#form_step_1')[0])
+            saveGigData(form, formStep)
+        }
+        if (formStep == 'step-2') {
+            var form = new FormData($('#form_step_2')[0])
+            saveGigData(form, formStep)
+        }
+        if (formStep == 'step-3') {
+            var form = new FormData($('#form_step_3')[0])
+            saveGigData(form, formStep)
+        }
     }
+}
+function saveGigData(form, step) {
+    if (step === 'step-1') {
+        var url = base_url + '/gigs/save_gig_data_step_one'
+    }
+    if (step === 'step-2') {
+        var url = base_url + '/gigs/save_gig_data_step_two'
+    }
+    if (step === 'step-3') {
+        var url = base_url + '/gigs/save_gig_data_step_three'
+    }
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: form,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            // alert(res.message)
+            swal({
+                position: 'top-end',
+                toast: true,
+                icon: res.status === 1 ? 'success' : 'danger',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+            if (res.status === 1) {
+                if (step === 'step-1') {
+                    var gigIdElem = document.getElementById('step_2_gig_id')
+                }
+                if (step === 'step-2') {
+                    var gigIdElem = document.getElementById('step_3_gig_id')
+                }
+                if (step === 'step-3') {
+                    var gigIdElem = document.getElementById('step_4_gig_id')
+                }
+                var nextStepWizard = $('div.setup-panel div a[href="#' + step + '"]').parent().next().children("a");
+                console.log(nextStepWizard);
+                nextStepWizard.removeClass('disabled').trigger('click');
+                $(window).scrollTop('0');
+                gigIdElem.value = res.gig_id
+            }
+        }
+    });
 }
 $(document).ready(function () {
     steps.not('#step-1').hide(); //hide all tabs except first one
@@ -226,27 +282,26 @@ $(document).ready(function () {
         runValidationOn(formStep);
     })
     $('.step-form-buttons > button').click(function (e) {
-        if (!validForm) {
-            e.preventDefault();
-            var error = '';
-            $('.setup-content').each(function () {
-                runValidationOn($(this).attr('id'));
-            })
-            console.log(errorElems)
-            $.each(errorElems, function (index, value) {
-
-                // console.log(value)
-                value = value.slice(1, value.length)
-                error += value + ', ';
-            })
-            alert('Complete these fields\n' + error)
-        } else {
-            if ($('#is_draft').val() == '2') {
-                e.preventDefault();
+        // $('#basic_info_form').submit();
+        //complete gig
+        $.ajax({
+            url: base_url + '/gigs/save_gig_data_step_final',
+            type: 'POST',
+            data: {
+                gig_id: $('#step_4_gig_id').val(),
+                is_draft: $('#is_draft').val()
+            },
+            dataType: 'json',
+            success: function (res) {
+                if (res.status === 1) {
+                    window.location.href = '/' + res.return_url
+                } else {
+                    alert(res.message)
+                }
             }
-            $('#basic_info_form').submit();
-        }
+        });
     })
+
     //When fields are changed, validation will be checked
     $("#title").focusout(function () {
         checkTitle();
@@ -482,9 +537,6 @@ function checkEndTime() {
     }
 }
 function checkPoster() {
-    if ($('.old_poster').val() != '') {
-        return true;
-    }
     var elem = document.getElementById('file-input');
     var file = $(elem)[0].files[0];
     var imageDiv = $('#div_image')

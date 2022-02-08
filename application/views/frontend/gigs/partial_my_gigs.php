@@ -17,7 +17,7 @@
                             <?php elseif ($gig->is_approved == 0 && $gig->is_rejected == 0 && $gig->is_draft == 0) : ?>
                                 <span class="badge badge-danger exclusive-badge">Waiting for Approval</span>
                             <?php elseif ($gig->is_rejected == 1 && $gig->is_approved == 0 && $gig->is_draft == 0) : ?>
-                                <span class="badge badge-danger exclusive-badge text-danger border-danger text-left">Rejected:<br><?php echo $gig->rejection_reason ?></span>
+                                <span class="badge badge-danger exclusive-badge text-danger border-danger text-left">Rejected</span>
                             <?php endif; ?>
                         </a>
                     </div>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <?php
-                        if ((!$prev_completed || $prev_completed) && !$gig->is_approved && !$gig->is_rejected && $gig->status == 0 && $gig->is_draft) :
+                        if ((!$prev_completed || $prev_completed) && !$gig->is_approved && !$gig->is_rejected && $gig->status == 0 && $gig->is_draft && $gig->is_complete) :
                         ?>
                             <button type="button" class="btn btn-warning btn-view mb-4" onclick="approval_submit(<?php echo $gig->id ?>)">Submit for Approval</button>
                         <?php
@@ -71,8 +71,8 @@
                             <?php
                             endif;
                             ?>
-                            <form class="datas_form" method="post" action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
-                                <button type="submit" class="btn btn-warning btn-watch mb-4 delete_btn" onclick="delete_gig()">Delete</button>
+                            <form class="datas_form mb-3" method="post" action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
+                                <button type="submit" class="btn btn-warning btn-watch delete_btn" onclick="delete_gig()">Delete</button>
                             </form>
                         <?php
                         endif;
@@ -83,6 +83,8 @@
                         <?php
                         endif;
                         ?>
+                        <button type="button" data-target="#showModal" class="btn btn-warning btn-view mb-4 showModal" data-value=<?php echo $gig->id ?>>gig history</button>
+                        <!-- <button type="button" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><span data-popup="tooltip" data-original-title="See gig history"><i class="icon-list"></i></span></button> -->
                     </div>
                 </div>
             </div>
@@ -96,6 +98,27 @@
     <?php
     endif;
     ?>
+</div>
+
+
+<div id="showModal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Gig History
+                    <small class="d-block text-muted" id="gigName"></small>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <div class="modal-body">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -142,5 +165,56 @@
                 });
             }
         });
+    }
+
+    var showModal = document.getElementsByClassName('showModal')
+    for (var i = 0; i < showModal.length; i++) {
+        showModal[i].addEventListener('click', function(e) {
+            openModal(e.currentTarget.dataset.value)
+        })
+    }
+
+    function openModal(gig_id) {
+        console.log(gig_id)
+        $.ajax({
+            url: base_url + 'gigs/get_gig_history',
+            data: {
+                gig_id: gig_id
+            },
+            method: 'POST',
+            dataType: 'json',
+            success: function(response) {
+                var html_text = ''
+                $('#gigName').html(response.gig.title)
+                if (response.gig_history.length > 0) {
+                    response.gig_history.map(function(value, index) {
+                        var class_text = '';
+                        if (value.action === 'gig_approved') {
+                            class_text += 'text-success';
+                        } else if (value.action === 'gig_rejected') {
+                            class_text += 'text-danger';
+                        } else if (value.action === 'gig_submitted') {
+                            class_text += 'text-primary';
+                        } else if (value.action === 'gig_created') {
+                            class_text += 'text-teal';
+                        }
+                        var dateTime = new Date(value.created_on)
+                        let options = {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            hour12: true
+                        };
+                        html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateTime.toLocaleString('en-GB', options) + '</p></h6>'
+                    })
+                } else {
+                    html_text += '<div>No gig history found!</div>'
+                }
+                $('.modal-body').empty().html(html_text)
+                $('#showModal').modal('show');
+            }
+        })
     }
 </script>
