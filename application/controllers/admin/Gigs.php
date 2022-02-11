@@ -800,6 +800,31 @@ class Gigs extends CI_Controller
 						// $this->load->view('admin/users/add', $data);
 					}
 				}
+				$prf_vid_error = '';
+				$alw_typs = array('video/mp4');
+				// $videoname = '';
+				if (isset($_FILES['video']['tmp_name']) && $_FILES['video']['tmp_name'] != '') {
+					// echo json_encode($_FILES['poster']);
+					if (!(in_array($_FILES['video']['type'], $alw_typs))) {
+						$tmp_vid_type = "'" . ($_FILES['video']['type']) . "'";
+						$prf_vid_error .= "Video type: $tmp_vid_type not allowed!<br>";
+						echo $prf_vid_error;
+					}
+
+					if ($prf_vid_error == '') {
+						@unlink("downloads/videos/$gig->video");
+						$video_path = video_relative_path();
+						$videoname = time() . $this->general_model->fileExists($_FILES['video']['name'], $video_path);
+						$target_file = $video_path . $videoname;
+						@move_uploaded_file($_FILES["video"]["tmp_name"], $target_file);
+						$datas['video'] = $videoname;
+					}
+					if (strlen($prf_vid_error) > 0) {
+						$this->session->set_flashdata('prof_vid_error', $prf_vid_error);
+						redirect('gigs/add');
+						// $this->load->view('admin/users/add', $data);
+					}
+				}
 				// echo json_encode($datas);
 				// die();
 				$user_id = $gig->user_id;

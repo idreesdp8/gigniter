@@ -28,11 +28,18 @@ var FileUpload = function() {
         // Define variables
         //
         var image = $('.old_image').val();
-        var label = '';
-        if(image) {
-            label = 'Change';
+        var imgLabel = '';
+        if(image && image.length > 0) {
+            imgLabel = 'Change';
         } else {
-            label = 'Upload';
+            imgLabel = 'Upload';
+        }
+        var video = $('.old_video').val();
+        var vidLabel = '';
+        if(video && video.length > 0) {
+            vidLabel = 'Change';
+        } else {
+            vidLabel = 'Upload';
         }
 
 
@@ -111,27 +118,29 @@ var FileUpload = function() {
         //
 
         $('.file-input-preview').fileinput({
-            browseLabel: label,
+            browseLabel: imgLabel,
             browseIcon: '<i class="icon-file-plus mr-2"></i>',
-            // uploadIcon: '<i class="icon-file-upload2 mr-2"></i>',
-            // removeIcon: '<i class="icon-cross2 font-size-base mr-2"></i>',
-            // layoutTemplates: {
-            //     icon: '<i class="icon-file-check"></i>',
-            //     modal: modalTemplate
-            // },
             initialPreview: [
                 image,
             ],
-            // initialPreviewConfig: [
-            //     {caption: 'Jane.jpg', size: 930321, key: 1, url: '{$url}', showDrag: false},
-            // ],
+            initialPreviewFileType: 'image',
             initialPreviewAsData: true,
             overwriteInitial: true,
-            // maxFileSize: 100,
-            // previewZoomButtonClasses: previewZoomButtonClasses,
-            // previewZoomButtonIcons: previewZoomButtonIcons,
             fileActionSettings: fileActionSettings
         });
+        $('.file-input-preview2').fileinput({
+            browseLabel: vidLabel,
+            browseIcon: '<i class="icon-file-plus mr-2"></i>',
+            initialPreview: [
+                video,
+            ],
+            initialPreviewFileType: 'video',
+            initialPreviewAsData: true,
+            overwriteInitial: true,
+            fileActionSettings: fileActionSettings
+        });
+        $('.file-preview-video source').attr('type', 'video/mp4')
+
 
         //
         // Custom layout

@@ -275,14 +275,29 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Poster</label>
-                                                <input type="hidden" name="old_poster" class="old_image" value="<?php echo poster_url() . $gig->poster ?>">
+                                                <input type="hidden" name="old_poster" class="old_image" value="<?php echo isset($gig->poster) && strlen($gig->poster > 0) ? poster_url() . $gig->poster : '' ?>">
                                                 <input type="file" name="poster" class="file-input-preview" accept="image/*" data-browse-class="btn btn-primary" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#poster1">
                                                 <!-- <input type="file" name="image"> -->
                                                 <span id="poster1" class="text-danger" generated="true">
                                                     <?php
-                                                    echo form_error('image');
-                                                    if (isset($_SESSION['prof_img_error'])) {
-                                                        echo $_SESSION['prof_img_error'];
+                                                    echo form_error('poster');
+                                                    if (isset($_SESSION['prof_poster_error'])) {
+                                                        echo $_SESSION['prof_poster_error'];
+                                                    } ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Pitch Video</label>
+                                                <input type="hidden" name="old_video" class="old_video" value="<?php echo isset($gig->video) && strlen($gig->video > 0) ? video_url() . $gig->video : '' ?>">
+                                                <input type="file" name="video" class="file-input-preview2" accept="video/*" data-browse-class="btn btn-primary" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc data-error="#video1">
+                                                <!-- <input type="file" name="image"> -->
+                                                <span id="video1" class="text-danger" generated="true">
+                                                    <?php
+                                                    echo form_error('video');
+                                                    if (isset($_SESSION['prof_vid_error'])) {
+                                                        echo $_SESSION['prof_vid_error'];
                                                     } ?>
                                                 </span>
                                             </div>
@@ -680,66 +695,66 @@
         </div>
     </div>
 
-    <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key->value ?>&libraries=places&callback=initAutocomplete"></script>
+    <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key->value ?>&libraries=places&callback=initAutocomplete"></script> -->
     <script>
-        let autocomplete;
-        let address1Field;
+        // let autocomplete;
+        // let address1Field;
 
-        function initAutocomplete() {
-            address1Field = document.querySelector("#address");
-            autocomplete = new google.maps.places.Autocomplete(address1Field/* , {
-                fields: ["address_components", "geometry"],
-                types: ["address"],
-            } */);
-            autocomplete.addListener("place_changed", fillInAddress);
-        }
+        // function initAutocomplete() {
+        //     address1Field = document.querySelector("#address");
+        //     autocomplete = new google.maps.places.Autocomplete(address1Field/* , {
+        //         fields: ["address_components", "geometry"],
+        //         types: ["address"],
+        //     } */);
+        //     autocomplete.addListener("place_changed", fillInAddress);
+        // }
 
-        function fillInAddress() {
-            // Get the place details from the autocomplete object.
-            const place = autocomplete.getPlace();
-            console.log(place)
+        // function fillInAddress() {
+        //     // Get the place details from the autocomplete object.
+        //     const place = autocomplete.getPlace();
+        //     console.log(place)
 
-            // Get each component of the address from the place details,
-            // and then fill-in the corresponding field on the form.
-            // place.address_components are google.maps.GeocoderAddressComponent objects
-            // which are documented at http://goo.gle/3l5i5Mr
+        //     // Get each component of the address from the place details,
+        //     // and then fill-in the corresponding field on the form.
+        //     // place.address_components are google.maps.GeocoderAddressComponent objects
+        //     // which are documented at http://goo.gle/3l5i5Mr
 
-            // for (const component of place.address_components) {
-            //     const componentType = component.types[0];
+        //     // for (const component of place.address_components) {
+        //     //     const componentType = component.types[0];
 
-            //     switch (componentType) {
-            //         case "street_number": {
-            //             address1 = `${component.long_name} ${address1}`;
-            //             break;
-            //         }
+        //     //     switch (componentType) {
+        //     //         case "street_number": {
+        //     //             address1 = `${component.long_name} ${address1}`;
+        //     //             break;
+        //     //         }
 
-            //         case "route": {
-            //             address1 += component.short_name;
-            //             break;
-            //         }
+        //     //         case "route": {
+        //     //             address1 += component.short_name;
+        //     //             break;
+        //     //         }
 
-            //         case "postal_code": {
-            //             postcode = `${component.long_name}${postcode}`;
-            //             break;
-            //         }
+        //     //         case "postal_code": {
+        //     //             postcode = `${component.long_name}${postcode}`;
+        //     //             break;
+        //     //         }
 
-            //         case "postal_code_suffix": {
-            //             postcode = `${postcode}-${component.long_name}`;
-            //             break;
-            //         }
-            //         case "locality":
-            //             document.querySelector("#locality").value = component.long_name;
-            //             break;
-            //         case "administrative_area_level_1": {
-            //             document.querySelector("#state").value = component.short_name;
-            //             break;
-            //         }
-            //         case "country":
-            //             document.querySelector("#country").value = component.long_name;
-            //             break;
-            //     }
-            // }
-        }
+        //     //         case "postal_code_suffix": {
+        //     //             postcode = `${postcode}-${component.long_name}`;
+        //     //             break;
+        //     //         }
+        //     //         case "locality":
+        //     //             document.querySelector("#locality").value = component.long_name;
+        //     //             break;
+        //     //         case "administrative_area_level_1": {
+        //     //             document.querySelector("#state").value = component.short_name;
+        //     //             break;
+        //     //         }
+        //     //         case "country":
+        //     //             document.querySelector("#country").value = component.long_name;
+        //     //             break;
+        //     //     }
+        //     // }
+        // }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
@@ -863,9 +878,6 @@
                     threshold: {
                         required: "Ticket Threshold is required field",
                     },
-                    // goal_amount: {
-                    //     required: "Goal Amount is required field",
-                    // },
                     poster: {
                         required: "This is required field",
                         accept: "Accepts images having extension gif|png|jpg|jpeg"
