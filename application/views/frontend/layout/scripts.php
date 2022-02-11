@@ -22,4 +22,22 @@
     const user_id = '<?php echo $this->session->userdata('us_id') ?>';
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();
+    dateWithTimeZone = (timeZone, $dateTime) => {
+        let date = new Date(Date.UTC($dateTime));
+        let options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+        };
+        let utcDate = new Date(date.toLocaleString('en-GB', options));
+        options.push({timezone: timeZone});
+        console.log(options)
+        let tzDate = new Date(date.toLocaleString('en-GB', options));
+        let offset = utcDate.getTime() - tzDate.getTime();
+        date.setTime(date.getTime() + offset);
+        return date;
+    };
 </script>

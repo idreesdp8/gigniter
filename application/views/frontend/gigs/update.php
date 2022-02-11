@@ -620,23 +620,6 @@
   <script>
     function submit_form(val) {
       $('#is_draft').val(val);
-      //complete gig
-      // $.ajax({
-      //   url: base_url + '/gigs/save_gig_data_step_final',
-      //   type: 'POST',
-      //   data: {
-      //     gig_id: $('#gig_id').val(),
-      //     is_draft: $('#is_draft').val()
-      //   },
-      //   dataType: 'json',
-      //   success: function(res) {
-      //     if (res.status === 1) {
-      //       window.location.href = base_url + res.return_url
-      //     } else {
-      //       alert(res.message)
-      //     }
-      //   }
-      // });
     }
 
     $(document).ready(function() {
@@ -652,10 +635,6 @@
       }
       if (video) {
         label1 = 'Change';
-        // video = {
-        //   key: Math.floor((Math.random() * 100) + 1),
-        //   url: $('.old_video').val(),
-        // }
       } else {
         label1 = 'Upload';
       }
@@ -673,8 +652,6 @@
         indicatorError: '<i class="icon-cross2 text-danger"></i>',
         indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>'
       };
-      console.log(image)
-      console.log(video)
       $('#file-input').fileinput({
         browseLabel: label,
         browseIcon: '<i class="icon-file-plus mr-2"></i>',

@@ -198,18 +198,10 @@
                         } else if (value.action === 'gig_created') {
                             class_text += 'text-teal';
                         }
-                        var dateTime = new Date(value.created_on)
-                        let options = {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true,
-                            timeZone: timezone
-                        };
-                        console.log(options);
-                        html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateTime.toLocaleString('en-GB', options) + '</p></h6>'
+                        // var dateTime = new Date(value.created_on)
+                        console.log(timezone);
+                        // html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateTime.toLocaleString('en-GB', options) + '</p></h6>'
+                        html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateWithTimeZone(timezone, value.created_on) + '</p></h6>'
                     })
                 } else {
                     html_text += '<div>No gig history found!</div>'
