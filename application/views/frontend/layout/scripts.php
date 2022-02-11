@@ -25,23 +25,31 @@
     dateWithTimeZone = (timeZone, dateTime) => {
         console.log(dateTime) 
         console.log(timeZone)
-        let date = new Date(Date.UTC(dateTime));
+        let date = new Date(dateTime);
         console.log(date)
-        let options = {
+        let options1 = {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
             hour: 'numeric',
             minute: 'numeric',
             hour12: true,
+            timezone: 'UTC'
         };
-        options['timezone'] = 'UTC'
-        console.log(options)
-        let utcDate = new Date(date.toLocaleString('en-GB', options));
+        console.log(options1)
+        let utcDate = new Date(date.toLocaleString('en-GB', options1));
         console.log(utcDate)
-        options['timezone'] = timeZone
-        console.log(options)
-        let tzDate = new Date(date.toLocaleString('en-GB', options));
+        let options2 = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timezone: timeZone
+        };
+        console.log(options2)
+        let tzDate = new Date(date.toLocaleString('en-GB', options2));
         console.log(tzDate)
         let offset = utcDate.getTime() - tzDate.getTime();
         console.log(offset)
