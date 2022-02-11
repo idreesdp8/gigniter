@@ -22,8 +22,9 @@
     const user_id = '<?php echo $this->session->userdata('us_id') ?>';
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();
-    dateWithTimeZone = (timeZone, $dateTime) => {
-        let date = new Date(Date.UTC($dateTime));
+    dateWithTimeZone = (timeZone, dateTime) => {
+        console.log(dateTime)
+        let date = new Date(Date.UTC(dateTime));
         console.log(date)
         let options = {
             year: 'numeric',
