@@ -525,7 +525,7 @@ class Gigs extends CI_Controller
 					'poster' => $imagename,
 					'video' => $videoname,
 					'ticket_limit' => $data['goal'] ?? null,
-					'goal_amount' => $data['goal_amount'] ?? null,
+					// 'goal_amount' => $data['goal_amount'] ?? null,
 					'threshold' => $data['threshold'] ?? null,
 					'meeting_platform' => $data['meeting_platform'] ?? null,
 					'meeting_url' => $data['meeting_url'] ?? null,
@@ -863,7 +863,7 @@ class Gigs extends CI_Controller
 							'category' => $data['category'],
 							'genre' => $data['genre'],
 							'address' => $data['address'] ?? null,
-							'goal_amount' => $data['goal_amount'],
+							// 'goal_amount' => $data['goal_amount'],
 							'threshold' => $data['threshold'],
 							'meeting_platform' => $data['meeting_platform'] ?? null,
 							'meeting_url' => $data['meeting_url'] ?? null,
@@ -956,6 +956,13 @@ class Gigs extends CI_Controller
 						$this->update_user_data($data, $file, $data['user_id']);
 						$res = $this->gigs_model->update_gig_data($data['id'], $datas);
 						if (isset($res)) {
+
+							$gig_history = [
+								'gig_id' => $args1,
+								'action' => 'gig_created',
+								'text' => 'Gig Updated'
+							];
+							$this->gigs_model->insert_gig_history($gig_history);
 							$this->remove_tickets($data['id']);
 							$this->add_tickets($data, $data['id']);
 							// $this->update_tickets($data);
