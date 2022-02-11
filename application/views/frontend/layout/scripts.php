@@ -23,18 +23,16 @@
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();
     dateWithTimeZone = (timeZone, dateTime) => {
-        console.log(dateTime)
-        console.log(dateTime.slice(0, 4), dateTime.slice(5, 7), dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17))
-        let date = new Date(Date.UTC(dateTime.slice(0, 4), dateTime.slice(5, 7), dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17)))
+        let date = new Date(Date.UTC(dateTime.slice(0, 4), dateTime.slice(5, 7)-1, dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17)))
         console.log(date)
-        let utcDate = new Date(date.toLocaleString('en-GB', {timezone: 'UTC'}));
-        console.log(utcDate)
-        let tzDate = new Date(date.toLocaleString('en-GB', {timezone: timeZone}));
-        console.log(tzDate)
-        let offset = utcDate.getTime() - tzDate.getTime();
-        console.log(offset)
-        date.setTime(date.getTime() + offset);
-        console.log(date)
+        // let utcDate = new Date(date.toLocaleString('en-GB', {timezone: 'UTC'}));
+        // console.log(utcDate)
+        // let tzDate = new Date(date.toLocaleString('en-GB', {timezone: timeZone}));
+        // console.log(tzDate)
+        // let offset = utcDate.getTime() - tzDate.getTime();
+        // console.log(offset)
+        // date.setTime(date.getTime() + offset);
+        // console.log(date)
         // let options2 = {
         //     year: 'numeric',
         //     month: 'short',
@@ -44,6 +42,5 @@
         //     hour12: true,
         // };
         return date;
-        return new Date(date);
     };
 </script>
