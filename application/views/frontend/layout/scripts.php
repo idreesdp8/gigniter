@@ -24,7 +24,7 @@
     $('[data-toggle="tooltip"]').tooltip();
     dateWithTimeZone = (timeZone, dateTime) => {
         let date = new Date(Date.UTC(dateTime.slice(0, 4), dateTime.slice(5, 7)-1, dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17)))
-        console.log(date)
+        // console.log(date)
         // let utcDate = new Date(date.toLocaleString('en-GB', {timezone: 'UTC'}));
         // console.log(utcDate)
         // let tzDate = new Date(date.toLocaleString('en-GB', {timezone: timeZone}));
