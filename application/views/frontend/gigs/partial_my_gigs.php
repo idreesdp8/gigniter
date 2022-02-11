@@ -208,6 +208,7 @@
                             hour12: true,
                             timeZone: timezone
                         };
+                        console.log(options);
                         html_text += '<h6 class="font-weight-semibold ' + class_text + '">' + value.text + '<p class="font-weight-normal font-size-sm text-muted">' + dateTime.toLocaleString('en-GB', options) + '</p></h6>'
                     })
                 } else {
