@@ -33,14 +33,14 @@
         // console.log(offset)
         // date.setTime(date.getTime() + offset);
         // console.log(date)
-        // let options2 = {
-        //     year: 'numeric',
-        //     month: 'short',
-        //     day: 'numeric',
-        //     hour: 'numeric',
-        //     minute: 'numeric',
-        //     hour12: true,
-        // };
-        return date;
+        let options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+        };
+        return date.toLocaleString('en-GB', options);
     };
 </script>
