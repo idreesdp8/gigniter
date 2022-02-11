@@ -24,37 +24,32 @@
     $('[data-toggle="tooltip"]').tooltip();
     dateWithTimeZone = (timeZone, dateTime) => {
         console.log(dateTime) 
-        console.log(timeZone)
         let date = new Date(dateTime);
+        console.log(date.getYear)
+        console.log(date.getMonth)
+        console.log(date.getDate)
+        console.log(date.getHours)
+        console.log(date.getMinutes)
+        console.log(date.getSeconds)
+        date = new Date(Date.UTC(date.getYear, date.getMonth, date.getDate, date.getHours, date.getMinutes, date.getSeconds))
         console.log(date)
-        let options1 = {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-            timezone: 'UTC'
-        };
-        console.log(options1)
-        let utcDate = new Date(date.toLocaleString('en-GB', options1));
+        let utcDate = new Date(date.toLocaleString('en-GB', {timezone: 'UTC'}));
         console.log(utcDate)
-        let options2 = {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-            timezone: timeZone
-        };
-        console.log(options2)
-        let tzDate = new Date(date.toLocaleString('en-GB', options2));
+        let tzDate = new Date(date.toLocaleString('en-GB', {timezone: timeZone}));
         console.log(tzDate)
         let offset = utcDate.getTime() - tzDate.getTime();
         console.log(offset)
         date.setTime(date.getTime() + offset);
         console.log(date)
+        // let options2 = {
+        //     year: 'numeric',
+        //     month: 'short',
+        //     day: 'numeric',
+        //     hour: 'numeric',
+        //     minute: 'numeric',
+        //     hour12: true,
+        // };
         return date;
+        return new Date(date);
     };
 </script>
