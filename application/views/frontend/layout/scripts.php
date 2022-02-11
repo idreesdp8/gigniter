@@ -24,6 +24,7 @@
     $('[data-toggle="tooltip"]').tooltip();
     dateWithTimeZone = (timeZone, dateTime) => {
         console.log(dateTime)
+        console.log(timeZone)
         let date = new Date(Date.UTC(dateTime));
         console.log(date)
         let options = {
