@@ -23,15 +23,9 @@
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();
     dateWithTimeZone = (timeZone, dateTime) => {
-        console.log(dateTime) 
-        let date = new Date(dateTime);
-        console.log(date.getYear)
-        console.log(date.getMonth)
-        console.log(date.getDate)
-        console.log(date.getHours)
-        console.log(date.getMinutes)
-        console.log(date.getSeconds)
-        date = new Date(Date.UTC(date.getYear, date.getMonth, date.getDate, date.getHours, date.getMinutes, date.getSeconds))
+        console.log(dateTime)
+        console.log(dateTime.slice(0, 4), dateTime.slice(5, 7), dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17))
+        let date = new Date(Date.UTC(dateTime.slice(0, 4), dateTime.slice(5, 7), dateTime.slice(8, 10), dateTime.slice(11, 13), dateTime.slice(14, 16), dateTime.slice(17)))
         console.log(date)
         let utcDate = new Date(date.toLocaleString('en-GB', {timezone: 'UTC'}));
         console.log(utcDate)
