@@ -33,7 +33,7 @@
             hour12: true,
         };
         let utcDate = new Date(date.toLocaleString('en-GB', options));
-        options.push({timezone: timeZone});
+        options['timezone'] = timeZone
         console.log(options)
         let tzDate = new Date(date.toLocaleString('en-GB', options));
         let offset = utcDate.getTime() - tzDate.getTime();
