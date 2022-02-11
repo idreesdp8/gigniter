@@ -43,7 +43,6 @@
                                         <th>Genre</th>
                                         <th>Concert Date</th>
                                         <th>Campaign Date</th>
-                                        <th>Amount Goal</th>
                                         <th>Audience Goal</th>
                                         <th>Added on</th>
                                         <th>Actions</th>
@@ -62,7 +61,6 @@
                                             <td><?php echo $record->genre_label ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->gig_date)) ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->campaign_date)) ?></td>
-                                            <td><?php echo '$' . $record->goal_amount ?></td>
                                             <td><?php echo $record->ticket_limit ?></td>
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
                                             <td>
