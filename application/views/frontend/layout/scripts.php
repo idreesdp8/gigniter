@@ -32,12 +32,18 @@
             minute: 'numeric',
             hour12: true,
         };
+        options['timezone'] = 'UTC'
+        console.log(options)
         let utcDate = new Date(date.toLocaleString('en-GB', options));
+        console.log(utcDate)
         options['timezone'] = timeZone
         console.log(options)
         let tzDate = new Date(date.toLocaleString('en-GB', options));
+        console.log(tzDate)
         let offset = utcDate.getTime() - tzDate.getTime();
+        console.log(offset)
         date.setTime(date.getTime() + offset);
+        console.log(date)
         return date;
     };
 </script>
