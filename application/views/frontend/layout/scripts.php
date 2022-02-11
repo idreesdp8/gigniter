@@ -20,5 +20,6 @@
 <script>
     const base_url = '<?php echo user_base_url() ?>';
     const user_id = '<?php echo $this->session->userdata('us_id') ?>';
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();
 </script>
