@@ -228,13 +228,13 @@ function runValidationOn(formStep) {
 }
 function saveGigData(form, step) {
     if (step === 'step-1') {
-        var url = base_url + '/gigs/save_gig_data_step_one'
+        var url = base_url + 'gigs/save_gig_data_step_one'
     }
     if (step === 'step-2') {
-        var url = base_url + '/gigs/save_gig_data_step_two'
+        var url = base_url + 'gigs/save_gig_data_step_two'
     }
     if (step === 'step-3') {
-        var url = base_url + '/gigs/save_gig_data_step_three'
+        var url = base_url + 'gigs/save_gig_data_step_three'
     }
     $.ajax({
         url: url,

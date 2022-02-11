@@ -841,8 +841,8 @@ class Gigs extends CI_Controller
 				if (isset($_POST) && !empty($_POST)) {
 					// get form input
 					$data = $_POST;
-					echo json_encode($_FILES);
-					echo json_encode($data);
+					// echo json_encode($_FILES);
+					// echo json_encode($data);
 					// die();
 
 
@@ -868,10 +868,12 @@ class Gigs extends CI_Controller
 							'meeting_platform' => $data['meeting_platform'] ?? null,
 							'meeting_url' => $data['meeting_url'] ?? null,
 							'is_overshoot' => $data['is_overshoot'] ?? 0,
+							'is_complete' => 1,
+							'is_draft' => $data['is_draft'] ?? 1,
 							'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
 							'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
 							'start_time' => date('H:i:s', strtotime($data['start_time'])),
-							'end_time' => date('H:i:s', strtotime($data['end_time'])),
+							'end_time' => date('Y-m-d H:i:s', strtotime($data['end_time'])),
 							'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 						);
 						if ($data['goal']) {

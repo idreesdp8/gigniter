@@ -63,7 +63,7 @@
                         endif;
                         if (!$gig->is_approved) :
                         ?>
-                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4">edit</a>
+                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4"><?php echo $gig->is_complete ? 'edit' : 'complete gig' ?></a>
                             <?php
                             if ($gig->is_rejected) :
                             ?>
@@ -164,7 +164,7 @@
                     title: 'Your Gig is safe!',
                 });
             }
-        });
+        }); 
     }
 
     var showModal = document.getElementsByClassName('showModal')

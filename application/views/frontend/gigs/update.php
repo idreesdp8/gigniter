@@ -254,7 +254,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'" required="required" min="<?php echo date('Y-m-d', strtotime($gig->gig_date)).'T'.date('H:i:s', strtotime($gig->start_time)) ?>" value="<?php echo $gig->end_time ? date('Y-m-d H:i:s', strtotime($gig->end_time)) : '' ?>">
+                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'" required="required" min="<?php echo date('Y-m-d', strtotime($gig->gig_date)) . 'T' . date('H:i:s', strtotime($gig->start_time)) ?>" value="<?php echo $gig->end_time ? date('Y-m-d\TH:i:s', strtotime($gig->end_time)) : '' ?>">
                       <span id="end_time1" class="text-danger"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -603,8 +603,17 @@
 
   <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
   <?php $this->load->view('frontend/layout/scripts'); ?>
-  <!-- <script src="<?php echo user_asset_url(); ?>js/step-form.js"></script> -->
-  <script src="<?php echo user_asset_url(); ?>js/step-form-update.js"></script>
+  <?php
+  // if ($gig->is_complete) :
+  ?>
+    <script src="<?php echo user_asset_url(); ?>js/step-form-update.js"></script>
+  <?php
+  // else :
+  ?>
+    <!-- <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script> -->
+  <?php
+  // endif;
+  ?>
   <script src="<?php echo user_asset_url(); ?>js/upload-gig-img.js"></script>
   <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
   <!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/uploader_bootstrap.js"></script> -->
@@ -612,22 +621,22 @@
     function submit_form(val) {
       $('#is_draft').val(val);
       //complete gig
-      $.ajax({
-        url: base_url + '/gigs/save_gig_data_step_final',
-        type: 'POST',
-        data: {
-          gig_id: $('#gig_id').val(),
-          is_draft: $('#is_draft').val()
-        },
-        dataType: 'json',
-        success: function(res) {
-          if (res.status === 1) {
-            window.location.href = base_url + res.return_url
-          } else {
-            alert(res.message)
-          }
-        }
-      });
+      // $.ajax({
+      //   url: base_url + '/gigs/save_gig_data_step_final',
+      //   type: 'POST',
+      //   data: {
+      //     gig_id: $('#gig_id').val(),
+      //     is_draft: $('#is_draft').val()
+      //   },
+      //   dataType: 'json',
+      //   success: function(res) {
+      //     if (res.status === 1) {
+      //       window.location.href = base_url + res.return_url
+      //     } else {
+      //       alert(res.message)
+      //     }
+      //   }
+      // });
     }
 
     $(document).ready(function() {
@@ -643,6 +652,10 @@
       }
       if (video) {
         label1 = 'Change';
+        // video = {
+        //   key: Math.floor((Math.random() * 100) + 1),
+        //   url: $('.old_video').val(),
+        // }
       } else {
         label1 = 'Upload';
       }
@@ -660,7 +673,8 @@
         indicatorError: '<i class="icon-cross2 text-danger"></i>',
         indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>'
       };
-
+      console.log(image)
+      console.log(video)
       $('#file-input').fileinput({
         browseLabel: label,
         browseIcon: '<i class="icon-file-plus mr-2"></i>',
@@ -683,6 +697,8 @@
         overwriteInitial: true,
         fileActionSettings: fileActionSettings
       });
+
+      $('.file-preview-video source').attr('type', 'video/mp4')
 
       $('#campaign_date').change(function() {
         var campaign_date = new Date($(this).val());
@@ -843,8 +859,11 @@
         $('#gig_' + tier).parent().remove();
         div.remove();
       });
-      $(document).on('click', '.fileinput-remove > span', function() {
+      $(document).on('click', '#div_image .fileinput-remove > span', function() {
         $('.old_poster').val('')
+      })
+      $(document).on('click', '#div_video .fileinput-remove > span', function() {
+        $('.old_video').val('')
       })
 
       $('#myCheckbox-physical').click(function() {
