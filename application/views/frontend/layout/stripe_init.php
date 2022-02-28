@@ -91,7 +91,7 @@
                     })
                     .then((value) => {
                         switch (value) {
-                            case "catch":
+                            case "signin":
                                 console.log(base_url + '/signin')
                                 window.href.location = base_url + '/signin'
                                 break;
