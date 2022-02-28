@@ -533,27 +533,29 @@ class Cart extends CI_Controller
 					foreach ($cart_items as $item) {
 						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
-						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
-						$amount = $item->price - ($item->price * $admin_fee->value / 100);
-						$transfer = \Stripe\Transfer::create([
-							'amount' => $amount * 100,
-							'currency' => $currency,
-							'destination' => $user_stripe_detail->stripe_account_id,
-						]);
-						$transferJson = $transfer->jsonSerialize();
-						if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
-							$transfer_param = [
-								'booking_id' => $booking->id,
-								'transfer_id' => $transferJson['id'],
-								'transaction_id' => $transferJson['balance_transaction'],
-								'amount' => $transferJson['amount'] / 100,
-								'type' => $transferJson['object'],
-								'destination_id' => $transferJson['destination'],
-								'user_received' => $gig->user_id,
-								'admin_fee' => $item->price * $admin_fee->value / 100,
-								'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
-							];
-							$this->bookings_model->insert_transaction_data($transfer_param);
+						if($user_stripe_detail && !$user_stripe_detail->is_restricted) {
+							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
+							$amount = $item->price - ($item->price * $admin_fee->value / 100);
+							$transfer = \Stripe\Transfer::create([
+								'amount' => $amount * 100,
+								'currency' => $currency,
+								'destination' => $user_stripe_detail->stripe_account_id,
+							]);
+							$transferJson = $transfer->jsonSerialize();
+							if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+								$transfer_param = [
+									'booking_id' => $booking->id,
+									'transfer_id' => $transferJson['id'],
+									'transaction_id' => $transferJson['balance_transaction'],
+									'amount' => $transferJson['amount'] / 100,
+									'type' => $transferJson['object'],
+									'destination_id' => $transferJson['destination'],
+									'user_received' => $gig->user_id,
+									'admin_fee' => $item->price * $admin_fee->value / 100,
+									'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+								];
+								$this->bookings_model->insert_transaction_data($transfer_param);
+							}
 						}
 					}
 				}
