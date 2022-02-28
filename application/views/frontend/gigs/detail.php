@@ -456,7 +456,7 @@
                                     echo '<video id="video-player" playsinline controls width="100%" height="100%"></video>';
                                 } else {
                                     if (isset($gig->video) && $gig->video != '') : ?>
-                                        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                        <video playsinline="playsinline" autoplay="autoplay" controls loop="loop">
                                             <source src="<?php echo $gig->video ? video_url() . $gig->video : 'https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4' ?>" type="video/mp4">
                                         </video>
                                     <?php else : ?>

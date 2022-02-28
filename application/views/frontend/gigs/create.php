@@ -304,7 +304,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                           <label>
                             Tier Price
-                            <input type="number" name="ticket_price[]" placeholder="USD $" min="1">
+                            <input type="number" name="ticket_price[]" placeholder="USD $" value="1" min="1">
                           </label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-12">

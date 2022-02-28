@@ -172,9 +172,9 @@
 
         $(document).on('click', 'input[type=radio]', function() {
             const radio = $(this)
-            if(radio.val() == 'other') {
+            if (radio.val() == 'other') {
                 $('.swal2-content').append('<input class="swal2-input form-control" placeholder="Reason?" type="text" style="display: flex;">');
-                $('.swal2-input').on('input',function() {
+                $('.swal2-input').on('input', function() {
                     var reason = $(this).val();
                     radio.val(reason);
                 })
