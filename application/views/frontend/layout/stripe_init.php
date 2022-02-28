@@ -92,8 +92,8 @@
                     .then((value) => {
                         switch (value) {
                             case "signin":
-                                console.log(base_url + '/signin')
-                                window.href.location = base_url + '/signin'
+                                console.log(base_url + 'signin')
+                                window.location.href = base_url + 'signin'
                                 break;
                             default:
                                 break;
