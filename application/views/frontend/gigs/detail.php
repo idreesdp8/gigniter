@@ -116,70 +116,11 @@
                         <h5 class="title"><?php echo $gig->title; ?></h5>
                         <h6 class="d-md-flex align-items-md-center">
                             <a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a>
-                            <!-- <ul class="social-icons">
-                                <?php
-                                if (isset($user->facebook)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->facebook) ?>">
-                                            <i class="fab fa-facebook-f"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->instagram)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->instagram) ?>">
-                                            <i class="fab fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->twitter)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->twitter) ?>">
-                                            <i class="fab fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->linkedin)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->linkedin) ?>">
-                                            <i class="fab fa-linkedin-in"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->pinterest)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->pinterest) ?>">
-                                            <i class="fab fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                if (isset($user->behance)) :
-                                ?>
-                                    <li>
-                                        <a class="btn-theme-primary artist-links" target="_blank" href="<?php echo prep_url($user->behance) ?>">
-                                            <i class="fab fa-behance"></i>
-                                        </a>
-                                    </li>
-                                <?php
-                                endif;
-                                ?>
-                            </ul> -->
+                            
                         </h6>
                         <p class="mb-0">
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
                         </p>
-                        <!-- <p>Music <span>|</span> Show <span>|</span> English</p> -->
-                        <!-- <p class="">Release Date <span>:</span> <?php echo date('d M Y', strtotime($gig->gig_date)); ?></p> -->
                         <div class="social-and-duration d-flex align-items-center justify-content-between">
                             <div class="duration-area d-flex">
                                 <div class="item mr-3">
@@ -320,7 +261,13 @@
                             else :
                             ?>
                                 <div class="custom-item3">
+                                    <?php
+                                    if($stream_details) :
+                                        ?>
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/test_stream/' . $gig->id ?>">Test Stream</a>
+                                    <?php
+                                    endif;
+                                    ?>
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
                                 </div>
                                 <?php
@@ -563,226 +510,6 @@
                     <?php
                     endif;
                     ?>
-
-                    <!-- <div class="tab summery-review">
-                        <ul class="tab-menu">
-                            <li class="tab-1 active">
-                                Summary
-                            </li>
-                            <li class="tab-1">
-                                user review <span>147</span>
-                            </li>
-                        </ul>
-                        <div class="tab-area">
-                            <div class="tab-item active">
-                                <div class="item">
-                                    <h5 class="sub-title">Summary</h5>
-                                    <p><?php echo $gig->subtitle ?></p>
-                                </div>
-                                <div class="item slider-item">
-                                    <div class="header">
-                                        <h5 class="sub-title">Performers</h5>
-
-                                    </div>
-                                    <div class="casting-slider-two owl-carousel">
-                                        <div class="cast-item">
-                                            <div class="cast-thumb">
-                                                <a href="#0">
-                                                    <img src="<?php echo user_asset_url(); ?>images/explore/performer-1.png" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="cast-content">
-                                                <h6 class="cast-title"><a href="#0">Joe and Jonas</a></h6>
-                                                <span class="cate">Guitarist</span>
-                                            </div>
-                                        </div>
-                                        <div class="cast-item">
-                                            <div class="cast-thumb">
-                                                <a href="#0">
-                                                    <img src="<?php echo user_asset_url(); ?>images/explore/performer-2.png" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="cast-content">
-                                                <h6 class="cast-title"><a href="#0">Joe and Jonas</a></h6>
-                                                <span class="cate">Performer</span>
-                                            </div>
-                                        </div>
-                                        <div class="cast-item">
-                                            <div class="cast-thumb">
-                                                <a href="#0">
-                                                    <img src="<?php echo user_asset_url(); ?>images/explore/performer-3.png" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="cast-content">
-                                                <h6 class="cast-title"><a href="#0">Joe and Jonas</a></h6>
-                                                <span class="cate">Guitarist</span>
-                                            </div>
-                                        </div>
-                                        <div class="cast-item">
-                                            <div class="cast-thumb">
-                                                <a href="#0">
-                                                    <img src="<?php echo user_asset_url(); ?>images/explore/performer-4.png" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="cast-content">
-                                                <h6 class="cast-title"><a href="#0">Joe and Jonas</a></h6>
-                                                <span class="cate">Singer</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-item">
-                                <div class="movie-review-item">
-                                    <div class="author">
-                                        <div class="thumb">
-                                            <a href="#0">
-                                                <img src="<?php echo user_asset_url(); ?>images/cast/cast02.jpg" alt="cast">
-                                            </a>
-                                        </div>
-                                        <div class="movie-review-info">
-                                            <span class="reply-date">13 Days Ago</span>
-                                            <h6 class="subtitle"><a href="#0">minkuk seo</a></h6>
-                                            <span><i class="fas fa-check"></i> verified review</span>
-                                        </div>
-                                    </div>
-                                    <div class="movie-review-content">
-                                        <div class="review">
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                        </div>
-                                        <h6 class="cont-title">Awesome Movie</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer volutpat enim non ante egestas vehicula. Suspendisse potenti. Fusce malesuada fringilla lectus venenatis porttitor. </p>
-                                        <div class="review-meta">
-                                            <a href="#0">
-                                                <i class="flaticon-hand"></i><span>8</span>
-                                            </a>
-                                            <a href="#0" class="dislike">
-                                                <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                            </a>
-                                            <a href="#0">
-                                                Report Abuse
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="movie-review-item">
-                                    <div class="author">
-                                        <div class="thumb">
-                                            <a href="#0">
-                                                <img src="<?php echo user_asset_url(); ?>images/cast/cast04.jpg" alt="cast">
-                                            </a>
-                                        </div>
-                                        <div class="movie-review-info">
-                                            <span class="reply-date">13 Days Ago</span>
-                                            <h6 class="subtitle"><a href="#0">rudra rai</a></h6>
-                                            <span><i class="fas fa-check"></i> verified review</span>
-                                        </div>
-                                    </div>
-                                    <div class="movie-review-content">
-                                        <div class="review">
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                        </div>
-                                        <h6 class="cont-title">Awesome Movie</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer volutpat enim non ante egestas vehicula. Suspendisse potenti. Fusce malesuada fringilla lectus venenatis porttitor. </p>
-                                        <div class="review-meta">
-                                            <a href="#0">
-                                                <i class="flaticon-hand"></i><span>8</span>
-                                            </a>
-                                            <a href="#0" class="dislike">
-                                                <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                            </a>
-                                            <a href="#0">
-                                                Report Abuse
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="movie-review-item">
-                                    <div class="author">
-                                        <div class="thumb">
-                                            <a href="#0">
-                                                <img src="<?php echo user_asset_url(); ?>images/cast/cast01.jpg" alt="cast">
-                                            </a>
-                                        </div>
-                                        <div class="movie-review-info">
-                                            <span class="reply-date">13 Days Ago</span>
-                                            <h6 class="subtitle"><a href="#0">rafuj</a></h6>
-                                            <span><i class="fas fa-check"></i> verified review</span>
-                                        </div>
-                                    </div>
-                                    <div class="movie-review-content">
-                                        <div class="review">
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                        </div>
-                                        <h6 class="cont-title">Awesome Movie</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer volutpat enim non ante egestas vehicula. Suspendisse potenti. Fusce malesuada fringilla lectus venenatis porttitor. </p>
-                                        <div class="review-meta">
-                                            <a href="#0">
-                                                <i class="flaticon-hand"></i><span>8</span>
-                                            </a>
-                                            <a href="#0" class="dislike">
-                                                <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                            </a>
-                                            <a href="#0">
-                                                Report Abuse
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="movie-review-item">
-                                    <div class="author">
-                                        <div class="thumb">
-                                            <a href="#0">
-                                                <img src="<?php echo user_asset_url(); ?>images/cast/cast03.jpg" alt="cast">
-                                            </a>
-                                        </div>
-                                        <div class="movie-review-info">
-                                            <span class="reply-date">13 Days Ago</span>
-                                            <h6 class="subtitle"><a href="#0">bela bose</a></h6>
-                                            <span><i class="fas fa-check"></i> verified review</span>
-                                        </div>
-                                    </div>
-                                    <div class="movie-review-content">
-                                        <div class="review">
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                            <i class="flaticon-favorite-heart-button"></i>
-                                        </div>
-                                        <h6 class="cont-title">Awesome Movie</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer volutpat enim non ante egestas vehicula. Suspendisse potenti. Fusce malesuada fringilla lectus venenatis porttitor. </p>
-                                        <div class="review-meta">
-                                            <a href="#0">
-                                                <i class="flaticon-hand"></i><span>8</span>
-                                            </a>
-                                            <a href="#0" class="dislike">
-                                                <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                            </a>
-                                            <a href="#0">
-                                                Report Abuse
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="load-more text-center">
-                                    <a href="#0" class="custom-button transparent">load more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
                 <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <img src="<?php echo user_asset_url(); ?>images/detail-page/custom-text-box.png" class="w-100">
@@ -902,10 +629,6 @@
             });
         }
         $(document).ready(function() {
-            var conn = new WebSocket('ws://localhost:8080');
-            conn.onopen = function(e) {
-                console.log("Connection established!");
-            };
 
             $('#chat_form').on('submit', function(event) {
                 event.preventDefault();
@@ -917,7 +640,6 @@
                     msg: message,
                     gigId: gig_id,
                 };
-                conn.send(JSON.stringify(data));
                 $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
             });
             $('#send').click(function(e) {
