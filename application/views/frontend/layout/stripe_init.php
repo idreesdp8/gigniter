@@ -79,9 +79,26 @@
             }
             if (!user_id) {
                 swal({
-                    icon: 'warning',
-                    title: 'You need to sign in!',
-                });
+                        icon: 'warning',
+                        title: 'You need to sign in!',
+                        buttons: {
+                            cancel: "Cancel!",
+                            catch: {
+                                text: "Sign in!",
+                                value: "signin",
+                            },
+                        },
+                    })
+                    .then((value) => {
+                        switch (value) {
+                            case "catch":
+                                console.log(base_url + '/signin')
+                                window.href.location = base_url + '/signin'
+                                break;
+                            default:
+                                break;
+                        }
+                    });
             }
         } else {
             createToken();
