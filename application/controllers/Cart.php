@@ -73,30 +73,30 @@ class Cart extends CI_Controller
 			}
 		}
 		// if ($this->dbs_user_id) {
-			$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
-			if ($this->dbs_user_id && $this->dbs_user_id == $data['gig']->user_id) {
-				redirect('/');
-			}
-			$data['venues'] = [];
-			if ($data['gig']->venues) {
-				$data['venues'] = explode(',', $data['gig']->venues);
-			}
-			$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
-			foreach ($tiers as $tier) {
-				$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
-				$tier->image = '';
-				if ($tier->bundles) {
-					foreach ($tier->bundles as $bundle) {
-						if ($tier->image == '') {
-							$tier->image = $bundle->image;
-						}
+		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		if ($this->dbs_user_id && $this->dbs_user_id == $data['gig']->user_id) {
+			redirect('/');
+		}
+		$data['venues'] = [];
+		if ($data['gig']->venues) {
+			$data['venues'] = explode(',', $data['gig']->venues);
+		}
+		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+		foreach ($tiers as $tier) {
+			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
+			$tier->image = '';
+			if ($tier->bundles) {
+				foreach ($tier->bundles as $bundle) {
+					if ($tier->image == '') {
+						$tier->image = $bundle->image;
 					}
 				}
 			}
-			$data['tiers'] = $tiers;
-			// echo json_encode($tiers);
-			// die();
-			$this->load->view('frontend/cart/book_ticket', $data);
+		}
+		$data['tiers'] = $tiers;
+		// echo json_encode($tiers);
+		// die();
+		$this->load->view('frontend/cart/book_ticket', $data);
 		// } else {
 		// 	$uri = uri_string();
 		// 	$this->session->set_userdata('redirect', $uri);
@@ -325,11 +325,13 @@ class Cart extends CI_Controller
 
 			if ($ticket_bought->quantity > $threshold) {
 				$gig = $this->gigs_model->get_gig_by_id($gig_id);
-				if(!$gig->is_detail_sent) {
+				if (!$gig->is_detail_sent) {
 					$artist = $this->users_model->get_user_by_id($gig->user_id);
 					$stream_details = $this->create_channel($gig_id);
 					$subject = 'Stream Details';
 					$to_email = $artist->email;
+					// echo json_encode($to_email);
+					// die();
 					$email_for = 'stream_details';
 					$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
 					$this->gigs_model->update_is_detail_sent($gig_id);
@@ -537,7 +539,7 @@ class Cart extends CI_Controller
 					foreach ($cart_items as $item) {
 						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
-						if($user_stripe_detail && !$user_stripe_detail->is_restricted) {
+						if ($user_stripe_detail && !$user_stripe_detail->is_restricted) {
 							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
 							$amount = $item->price - ($item->price * $admin_fee->value / 100);
 							$transfer = \Stripe\Transfer::create([
@@ -667,11 +669,12 @@ class Cart extends CI_Controller
 			// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder($to_email);
 			$msg = $this->load->view('email/ticket_purchase', '', TRUE);
 		}
-		if($email_for == 'stream_details')
-		{
+		if ($email_for == 'stream_details') {
 			$datas['stream_server_url'] = $data['stream_url'];
 			$datas['stream_secret'] = $data['stream_key'];
 			$msg = $this->load->view('email/stream_details', $datas, TRUE);
+			mail($to_email, $subject, $msg);
+			return true;
 		}
 		$this->email->from($from_email, $from_name);
 		$this->email->to($to_email);
