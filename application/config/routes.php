@@ -65,4 +65,5 @@ $route['recover_password'] = 'Account/forgot_password';
 $route['admin/featured_gigs'] = 'admin/Gigs/featured_gigs';
 $route['admin/popular_gigs'] = 'admin/Gigs/popular_gigs';
 $route['my_gigs'] = 'Gigs/my_gigs';
+$route['my_wallet'] = 'Transactions/my_wallet';
 $route['admin/user_stripe_details'] = 'admin/Transactions/user_stripe_details';

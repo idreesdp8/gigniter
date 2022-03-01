@@ -65,13 +65,10 @@ class Gigs extends CI_Controller
 			$gig_date = new DateTime($gig->gig_date);
 			$interval = $gig_date->diff($now);
 			$gig->days_left = $interval->format('%a');
-			$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-			$ticket_bought = 0;
-			foreach ($cart_items as $item) {
-				$ticket_bought += $item->quantity;
-			}
-			$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-			$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+
+			$res = $this->get_tickets_booked_and_left($gig);
+			$gig->booked = $res['booked'];
+			$gig->ticket_left = $res['ticket_left'];
 			$gig->images = $this->gigs_model->get_gig_gallery_images($id);
 			if ($gig->start_time && $gig->end_time) {
 				$start_time = new DateTime($gig->start_time);
@@ -1159,13 +1156,9 @@ class Gigs extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-				$ticket_bought = 0;
-				foreach ($cart_items as $item) {
-					$ticket_bought += $item->quantity;
-				}
-				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1347,13 +1340,9 @@ class Gigs extends CI_Controller
 				$gig_date = new DateTime($gig->gig_date);
 				$interval = $gig_date->diff($now);
 				$gig->days_left = $interval->format('%a');
-				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-				$ticket_bought = 0;
-				foreach ($cart_items as $item) {
-					$ticket_bought += $item->quantity;
-				}
-				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1418,13 +1407,9 @@ class Gigs extends CI_Controller
 				} else {
 					$gig->days_left = 'NA';
 				}
-				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-				$ticket_bought = 0;
-				foreach ($cart_items as $item) {
-					$ticket_bought += $item->quantity;
-				}
-				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1481,13 +1466,9 @@ class Gigs extends CI_Controller
 				} else {
 					$gig->days_left = 'NA';
 				}
-				$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
-				$ticket_bought = 0;
-				foreach ($cart_items as $item) {
-					$ticket_bought += $item->quantity;
-				}
-				$gig->ticket_left = $gig->ticket_limit - $ticket_bought;
-				$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+				$res = $this->get_tickets_booked_and_left($gig);
+				$gig->booked = $res['booked'];
+				$gig->ticket_left = $res['ticket_left'];
 			}
 		}
 		$data['gigs'] = $gigs;
@@ -1916,5 +1897,20 @@ class Gigs extends CI_Controller
 		// echo $send;
 		$res = $this->gigs_model->test_query();
 		echo json_encode($res);
+	}
+
+	function get_tickets_booked_and_left($gig)
+	{
+		// echo json_encode($gig);
+		// die();
+		$cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+		$ticket_bought = 0;
+		foreach ($cart_items as $item) {
+			$ticket_bought += $item->quantity;
+		}
+		$ticket_left = $gig->ticket_limit - $ticket_bought;
+		$param['ticket_left'] = $ticket_left > 0 ? $ticket_left : 0;
+		$param['booked'] = floor($ticket_bought / $gig->ticket_limit * 100);
+		return $param;
 	}
 }
