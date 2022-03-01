@@ -15,13 +15,13 @@ class Gigs_model extends CI_Model
 		return true;
 	}
 
-	
+
 	function get_filter_gigs_tickets($params = array())
 	{
 		$whrs = " where t1.id>'0' ";
 		if (array_key_exists("gig_id", $params)) {
 			$gig_id = $params['gig_id'];
-			if ($gig_id > 0) { 
+			if ($gig_id > 0) {
 				$whrs .= " AND t1.gig_id='$gig_id' ";
 			}
 		}
@@ -33,7 +33,7 @@ class Gigs_model extends CI_Model
 			} else if ($is_paid == 1) {
 				$whrs .= " AND t5.is_paid='1' ";
 			}
-		} 
+		}
 		$query = $this->db->query("SELECT t1.id as ticket_id, t1.gig_id, t1.ticket_no, t1.qr_token, t1.is_validated, t2.title, t2.subtitle, t2.gig_date, t2.start_time, t2.end_time, t2.category, t2.poster, t2.address, t2.venues, t3.fname, t3.lname, t3.email, t4.created_on, t5.price, t5.is_paid FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 
@@ -65,20 +65,20 @@ class Gigs_model extends CI_Model
 		}
 		if (array_key_exists("is_live", $params)) {
 			$genre = $params["is_live"];
-			if($params['is_live'] == 1){
+			if ($params['is_live'] == 1) {
 				$whrs .= " AND status=2";
-			} else if($params['is_live'] == 0){
+			} else if ($params['is_live'] == 0) {
 				$whrs .= " AND status=1";
 			}
 		} else {
 			$whrs .= " AND status=1";
 		}
 		if (array_key_exists("sort_by", $params)) {
-			if($params['sort_by'] == 'just_in'){
+			if ($params['sort_by'] == 'just_in') {
 				$sort_by = ' ORDER BY created_on DESC';
-			} else if($params['sort_by'] == 'most_popular'){
+			} else if ($params['sort_by'] == 'most_popular') {
 				$sort_by = ' ORDER BY popularity DESC, created_on DESC';
-			} else if($params['sort_by'] == 'closing_soon'){
+			} else if ($params['sort_by'] == 'closing_soon') {
 				$sort_by = ' ORDER BY date(gig_date) ASC';
 			}
 		} else {
@@ -440,7 +440,7 @@ class Gigs_model extends CI_Model
 
 	function launch_gig_campaign($gig_id, $campaign_date = null)
 	{
-		if(!$campaign_date){
+		if (!$campaign_date) {
 			$query = $this->db->query('SELECT CURDATE() as date');
 			$campaign_date = ($query->result())[0]->date;
 		}
@@ -448,6 +448,13 @@ class Gigs_model extends CI_Model
 		$this->db->where('id', $gig_id);
 		return $this->db->update('gigs', $data);
 		// return $campaign_date;
+	}
+
+	function update_is_detail_sent($gig_id)
+	{
+		$data = ['is_detail_sent' => 1];
+		$this->db->where('id', $gig_id);
+		return $this->db->update('gigs', $data);
 	}
 
 	function insert_gig_popularity_data($data)
@@ -512,20 +519,21 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get('gigs');
 		return $query->row();
 	}
-	
-	
-	
-	function check_gig_venue_type($sl_gig_id, $sl_venue){
-		$query = $this->db->query("SELECT count(id) AS NUMS FROM gigs WHERE id='".$sl_gig_id."' AND FIND_IN_SET('".$sl_venue."',venues)");
+
+
+
+	function check_gig_venue_type($sl_gig_id, $sl_venue)
+	{
+		$query = $this->db->query("SELECT count(id) AS NUMS FROM gigs WHERE id='" . $sl_gig_id . "' AND FIND_IN_SET('" . $sl_venue . "',venues)");
 		$total_physical_gigs = $query->row()->NUMS;
-		
-		if($total_physical_gigs >0){
+
+		if ($total_physical_gigs > 0) {
 			return '1';
-		}else{
+		} else {
 			return '0';
-		} 
+		}
 	}
- 
+
 	/*
 	id	t1.ticket_no	t1.gig_id	ticket_tier_id	booking_id	cart_id	t1.user_id	t1.qr_token 	
 	
@@ -536,65 +544,69 @@ class Gigs_model extends CI_Model
 	tickets t1
 	gigs t2
 	users t3 
-	*/ 
-	
-	function get_tickets_by_qr_code_token($qr_token_arrs){
-		if(count($qr_token_arrs)>0){ 
+	*/
+
+	function get_tickets_by_qr_code_token($qr_token_arrs)
+	{
+		if (count($qr_token_arrs) > 0) {
 			$qr_token_txts = '';
-			foreach($qr_token_arrs as $qr_token_arr){
-				$qr_token_txts .= "'".$qr_token_arr."',";
-			} 
-			
-			$qr_token_txts = rtrim($qr_token_txts, ','); 
-			 
+			foreach ($qr_token_arrs as $qr_token_arr) {
+				$qr_token_txts .= "'" . $qr_token_arr . "',";
+			}
+
+			$qr_token_txts = rtrim($qr_token_txts, ',');
+
 			$query = $this->db->query("SELECT t1.id as ticket_id, t1.ticket_no, t1.gig_id, t1.is_validated, t2.user_id as gig_user_id, t1.ticket_tier_id, t1.booking_id, t1.user_id, t1.qr_token, t2.title, t2.subtitle, t2.gig_date, t2.start_time, t2.end_time, t2.address, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email, t4.name as ticket_tier_name, t4.price as ticket_price FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id
 		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id
-		WHERE t1.qr_token IN (".$qr_token_txts.") ");
-		
-		/*WHERE t1.qr_token IN ='".$sl_gig_id."' AND t1.user_id='".$sl_usr_id."' ");*/
-		return $query->result(); 
-		
-		}else{
-			return false;
-		}  
-	}
-	
+		WHERE t1.qr_token IN (" . $qr_token_txts . ") ");
 
-	function get_tickets_by_gig_and_userid($sl_gig_id, $sl_usr_id){
+			/*WHERE t1.qr_token IN ='".$sl_gig_id."' AND t1.user_id='".$sl_usr_id."' ");*/
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
+
+
+	function get_tickets_by_gig_and_userid($sl_gig_id, $sl_usr_id)
+	{
 		$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t1.is_validated, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 
-		WHERE t1.gig_id='".$sl_gig_id."' AND t1.user_id='".$sl_usr_id."' ");
-		return $query->result(); 
+		WHERE t1.gig_id='" . $sl_gig_id . "' AND t1.user_id='" . $sl_usr_id . "' ");
+		return $query->result();
 	}
-	
- 	function get_tickets_by_gigid($sl_gig_id){
+
+	function get_tickets_by_gigid($sl_gig_id)
+	{
 		$query = $this->db->query("SELECT t1.ticket_no, t1.qr_token, t1.is_validated, t2.title, t2.subtitle, t2.category, t2.poster, t2.address, t3.fname, t3.lname, t3.email, t4.created_on, t5.price FROM tickets t1
 		LEFT JOIN gigs t2 ON t2.id = t1.gig_id 
 		LEFT JOIN users t3 ON t3.id = t1.user_id 
 		LEFT JOIN ticket_tiers t4 ON t4.id = t1.ticket_tier_id  
 		LEFT JOIN bookings t5 ON t5.id = t1.booking_id  
-		WHERE t1.gig_id='".$sl_gig_id."' ");
-		return $query->result(); 
+		WHERE t1.gig_id='" . $sl_gig_id . "' ");
+		return $query->result();
 	}
 
-	
-	function get_ticket_data_by_qr_token($qr_token){
+
+	function get_ticket_data_by_qr_token($qr_token)
+	{
 		$res = $this->db->get_where('tickets', array('qr_token' => $qr_token));
 		return $res->row();
 	}
-	
-	function update_tickets_data($args1, $datas) {
+
+	function update_tickets_data($args1, $datas)
+	{
 		$this->db->where('id', $args1);
 		return $this->db->update('tickets', $datas);
 	}
-	
-	function test_query() {
-		$query = $this->db->query("SELECT curdate()");
-		return $query->result(); 
 
+	function test_query()
+	{
+		$query = $this->db->query("SELECT curdate()");
+		return $query->result();
 	}
 
 	function get_count_incomplete_gigs($user_id)

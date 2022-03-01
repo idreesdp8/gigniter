@@ -26,6 +26,11 @@
             </div>
         </div>
     </section>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig_id ?>" type="button" class="btn btn-primary btn-step-continue nextBtn">Back</a>
+        </div>
+    </div>
     <!-- ==========photo-Section========== -->
     <!-- /page content -->
 

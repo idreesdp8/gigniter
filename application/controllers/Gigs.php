@@ -1083,6 +1083,7 @@ class Gigs extends CI_Controller
 	{
 		$stream_details = $this->gigs_model->get_stream_details($gig_id);
 		$data['playback_url'] = $stream_details->playback_url;
+		$data['gig_id'] = $gig_id;
 		$this->load->view('frontend/gigs/live', $data);
 	}
 

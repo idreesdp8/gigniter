@@ -324,11 +324,16 @@ class Cart extends CI_Controller
 			$this->create_customer($token, $email_to, $name, $res);
 
 			if ($ticket_bought->quantity > $threshold) {
-				$stream_details = $this->create_channel($gig_id);
-				$subject = 'Stream Details';
-				$to_email = 'hamza362207@gmail.com';
-				$email_for = 'stream_details';
-				$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
+				$gig = $this->gigs_model->get_gig_by_id($gig_id);
+				if(!$gig->is_detail_sent) {
+					$artist = $this->users_model->get_user_by_id($gig->user_id);
+					$stream_details = $this->create_channel($gig_id);
+					$subject = 'Stream Details';
+					$to_email = $artist->email;
+					$email_for = 'stream_details';
+					$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
+					$this->gigs_model->update_is_detail_sent($gig_id);
+				}
 				$this->charge_and_transfer($gig_id);
 			}
 			$this->calculate_popularity($gig_id, $ticket_bought->quantity);
@@ -366,7 +371,6 @@ class Cart extends CI_Controller
 			$this->load->view('frontend/cart/checkout', $data);
 		}
 	}
-
 
 	function create_channel($gig_id)
 	{
