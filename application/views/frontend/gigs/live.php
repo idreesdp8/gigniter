@@ -23,14 +23,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-2 mt-5">
                     <video id="video-player" playsinline controls width="100%" height="100%"></video>
                 </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-2 mt-5">
+                    <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig_id ?>" type="button" class="btn btn-primary btn-step-continue nextBtn">Back</a>
+                </div>
             </div>
         </div>
     </section>
-    <div class="row">
-        <div class="col-md-12">
-            <a href="<?php echo user_base_url() . 'gigs/detail?gig=' . $gig_id ?>" type="button" class="btn btn-primary btn-step-continue nextBtn">Back</a>
-        </div>
-    </div>
     <!-- ==========photo-Section========== -->
     <!-- /page content -->
 
