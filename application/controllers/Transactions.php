@@ -18,16 +18,16 @@ class Transactions extends CI_Controller
         $this->login_vs_role_id = $this->dbs_role_id = $vs_role_id = $this->session->userdata('us_role_id');
         $this->load->model('user/general_model', 'general_model');
         // $this->load->model('user/roles_model', 'roles_model');
-        if(isset($vs_id) && (isset($vs_role_id) && $vs_role_id>=1)){
+        if (isset($vs_id) && (isset($vs_role_id) && $vs_role_id >= 1)) {
 
-        // 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
-        // 	if($res_nums>0){
+            // 	$res_nums = $this->general_model->check_controller_permission_access('Admin/Users',$vs_role_id,'1');
+            // 	if($res_nums>0){
 
-        // 	}else{
-        // 		redirect('/');
-        // 	} 
-        }else{
-        	redirect('/');
+            // 	}else{
+            // 		redirect('/');
+            // 	} 
+        } else {
+            redirect('/');
         }
 
         $this->load->model('user/users_model', 'users_model');
@@ -100,15 +100,15 @@ class Transactions extends CI_Controller
             foreach ($cart_items as $item) {
                 $user = $this->users_model->get_user_by_id($item->user_id);
                 $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-				if(isset($ticket->id)) {
-					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id); 
-					$ticket->bundles = $bundles;
-				}else{
-					//$ticket->bundles = '';	
-				}
+                if (isset($ticket->id)) {
+                    $bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+                    $ticket->bundles = $bundles;
+                } else {
+                    //$ticket->bundles = '';	
+                }
                 $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
                 $ticket_bought += $item->quantity;
-                $total_sale += $item->price; 
+                $total_sale += $item->price;
                 $item->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
                 $item->ticket = $ticket;
                 $item->booking = $booking;
@@ -118,7 +118,7 @@ class Transactions extends CI_Controller
             $gig->total_sale = $total_sale;
             $gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
             // $gig->booked = 100;
-            $data['gig'] = $gig; 
+            $data['gig'] = $gig;
 
             // echo json_encode($gig);
             // die();
@@ -128,10 +128,10 @@ class Transactions extends CI_Controller
 
     public function tickets($gig_id = '')
     {
-        if($gig_id != '') {
+        if ($gig_id != '') {
             $params['gig_id'] = $gig_id;
             $gig = $this->gigs_model->get_gig_by_id($gig_id);
-            $data['gig'] = $gig; 
+            $data['gig'] = $gig;
             $data['tickets_rows'] = $this->gigs_model->get_filter_gigs_tickets($params);
             $this->load->view('frontend/transactions/tickets', $data);
         } else {
@@ -143,12 +143,12 @@ class Transactions extends CI_Controller
         $ticket_token = $this->input->post('ticket_token');
         $ticket = $this->gigs_model->get_ticket_data_by_qr_token($ticket_token);
         $user = $this->users_model->get_user_by_id($ticket->user_id);
-        
+
         $this->load->library('email');
         $from_email = $this->config->item('info_email');
         $from_name = $this->config->item('from_name');
 
-        $data['link'] = user_base_url() . 'bookings/download_tickets?user_id='.$ticket->user_id.'&gig_id='.$ticket->gig_id.'&booking_id='.$ticket->booking_id.'&ticket_tier_id='.$ticket->ticket_tier_id;
+        $data['link'] = user_base_url() . 'bookings/download_tickets?user_id=' . $ticket->user_id . '&gig_id=' . $ticket->gig_id . '&booking_id=' . $ticket->booking_id . '&ticket_tier_id=' . $ticket->ticket_tier_id;
         $msg = $this->load->view('email/ticket_download', $data, TRUE);
 
         $this->email->from($from_email, $from_name);
@@ -169,5 +169,51 @@ class Transactions extends CI_Controller
             ];
         }
         echo json_encode($resp);
+    }
+
+    public function my_wallet()
+    {
+        // $gig = $this->gigs_model->get_gig_by_id($args1);
+        $gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
+        // echo json_encode($gigs);
+        // die();
+        foreach ($gigs as $gig) {
+            $status = $this->configurations_model->get_configuration_by_key_value(['key' => $this->gig_status_key, 'value' => $gig->status]);
+            $category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
+            $genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
+            $gig->status_label = $status->label;
+            $gig->category_label = $category->label;
+            $gig->genre_label = $genre->label;
+            $cart_items = $this->bookings_model->get_booking_items_by_gig_id($gig->id);
+            $ticket_bought = 0;
+            $total_sale = 0;
+            // $bundles = array();
+            foreach ($cart_items as $item) {
+                // $user = $this->users_model->get_user_by_id($item->user_id);
+                // $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
+                // if (isset($ticket->id)) {
+                //     $bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+                //     $ticket->bundles = $bundles;
+                // } else {
+                //     //$ticket->bundles = '';	
+                // }
+                // $booking = $this->bookings_model->get_booking_by_id($item->booking_id);
+                $ticket_bought += $item->quantity;
+                $total_sale += $item->price;
+                // $item->user_name = (isset($user->fname)) ? $user->fname . ' ' . $user->lname : '';
+                // $item->ticket = $ticket;
+                // $item->booking = $booking;
+            }
+            // $gig->cart_items = $cart_items;
+            $gig->ticket_left = ($gig->ticket_limit - $ticket_bought) < 0 ? 0 : ($gig->ticket_limit - $ticket_bought);
+            $gig->total_sale = $total_sale;
+            $gig->ticket_bought = $ticket_bought;
+            // $gig->booked = 100;
+            $data['gigs'][] = $gig;
+        }
+
+        // echo json_encode($data);
+        // die();
+        $this->load->view('frontend/transactions/show_wallet', $data);
     }
 }

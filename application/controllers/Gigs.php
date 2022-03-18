@@ -609,6 +609,8 @@ class Gigs extends CI_Controller
 				} else {
 					$this->load->view('frontend/gigs/create', $data);
 				}
+			} else {
+				$this->load->view('frontend/gigs/create', $data);
 			}
 			// } else {
 			// 	$uri = uri_string();

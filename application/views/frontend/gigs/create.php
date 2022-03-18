@@ -638,26 +638,26 @@
 
       $('#start_gig_menu').addClass('active');
 
-      $('#campaign_date').change(function() {
-        var campaign_date = new Date($(this).val());
-        var gig_min_date = campaign_date.toISOString().substring(0, 10);
-        var gig_min_value = new Date(campaign_date.setDate(parseInt(campaign_date.getDate()) + parseInt(<?php echo $buffer_days; ?>)));
-        var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
-        gig_max_date = gig_max_date.toISOString().substring(0, 10);
-        gig_min_value = gig_min_value.toISOString().substring(0, 10);
-        var gig_min_time = campaign_date.toISOString().substring(10, 16);
-        // console.log(gig_min_date)
-        // console.log(gig_min_time)
-        if ($('#start_time').val() != '') {
-          gig_min_time = 'T' + $('#start_time').val();
-        }
-        console.log(gig_max_date);
-        console.log(gig_min_value);
-        $('#gig_date').attr('min', gig_min_value);
-        $('#gig_date').val(gig_min_value);
-        $('#gig_date').attr('max', gig_max_date);
-        set_end_time_min(gig_min_value, gig_min_time)
-      });
+      // $('#campaign_date').change(function() {
+      //   var campaign_date = new Date($(this).val());
+      //   var gig_min_date = campaign_date.toISOString().substring(0, 10);
+      //   var gig_min_value = new Date(campaign_date.setDate(parseInt(campaign_date.getDate()) + parseInt(<?php echo $buffer_days; ?>)));
+      //   var gig_max_date = new Date(campaign_date.setDate(campaign_date.getDate() + 30));
+      //   gig_max_date = gig_max_date.toISOString().substring(0, 10);
+      //   gig_min_value = gig_min_value.toISOString().substring(0, 10);
+      //   var gig_min_time = campaign_date.toISOString().substring(10, 16);
+      //   // console.log(gig_min_date)
+      //   // console.log(gig_min_time)
+      //   if ($('#start_time').val() != '') {
+      //     gig_min_time = 'T' + $('#start_time').val();
+      //   }
+      //   console.log(gig_max_date);
+      //   console.log(gig_min_value);
+      //   $('#gig_date').attr('min', gig_min_value);
+      //   $('#gig_date').val(gig_min_value);
+      //   $('#gig_date').attr('max', gig_max_date);
+      //   set_end_time_min(gig_min_value, gig_min_time)
+      // });
 
       $('#gig_date').change(function() {
         var gig_date = new Date($(this).val()).toISOString();

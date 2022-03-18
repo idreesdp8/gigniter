@@ -502,9 +502,9 @@ function checkGigDate() {
     var val = $("#gig_date").val();
     // var campaign_date = new Date($('#campaign_date').val());
     var gig_date = new Date($('#gig_date').val());
-    var gig_min_date = new Date($('#gig_date').attr('min'));
-    // console.log(gig_min_date)
-    // console.log(gig_min_date <= gig_date)
+    var gig_min_date = new Date($('#campaign_date').attr('min'));
+    console.log(gig_min_date)
+    console.log(gig_min_date <= gig_date)
     if (val !== '' && gig_min_date <= gig_date) {
         $("#gig_date").removeClass("error").addClass("good");
         return true;
