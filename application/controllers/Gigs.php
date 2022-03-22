@@ -389,7 +389,7 @@ class Gigs extends CI_Controller
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
-			
+
 			$user_image = [];
 			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 				$user_image = $_FILES['image'];
@@ -1890,8 +1890,33 @@ class Gigs extends CI_Controller
 		// echo $this->general_model->safe_ci_decoder('cUpGWGVN');
 		// $send = $this->send_email('hamza0952454@gmail.com', 'Verification Code', 'verification');
 		// echo $send;
-		$res = $this->gigs_model->test_query();
-		echo json_encode($res);
+		// $res = $this->gigs_model->test_query();
+		// echo json_encode($res);
+		$to = 'hamza0952454@gmail.com';
+		$subject = 'Verification Code';
+		$from_email = $this->config->item('info_email');
+		$this->load->helper('string');
+		$code = random_string('alnum', 6);
+		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder('hamza0952454@gmail.com') . '&code=' . $this->general_model->safe_ci_encoder($code);
+		// $msg = $this->load->view('email/verification_code', $data, TRUE);
+		$template = 'email/verification_code';
+
+		$message = $this->load->view($template, $data, TRUE);
+
+		// Always set content-type when sending HTML email
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+		// More headers
+		$headers .= 'From: <' . $from_email . '>' . "\r\n";
+		// $headers .= 'Cc: myboss@example.com' . "\r\n";
+		//Send mail
+		echo $headers;
+		if (mail($to, $subject, $message, $headers)) {
+			echo '1';
+		} else {
+			echo '0';
+		}
 	}
 
 	function get_tickets_booked_and_left($gig)
