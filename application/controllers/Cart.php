@@ -219,13 +219,6 @@ class Cart extends CI_Controller
 
 	function checkout()
 	{
-		// if() {
-		// 	echo $this->dbs_user_id;
-		// } else {
-		// 	echo 'meow';
-		// }
-		// die();
-		// // $this->cart->destroy();
 		$qr_token_arrs = array();
 		$cart_items = $this->cart->contents();
 
@@ -247,8 +240,8 @@ class Cart extends CI_Controller
 			$user_id = $this->dbs_user_id;
 
 			$ticket_limit = $this->gigs_model->get_gig_ticket_limit($gig_id);
-			$threshold = floor($ticket_limit * .6);
-			// $threshold = 3;
+			$threshold = $this->configurations_model->get_configuration_by_key('threshold-value');
+			$threshold = floor($ticket_limit * $threshold->value);
 
 			$price = $this->cart->total();
 			$booking_no = 'GN_' . strtotime('now');

@@ -146,7 +146,9 @@ class Bookings extends CI_Controller
 		];
 		$res = $this->bookings_model->cancel_booking($id, $data);
 		if ($res) {
-			$this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');
+			$template = 'email/cancel_booking';
+			$result = send_email_helper2($user->email, 'Ticket Cancelled', $template);
+			// $this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');
 			$this->session->set_flashdata('success_msg', 'Your Booking is cancelled!');
 		} else {
 			$this->session->set_flashdata('error_msg', 'Error occured');
