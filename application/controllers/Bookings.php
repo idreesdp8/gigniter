@@ -53,7 +53,7 @@ class Bookings extends CI_Controller
 			$gig_date = strtotime($gig->gig_date);
 			$now = strtotime('now');
 			$interval = $gig_date - $now;
-			$hours = round($interval/3600, 0);
+			$hours = round($interval / 3600, 0);
 			$ticket_names = '';
 			if ($cart_items) {
 				// $temp_gig_titles = array();
@@ -86,7 +86,7 @@ class Bookings extends CI_Controller
 			redirect('bookings');
 		}
 		$booking = $this->bookings_model->get_booking_by_id($args1);
-		if($booking->user_id != $this->dbs_user_id) {
+		if ($booking->user_id != $this->dbs_user_id) {
 			redirect('bookings');
 		}
 		$transaction = $this->bookings_model->get_charged_transaction_by_booking_id($booking->id);
@@ -96,7 +96,7 @@ class Bookings extends CI_Controller
 		$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
 		$gig_date = strtotime($gig->gig_date);
 		$interval = $gig_date - $now;
-		$hours = round($interval/3600, 0);
+		$hours = round($interval / 3600, 0);
 		foreach ($cart_items as $item) {
 			$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
@@ -242,7 +242,7 @@ class Bookings extends CI_Controller
 	function download_tickets()
 	{
 		// require 'vendor/autoload.php';
-		if($this->input->post()){
+		if ($this->input->post()) {
 			$data = $this->input->post();
 		} else {
 			$data = $this->input->get();
@@ -270,15 +270,15 @@ class Bookings extends CI_Controller
 
 	function amend_order($booking_id = '')
 	{
-		if(isset($_POST) && !empty($_POST)) {
+		if (isset($_POST) && !empty($_POST)) {
 			$booking_id = $this->input->post('booking_id');
 			$tiers = $this->input->post('ticket_tier_id');
 			$quantity = $this->input->post('qty');
 			$data = array();
-			if($tiers) {
+			if ($tiers) {
 				$i = 0;
 				$total_price = 0;
-				foreach($tiers as $tier) {
+				foreach ($tiers as $tier) {
 					$item = $this->gigs_model->get_ticket_tier_by_id($tier);
 					// $gig = $this->gigs_model->get_gig_by_id();
 					$data[] = [
