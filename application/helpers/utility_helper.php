@@ -201,9 +201,8 @@ function send_email_helper2($to_email, $subject, $template, $data = '')
 	// $headers .= 'Cc: myboss@example.com' . "\r\n";
 	//Send mail
 	if (mail($to, $subject, $message, $headers)) {
-		echo 'true';
+		return true;
 	} else {
-		echo 'false';
+		return false;
 	}
-	die();
 }
