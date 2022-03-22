@@ -146,6 +146,7 @@ class Bookings extends CI_Controller
 		];
 		$res = $this->bookings_model->cancel_booking($id, $data);
 		if ($res) {
+			$this->bookings_model->remove_booking_cart_items($id);
 			$template = 'email/cancel_booking';
 			$result = send_email_helper2($user->email, 'Ticket Cancelled', $template);
 			// $this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');

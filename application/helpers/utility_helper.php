@@ -200,8 +200,9 @@ function send_email_helper2($to_email, $subject, $template, $data = '')
 	// More headers
 	$headers .= 'From:' . $from_email->value . "\r\n";
 	// $headers .= 'Cc: myboss@example.com' . "\r\n";
+	$sent = mail($to, $subject, $message, $headers);
 	//Send mail
-	if (mail($to, $subject, $message, $headers)) {
+	if ($sent) {
 		return true;
 	} else {
 		return false;
