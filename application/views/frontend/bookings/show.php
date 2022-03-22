@@ -87,7 +87,7 @@
                             <?php
                             if ($booking->is_paid == 0 && $booking->hours < 48) :
                             ?>
-                                <a type="button" class="btn btn-warning ml-2 float-right" href="<?php echo user_base_url().'bookings/amend_order/'.$booking->id; ?>">Amend Order</a>
+                                <a type="button" class="btn btn-warning ml-2 float-right" href="<?php echo user_base_url() . 'bookings/amend_order/' . $booking->id; ?>">Amend Order</a>
                             <?php
                             endif;
                             ?>
@@ -109,18 +109,18 @@
                                     </div> -->
                                     <div class="col-lg-4">
                                         <h6>Total Amount</h6>
-                                        <p><?php echo '$'.number_format($booking->price, 2, '.', ','); ?></p>
+                                        <p><?php echo '$' . number_format($booking->price, 2, '.', ','); ?></p>
                                     </div>
                                     <div class="col-lg-4">
                                         <h6>Status</h6>
                                         <p>
                                             <?php
                                             if ($booking->is_paid == 0)
-                                                echo 'On Hold';
+                                                echo '<span class="bundle-pill pill-warning">On Hold</span>';
                                             if ($booking->is_paid == 1)
-                                                echo 'Paid';
+                                                echo '<span class="bundle-pill pill-success">Paid</span>';
                                             if ($booking->is_paid == 2)
-                                                echo 'Cancelled';
+                                                echo '<span class="bundle-pill pill-danger">Cancelled</span>';
                                             ?>
                                         </p>
                                     </div>
@@ -149,14 +149,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <h6>Tickets</h6>
-                            </div>
-                            <br>
                             <?php
                             if ($booking->items) :
-                                foreach ($booking->items as $item) :
                             ?>
+                                <div class="col-lg-12">
+                                    <h6>Tickets</h6>
+                                </div>
+                                <br>
+                                <?php
+                                foreach ($booking->items as $item) :
+                                ?>
                                     <div class="col-lg-4">
                                         <div class="card">
                                             <div class="card-body">
@@ -188,7 +190,7 @@
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Unit Price</span>
-                                                    <span class="card-text"><?php echo '$'.number_format($item->ticket->price, 2, '.', ','); ?></span>
+                                                    <span class="card-text"><?php echo '$' . number_format($item->ticket->price, 2, '.', ','); ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Quantity</span>
@@ -210,7 +212,7 @@
                                                 ?>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Total Price</span>
-                                                    <span class="card-text"><?php echo '$'.number_format($item->price, 2, '.', ','); ?></span>
+                                                    <span class="card-text"><?php echo '$' . number_format($item->price, 2, '.', ','); ?></span>
                                                 </div>
                                                 <div class="mt-3 mb-3">
                                                     <h6 class="card-subtitle mb-2 text-muted">Ticket Validation</h6>
