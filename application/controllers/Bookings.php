@@ -50,6 +50,8 @@ class Bookings extends CI_Controller
 			// echo json_encode($cart_items);
 			// die();
 			$gig_name = '';
+			$hours = '';
+			$gig_id = '';
 			$ticket_names = '';
 			if ($cart_items) {
 				$temp_gig_titles = array();
