@@ -140,7 +140,8 @@ class Bookings extends CI_Controller
 		$booking = $this->bookings_model->get_booking_by_id($id);
 		$user = $this->users_model->get_user_by_id($booking->user_id);
 		$data = [
-			'is_cancelled' => 1
+			'is_cancelled' => 1,
+			'is_paid' => 2
 		];
 		$res = $this->bookings_model->cancel_booking($id, $data);
 		if ($res) {

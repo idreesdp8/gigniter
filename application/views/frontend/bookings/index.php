@@ -77,7 +77,6 @@
                                                 echo '<span class="bundle-pill pill-success">Paid</span>';
                                                 if ($booking->is_paid == 2)
                                                 echo '<span class="bundle-pill pill-danger">Cancelled</span>';
-                                                // echo $booking->is_paid ? 'Paid' : 'Pending'
                                                 ?>
                                             </td>
                                             <td><?php echo date('M d, Y', strtotime($booking->created_on)) ?></td>
