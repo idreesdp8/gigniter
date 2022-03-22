@@ -189,8 +189,8 @@ function send_email_helper2($to_email, $subject, $template, $data = '')
 	$to = $to_email;
 
 	$from_email = $CI->configurations_model->get_configuration_by_key('info_email');
-echo json_encode($from_email);
-die();
+	// echo json_encode($from_email);
+	// die();
 	$message = $CI->load->view($template, $data, TRUE);
 
 	// Always set content-type when sending HTML email
@@ -198,7 +198,7 @@ die();
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 	// More headers
-	$headers .= 'From: <' . $from_email->value . '>' . "\r\n";
+	$headers .= 'From:' . $from_email->value . "\r\n";
 	// $headers .= 'Cc: myboss@example.com' . "\r\n";
 	//Send mail
 	if (mail($to, $subject, $message, $headers)) {
