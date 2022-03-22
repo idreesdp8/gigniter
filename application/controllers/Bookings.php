@@ -49,32 +49,28 @@ class Bookings extends CI_Controller
 			$cart_items = $this->bookings_model->get_booking_items($booking->id);
 			// echo json_encode($cart_items);
 			// die();
-			$gig_name = '';
-			$hours = '';
-			$gig_id = '';
+			$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
+			$gig_date = strtotime($gig->gig_date);
+			$now = strtotime('now');
+			$interval = $gig_date - $now;
+			$hours = round($interval/3600, 0);
 			$ticket_names = '';
 			if ($cart_items) {
-				$temp_gig_titles = array();
+				// $temp_gig_titles = array();
 				$temp_tickets_titles = array();
-				$now = strtotime('now');
 				foreach ($cart_items as $item) {
-					$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-					$gig_date = strtotime($gig->gig_date);
-					$interval = $gig_date - $now;
-					$hours = round($interval/3600, 0);
 					$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-					$temp_gig_titles[] = $gig->title;
-					$temp_gig_ids[] = $gig->id;
-					$gig_id = implode(', ', array_unique($temp_gig_ids));
-					$gig_name = implode(', ', array_unique($temp_gig_titles));
+					// $temp_gig_titles[] = $gig->title;
+					// $temp_gig_ids[] = $gig->id;
+					// $gig_id = implode(', ', array_unique($temp_gig_ids));
+					// $gig_name = implode(', ', array_unique($temp_gig_titles));
 					$temp_tickets_titles[] = ($ticket->name ?? '') . ' <small>(x' . $item->quantity . ')</small>';
 					$ticket_names = implode(', ', /* array_unique */ ($temp_tickets_titles));
 				}
 			}
 			// $booking->transaction = $transaction;
-			$booking->gig_name = $gig_name;
+			$booking->gig_name = $gig->title;
 			$booking->hours = $hours;
-			$booking->gig_id = $gig_id;
 			$booking->ticket_names = $ticket_names;
 		}
 		$data['bookings'] = $bookings;
