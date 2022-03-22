@@ -1894,9 +1894,10 @@ class Gigs extends CI_Controller
 		// echo json_encode($res);
 		$to = 'hamza0952454@gmail.com';
 		$subject = 'Verification Code';
-		$from_email = $this->config->item('info_email');
+		$from_email = $this->configurations_model->get_configuration_by_key('info_email');
+		echo json_encode($from_email);
+		die();
 		$this->load->helper('string');
-		$this->load->library('email');
 		$code = random_string('alnum', 6);
 		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder('hamza0952454@gmail.com') . '&code=' . $this->general_model->safe_ci_encoder($code);
 		// $msg = $this->load->view('email/verification_code', $data, TRUE);
@@ -1909,7 +1910,7 @@ class Gigs extends CI_Controller
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 		// More headers
-		$headers .= 'From: <' . $from_email . '>' . "\r\n";
+		$headers .= 'From: <' . $from_email->info_email . '>' . "\r\n";
 		// $headers .= 'Cc: myboss@example.com' . "\r\n";
 		//Send mail
 		echo $headers;
