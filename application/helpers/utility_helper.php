@@ -184,8 +184,11 @@ function send_email_helper($to_email, $subject, $template, $data = '')
 function send_email_helper2($to_email, $subject, $template, $data = '')
 {
 	$CI = &get_instance();
+	// $CI->load->model('user/configurations_model', 'configurations_model');
+
 	$to = $to_email;
-	$from_email = $CI->config->item('info_email');
+
+	$from_email = $CI->configurations_model->get_configuration_by_key('info_email');
 
 	$message = $CI->load->view($template, $data, TRUE);
 
@@ -194,12 +197,13 @@ function send_email_helper2($to_email, $subject, $template, $data = '')
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 	// More headers
-	$headers .= 'From: <'.$from_email.'>' . "\r\n";
+	$headers .= 'From: <' . $from_email->value . '>' . "\r\n";
 	// $headers .= 'Cc: myboss@example.com' . "\r\n";
 	//Send mail
 	if (mail($to, $subject, $message, $headers)) {
-		return true;
+		echo 'true';
 	} else {
-		return false;
+		echo 'false';
 	}
+	die();
 }

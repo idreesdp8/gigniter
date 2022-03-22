@@ -1911,7 +1911,7 @@ class Gigs extends CI_Controller
 		$headers .= 'From: <' . $from_email->value . '>' . "\r\n";
 		// $headers .= 'Cc: myboss@example.com' . "\r\n";
 		//Send mail
-		echo $headers;
+		// echo $headers;
 		if (mail($to, $subject, $message, $headers)) {
 			echo '1';
 		} else {
