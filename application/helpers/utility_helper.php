@@ -159,7 +159,7 @@ function downloads_url()
 {
 	return base_url() . 'downloads/';
 }
-function send_email_helper($to_email, $subject, $template)
+function send_email_helper($to_email, $subject, $template, $data = '')
 {
 	// $data = [$to_email, $to_name, $subject, $body];
 	// return $data;
@@ -167,7 +167,7 @@ function send_email_helper($to_email, $subject, $template)
 	$CI->load->library('email');
 	$from_email = $CI->config->item('info_email');
 	$from_name = $CI->config->item('from_name');
-	$msg = $CI->load->view($template, '', TRUE);
+	$msg = $CI->load->view($template, $data, TRUE);
 
 
 	$CI->email->from($from_email, $from_name);
@@ -176,6 +176,28 @@ function send_email_helper($to_email, $subject, $template)
 	$CI->email->message($msg);
 	//Send mail
 	if ($CI->email->send()) {
+		return true;
+	} else {
+		return false;
+	}
+}
+function send_email_helper2($to_email, $subject, $template, $data = '')
+{
+	$CI = &get_instance();
+	$to = $to_email;
+	$from_email = $CI->config->item('info_email');
+
+	$message = $CI->load->view($template, $data, TRUE);
+
+	// Always set content-type when sending HTML email
+	$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+	// More headers
+	$headers .= 'From: <'.$from_email.'>' . "\r\n";
+	// $headers .= 'Cc: myboss@example.com' . "\r\n";
+	//Send mail
+	if (mail($to, $subject, $message, $headers)) {
 		return true;
 	} else {
 		return false;

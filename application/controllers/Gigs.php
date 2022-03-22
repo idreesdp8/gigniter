@@ -389,20 +389,7 @@ class Gigs extends CI_Controller
 		if (isset($_POST) && !empty($_POST)) {
 			$data = $_POST;
 			$files = $_FILES;
-			// $session_data = [
-			// 	'gig_data' => $data,
-			// 	'gig_files' => $files
-			// ];
-			// $this->session->set_userdata($session_data);
-			// if ($data['is_draft'] == 2) {
-			// 	$this->preview($data, $files);
-			// 	die();
-			// }
-			// echo json_encode($data);
-			// echo date('Y-m-d H:i:s', strtotime($data['end_time']));
-			// echo json_encode($files);
-			// echo $this->dbs_user_id;
-			// die();
+			
 			$user_image = [];
 			if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
 				$user_image = $_FILES['image'];
@@ -541,6 +528,12 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->insert_gig_data($datas);
 
 				if ($res) {
+					$gig_history = [
+						'gig_id' => $res,
+						'action' => 'gig_created',
+						'text' => 'Gig is submitted to admin for approval'
+					];
+					$this->gigs_model->insert_gig_history($gig_history);
 					// $this->create_channel($data['title'], $res);
 					$user = $this->users_model->get_user_by_id($data['user_id']);
 					$this->send_email($user->email, 'Gig Created', 'gig_created');

@@ -1011,7 +1011,14 @@ class Account extends CI_Controller
 	function send_verification_email()
 	{
 		$email = $this->session->userdata('us_email');
-		$res = $this->send_email($email, 'Verification Code', 'verification');
+		$this->load->helper('string');
+		$code = random_string('alnum', 6);
+		$user = $this->users_model->get_user_by_email($email);
+		$this->users_model->update_user_data($user->id, ['code' => $code]);
+		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($email) . '&code=' . $this->general_model->safe_ci_encoder($code);
+		// $msg = $this->load->view('email/verification_code', $data, TRUE);
+		$template = 'email/verification_code';
+		$res = send_email_helper($email, 'Verification Code', $template, $data);
 		if ($res) {
 			$this->session->set_flashdata('success_msg', 'Email is sent to your email address.');
 		} else {
