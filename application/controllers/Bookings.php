@@ -93,11 +93,11 @@ class Bookings extends CI_Controller
 		$cart_items = $this->bookings_model->get_booking_items($booking->id);
 		$customer = $this->users_model->get_user_by_id($booking->user_id);
 		$now = strtotime('now');
+		$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
+		$gig_date = strtotime($gig->gig_date);
+		$interval = $gig_date - $now;
+		$hours = round($interval/3600, 0);
 		foreach ($cart_items as $item) {
-			$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-			$gig_date = strtotime($gig->gig_date);
-			$interval = $gig_date - $now;
-			$hours = round($interval/3600, 0);
 			$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
 			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
