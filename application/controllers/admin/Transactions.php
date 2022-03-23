@@ -73,6 +73,8 @@ class Transactions extends CI_Controller
             // $status = $this->configurations_model->get_configuration_by_key_value(['key' => $this->gig_status_key, 'value' => $gig->status]);
             // $gig->status_label = $status->label;
             $booking = $this->bookings_model->get_booking_by_id($transaction->booking_id);
+            echo json_encode($booking);
+            die();
             if ($transaction->user_received) {
                 $user = $this->users_model->get_user_by_id($transaction->user_received);
             }
