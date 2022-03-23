@@ -256,7 +256,7 @@ class Bookings extends CI_Controller
 			$gig = $this->gigs_model->get_gig_by_id($ticket->gig_id);
 			$booking = $this->bookings_model->get_booking_by_id($ticket->booking_id);
 			$owner = $this->users_model->get_user_by_id($booking->user_id);
-			$ticket_tier = $this->users_model->get_user_by_id($ticket->ticket_tier_id);
+			$ticket_tier = $this->gigs_model->get_ticket_tier_by_id($ticket->ticket_tier_id);
 			$ticket->gig_date = $gig->gig_date;
 			$ticket->title = $gig->title;
 			$ticket->subtitle = $gig->subtitle;
