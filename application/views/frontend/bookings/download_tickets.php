@@ -33,8 +33,8 @@ if (isset($tickets)) {
                             <div style="font-size: 1.5em;text-transform: uppercase;"><?php echo  $ticket->title ?></div>
                             <div style="font-size: 0.75em;text-transform: capitalize;"><?php echo  $ticket->subtitle ?></div>
                             <div style="font-size: 0.75em;text-transform: capitalize;">from 
-                                <span style="font-weight: 600;text-transform: uppercase;"><?php echo date('Y-m-d H:i A', strtotime($ticket->start_time)) ?></span> to 
-                                <span style="font-weight: 600;text-transform: uppercase;"><?php echo date('Y-m-d H:i A', strtotime($ticket->end_time)) ?></span>
+                                <span style="font-weight: 600;text-transform: uppercase;"><?php echo date('H:i A', strtotime($ticket->start_time)) ?></span> to 
+                                <span style="font-weight: 600;text-transform: uppercase;"><?php echo date('H:i A', strtotime($ticket->end_time)) ?></span>
                             </div>
                          </div>  
                          <div style="margin-top:35px;">
