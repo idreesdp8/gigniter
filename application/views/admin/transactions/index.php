@@ -74,7 +74,7 @@
                                         <tr>
                                             <td><?php echo $i ?></td>
                                             <td>
-                                                <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking ? $record->booking->id : '' ?>" target="_blank">
+                                                <a href="<?php echo $record->booking ? admin_base_url() . 'bookings/show/' . $record->booking->id : '' ?>" target="_blank">
                                                     <?php echo $record->booking ? $record->booking->booking_no : 'N/A' ?>
                                                 </a>
                                             </td>
