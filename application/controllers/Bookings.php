@@ -296,6 +296,7 @@ class Bookings extends CI_Controller
 						'booking_id' => $booking_id
 					];
 					$resp = $this->bookings_model->insert_cart_data($data);
+					$sub_price = $item->price * $quantity[$i];
 					while ($quantity[$i]) {
 
 						if ($is_physical_gig == 1) {
@@ -330,7 +331,6 @@ class Bookings extends CI_Controller
 
 						$quantity[$i]--;
 						$j++;
-						$sub_price = $item->price * $quantity[$i];
 					}
 					$total_price += $sub_price;
 					$i++;
