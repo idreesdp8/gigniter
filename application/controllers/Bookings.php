@@ -146,6 +146,7 @@ class Bookings extends CI_Controller
 		$res = $this->bookings_model->cancel_booking($id, $data);
 		if ($res) {
 			$this->bookings_model->remove_booking_cart_items($id);
+			$this->bookings_model->remove_booking_cart_items($id);
 			$template = 'email/cancel_booking';
 			$result = send_email_helper2($user->email, 'Ticket Cancelled', $template);
 			// $this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');
@@ -270,18 +271,23 @@ class Bookings extends CI_Controller
 
 	function amend_order($booking_id = '')
 	{
+		$user_id = $this->dbs_user_id;
 		if (isset($_POST) && !empty($_POST)) {
 			$booking_id = $this->input->post('booking_id');
+			$booking = $this->bookings_model->get_booking_by_id($booking_id);
+			$is_physical_gig = $this->gigs_model->check_gig_venue_type($booking->gig_id, 'Physical');
 			$tiers = $this->input->post('ticket_tier_id');
 			$quantity = $this->input->post('qty');
 			$data = array();
+			$this->bookings_model->remove_booking_cart_items($booking_id);
 			if ($tiers) {
 				$i = 0;
 				$total_price = 0;
 				foreach ($tiers as $tier) {
+					$j = 1;
 					$item = $this->gigs_model->get_ticket_tier_by_id($tier);
 					// $gig = $this->gigs_model->get_gig_by_id();
-					$data[] = [
+					$data = [
 						'gig_id' => $item->gig_id,
 						'ticket_tier_id' => $item->id,
 						'quantity' => $quantity[$i],
@@ -289,18 +295,54 @@ class Bookings extends CI_Controller
 						'user_id' => $this->dbs_user_id,
 						'booking_id' => $booking_id
 					];
+					$resp = $this->bookings_model->insert_cart_data($data);
+					while ($quantity[$i]) {
+
+						if ($is_physical_gig == 1) {
+							$qr_token = uniqid();
+
+							$ticket_params[] = [
+								'ticket_no' => $user_id . '_' . $item->gig_id . '_' . $booking_id . '_' . $item->id . '_' . $j,
+								'gig_id' => $item->gig_id,
+								'ticket_tier_id' => $item->id,
+								'booking_id' => $booking_id,
+								'user_id' => $user_id,
+								'cart_id' => $resp,
+								'qr_token' => $qr_token,
+							];
+
+							$qr_token_url =  user_base_url() . 'verification/qr_token/' . $qr_token;
+
+							$this->general_model->custom_qr_img_generate($qr_token_url, "downloads/tickets_qr_code_imgs/ticket_" . $qr_token . ".png");
+
+							$qr_token_arrs[] = $qr_token;
+						} else {
+							$ticket_params[] = [
+								'ticket_no' => $user_id . '_' . $item->gig_id . '_' . $booking_id . '_' . $item->id . '_' . $j,
+								'gig_id' => $item->gig_id,
+								'ticket_tier_id' => $item->id,
+								'booking_id' => $booking_id,
+								'user_id' => $user_id,
+								'cart_id' => $resp,
+								'qr_token' => '',
+							];
+						}
+
+						$quantity[$i]--;
+						$j++;
+					}
 					$sub_price = $item->price * $quantity[$i];
 					$total_price += $sub_price;
 					$i++;
 				}
+				$this->gigs_model->insert_tickets_data($ticket_params);
 			}
 			// echo json_encode($data);
 			// echo json_encode($total_price);
 			// exit;
-			$this->bookings_model->remove_booking_cart_items($booking_id);
-			$res = $this->bookings_model->add_bulk_booking_items($data);
+			// $res = $this->bookings_model->add_bulk_booking_items($data);
 			$this->bookings_model->update_booking_data($booking_id, ['price' => $total_price]);
-			if ($res) {
+			if ($resp) {
 				$this->session->set_flashdata('success_msg', 'Your Booking is amended');
 			} else {
 				$this->session->set_flashdata('error_msg', 'Error occured');
