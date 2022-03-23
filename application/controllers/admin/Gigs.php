@@ -759,7 +759,7 @@ class Gigs extends CI_Controller
 					'campaign_date' => $data['campaign_date'] ? date('Y-m-d', strtotime($data['campaign_date'])) : null,
 					'gig_date' => $data['gig_date'] ? date('Y-m-d', strtotime($data['gig_date'])) : null,
 					'start_time' => $data['start_time'] ? date('H:i:s', strtotime($data['start_time'])) : null,
-					'end_time' => $data['end_time'] ? date('H:i:s', strtotime($data['end_time'])) : null,
+					'end_time' => $data['end_time'] ? date('Y-m-d H:i:s', strtotime($data['end_time'])) : null,
 					'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 					'status' => $data['status'] ?? null,
 				);
