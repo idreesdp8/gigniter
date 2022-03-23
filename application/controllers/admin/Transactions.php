@@ -98,7 +98,11 @@ class Transactions extends CI_Controller
                 }
             }
             $transaction->booking = $booking;
-            $transaction->user_name = $user->fname . ' ' . $user->lname;
+            if($user) {
+                $transaction->user_name = $user->fname . ' ' . $user->lname;
+            } else {
+                $transaction->user_name = 'Not Found';
+            }
             $transaction->gig_names = $gig_names;
             // $transaction->ticket_names = $ticket_names;
         }
