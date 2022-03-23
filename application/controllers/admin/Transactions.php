@@ -73,27 +73,29 @@ class Transactions extends CI_Controller
             // $status = $this->configurations_model->get_configuration_by_key_value(['key' => $this->gig_status_key, 'value' => $gig->status]);
             // $gig->status_label = $status->label;
             $booking = $this->bookings_model->get_booking_by_id($transaction->booking_id);
-            echo json_encode($booking);
-            die();
+            // echo json_encode($booking);
+            // die();
             if ($transaction->user_received) {
                 $user = $this->users_model->get_user_by_id($transaction->user_received);
             }
             if ($transaction->user_send) {
                 $user = $this->users_model->get_user_by_id($transaction->user_send);
             }
-            $cart_items = $this->bookings_model->get_booking_items($booking->id);
             $gig_names = '';
-            // $ticket_names = '';
-            if ($cart_items) {
-                $temp_gig_titles = array();
-                foreach ($cart_items as $item) {
-                    $gig = $this->gigs_model->get_gig_by_id($item->gig_id);
-                    // $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
-                    $temp_gig_titles[] = $gig->title ?? 'NA';
-                    // $temp_tickets[] = $ticket->name;
-                    // $ticket_names = implode(', ', array_unique($temp_tickets));
+            if($booking) {
+                $cart_items = $this->bookings_model->get_booking_items($booking->id);
+                // $ticket_names = '';
+                if ($cart_items) {
+                    $temp_gig_titles = array();
+                    foreach ($cart_items as $item) {
+                        $gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+                        // $ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
+                        $temp_gig_titles[] = $gig->title ?? 'NA';
+                        // $temp_tickets[] = $ticket->name;
+                        // $ticket_names = implode(', ', array_unique($temp_tickets));
+                    }
+                    $gig_names = implode(', ', array_unique($temp_gig_titles));
                 }
-                $gig_names = implode(', ', array_unique($temp_gig_titles));
             }
             $transaction->booking = $booking;
             $transaction->user_name = $user->fname . ' ' . $user->lname;
