@@ -82,7 +82,7 @@
                                             <td>
                                                 <?php
                                                 if ($record->type == 'charge')
-                                                    echo '$' . $record->booking ? $record->booking->price : 'N/A';
+                                                    echo $record->booking ? '$' . $record->booking->price : 'N/A';
                                                 if ($record->type == 'transfer')
                                                     echo '$' . $record->amount;
                                                 ?>
