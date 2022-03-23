@@ -74,15 +74,15 @@
                                         <tr>
                                             <td><?php echo $i ?></td>
                                             <td>
-                                                <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking->id ?? '' ?>" target="_blank">
-                                                    <?php echo $record->booking->booking_no ?? 'N/A' ?>
+                                                <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->booking ? $record->booking->id : '' ?>" target="_blank">
+                                                    <?php echo $record->booking ? $record->booking->booking_no : 'N/A' ?>
                                                 </a>
                                             </td>
                                             <td><span class="badge badge-secondary badge-pill"><?php echo $record->gig_names ?></span></td>
                                             <td>
                                                 <?php
                                                 if ($record->type == 'charge')
-                                                    echo '$' . $record->booking->price ?? 'N/A';
+                                                    echo '$' . $record->booking ? $record->booking->price : 'N/A';
                                                 if ($record->type == 'transfer')
                                                     echo '$' . $record->amount;
                                                 ?>
@@ -99,14 +99,17 @@
                                             <td><?php echo $record->user_name ?></td>
                                             <!-- <td>
                                                 <?php
-                                                if ($record->booking->is_paid == 0)
-                                                    echo 'Pending';
-                                                else if ($record->booking->is_paid == 1)
-                                                    echo 'Paid';
-                                                else if ($record->booking->is_paid == 2)
-                                                    echo 'Cancelled';
-                                                else
+                                                if($record->booking) {
+                                                    if ($record->booking->is_paid == 0)
+                                                        echo 'Pending';
+                                                    if ($record->booking->is_paid == 1)
+                                                        echo 'Paid';
+                                                    if ($record->booking->is_paid == 2)
+                                                        echo 'Cancelled';
+
+                                                } else {
                                                     echo 'Booking Deleted';
+                                                }
                                                 ?>
                                             </td> -->
                                             <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
