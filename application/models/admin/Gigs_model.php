@@ -458,6 +458,12 @@ class Gigs_model extends CI_Model
 		return $this->db->update('tickets', $datas);
 	}
 
+	function update_tickets_data_by_qr_token($args1, $datas)
+	{
+		$this->db->where('qr_token', $args1);
+		return $this->db->update('tickets', $datas);
+	}
+
 	function get_all_gig_owners()
 	{
 		$this->db->group_by('user_id');
