@@ -330,8 +330,8 @@ class Bookings extends CI_Controller
 
 						$quantity[$i]--;
 						$j++;
+						$sub_price = $item->price * $quantity[$i];
 					}
-					$sub_price = $item->price * $quantity[$i];
 					$total_price += $sub_price;
 					$i++;
 				}
