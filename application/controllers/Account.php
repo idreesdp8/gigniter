@@ -1011,6 +1011,8 @@ class Account extends CI_Controller
 	function send_verification_email()
 	{
 		$email = $this->session->userdata('us_email');
+		echo $email;
+		die();
 		$this->load->helper('string');
 		$code = random_string('alnum', 6);
 		$user = $this->users_model->get_user_by_email($email);
