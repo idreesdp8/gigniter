@@ -1634,7 +1634,7 @@ class Gigs extends CI_Controller
 
 	function submit_for_approval()
 	{
-		echo json_encode($this->dbs_user_id);die();
+		// echo json_encode($this->dbs_user_id);die();
 		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
 		echo json_encode($check_gig);die();
 		if (!$check_gig) {
