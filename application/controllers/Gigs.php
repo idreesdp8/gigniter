@@ -1635,6 +1635,7 @@ class Gigs extends CI_Controller
 	function submit_for_approval()
 	{
 		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
+		echo json_encode($check_gig);die();
 		if (!$check_gig) {
 			$id = $this->input->post('id');
 			$param = [
@@ -1848,7 +1849,7 @@ class Gigs extends CI_Controller
 			$this->gigs_model->insert_gig_history($gig_history);
 			$response = [
 				'status' => 1,
-				'return_url' => 'gigs/detail?gig=' . $_POST['gig_id'],
+				'return_url' => 'staging/index.php/gigs/detail?gig=' . $_POST['gig_id'],
 			];
 		} else {
 			$response = [
