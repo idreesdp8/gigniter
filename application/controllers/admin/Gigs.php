@@ -339,6 +339,7 @@ class Gigs extends CI_Controller
 		$data = [
 			'is_approved' => 1,
 			'is_rejected' => 0,
+			'is_draft' => 0,
 			'status' => 1
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
