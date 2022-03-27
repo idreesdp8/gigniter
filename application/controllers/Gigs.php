@@ -1943,10 +1943,10 @@ class Gigs extends CI_Controller
 
 	function current_time_stamp()
 	{
-		return json_encode($this->gigs_model->current_time_stamp());
+		echo json_encode($this->gigs_model->current_time_stamp());
 	}
 	function current_date()
 	{
-		return json_encode($this->gigs_model->current_date());
+		echo json_encode($this->gigs_model->current_date());
 	}
 }
