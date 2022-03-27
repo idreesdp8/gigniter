@@ -186,6 +186,7 @@
             success: function(response) {
                 var html_text = ''
                 $('#gigName').html(response.gig.title)
+                console.log(response.gig_history)
                 if (response.gig_history.length > 0) {
                     response.gig_history.map(function(value, index) {
                         var class_text = '';
