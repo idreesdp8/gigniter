@@ -517,7 +517,7 @@ class Gigs_model extends CI_Model
 		$this->db->where('status <=', 1);
 		// $this->db->or_where('status', 1);
 		$query = $this->db->get('gigs');
-		return $query->row();
+		return $query->result();
 	}
 
 
