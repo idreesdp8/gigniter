@@ -514,7 +514,7 @@ class Gigs_model extends CI_Model
 	{
 		$this->db->where('user_id', $user_id);
 		$this->db->where('is_draft', 0);
-		$this->db->where('is_approved', 1);
+		$this->db->where('is_approved', 0);
 		$query = $this->db->get('gigs');
 		return $query->row();
 	}
