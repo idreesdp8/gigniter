@@ -626,9 +626,9 @@ class Gigs_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
-	function dynamic_date($date)
+	function get_gig_date($gig)
 	{
-		$sql = 'SELECT date(' . $date . ')';
+		$sql = 'SELECT date(gig_date) FROM gigs WHERE gig_id = ' . $gig;
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
