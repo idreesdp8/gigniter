@@ -1638,12 +1638,13 @@ class Gigs extends CI_Controller
 		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
 		// echo json_encode($check_gig);die();
 		if (!$check_gig) {
+			echo json_encode('if');die();
 			$id = $this->input->post('id');
 			$param = [
 				'is_draft' => 0,
 			];
 			$res = $this->gigs_model->update_gig_data($id, $param);
-
+			
 			$gig_history = [
 				'gig_id' => $id,
 				'action' => 'gig_submitted',
@@ -1651,6 +1652,7 @@ class Gigs extends CI_Controller
 			];
 			$this->gigs_model->insert_gig_history($gig_history);
 		} else {
+			echo json_encode('else');die();
 			$res = false;
 		}
 		echo $res;
@@ -1751,7 +1753,7 @@ class Gigs extends CI_Controller
 		);
 		$res = $this->gigs_model->insert_gig_data($datas);
 
-		if ($res) {
+		if ($res === true) {
 			$gig_history = [
 				'gig_id' => $res,
 				'action' => 'gig_created',
@@ -1778,7 +1780,7 @@ class Gigs extends CI_Controller
 		$res = $this->add_tickets($_POST, $_POST['gig_id']);
 		// $res = $this->gigs_model->insert_gig_data($datas);
 
-		if ($res) {
+		if ($res === true) {
 			$gig_history = [
 				'gig_id' => $_POST['gig_id'],
 				'action' => 'gig_created',
@@ -1809,7 +1811,7 @@ class Gigs extends CI_Controller
 		}
 		$res = $this->update_user_data($_POST, $user_image, $this->dbs_user_id);
 
-		if ($res) {
+		if ($res === true) {
 			$gig_history = [
 				'gig_id' => $_POST['gig_id'],
 				'action' => 'gig_created',
