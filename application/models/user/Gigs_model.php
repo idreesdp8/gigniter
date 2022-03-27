@@ -628,7 +628,7 @@ class Gigs_model extends CI_Model
 	}
 	function get_gig_date($gig)
 	{
-		$sql = 'SELECT date(gig_date) FROM gigs WHERE gig_id = ' . $gig;
+		$sql = 'SELECT date(gig_date) FROM gigs WHERE id = ' . $gig;
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
