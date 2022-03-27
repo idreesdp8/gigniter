@@ -1949,4 +1949,8 @@ class Gigs extends CI_Controller
 	{
 		echo json_encode($this->gigs_model->current_date());
 	}
+	function dynamic_date()
+	{
+		echo json_encode($this->gigs_model->dynamic_date('2022-03-27'));
+	}
 }
