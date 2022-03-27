@@ -1636,15 +1636,17 @@ class Gigs extends CI_Controller
 	{
 		// echo json_encode($this->dbs_user_id);die();
 		$check_gig = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
-		echo json_encode($check_gig);die();
+		echo json_encode($check_gig);
+		die();
 		if (!$check_gig) {
-			echo json_encode('if');die();
+			echo json_encode('if');
+			die();
 			$id = $this->input->post('id');
 			$param = [
 				'is_draft' => 0,
 			];
 			$res = $this->gigs_model->update_gig_data($id, $param);
-			
+
 			$gig_history = [
 				'gig_id' => $id,
 				'action' => 'gig_submitted',
@@ -1652,7 +1654,8 @@ class Gigs extends CI_Controller
 			];
 			$this->gigs_model->insert_gig_history($gig_history);
 		} else {
-			echo json_encode('else');die();
+			echo json_encode('else');
+			die();
 			$res = false;
 		}
 		echo $res;
@@ -1936,5 +1939,14 @@ class Gigs extends CI_Controller
 		$param['ticket_left'] = $ticket_left > 0 ? $ticket_left : 0;
 		$param['booked'] = floor($ticket_bought / $gig->ticket_limit * 100);
 		return $param;
+	}
+
+	function current_time_stamp()
+	{
+		return json_encode($this->gigs_model->current_time_stamp());
+	}
+	function current_date()
+	{
+		return json_encode($this->gigs_model->current_date());
 	}
 }

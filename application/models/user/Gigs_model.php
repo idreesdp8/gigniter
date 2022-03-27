@@ -613,4 +613,17 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get_where('gigs', array('is_complete' => 0, 'user_id' => $user_id));
 		return $query->num_rows();
 	}
+
+	function current_time_stamp()
+	{
+		$sql = 'SELECT CURRENT_TIMESTAMP';
+		$query = $this->db->query($sql);
+		return $query->row();
+	}
+	function current_date()
+	{
+		$sql = 'SELECT curdate()';
+		$query = $this->db->query($sql);
+		return $query->row();
+	}
 }
