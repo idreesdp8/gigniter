@@ -92,6 +92,7 @@
                                     <h6>Add Ticket Tier(s)</h6>
                                 </div>
                                 <br>
+                                <div class="d-flex">
                                 <?php
                                 if ($tiers) :
                                     foreach ($tiers as $index => $value) :
@@ -141,6 +142,7 @@
                                     endforeach;
                                 endif;
                                 ?>
+                                </div>
                         </div>
                     </div>
                     <div class="d-flex float-right">
