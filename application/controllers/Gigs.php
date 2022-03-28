@@ -1639,8 +1639,8 @@ class Gigs extends CI_Controller
 		// echo json_encode($check_gig);
 		// die();
 		if (!$check_gig) {
-			echo json_encode('if');
-			die();
+			// echo json_encode('if');
+			// die();
 			$id = $this->input->post('id');
 			$param = [
 				'is_draft' => 0,
@@ -1654,8 +1654,8 @@ class Gigs extends CI_Controller
 			];
 			$this->gigs_model->insert_gig_history($gig_history);
 		} else {
-			echo json_encode('else');
-			die();
+			// echo json_encode('else');
+			// die();
 			$res = false;
 		}
 		echo $res;
