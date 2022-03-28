@@ -97,7 +97,7 @@
                                 if ($tiers) :
                                     foreach ($tiers as $index => $value) :
                                 ?>
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="max-width: 100%;">
                                         <div class="ticket--item">
                                             <input type="hidden" name="ticket_tier_id[]" value="<?php echo $value->id ?>" />
                                             <div class="ticket-content">
