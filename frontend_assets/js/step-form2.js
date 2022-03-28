@@ -245,10 +245,10 @@ function saveGigData(form, step) {
         contentType: false,
         processData: false,
         beforeSend: function () {
-            $('.preloader').fadeIn();
+            $('.preloader').removeAttr('style');
         },
         complete: function () {
-            $('.preloader').fadeOut();
+            $('.preloader').css('display', 'none');
         },
         success: function (res) {
             // alert(res.message)
@@ -299,10 +299,10 @@ $(document).ready(function () {
             },
             dataType: 'json',
             beforeSend: function () {
-                $('.preloader').fadeIn();
+                $('.preloader').removeAttr('style');
             },
             complete: function () {
-                $('.preloader').fadeOut();
+                $('.preloader').css('display', 'none');
             },
             success: function (res) {
                 if (res.status === 1) {
