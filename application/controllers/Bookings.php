@@ -283,6 +283,7 @@ class Bookings extends CI_Controller
 			$tiers = $this->input->post('ticket_tier_id');
 			$quantity = $this->input->post('qty');
 			$data = array();
+			$created_on = date('Y-m-d H:i:s');
 			$this->bookings_model->remove_booking_cart_items($booking_id);
 			if ($tiers) {
 				$i = 0;
@@ -291,16 +292,17 @@ class Bookings extends CI_Controller
 					$j = 1;
 					$item = $this->gigs_model->get_ticket_tier_by_id($tier);
 					// $gig = $this->gigs_model->get_gig_by_id();
+					$sub_price = $item->price * $quantity[$i];
 					$data = [
 						'gig_id' => $item->gig_id,
 						'ticket_tier_id' => $item->id,
 						'quantity' => $quantity[$i],
-						'price' => $item->price,
+						'price' => $sub_price,
 						'user_id' => $this->dbs_user_id,
-						'booking_id' => $booking_id
+						'booking_id' => $booking_id,
+						'created_on' => $created_on
 					];
 					$resp = $this->bookings_model->insert_cart_data($data);
-					$sub_price = $item->price * $quantity[$i];
 					while ($quantity[$i]) {
 
 						if ($is_physical_gig == 1) {
