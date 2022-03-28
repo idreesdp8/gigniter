@@ -1758,15 +1758,15 @@ class Gigs extends CI_Controller
 			'created_on' => $created_on,
 		);
 
-		if ($this->session->userdata('gig_id')) {
-			$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
-			$res = $this->gigs_model->update_gig_data($gig->id, $datas);
-			if ($res) {
-				$res = $gig->id;
-			}
-		} else {
+		// if ($this->session->userdata('gig_id')) {
+		// 	$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
+		// 	$res = $this->gigs_model->update_gig_data($gig->id, $datas);
+		// 	if ($res) {
+		// 		$res = $gig->id;
+		// 	}
+		// } else {
 			$res = $this->gigs_model->insert_gig_data($datas);
-		}
+		// }
 
 		if ($res) {
 			$gig_history = [
@@ -1793,7 +1793,7 @@ class Gigs extends CI_Controller
 	{
 		// echo json_encode($_POST);
 
-		$this->remove_tickets($_POST['gig_id']);
+		// $this->remove_tickets($_POST['gig_id']);
 		$res = $this->add_tickets($_POST, $_POST['gig_id']);
 		// $res = $this->gigs_model->insert_gig_data($datas);
 
@@ -1877,6 +1877,7 @@ class Gigs extends CI_Controller
 				'message' => 'Error! Something went wrong.'
 			];
 		}
+		// $this->session->unset_userdata('gig_id');
 		echo json_encode($response);
 	}
 
@@ -1938,6 +1939,12 @@ class Gigs extends CI_Controller
 		} else {
 			echo '0';
 		}
+	}
+
+
+	function test2()
+	{
+		echo json_encode($this->session->unset_userdata('gig_id'));
 	}
 
 	function get_tickets_booked_and_left($gig)
