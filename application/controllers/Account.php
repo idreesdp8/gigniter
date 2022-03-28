@@ -62,32 +62,32 @@ class Account extends CI_Controller
 				$result = $this->users_model->get_user($email, $password);
 				if (isset($result)) {
 					// if ($result->status == 1) {
-						$role = $this->roles_model->get_role_by_id($result->role_id);
-						// set session	
-						$cstm_sess_data = array(
-							'us_login' => TRUE,
-							'us_id' => $result->id,
-							'us_role_id' => $result->role_id,
-							'us_username' => ($result->username ? ucfirst($result->username) : ''),
-							'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
-							'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
-							'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
-							'us_email' => $result->email,
-							'us_role_name' => $role->name,
-						);
-						$this->session->set_userdata($cstm_sess_data);
-						// echo json_encode($this->session->userdata());
-						// die();
-						if ($this->cart->contents()) {
-							redirect('cart/checkout');
+					$role = $this->roles_model->get_role_by_id($result->role_id);
+					// set session	
+					$cstm_sess_data = array(
+						'us_login' => TRUE,
+						'us_id' => $result->id,
+						'us_role_id' => $result->role_id,
+						'us_username' => ($result->username ? ucfirst($result->username) : ''),
+						'us_fname' => ($result->fname ? ucfirst($result->fname) : ''),
+						'us_lname' => ($result->lname ? ucfirst($result->lname) : ''),
+						'us_fullname' => ($result->fname ? ucfirst($result->fname) : '') . ' ' . ($result->lname ? ucfirst($result->lname) : ''),
+						'us_email' => $result->email,
+						'us_role_name' => $role->name,
+					);
+					$this->session->set_userdata($cstm_sess_data);
+					// echo json_encode($this->session->userdata());
+					// die();
+					if ($this->cart->contents()) {
+						redirect('cart/checkout');
+					} else {
+						if ($this->session->has_userdata('redirect')) {
+							redirect($this->session->redirect);
 						} else {
-							if ($this->session->has_userdata('redirect')) {
-								redirect($this->session->redirect);
-							} else {
-								redirect('/');
-							}
+							redirect('/');
 						}
-						// redirect("dashboard");
+					}
+					// redirect("dashboard");
 					// } else {
 					// 	$this->session->set_flashdata('error_msg', 'Your account is Inactive, please contact Admin!');
 					// 	$this->load->view('frontend/account/signin');
@@ -872,6 +872,10 @@ class Account extends CI_Controller
 
 	function social_signin()
 	{
+		$uri = uri_string();
+		echo json_encode($uri);
+		die();
+		$this->session->set_userdata('redirect', $uri);
 		$provider = $this->input->get('provider');
 		// echo $provider;
 		// die();
@@ -931,7 +935,7 @@ class Account extends CI_Controller
 			// echo json_encode($user);
 			// die();
 			if ($user) {
-				if($user->provider_name == null || $provider !== $user->provider_name) {
+				if ($user->provider_name == null || $provider !== $user->provider_name) {
 					$this->session->set_flashdata('error_msg', 'This email address is already registered!');
 					redirect('signup');
 				}
