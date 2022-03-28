@@ -244,6 +244,12 @@ function saveGigData(form, step) {
         cache: false,
         contentType: false,
         processData: false,
+        beforeSend: function () {
+            $('.preloader').show();
+        },
+        complete: function () {
+            $('.preloader').hide();
+        },
         success: function (res) {
             // alert(res.message)
             swal({
@@ -292,6 +298,12 @@ $(document).ready(function () {
                 is_draft: $('#is_draft').val()
             },
             dataType: 'json',
+            beforeSend: function () {
+                $('.preloader').show();
+            },
+            complete: function () {
+                $('.preloader').hide();
+            },
             success: function (res) {
                 if (res.status === 1) {
                     window.location.href = '/' + res.return_url
