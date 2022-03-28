@@ -245,6 +245,7 @@ function saveGigData(form, step) {
         contentType: false,
         processData: false,
         beforeSend: function () {
+            console.log($('.preloader'))
             $('.preloader').removeAttr('style');
         },
         complete: function () {
@@ -299,6 +300,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             beforeSend: function () {
+                console.log($('.preloader'))
                 $('.preloader').removeAttr('style');
             },
             complete: function () {
