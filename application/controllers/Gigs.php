@@ -1756,7 +1756,7 @@ class Gigs extends CI_Controller
 		);
 		$res = $this->gigs_model->insert_gig_data($datas);
 
-		if ($res === true) {
+		if ($res) {
 			$gig_history = [
 				'gig_id' => $res,
 				'action' => 'gig_created',
