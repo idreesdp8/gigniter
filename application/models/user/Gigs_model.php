@@ -158,28 +158,32 @@ class Gigs_model extends CI_Model
 
 	function get_all_active_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND status = 1 AND is_approved = 1";
+		$sql = "SELECT * FROM gigs WHERE status = 1 AND is_approved = 1";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_featured_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND is_featured = 1";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND is_featured = 1";
+		$sql = "SELECT * FROM gigs WHERE date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND is_featured = 1";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_featured_and_exclusive_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND (is_featured = 1 OR is_exclusive = 1)";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND (is_featured = 1 OR is_exclusive = 1)";
+		$sql = "SELECT * FROM gigs WHERE date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 AND (is_featured = 1 OR is_exclusive = 1)";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_just_in_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY created_on DESC";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -227,14 +231,16 @@ class Gigs_model extends CI_Model
 
 	function get_closing_soon_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";
+		$sql = "SELECT * FROM gigs WHERE date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY date(gig_date) ASC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
 
 	function get_popular_gigs()
 	{
-		$sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY popularity DESC, created_on DESC";
+		// $sql = "SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY popularity DESC, created_on DESC";
+		$sql = "SELECT * FROM gigs WHERE date(campaign_date) <= CURDATE() AND status = 1 AND is_approved = 1 ORDER BY popularity DESC, created_on DESC";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -628,7 +634,7 @@ class Gigs_model extends CI_Model
 	}
 	function get_gig_date($gig)
 	{
-		$sql = 'SELECT date(gig_date) FROM gigs WHERE id = ' . $gig;
+		$sql = 'SELECT date(CONCAT(gig_date,',',start_time) AS gig_start_time) FROM gigs WHERE id = ' . $gig;
 		$query = $this->db->query($sql);
 		return $query->row();
 	}
