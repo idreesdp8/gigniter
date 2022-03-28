@@ -358,7 +358,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
-                      Profile Image
+                      Profile Image <span class="text-warning">upload image only in .jpg format</span>
                       <div>
                         <img id="img2" src="<?php echo isset($user) && $user->image ? profile_image_url() . $user->image : user_asset_url() . 'images/icons/img-demo-bg.png' ?>" alt="your image" />
                         <a><img src="<?php echo isset($user) && $user->image ? '' : user_asset_url() . 'images/icons/img-plus.png' ?>" id="icon_for_upload"></a>
