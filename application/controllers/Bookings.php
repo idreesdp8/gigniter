@@ -105,7 +105,7 @@ class Bookings extends CI_Controller
 			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
 			$ticket_shares = $this->bookings_model->get_ticket_shares_cart_id($item->id);
 			$gig->category_obj = $category;
-			$gig->genre = $genre;
+			$gig->genre_obj = $genre;
 			// $gig->venues = explode(',', $gig->venues);
 			// $item->gig = $gig;
 			$item->purchased = $item->quantity;
