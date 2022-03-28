@@ -174,6 +174,7 @@ class Transactions extends CI_Controller
     public function my_wallet()
     {
         // $gig = $this->gigs_model->get_gig_by_id($args1);
+        $data['gigs'] = [];
         $gigs = $this->gigs_model->get_user_gigs($this->dbs_user_id);
         // echo json_encode($gigs);
         // die();
