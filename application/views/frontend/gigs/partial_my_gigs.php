@@ -136,7 +136,7 @@
                         icon: 'success',
                         title: 'Your Gig is submitted for approval!',
                     });
-                    // location.reload();
+                    location.reload(true);
                 } else {
                     swal({
                         icon: 'warning',

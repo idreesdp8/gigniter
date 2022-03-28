@@ -504,7 +504,7 @@
                     <?php
                     if ($this->session->userdata('us_id')) :
                     ?>
-                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
+                      <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Preview</button>
                     <?php
                     endif;
                     ?>
