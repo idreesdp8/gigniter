@@ -872,10 +872,6 @@ class Account extends CI_Controller
 
 	function social_signin()
 	{
-		$uri = uri_string();
-		echo json_encode($uri);
-		die();
-		$this->session->set_userdata('redirect', $uri);
 		$provider = $this->input->get('provider');
 		// echo $provider;
 		// die();
