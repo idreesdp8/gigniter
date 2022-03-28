@@ -928,6 +928,8 @@ class Account extends CI_Controller
 			$userProfile = $adapter->getUserProfile();
 			$adapter->disconnect();
 			$user = $this->users_model->get_user_by_email($userProfile->email);
+			echo json_encode($user);
+			die();
 			if ($user) {
 				if($user->provider_name == null || $provider !== $user->provider_name) {
 					$this->session->set_flashdata('error_msg', 'This email address is already registered!');
