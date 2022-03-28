@@ -928,7 +928,11 @@ class Account extends CI_Controller
 			$userProfile = $adapter->getUserProfile();
 			$adapter->disconnect();
 			$user = $this->users_model->get_user_by_email($userProfile->email);
-			if ($user && $user->status) {
+			if ($user) {
+				if($user->provider_name == null || $provider !== $user->provider_name) {
+					$this->session->set_flashdata('error_msg', 'This email address is already registered!');
+					redirect('signup');
+				}
 				$role = $this->roles_model->get_role_by_id($user->role_id);
 				// set session	
 				$cstm_sess_data = array(
