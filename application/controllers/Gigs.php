@@ -1793,6 +1793,7 @@ class Gigs extends CI_Controller
 	{
 		// echo json_encode($_POST);
 
+		$this->remove_tickets($_POST['gig_id']);
 		$res = $this->add_tickets($_POST, $_POST['gig_id']);
 		// $res = $this->gigs_model->insert_gig_data($datas);
 
