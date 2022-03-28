@@ -1,4 +1,4 @@
-var validForm = false;
+var validForm = true;
 var errorElems = [];
 var ticketTierValues = [];
 var indexError = -1;
