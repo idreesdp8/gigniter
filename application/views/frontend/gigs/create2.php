@@ -510,9 +510,11 @@
                     ?>
                     <?php
                     if (($this->session->userdata('us_id') && !$gig) || ($this->session->userdata('us_id') && $gig) || (!$this->session->userdata('us_id'))) :
+                      if (!$prev_submitted) :
                     ?>
-                      <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
+                        <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
                     <?php
+                      endif;
                     endif;
                     ?>
                   </div>

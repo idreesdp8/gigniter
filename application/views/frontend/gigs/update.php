@@ -583,8 +583,12 @@
                       else :
                       ?>
                         <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
-                        <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
+                        <?php
+                        if (!$prev_submitted) :
+                        ?>
+                          <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
                       <?php
+                        endif;
                       endif;
                       ?>
                     </div>
@@ -606,11 +610,11 @@
   <?php
   // if ($gig->is_complete) :
   ?>
-    <script src="<?php echo user_asset_url(); ?>js/step-form-update.js"></script>
+  <script src="<?php echo user_asset_url(); ?>js/step-form-update.js"></script>
   <?php
   // else :
   ?>
-    <!-- <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script> -->
+  <!-- <script src="<?php echo user_asset_url(); ?>js/step-form2.js"></script> -->
   <?php
   // endif;
   ?>

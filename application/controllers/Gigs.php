@@ -597,6 +597,7 @@ class Gigs extends CI_Controller
 			if ($this->dbs_user_id) {
 				$user = $this->users_model->get_user_by_id($this->dbs_user_id);
 				if ($user->status) {
+					$data['prev_submitted'] = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
 					$this->load->view('frontend/gigs/create2', $data);
 					// die();
 				} else {
@@ -988,7 +989,9 @@ class Gigs extends CI_Controller
 					$data['google_api_key'] = $this->configurations_model->get_configuration_by_key('google-adress-api-key');
 					$data['countries'] = $this->countries_model->get_all_countries();
 					// $data['user'] = $this->users_model->get_user_by_id($gig->user_id);
-
+					$data['prev_submitted'] = $this->gigs_model->check_for_approval_submitted_gigs($this->dbs_user_id);
+					echo json_encode($data['prev_submitted']);
+					die();
 					$user = $this->users_model->get_user_by_id($gig->user_id);
 					$stripe_details = $this->users_model->get_user_stripe_details($user->id);
 					$user->stripe = $stripe_details->stripe_id ?? '';
