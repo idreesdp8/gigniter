@@ -98,6 +98,8 @@ class Bookings extends CI_Controller
 		$interval = $gig_date - $now;
 		$hours = round($interval / 3600, 0);
 		foreach ($cart_items as $item) {
+			echo json_encode($this->category_key);
+			echo json_encode($gig->category);
 			$ticket = $this->gigs_model->get_ticket_tier_by_id($item->ticket_tier_id);
 			$category = $this->configurations_model->get_configuration_by_key_value(['key' => $this->category_key, 'value' => $gig->category]);
 			$genre = $this->configurations_model->get_configuration_by_key_value(['key' => $this->genre_key, 'value' => $gig->genre]);
