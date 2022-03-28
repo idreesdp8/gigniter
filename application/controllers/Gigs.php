@@ -1766,6 +1766,7 @@ class Gigs extends CI_Controller
 				'text' => 'Step 1 done'
 			];
 			$this->gigs_model->insert_gig_history($gig_history);
+			$this->session->set_userdata(['gig_id' => $res]);
 			$response = [
 				'status' => 1,
 				'gig_id' => $res,
