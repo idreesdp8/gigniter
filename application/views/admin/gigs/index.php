@@ -249,10 +249,17 @@
                 cancelButtonClass: 'btn btn-light'
             });
 
+            // $('.deleteBtn i').click(function () {
+            //     // setTimeout(function () {
+            //         $(this).parents('.deleteBtn').trigger('click');
+            //     // }, 500)
+            // })
+
             $('.deleteBtn').on('click', function(e) {
                 e.preventDefault();
-                var form = e.target.form
-                console.log(form)
+                var gig_id = $(this).attr('data-id')
+                // var form = e.target.form
+                console.log(gig_id)
                 swalInit.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -264,19 +271,27 @@
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false
                 }).then(function(result) {
-                    // if (result.value) {
-                    if (result.dismiss === swal.DismissReason.cancel) {
+                    if (result.value) {
+                        // form.submit();
+                        $.ajax({
+                            url: base_url + "gigs/trash/" + gig_id,
+                            method: "get",
+                            dataType: "json",
+                            success: function(result) {
+                                console.log(result.status);
+                                location.reload();
+                            }
+                        })
+                        // swalInit.fire(
+                        //     'Deleted!',
+                        //     'Gig has been deleted.',
+                        //     'success'
+                        // );
+                    } else if (result.dismiss === swal.DismissReason.cancel) {
                         swalInit.fire(
                             'Cancelled',
                             'Gig is safe',
                             'error'
-                        );
-                    } else {
-                        form.submit();
-                        swalInit.fire(
-                            'Deleted!',
-                            'Gig has been deleted.',
-                            'success'
                         );
                     }
                 });

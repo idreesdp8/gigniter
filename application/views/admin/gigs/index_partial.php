@@ -63,9 +63,9 @@
                             <button type="button" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><span data-popup="tooltip" data-original-title="See gig history"><i class="icon-list"></i></span></button>
                             <a href="<?php echo admin_base_url() ?>bookings?gig_id=<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Bookings" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-cart5"></i></a>
                             <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
-                            <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>">
-                                <button type="submit" class="deleteBtn btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
-                            </form>
+                            <!-- <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>"> -->
+                                <button type="button" data-id="<?php echo $record->id ?>" class="deleteBtn btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
+                            <!-- </form> -->
                             <a href="<?php echo admin_base_url() ?>gigs/streaming_details/<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Streaming Details" type="button" class="btn btn-secondary btn-icon ml-2"><i class="icon-search4"></i></a>
                         </div>
                     </td>

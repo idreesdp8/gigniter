@@ -415,7 +415,8 @@ class Gigs extends CI_Controller
 		$this->remove_gig_stream($args2);
 		$this->gigs_model->trash_gig($args2);
 		$this->session->set_flashdata('deleted_msg', 'Gig is deleted');
-		redirect('admin/gigs');
+		echo json_encode(['status' => 1]);
+		// redirect('admin/gigs');
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
