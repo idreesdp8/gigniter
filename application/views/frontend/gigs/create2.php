@@ -497,6 +497,13 @@
               <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                   <h6 class="text-success d-flex justify-content-center mb-4 text-center">You will get streams keys after admin approval.</h6>
+                  <?php
+                  if ($prev_submitted) :
+                  ?>
+                    <h6 class="text-success d-flex justify-content-center mb-4 text-center">You have alredy submitted a gig for admin approval.</h6>
+                  <?php
+                  endif;
+                  ?>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                   <div class="step-form-buttons">

@@ -573,6 +573,15 @@
               <div class="panel panel-primary setup-content" id="step-4">
                 <div class="row justify-content-center">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <?php
+                    if (!$gig->is_complete && $prev_submitted) :
+                    ?>
+                      <h6 class="text-success d-flex justify-content-center mb-4 text-center">You have alredy submitted a gig for admin approval.</h6>
+                    <?php
+                    endif;
+                    ?>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="step-form-buttons">
                       <input type="hidden" name="is_draft" id="is_draft">
                       <?php
@@ -582,7 +591,7 @@
                       <?php
                       else :
                       ?>
-                        <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Save as Draft</button>
+                        <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Preview</button>
                         <?php
                         if (!$prev_submitted) :
                         ?>
