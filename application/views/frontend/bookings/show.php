@@ -174,7 +174,7 @@
                                                 </a>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Category</span>
-                                                    <span class="card-text"><?php echo $gig->category->label ?></span>
+                                                    <span class="card-text"><?php echo $gig->category_obj->label ?></span>
                                                 </div>
                                                 <div class="ticket_info">
                                                     <span class="card-text">Gig Genre</span>
