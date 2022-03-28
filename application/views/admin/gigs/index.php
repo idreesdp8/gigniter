@@ -249,7 +249,7 @@
                 cancelButtonClass: 'btn btn-light'
             });
 
-            $('#deleteBtn').on('click', function(e) {
+            $('.deleteBtn').on('click', function(e) {
                 e.preventDefault();
                 var form = e.target.form
                 console.log(form)
@@ -264,18 +264,19 @@
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false
                 }).then(function(result) {
-                    if (result.value) {
+                    // if (result.value) {
+                    if (result.dismiss === swal.DismissReason.cancel) {
+                        swalInit.fire(
+                            'Cancelled',
+                            'Gig is safe',
+                            'error'
+                        );
+                    } else {
                         form.submit();
                         swalInit.fire(
                             'Deleted!',
                             'Gig has been deleted.',
                             'success'
-                        );
-                    } else if (result.dismiss === swal.DismissReason.cancel) {
-                        swalInit.fire(
-                            'Cancelled',
-                            'Gig is safe',
-                            'error'
                         );
                     }
                 });
