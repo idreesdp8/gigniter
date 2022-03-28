@@ -1757,7 +1757,16 @@ class Gigs extends CI_Controller
 			'is_complete' => 0,
 			'created_on' => $created_on,
 		);
-		$res = $this->gigs_model->insert_gig_data($datas);
+
+		if ($this->session->userdata('gig_id')) {
+			$gig = $this->gigs_model->get_gig_by_id($this->session->userdata('gig_id'));
+			$res = $this->gigs_model->update_gig_data($gig->id, $datas);
+			if ($res) {
+				$res = $gig->id;
+			}
+		} else {
+			$res = $this->gigs_model->insert_gig_data($datas);
+		}
 
 		if ($res) {
 			$gig_history = [
