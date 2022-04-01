@@ -116,7 +116,7 @@
                         <h5 class="title"><?php echo $gig->title; ?></h5>
                         <h6 class="d-md-flex align-items-md-center">
                             <a target="_blank" href="<?php echo user_base_url() . 'account/profile/' . $gig->user_id ?>"><?php echo $gig->user_name; ?></a>
-                            
+
                         </h6>
                         <p class="mb-0">
                             <?php echo $gig->genre_name ?> <span>|</span> <?php echo $gig->category_name ?>
@@ -262,27 +262,27 @@
                             ?>
                                 <div class="custom-item3">
                                     <?php
-                                    if($stream_details) :
-                                        ?>
-                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/test_stream/' . $gig->id ?>">Test Stream</a>
+                                    if ($stream_details) :
+                                    ?>
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/test_stream/' . $gig->id ?>">Test Stream</a>
                                     <?php
                                     endif;
                                     ?>
                                     <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
                                 </div>
-                                <?php
+                            <?php
                             endif;
                         endif;
                         if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
                             if ($gig->status == 1) :
-                                ?>
-                                    <div class="custom-item3">
-                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">
+                            ?>
+                                <div class="custom-item3">
+                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'cart/book_tier/' . $gig->id ?>">
                                         <?php
                                         echo !empty($user_bookings) ? 'book more' : 'book now';
                                         ?>
-                                        </a>
-                                    </div>
+                                    </a>
+                                </div>
                                 <?php
                             elseif ($gig->status == 2) :
                                 if (empty($user_bookings)) :
@@ -489,6 +489,7 @@
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
+                                                            <span class="cate"><?php echo implode(array_slice(explode($tier->description, ' '),0,5)).'...' ?><span class="read_more">Read More</span></span>
                                                             <?php
                                                             if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
                                                             ?>
