@@ -99,8 +99,9 @@
             cursor: pointer;
             color: #eec205;
         }
+
         .read_more:hover {
-            color: #28af99;
+            color: #31d7a9;
         }
     </style>
 </head>
@@ -498,7 +499,7 @@
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
                                                             <?php if ($tier->description) : ?>
-                                                                <span class="cate"><?php echo str_word_count($tier->description) > 5 ? implode(' ', array_slice(explode(' ', $tier->description), 0, 6)) . ' ... <span class="read_more">Read More</span>' : $tier->description ?></span>
+                                                                <span class="cate"><?php echo str_word_count($tier->description) > 5 ? implode(' ', array_slice(explode(' ', $tier->description), 0, 6)) . ' ... <span class="read_more" data-desc="' . $tier->description . '">Read More</span>' : $tier->description ?></span>
                                                             <?php endif; ?>
                                                             <?php
                                                             if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
@@ -611,6 +612,23 @@
         </div>
     </div>
     <!-- /page content -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModal2Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModal2Label">Ticket Tier description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary w-25" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <?php $this->load->view('frontend/gigs/book_now'); ?>
 
@@ -640,6 +658,12 @@
             });
         }
         $(document).ready(function() {
+
+            $('.read_more').click(function() {
+                var desc = this.dataset.desc
+                $('#exampleModal2 .modal-body').html(desc)
+                $('#exampleModal2').modal('show');
+            })
 
             $('#chat_form').on('submit', function(event) {
                 event.preventDefault();
