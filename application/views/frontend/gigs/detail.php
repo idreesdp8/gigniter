@@ -489,8 +489,8 @@
                                                             <h6 class="cast-title"><a href="#0"><?php echo $tier->name ?></a></h6>
                                                             <span class="cate">$<?php echo $tier->price ?>/<?php echo $tier->quantity;
                                                                                                             echo $tier->quantity > 1 ? ' Tickets' : ' Ticket' ?></span>
-                                                            <?php if ($tier->description) : ?>
-                                                                <span class="cate"><?php echo implode(' ', array_slice(explode(' ', $tier->description), 0, 5)) . '...' ?><span class="read_more">Read More</span></span>
+                                                            <?php if (strlen($tier->description) > 5) : ?>
+                                                                <span class="cate"><?php echo implode(' ', array_slice(explode(' ', $tier->description), 0, 6)) . ' ...' ?><span class="read_more">Read More</span></span>
                                                             <?php endif; ?>
                                                             <?php
                                                             if ($this->session->userdata('us_id') != $gig->user_id && ($gig->ticket_left != 0 || $gig->is_overshoot)) :
