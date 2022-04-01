@@ -94,6 +94,14 @@
         #chat_form button {
             border-radius: 0 0 0.25rem 0.25rem !important;
         }
+
+        .read_more {
+            cursor: pointer;
+            color: #eec205;
+        }
+        .read_more:hover {
+            color: #28af99;
+        }
     </style>
 </head>
 
