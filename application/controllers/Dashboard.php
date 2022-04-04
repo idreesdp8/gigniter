@@ -196,9 +196,9 @@ class Dashboard extends CI_Controller
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$ticket_left = $gig->ticket_limit - $ticket_bought;
+		$ticket_left = $gig->threshold - $ticket_bought;
 		$param['ticket_left'] = $ticket_left > 0 ? $ticket_left : 0;
-		$param['booked'] = floor($ticket_bought / $gig->ticket_limit * 100);
+		$param['booked'] = floor($ticket_bought / $gig->threshold * 100);
 		return $param;
 	}
 }

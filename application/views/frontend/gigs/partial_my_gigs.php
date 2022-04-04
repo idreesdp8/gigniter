@@ -83,7 +83,7 @@
                         <?php
                         endif;
                         ?>
-                        <button type="button" data-target="#showModal" class="btn btn-warning btn-view mb-4 showModal" data-value=<?php echo $gig->id ?>>gig history</button>
+                        <button type="button" data-target="#showModal" class="btn btn-warning btn-view mb-4 showModal <?php echo $gig->is_highlighted && !$gig->is_approved ? 'blink-danger ' : ' ' ?><?php echo $gig->is_highlighted && $gig->is_approved ? 'blink-success' : '' ?>" data-value=<?php echo $gig->id ?>>gig history</button>
                         <!-- <button type="button" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><span data-popup="tooltip" data-original-title="See gig history"><i class="icon-list"></i></span></button> -->
                     </div>
                 </div>

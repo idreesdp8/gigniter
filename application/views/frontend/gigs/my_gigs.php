@@ -14,6 +14,28 @@
             color: black;
             padding: 5px !important;
         }
+
+        .blink-danger {
+            animation: blinker-danger 1.5s linear infinite;
+        }
+
+        .blink-success {
+            animation: blinker-success 1.5s linear infinite;
+        }
+
+        @keyframes blinker-danger {
+            50% {
+                background: #E0004D;
+                border-color: #E0004D;
+            }
+        }
+
+        @keyframes blinker-success {
+            50% {
+                background: #ffa502;
+                border-color: #ffa502;
+            }
+        }
     </style>
 </head>
 
@@ -31,7 +53,7 @@
         </div>
 
     </section>
-    
+
     <!-- ==========Banner-Section========== -->
 
     <!-- ==========Explore-content-Section========== -->

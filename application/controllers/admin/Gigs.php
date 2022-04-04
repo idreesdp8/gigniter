@@ -340,7 +340,8 @@ class Gigs extends CI_Controller
 			'is_approved' => 1,
 			'is_rejected' => 0,
 			'is_draft' => 0,
-			'status' => 1
+			'status' => 1,
+			'is_highlighted' => 1,
 		];
 		$this->gigs_model->update_gig_data($gig_id, $data);
 		//insert gig history
@@ -379,6 +380,7 @@ class Gigs extends CI_Controller
 			'is_approved' => 0,
 			'is_rejected' => 1,
 			'status' => 0,
+			'is_highlighted' => 1,
 			'rejection_reason' => $rejection_reason
 		];
 

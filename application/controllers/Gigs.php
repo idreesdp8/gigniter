@@ -71,7 +71,7 @@ class Gigs extends CI_Controller
 			$gig->ticket_left = $res['ticket_left'];
 			$gig->images = $this->gigs_model->get_gig_gallery_images($id);
 			if ($gig->start_time && $gig->end_time) {
-				$start_time = new DateTime($gig->start_time);
+				$start_time = new DateTime($gig->gig_date . ' ' . $gig->start_time);
 				$end_time = new DateTime($gig->end_time);
 				$duration = $end_time->diff($start_time);
 				$gig->duration = $duration->format('%h hrs %i mins');
@@ -1765,7 +1765,7 @@ class Gigs extends CI_Controller
 		// 		$res = $gig->id;
 		// 	}
 		// } else {
-			$res = $this->gigs_model->insert_gig_data($datas);
+		$res = $this->gigs_model->insert_gig_data($datas);
 		// }
 
 		if ($res) {
@@ -1885,6 +1885,12 @@ class Gigs extends CI_Controller
 	{
 		$gig_id = $this->input->post('gig_id');
 		$data['gig'] = $this->gigs_model->get_gig_by_id($gig_id);
+		if ($data['gig']->is_highlighted) {
+			$datas = [
+				'is_highlighted' => 0
+			];
+			$this->gigs_model->update_gig_data($gig_id, $datas);
+		}
 		$data['gig_history'] = $this->gigs_model->get_gig_history($gig_id);
 		echo json_encode($data);
 	}
@@ -1905,6 +1911,26 @@ class Gigs extends CI_Controller
 			];
 		}
 		echo json_encode($response);
+	}
+
+	function go_live($gig_id)
+	{
+		// echo $gig_id;
+		$data = [
+			'status' => 2
+		];
+		$res = $this->gigs_model->update_gig_data($gig_id, $data);
+		redirect("gigs/detail?gig=" . $gig_id);
+	}
+
+	function go_off($gig_id)
+	{
+		// echo $gig_id;
+		$data = [
+			'status' => 3
+		];
+		$res = $this->gigs_model->update_gig_data($gig_id, $data);
+		redirect("gigs/detail?gig=" . $gig_id);
 	}
 
 	function test()
@@ -1956,9 +1982,9 @@ class Gigs extends CI_Controller
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$ticket_left = $gig->ticket_limit - $ticket_bought;
+		$ticket_left = $gig->threshold - $ticket_bought;
 		$param['ticket_left'] = $ticket_left > 0 ? $ticket_left : 0;
-		$param['booked'] = floor($ticket_bought / $gig->ticket_limit * 100);
+		$param['booked'] = floor($ticket_bought / $gig->threshold * 100);
 		return $param;
 	}
 

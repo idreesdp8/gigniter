@@ -527,12 +527,17 @@ class Cart extends CI_Controller
 				$this->bookings_model->insert_transaction_data($charge_param);
 
 				$cart_items = $this->bookings_model->get_booking_items($booking->id);
+				$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+				$gig_date = strtotime($gig->gig_date);
+				$now = strtotime('now');
+				$interval = $gig_date - $now;
+				$hours = round($interval / 3600, 0);
 				//if order inserted successfully
 				if ($payment_status == 'succeeded') {
 					foreach ($cart_items as $item) {
-						$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
 						$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
-						if ($user_stripe_detail && !$user_stripe_detail->is_restricted) {
+						//if user has stripe added and connected and only 48 hours are remaining before gig date
+						if ($user_stripe_detail && !$user_stripe_detail->is_restricted && $hours < 48) {
 							$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
 							$amount = $item->price - ($item->price * $admin_fee->value / 100);
 							$transfer = \Stripe\Transfer::create([

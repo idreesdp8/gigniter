@@ -274,10 +274,23 @@
                                     if ($stream_details) :
                                     ?>
                                         <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/test_stream/' . $gig->id ?>">Test Stream</a>
+                                        <?php
+                                        if ($gig->status < 2) :
+                                        ?>
+                                            <a type="button" class="skicky-buttons btn btn-warning btn-booking d-none live_btn" href="<?php echo user_base_url() . 'gigs/go_live/' . $gig->id ?>">Go Live</a>
+                                    <?php
+                                        endif;
+                                    endif;
+                                    ?>
+                                    <!-- <a type="button" class="skicky-buttons btn btn-warning btn-booking d-none live_btn" href="<?php echo user_base_url() . 'gigs/go_live/' . $gig->id ?>">Go Live</a> -->
+                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
+                                    <?php
+                                    if ($gig->status == 2) :
+                                    ?>
+                                        <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/go_off/' . $gig->id ?>">Go Off Air</a>
                                     <?php
                                     endif;
                                     ?>
-                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'transactions/show/' . $gig->id ?>">view purchases</a>
                                 </div>
                             <?php
                             endif;
@@ -658,6 +671,19 @@
             });
         }
         $(document).ready(function() {
+
+            var now = new Date();
+            var start_time = '<?php echo $gig->gig_date . ' ' . $gig->start_time ?>';
+            // start_time = new Date(Date.UTC(start_time.slice(0, 4), start_time.slice(5, 7) - 1, start_time.slice(8, 10), start_time.slice(11, 13), start_time.slice(14, 16), start_time.slice(17, 19)));
+            start_time = new Date(start_time)
+            // console.log(now);
+            // console.log(start_time);
+            var diff = start_time - now;
+            // var diff = now - start_time;
+            if (diff < 0) {
+                $('.live_btn').removeClass('d-none');
+            }
+            // console.log(diff);
 
             $('.read_more').click(function() {
                 var desc = this.dataset.desc

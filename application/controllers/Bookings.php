@@ -128,9 +128,9 @@ class Bookings extends CI_Controller
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$threshold = floor($gig->ticket_limit * .6);
+		$threshold = floor($gig->threshold * .6);
 		$gig->ticket_left = $threshold - $ticket_bought;
-		$gig->booked = floor($ticket_bought / $gig->ticket_limit * 100);
+		$gig->booked = floor($ticket_bought / $gig->threshold * 100);
 		$data['gig'] = $gig;
 		// echo json_encode($data);
 		// die();

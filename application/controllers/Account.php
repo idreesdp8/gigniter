@@ -31,6 +31,7 @@ class Account extends CI_Controller
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/countries_model', 'countries_model');
+		$this->load->model('email_log_model');
 
 		$this->genre_key = 'genre';
 		$this->category_key = 'category';
@@ -848,8 +849,8 @@ class Account extends CI_Controller
 		foreach ($cart_items as $item) {
 			$ticket_bought += $item->quantity;
 		}
-		$param['ticket_left'] = $gig->ticket_limit - $ticket_bought;
-		$param['booked'] = $ticket_bought / $gig->ticket_limit * 100;
+		$param['ticket_left'] = $gig->threshold - $ticket_bought;
+		$param['booked'] = $ticket_bought / $gig->threshold * 100;
 		return $param;
 	}
 
