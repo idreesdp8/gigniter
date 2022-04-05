@@ -359,7 +359,7 @@ class Bookings extends CI_Controller
 			redirect('bookings');
 		}
 		$booking = $this->bookings_model->get_booking_by_id($booking_id);
-		// $gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
+		$gig = $this->gigs_model->get_gig_by_id($booking->gig_id);
 		$tiers = $this->gigs_model->get_ticket_tiers_by_gig_id($booking->gig_id);
 		foreach ($tiers as $tier) {
 			$tier->bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($tier->id);
@@ -383,6 +383,7 @@ class Bookings extends CI_Controller
 			'booking' => $booking,
 			'tiers' => $tiers,
 			'cart_items' => $cart_items,
+			'gig' => $gig
 		];
 		// echo json_encode($data);
 		// die();

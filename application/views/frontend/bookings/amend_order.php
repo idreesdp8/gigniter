@@ -45,6 +45,9 @@
         .cart-plus-minus input {
             color: #113270;
         }
+        .qtybutton.dec.disabled {
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -135,7 +138,7 @@
                                                                 <?php
                                                                 foreach ($cart_items as $item) {
                                                                     $quantity = 0;
-                                                                    if($item->ticket_tier_id == $value->id) {
+                                                                    if ($item->ticket_tier_id == $value->id) {
                                                                         $quantity = $item->quantity;
                                                                     }
                                                                 }
@@ -175,6 +178,24 @@
 
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
+    <script>
+        $(document).ready(function() {
+            var now = new Date();
+            var start_time = '<?php echo $gig->gig_date . ' ' . $gig->start_time ?>';
+            // start_time = new Date(Date.UTC(start_time.slice(0, 4), start_time.slice(5, 7) - 1, start_time.slice(8, 10), start_time.slice(11, 13), start_time.slice(14, 16), start_time.slice(17, 19)));
+            start_time = new Date(start_time)
+            // console.log(now);
+            // console.log(start_time);
+            var diff = start_time - now;
+            // var diff = now - start_time;
+            if (diff < 0) {
+                $('.cart-plus-minus .qtybutton.dec').addClass('disabled');
+                $('.qtybutton.dec').click(function(e) {
+                    e.preventDefault();
+                })
+            }
+        })
+    </script>
 </body>
 
 </html>
