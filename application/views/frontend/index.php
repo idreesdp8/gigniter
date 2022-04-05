@@ -52,7 +52,7 @@
                                                 <?php
                                                 else :
                                                 ?>
-                                                    <h3><span class="spot-number">Gig is On!</span></h3>
+                                                    <h5><span class="spot-number">Gig is On!</span></h3>
                                                     <!-- <p><span class="spot-text">Gig is On!</span></p> -->
                                                 <?php
                                                 endif;
@@ -127,7 +127,7 @@
                                                     <?php
                                                     else :
                                                     ?>
-                                                        <h3><span class="spot-number">Gig is On!</span></h3>
+                                                        <h5><span class="spot-number">Gig is On!</span></h3>
                                                         <!-- <p><span class="spot-text">Gig is On!</span></p> -->
                                                     <?php
                                                     endif;
