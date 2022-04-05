@@ -184,8 +184,8 @@
             var start_time = '<?php echo $gig->gig_date . ' ' . $gig->start_time ?>';
             // start_time = new Date(Date.UTC(start_time.slice(0, 4), start_time.slice(5, 7) - 1, start_time.slice(8, 10), start_time.slice(11, 13), start_time.slice(14, 16), start_time.slice(17, 19)));
             start_time = new Date(start_time)
-            // console.log(now);
-            // console.log(start_time);
+            console.log(now);
+            console.log(start_time);
             var diff = start_time - now;
             console.log(diff);
             // var diff = now - start_time;
