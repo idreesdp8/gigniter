@@ -184,13 +184,13 @@
             var start_time = '<?php echo $gig->gig_date . ' ' . $gig->start_time ?>';
             // start_time = new Date(Date.UTC(start_time.slice(0, 4), start_time.slice(5, 7) - 1, start_time.slice(8, 10), start_time.slice(11, 13), start_time.slice(14, 16), start_time.slice(17, 19)));
             start_time = new Date(start_time)
-            console.log(now);
-            console.log(start_time);
+            // console.log(now);
+            // console.log(start_time);
             var diff = start_time - now;
             console.log(diff);
             // var diff = now - start_time;
             //less than 48 hours
-            if (diff < 172800) {
+            if (diff < 172800000) {
                 $('.cart-plus-minus .qtybutton.dec').addClass('disabled');
                 $('.qtybutton.dec').click(function(e) {
                     e.preventDefault();
