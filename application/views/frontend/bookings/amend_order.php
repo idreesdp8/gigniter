@@ -134,11 +134,9 @@
                                                         foreach ($cart_items as $item) {
                                                             $quantity = 0;
                                                             if ($item->ticket_tier_id == $value->id) {
-                                                                echo $item->ticket_tier_id.' ';
-                                                                echo $value->id.' ';
                                                                 $quantity = $item->quantity;
+                                                                break;
                                                             }
-                                                            echo $quantity."\n";
                                                         }
                                                         ?>
                                                         <div class="cart-button event-cart">
