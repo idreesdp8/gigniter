@@ -193,6 +193,7 @@
             if (diff < 172800000) {
                 $('.cart-plus-minus .qtybutton.dec').addClass('disabled');
                 $('.qtybutton.dec').click(function(e) {
+                    console.log('clicked')
                     e.preventDefault();
                 })
             }
