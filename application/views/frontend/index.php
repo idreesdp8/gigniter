@@ -725,7 +725,8 @@
             responsive: {
                 0: {
                     items: 1,
-                    loop: ($(this).find('.owl-item')).length > 0
+                    loop: ($(this).find('.owl-item')).length > 0,
+                    margin: 0
                 },
                 600: {
                     items: 3,
