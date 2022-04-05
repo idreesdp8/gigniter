@@ -384,7 +384,7 @@ class Bookings extends CI_Controller
 			'tiers' => $tiers,
 			'cart_items' => $cart_items,
 		];
-		echo $data;
+		echo json_encode($data);
 		die();
 		$this->load->view('frontend/bookings/amend_order', $data);
 	}
