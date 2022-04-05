@@ -531,7 +531,7 @@ class Cart extends CI_Controller
 				$this->bookings_model->insert_transaction_data($charge_param);
 
 				$cart_items = $this->bookings_model->get_booking_items($booking->id);
-				$gig = $this->gigs_model->get_gig_by_id($item->gig_id);
+				$gig = $this->gigs_model->get_gig_by_id($gig_id);
 				$gig_date = strtotime($gig->gig_date);
 				$now = strtotime('now');
 				$interval = $gig_date - $now;
