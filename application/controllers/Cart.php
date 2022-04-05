@@ -32,6 +32,7 @@ class Cart extends CI_Controller
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
 		$this->load->model('admin/email_templates_model', 'email_templates_model');
+		$this->load->model('email_log_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		// $this->gig_status_key = 'gig-status';
 		// $this->genre_key = 'genre';
@@ -326,6 +327,7 @@ class Cart extends CI_Controller
 					// echo json_encode($to_email);
 					// die();
 					$email_for = 'stream_details';
+					insert_email_log($user_id, $to_email, 'stream_details');
 					$is_sent = $this->send_email($to_email, $subject, $email_for, $stream_details);
 					$this->gigs_model->update_is_detail_sent($gig_id);
 				}
@@ -335,11 +337,13 @@ class Cart extends CI_Controller
 
 
 			if ($is_physical_gig == 1 && count($qr_token_arrs) > 0) {
+				insert_email_log($user_id, $email_to, 'booking_done');
 				$is_sent = $this->send_ticket_mails($qr_token_arrs, $email_to, 'Booking Done');
 			} else {
 				$to_email = $this->session->userdata('us_email');
 				$subject = 'Booking Done';
 				$template = 'email/gig_purchase_done';
+				insert_email_log($user_id, $to_email, 'booking_done');
 				$is_sent = send_email_helper($to_email, $subject, $template);
 			}
 			// exit;

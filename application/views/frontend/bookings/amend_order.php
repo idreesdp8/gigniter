@@ -125,9 +125,9 @@
                                                 ?>
                                                 <div class="cart-button event-cart">
                                                     <div class="cart-plus-minus mb-0">
-                                                        <div class="dec qtybutton">-</div>
-                                                        <div class="dec qtybutton">-</div>
-                                                        <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php echo $index == 0 ? 1 : 0 ?>">
+                                                        <!-- <div class="dec qtybutton">-</div>
+                                                        <div class="dec qtybutton">-</div> -->
+                                                        <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php   ?>" readonly>
                                                         <div class="inc qtybutton">+</div>
                                                         <div class="inc qtybutton">+</div>
                                                     </div>

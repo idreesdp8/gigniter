@@ -1027,6 +1027,8 @@ class Account extends CI_Controller
 		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder($email) . '&code=' . $this->general_model->safe_ci_encoder($code);
 		// $msg = $this->load->view('email/verification_code', $data, TRUE);
 		$template = 'email/verification_code';
+
+		insert_email_log($user->id, $email, 'verification');
 		$res = send_email_helper2($email, 'Verification Code', $template, $data);
 		// $res = send_email_helper($email, 'Verification Code', $template, $data);
 		if ($res) {

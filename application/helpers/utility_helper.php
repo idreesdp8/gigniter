@@ -208,3 +208,8 @@ function send_email_helper2($to_email, $subject, $template, $data = '')
 		return false;
 	}
 }
+function insert_email_log($user_id, $email, $email_for)
+{
+	$CI = &get_instance();
+	$CI->email_log_model->insert_email_log_data(['user_id' => $user_id, 'email' => $email, 'email_for' => $email_for]);
+}

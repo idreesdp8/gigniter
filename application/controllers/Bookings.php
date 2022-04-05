@@ -29,6 +29,7 @@ class Bookings extends CI_Controller
 		$this->load->model('user/configurations_model', 'configurations_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
+		$this->load->model('email_log_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		// $this->key = 'gig-status';
 		$this->genre_key = 'genre';
@@ -150,6 +151,7 @@ class Bookings extends CI_Controller
 			$this->bookings_model->remove_booking_cart_items($id);
 			$this->bookings_model->remove_booking_cart_items($id);
 			$template = 'email/cancel_booking';
+			insert_email_log($user->id, $user->email, 'cancel_booking');
 			$result = send_email_helper2($user->email, 'Ticket Cancelled', $template);
 			// $this->send_email($user->email, 'Ticket Cancelled', 'cancel_booking');
 			$this->session->set_flashdata('success_msg', 'Your Booking is cancelled!');
@@ -177,6 +179,7 @@ class Bookings extends CI_Controller
 		$error = 1;
 		foreach ($data['email'] as $email) {
 			$temp['friend_email'] = $email;
+			insert_email_log($user_id, $email, 'invitation_email');
 			$send = $this->send_invite_email($email, 'Invitation to Gigniter');
 			if ($send) {
 				$this->bookings_model->add_ticket_share($temp);
@@ -381,6 +384,8 @@ class Bookings extends CI_Controller
 			'tiers' => $tiers,
 			'cart_items' => $cart_items,
 		];
+		echo $data;
+		die();
 		$this->load->view('frontend/bookings/amend_order', $data);
 	}
 

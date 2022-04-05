@@ -30,6 +30,7 @@ class Gigs extends CI_Controller
 		$this->load->model('user/countries_model', 'countries_model');
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('user/gigs_model', 'gigs_model');
+		$this->load->model('email_log_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 		$this->gig_status_key = 'gig-status';
 		$this->genre_key = 'genre';
@@ -221,6 +222,7 @@ class Gigs extends CI_Controller
 				'stripe_account_id' => $account->id,
 			];
 			$this->users_model->insert_user_stripe_details($temp);
+			insert_email_log($res, $data['email'], 'verification');
 			$this->send_email($data['email'], 'Verification Code', 'verification');
 		}
 		return $res;
@@ -536,6 +538,7 @@ class Gigs extends CI_Controller
 					$this->gigs_model->insert_gig_history($gig_history);
 					// $this->create_channel($data['title'], $res);
 					$user = $this->users_model->get_user_by_id($data['user_id']);
+					insert_email_log($user->id, $user->email, 'gig_created');
 					$this->send_email($user->email, 'Gig Created', 'gig_created');
 					$this->add_tickets($data, $res);
 					// if($is_new_user){

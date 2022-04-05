@@ -35,6 +35,7 @@ class Transactions extends CI_Controller
         $this->load->model('user/configurations_model', 'configurations_model');
         $this->load->model('user/bookings_model', 'bookings_model');
         $this->load->model('user/gigs_model', 'gigs_model');
+        $this->load->model('email_log_model');
         // $perms_arrs = array('role_id' => $vs_role_id);
         $this->gig_status_key = 'gig-status';
         $this->genre_key = 'genre';
@@ -157,6 +158,7 @@ class Transactions extends CI_Controller
         $this->email->message($msg);
 
 
+        insert_email_log($user->id, $user->email, 'gig_created');
         if ($this->email->send()) {
             $resp = [
                 'status' => true,
