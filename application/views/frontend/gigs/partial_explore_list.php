@@ -19,7 +19,7 @@ if ($gigs) :
                     <p class="explore-margin-bottom">Release Date <span>: </span><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
 
                     <span class="badge badge-danger booked-badge"><?php echo $gig->booked ?>% Booked</span>
-                    <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                    <p><span class="mr-2 m-b-4"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                     <div class="custom-border">
                         <div>
                             <button type="button" class="btn btn-warning btn-booked show_modal" data-toggle="modal" data-target="#book_now_modal" data-id="<?php echo $gig->id; ?>">Book Now</button>

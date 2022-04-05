@@ -19,7 +19,7 @@ if ($gigs) :
 
                                 <h6><?php echo $gig->user_name ?></h6>
                                 <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                 <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                             </div>
                             <div class="circlebar">
