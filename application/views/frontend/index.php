@@ -53,10 +53,10 @@
                                                 else :
                                                 ?>
                                                     <h5><span class="spot-number">Gig is On!</span></h3>
-                                                    <!-- <p><span class="spot-text">Gig is On!</span></p> -->
-                                                <?php
+                                                        <!-- <p><span class="spot-text">Gig is On!</span></p> -->
+                                                    <?php
                                                 endif;
-                                                ?>
+                                                    ?>
 
                                             </div>
                                             <span class="divider">|</span>
@@ -128,10 +128,10 @@
                                                     else :
                                                     ?>
                                                         <h5><span class="spot-number">Gig is On!</span></h3>
-                                                        <!-- <p><span class="spot-text">Gig is On!</span></p> -->
-                                                    <?php
+                                                            <!-- <p><span class="spot-text">Gig is On!</span></p> -->
+                                                        <?php
                                                     endif;
-                                                    ?>
+                                                        ?>
                                                 </div>
                                                 <span class="divider">|</span>
                                                 <div class="days-left">
@@ -719,22 +719,22 @@
             autoplay: true,
             dots: false,
             autoplayTimeout: 2000,
-            margin: 30,
             autoplayHoverPause: true,
             responsiveClass: true,
             responsive: {
                 0: {
                     items: 1,
-                    loop: ($(this).find('.owl-item')).length > 0,
-                    margin: 0
+                    loop: ($(this).find('.owl-item')).length > 0
                 },
                 600: {
                     items: 3,
-                    loop: ($(this).find('.owl-item')).length > 0
+                    loop: ($(this).find('.owl-item')).length > 0,
+                    margin: 30,
                 },
                 1000: {
                     items: 3,
-                    loop: ($(this).find('.owl-item')).length > 0
+                    loop: ($(this).find('.owl-item')).length > 0,
+                    margin: 30,
                 }
             }
         });
