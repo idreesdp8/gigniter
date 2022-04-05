@@ -40,6 +40,11 @@
             width: 120px;
             margin-bottom: 10px;
         }
+
+        .cart-plus-minus,
+        .cart-plus-minus input {
+            color: #113270;
+        }
     </style>
 </head>
 
@@ -93,57 +98,65 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                <?php
-                                if ($tiers) :
-                                    foreach ($tiers as $index => $value) :
-                                ?>
-                                <div class="col-md-4" style="max-width: 100%;">
-                                        <div class="ticket--item">
-                                            <input type="hidden" name="ticket_tier_id[]" value="<?php echo $value->id ?>" />
-                                            <div class="ticket-content">
-                                                <span class="ticket-title"><?php echo $value->name ?></span>
-                                                <h2 class="amount"><sup>$</sup><?php echo $value->price ?></h2>
-                                                <?php
-                                                if ($value->bundles) :
-                                                ?>
-                                                    <div class="product-img">
-                                                        <img src="<?php echo $value->image != '' ? bundle_url() . $value->image : user_asset_url() . 'images/cap.png' ?>" alt="Product image">
-                                                    </div>
-                                                    <div class="product-description">
-                                                        <ul>
-                                                            <?php
-                                                            foreach ($value->bundles as $bundle) :
-                                                            ?>
-                                                                <li>*<?php echo $bundle->title ?></li>
-                                                            <?php
-                                                            endforeach;
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                <?php
-                                                endif;
-                                                ?>
-                                                <div class="cart-button event-cart">
-                                                    <div class="cart-plus-minus mb-0">
-                                                        <!-- <div class="dec qtybutton">-</div>
-                                                        <div class="dec qtybutton">-</div> -->
-                                                        <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php   ?>" readonly>
-                                                        <div class="inc qtybutton">+</div>
-                                                        <div class="inc qtybutton">+</div>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="row justify-content-center mt-4">
+                                    <?php
+                                    if ($tiers) :
+                                        foreach ($tiers as $index => $value) :
+                                    ?>
+                                            <div class="col-md-4" style="max-width: 100%;">
+                                                <div class="ticket--item">
+                                                    <input type="hidden" name="ticket_tier_id[]" value="<?php echo $value->id ?>" />
+                                                    <div class="ticket-content">
+                                                        <span class="ticket-title"><?php echo $value->name ?></span>
+                                                        <h2 class="amount"><sup>$</sup><?php echo $value->price ?></h2>
+                                                        <?php
+                                                        if ($value->bundles) :
+                                                        ?>
+                                                            <div class="product-img">
+                                                                <img src="<?php echo $value->image != '' ? bundle_url() . $value->image : user_asset_url() . 'images/cap.png' ?>" alt="Product image">
+                                                            </div>
+                                                            <div class="product-description">
+                                                                <ul>
+                                                                    <?php
+                                                                    foreach ($value->bundles as $bundle) :
+                                                                    ?>
+                                                                        <li>*<?php echo $bundle->title ?></li>
+                                                                    <?php
+                                                                    endforeach;
+                                                                    ?>
+                                                                </ul>
+                                                            </div>
+                                                        <?php
+                                                        endif;
+                                                        ?>
+                                                        <div class="cart-button event-cart">
+                                                            <div class="cart-plus-minus mb-0">
+                                                                <div class="dec qtybutton">-</div>
+                                                                <div class="dec qtybutton">-</div>
+                                                                <?php
+                                                                foreach ($cart_items as $item) {
+                                                                    $quantity = 0;
+                                                                    if($item->ticket_tier_id == $value->id) {
+                                                                        $quantity = $item->quantity;
+                                                                    }
+                                                                }
+                                                                ?>
+                                                                <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php echo $quantity ?>" readonly>
+                                                                <div class="inc qtybutton">+</div>
+                                                                <div class="inc qtybutton">+</div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="row justify-content-center mt-4">
                                                     <div class="book-now-button">
                                                         <button type="submit" class="custom-button">book tickets</button>
                                                     </div>
                                                 </div> -->
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                <?php
-                                    endforeach;
-                                endif;
-                                ?>
+                                    <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
                                 </div>
                         </div>
                     </div>
@@ -156,84 +169,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form role="form" method="post" action="<?php echo user_base_url() ?>bookings/invite_friends" id="basic_info_form">
-                    <input type="hidden" name="booking_id" value="<?php echo $booking->id ?>">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Invite Friends</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Invite</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- ==========Explore-content-Section========== -->
     <!-- /page content -->
 
     <?php $this->load->view('frontend/layout/footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
-    <script>
-        function operate_booking_deletion(del_id) {
-            $(document).ready(function() {
-                swal({
-                    title: "Do you want to Cancel this Booking?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        window.location = "<?php echo user_base_url() . 'bookings/cancel_booking/'; ?>" + del_id;
-                    } else {
-                        swal({
-                            icon: 'info',
-                            title: 'Your booking is safe!',
-                        });
-                    }
-                });
-            });
-        }
-        $(document).ready(function() {
-
-            $('.open_modal').on('click', function() {
-                var qty = $(this).data('value');
-                var cart_id = $(this).data('cart_id');
-                $('.modal-body').empty();
-                $('.modal-body').append('<input type="hidden" name="cart_id" value="' + cart_id + '">');
-                for (let index = 0; index < qty; index++) {
-                    $('.modal-body').append('<div class="friend-input"><input type="email" name="email[]" class="form-control" required /></div>')
-                }
-                // console.log(qty);
-                $('#exampleModal').modal('show');
-            });
-            // $('#basic_info_form').on('submit', function(e) {
-            //     e.preventDefault();
-            //     var form_data = new FormData(e[0]);
-            //     console.log(form_data);
-            //     $.ajax({
-            //         url: $(this).attr('action'),
-            //         method: $(this).attr('method'),
-            //         data: form_data,
-            //         contentType: false,
-            //         processData: false,
-            //         success: function(resp) {
-
-            //         }
-            //     });
-            //     // console.log(data);
-            // })
-        })
-    </script>
 </body>
 
 </html>
