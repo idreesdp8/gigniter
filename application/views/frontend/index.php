@@ -5,9 +5,9 @@
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
     <style>
-    .banner-section::before {
-    z-index: 0;
-}
+        .banner-section::before {
+            z-index: 0;
+        }
     </style>
 </head>
 
@@ -31,9 +31,9 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
 
-                                    <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
-                                        <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" class="w-100">
-                                    </a>
+                                        <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" class="w-100">
+                                        </a>
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8 col-12">
                                         <p class="custom-badge"><?php echo $gig->genre_name ?></p>
@@ -45,8 +45,19 @@
                                         <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                         <div class="counter text-center mt-5 d-flex">
                                             <div class="spots-left stat">
-                                                <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
-                                                <p><span class="spot-text">Spot left</span></p>
+                                                <?php if ($gig->ticket_left > 0) :
+                                                ?>
+                                                    <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
+                                                    <p><span class="spot-text">Spot left</span></p>
+                                                <?php
+                                                else :
+                                                ?>
+                                                    <h3><span class="spot-number">Gig is On!</span></h3>
+                                                    <!-- <p><span class="spot-text">Gig is On!</span></p> -->
+                                                <?php
+                                                endif;
+                                                ?>
+
                                             </div>
                                             <span class="divider">|</span>
                                             <div class="days-left">
@@ -71,7 +82,7 @@
                                             <p class="margin-time"><?php echo date('h:i a', strtotime($gig->start_time)) ?> - <?php echo date('h:i a', strtotime($gig->end_time)) ?> EST</p>
                                         </div>
                                         <div class="location">
-                                            <p><span>•</span><i><strong> <?php echo $gig->address ?></strong></i></p>
+                                            <p><span>•</span><i><strong> <?php echo strpos($gig->venues, 'Physical') === false ? 'Live Performance' : $gig->address ?></strong></i></p>
                                         </div>
 
                                     </div>
@@ -95,10 +106,10 @@
                                     <div class="speaker-item1 card">
                                         <div class="speaker-thumb card-header">
 
-                                        <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
-                                            <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="speaker">
-                                            <p class="custom-badge"><?php echo $gig->genre ?></p>
-                                </a>
+                                            <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
+                                                <img src="<?php echo $gig->poster ? poster_thumbnail_url() . $gig->poster : user_asset_url() . 'images/home/slider-02/card-img01.png' ?>" alt="speaker">
+                                                <p class="custom-badge"><?php echo $gig->genre ?></p>
+                                            </a>
                                         </div>
                                         <div class="speaker-content card-footer">
                                             <a href="<?php echo user_base_url(); ?>gigs/detail?gig=<?php echo $gig->id ?>">
@@ -109,8 +120,18 @@
                                             <h5 class="mt-2"><?php echo $gig->user_name ?></h5>
                                             <div class="counter text-center d-flex">
                                                 <div class="spots-left stat">
-                                                    <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
-                                                    <p><span class="spot-text">Spot left</span></p>
+                                                    <?php if ($gig->ticket_left > 0) :
+                                                    ?>
+                                                        <h3><span class="spot-number"><?php echo $gig->ticket_left ?></span></h3>
+                                                        <p><span class="spot-text">Spot left</span></p>
+                                                    <?php
+                                                    else :
+                                                    ?>
+                                                        <h3><span class="spot-number">Gig is On!</span></h3>
+                                                        <!-- <p><span class="spot-text">Gig is On!</span></p> -->
+                                                    <?php
+                                                    endif;
+                                                    ?>
                                                 </div>
                                                 <span class="divider">|</span>
                                                 <div class="days-left">
@@ -248,7 +269,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
@@ -305,7 +326,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
@@ -387,7 +408,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
@@ -444,7 +465,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
@@ -527,7 +548,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
@@ -584,7 +605,7 @@
 
                                                     <h6><?php echo $gig->user_name ?></h6>
                                                     <p><?php echo date('d M Y', strtotime($gig->gig_date)) ?></p>
-                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left.' tickets left' : 'Gig is On!' ?></p>
+                                                    <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                                     <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span><?php echo abs($gig->days_left) > 0 ? abs($gig->days_left) . ' days left' : 'Today' ?></p>
                                                 </div>
                                                 <div class="circlebar">
