@@ -103,7 +103,8 @@ class Gigs_model extends CI_Model
 			$limits = " LIMIT $tot_limit ";
 		}
 
-		$query = $this->db->query("SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND is_approved = 1 $whrs $sort_by $limits ");
+		// $query = $this->db->query("SELECT * FROM gigs WHERE date(gig_date) > CURDATE() AND is_approved = 1 $whrs $sort_by $limits ");
+		$query = $this->db->query("SELECT * FROM gigs WHERE is_approved = 1 $whrs $sort_by $limits ");
 		return $query->result();
 	}
 
