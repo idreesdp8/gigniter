@@ -29,7 +29,7 @@
                                 </a>
                                 <h6><?php echo $gig->user_name ?></h6>
                                 <p><?php echo $gig->gig_date ? date('d M Y', strtotime($gig->gig_date)) : 'Not set' ?></p>
-                                <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left ?> tickets left</p>
+                                <p><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/ticket.png"></span><?php echo $gig->ticket_left > 0 ? $gig->ticket_left . ' tickets left' : 'Gig is On!' ?></p>
                                 <p class="mb-3"><span class="mr-2"><img src="<?php echo user_asset_url(); ?>images/icons/calender.png"></span>
                                     <?php
                                     if ($gig->days_left < 0)
