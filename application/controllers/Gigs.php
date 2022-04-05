@@ -967,7 +967,8 @@ class Gigs extends CI_Controller
 							$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
 						}
 
-						redirect("my_gigs");
+						redirect("gigs/detail?gig=" . $args1);
+						// redirect("my_gigs");
 					}
 				} else {
 					$gig = $this->gigs_model->get_gig_by_id($args1);
