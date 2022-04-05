@@ -45,6 +45,7 @@
         .cart-plus-minus input {
             color: #113270;
         }
+
         .qtybutton.dec.disabled {
             pointer-events: none;
         }
@@ -130,19 +131,20 @@
                                                             </div>
                                                         <?php
                                                         endif;
+                                                        foreach ($cart_items as $item) {
+                                                            $quantity = 0;
+                                                            if ($item->ticket_tier_id == $value->id) {
+                                                                echo $item->ticket_tier_id.' ';
+                                                                echo $value->id.' ';
+                                                                $quantity = $item->quantity;
+                                                            }
+                                                            echo $quantity."\n";
+                                                        }
                                                         ?>
                                                         <div class="cart-button event-cart">
                                                             <div class="cart-plus-minus mb-0">
                                                                 <div class="dec qtybutton">-</div>
                                                                 <div class="dec qtybutton">-</div>
-                                                                <?php
-                                                                foreach ($cart_items as $item) {
-                                                                    $quantity = 0;
-                                                                    if ($item->ticket_tier_id == $value->id) {
-                                                                        $quantity = $item->quantity;
-                                                                    }
-                                                                }
-                                                                ?>
                                                                 <input class="cart-plus-minus-box" type="text" name="qty[]" value="<?php echo $quantity ?>" readonly>
                                                                 <div class="inc qtybutton">+</div>
                                                                 <div class="inc qtybutton">+</div>
