@@ -69,6 +69,16 @@ $new_gigs = $this->gigs_model->get_count_new_gigs(); ?>
                         </ul>
                     </li>
                 <?php endif; ?>
+                <?php if (in_array('edit-email-log', $user_permissions) || in_array('view-email-log', $user_permissions) || in_array('delete-email-log', $user_permissions)) : ?>
+                <li class="nav-item" id="sidebar_email-log">
+                    <a href="<?php echo admin_base_url(); ?>users/email_log" class="nav-link">
+                        <i class="icon-cart"></i>
+                        <span>
+                            Email log
+                        </span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <?php if (in_array('edit-booking', $user_permissions) || in_array('view-booking', $user_permissions) || in_array('delete-booking', $user_permissions)) : ?>
                     <li class="nav-item" id="sidebar_booking">
                         <a href="<?php echo admin_base_url(); ?>bookings" class="nav-link">

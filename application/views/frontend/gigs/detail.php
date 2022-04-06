@@ -646,6 +646,7 @@
                         time = new Date(Date.UTC(time.slice(0, 4), time.slice(5, 7) - 1, time.slice(8, 10), time.slice(11, 13), time.slice(14, 16), time.slice(17, 19)));
                         // time = time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
                         time = time.toTimeString();
+                        time = time.slice(0, 8)
                         // console.log(time);
                         html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
                     }

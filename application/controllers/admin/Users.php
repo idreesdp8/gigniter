@@ -40,6 +40,7 @@ class Users extends CI_Controller
 		$this->load->model('user/bookings_model', 'bookings_model');
 		$this->load->model('admin/countries_model', 'countries_model');
 		$this->load->model('admin/admin_model', 'admin_model');
+		$this->load->model('email_log_model');
 		$perms_arrs = array('role_id' => $vs_role_id);
 
 		$this->load->library('Ajax_pagination');
@@ -487,6 +488,13 @@ class Users extends CI_Controller
 		} else {
 			return false;
 		}
+	}
+
+	function email_log()
+	{
+		$data['log'] = $this->email_log_model->get_all_email_logs();
+		// echo json_encode($data);
+		$this->load->view('admin/email_log/index', $data);
 	}
 	/* users functions ends */
 }

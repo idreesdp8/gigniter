@@ -21,7 +21,10 @@ class Email_log_model extends CI_Model
 
 	function get_all_email_logs()
 	{
-		$query = $this->db->get('email_log');
+		$this->db->select('email_log.*, CONCAT(users.fname,'.',users.lname) AS user_name');
+		$this->db->from('email_log');
+		$this->db->join('users', 'users.id = email_log.user_id');
+		$query = $this->db->get();
 		return $query->result();
 	}
 
