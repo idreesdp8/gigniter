@@ -21,10 +21,12 @@ class Email_log_model extends CI_Model
 
 	function get_all_email_logs()
 	{
-		$this->db->select('email_log.*, CONCAT(users.fname,'.',users.lname) AS user_name');
+		$this->db->select('email_log.*, CONCAT(users.fname,' . ',users.lname) AS user_name');
 		$this->db->from('email_log');
 		$this->db->join('users', 'users.id = email_log.user_id');
 		$query = $this->db->get();
+		echo json_encode($query);
+		die();
 		return $query->result();
 	}
 
@@ -39,7 +41,7 @@ class Email_log_model extends CI_Model
 		$query = $this->db->get_where('email_log', array('user_id' => $user_id));
 		return $query->row();
 	}
-	
+
 	function insert_email_log_data($data)
 	{
 		$ress = $this->db->insert('email_log', $data) ? $this->db->insert_id() : false;
