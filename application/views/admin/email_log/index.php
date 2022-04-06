@@ -71,7 +71,7 @@
                                             <td><?php echo $record->user_name ?></td>
                                             <td><?php echo $record->email ?></td>
                                             <td>$<?php echo $record->email_for ?></td>
-                                            <td><?php echo date('M d, Y H:i A', strtotime($record->created_on)) ?></td>
+                                            <td><?php echo date('M d, Y H:i A', strtotime($record->created_at)) ?></td>
                                             <!-- <td>
                                                 <div class="d-flex">
                                                     <a href="<?php echo admin_base_url() . 'bookings/show/' . $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
