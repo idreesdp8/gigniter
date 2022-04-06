@@ -296,7 +296,7 @@ class Gigs_model extends CI_Model
 
 	function get_gig_chat($gig_id)
 	{
-		$this->db->select('chat.*, CONCAT(users.fname, ' . ', users.lname) AS name');
+		$this->db->select('chat.*, CONCAT(users.fname,\' \', users.lname) AS name');
 		$this->db->from('chat');
 		$this->db->join('users', 'users.id = chat.user_id');
 		$this->db->where('chat.gig_id', $gig_id);
