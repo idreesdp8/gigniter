@@ -19,6 +19,8 @@
 <script src="<?php echo user_asset_url(); ?>js/sweetalert.min.js"></script>
 <script>
     const base_url = '<?php echo user_base_url() ?>';
+    var download_url1 = '<?php echo user_base_url() ?>';
+    const download_url = download_url1.replace('index.php/', '')
     const user_id = '<?php echo $this->session->userdata('us_id') ?>';
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     $('[data-toggle="tooltip"]').tooltip();

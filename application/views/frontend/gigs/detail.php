@@ -5,7 +5,7 @@
     <?php $this->load->view('frontend/layout/meta_tags'); ?>
     <title>Gigniter - Online Ticket Booking Service</title>
     <script src="https://player.live-video.net/1.4.0/amazon-ivs-player.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css"> -->
     <style>
         .detail_image_holder {
             overflow: hidden;
@@ -83,13 +83,13 @@
             overflow-y: auto;
         }
 
-        .emojionearea .emojionearea-editor {
+        /* .emojionearea .emojionearea-editor {
             min-height: 4rem;
         }
 
         .emojionearea {
             border-radius: 0 !important;
-        }
+        } */
 
         #chat_form button {
             border-radius: 0 0 0.25rem 0.25rem !important;
@@ -541,60 +541,39 @@
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                 </div> -->
-                <div class="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <div class="card" style="background-color: #5560ff;border: 0px;">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col">
-                                    <h5 style="text-align: center">Chat Room</h5>
+                <?php
+                if ($this->session->userdata('us_id')) :
+                ?>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="card" style="background-color: #5560ff;border: 0px;">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 style="text-align: center">Chat Room</h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body" id="messages_area">
-                            <!-- <div class="d-flex align-items-center justify-content-between mb-2">
-                                <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img">
-                                <span>2:58 PM</span>
-                                <span>Nelson Mandella</span>
-                                <span>Hi</span>
-                            </div> -->
-                            <?php
-                            //     foreach ($chat_data as $chat) {
-                            //         if (isset($_SESSION['user_data'][$chat['userid']])) {
-                            //             $from = 'Me';
-                            //             $row_class = 'row justify-content-start';
-                            //             $background_class = 'text-dark alert-light';
-                            //         } else {
-                            //             $from = $chat['user_name'];
-                            //             $row_class = 'row justify-content-end';
-                            //             $background_class = 'alert-success';
-                            //         }
-
-                            //         echo '
-                            // <div class="' . $row_class . '">
-                            // 	<div class="col-sm-10">
-                            // 		<div class="shadow-sm alert ' . $background_class . '">
-                            // 			<b>' . $from . ' - </b>' . $chat["msg"] . '
-                            // 			<br />
-                            // 			<div class="text-right">
-                            // 				<small><i>' . $chat["created_on"] . '</i></small>
-                            // 			</div>
-                            // 		</div>
-                            // 	</div>
-                            // </div>
-                            // ';
-                            //     }
-                            ?>
-                        </div>
-                    </div>
-                    <form method="post" id="chat_form">
-                        <div class="mb-3">
-                            <textarea class="form-control" id="chat_message" name="chat_message" placeholder="Type Message Here" required></textarea>
-                            <div class="">
-                                <button type="submit" name="send" id="send" class="btn btn-theme-primary">Send <i class="fa fa-paper-plane"></i></button>
+                            <div class="card-body" id="messages_area">
+                                <!-- <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img">
+                                    <span>2:58 PM</span>
+                                    <span>Nelson Mandella</span>
+                                    <span>Hi</span>
+                                </div> -->
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <form method="post" id="chat_form">
+                            <div class="mb-3">
+                                <textarea class="form-control" id="chat_message" name="chat_message" placeholder="Type Message Here" required></textarea>
+                                <div class="">
+                                    <button type="submit" name="send" id="send" class="btn btn-theme-primary">Send <i class="fa fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <?php
+                endif;
+                ?>
             </div>
         </div>
     </section>
@@ -648,8 +627,47 @@
     <?php $this->load->view('frontend/layout/newsletter_footer'); ?>
     <?php $this->load->view('frontend/layout/scripts'); ?>
     <script src="<?php echo user_asset_url(); ?>js/add-to-cart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script> -->
     <script>
+        setInterval(function() {
+        getChat()
+        }, 1000);
+
+        function getChat() {
+            $.ajax({
+                url: base_url + 'gigs/get_gig_chat/<?php echo $gig->id ?>',
+                method: 'get',
+                dataType: 'json',
+                success: function(response) {
+                    var html_txt = ''
+                    for (var i = 0; i < response.messages.length; i++) {
+                        var time = new Date(response.messages[i].created_on);
+                        time = time.toDateString();
+                        // console.log(time);
+                        html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
+                    }
+                    $('#messages_area').empty().html(html_txt)
+                }
+            })
+            $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
+        }
+        // $('#send').click(function() {
+        //     sendMessage();
+        // })
+        function sendMessage(messageData) {
+            $.ajax({
+                url: base_url + 'gigs/send_message',
+                method: 'post',
+                data: messageData,
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    $('#chat_message').val('');
+                    $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
+                }
+            })
+        }
+
         function delete_gig() {
             event.preventDefault()
             var form = event.target.form
@@ -691,28 +709,38 @@
                 $('#exampleModal2').modal('show');
             })
 
-            $('#chat_form').on('submit', function(event) {
-                event.preventDefault();
-                var user_id = <?php echo $this->session->userdata('us_id') ?? 0 ?>;
-                var message = $('#chat_message').val();
-                var gig_id = <?php echo $gig->id ?>;
-                var data = {
-                    userId: user_id,
-                    msg: message,
-                    gigId: gig_id,
-                };
-                $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
-            });
+            // $('#chat_form').on('submit', function() {
+            //     event.preventDefault();
+            //     // var user_id = <?php echo $this->session->userdata('us_id') ?? 0 ?>;
+            //     var message = $('#chat_message').val();
+            //     var gig_id = <?php echo $gig->id ?>;
+            //     var data = {
+            //         // userId: user_id,
+            //         msg: message,
+            //         gig_id: gig_id,
+            //     };
+            //     console.log('')
+            //     sendMessage(data)
+            //     $('#messages_area').scrollTop($('#messages_area')[0].scrollHeight);
+            // });
             $('#send').click(function(e) {
                 e.preventDefault();
                 var message = $('#chat_message').val();
-
+                if(message.length > 0) {
+                    var gig_id = <?php echo $gig->id ?>;
+                    var data = {
+                        // userId: user_id,
+                        msg: message,
+                        gig_id: gig_id
+                    };
+                    sendMessage(data)
+                }
             })
 
-            $("#chat_message").emojioneArea({
-                picketPosition: "top",
-                toneStyle: "bullet"
-            });
+            // $("#chat_message").emojioneArea({
+            //     picketPosition: "top",
+            //     toneStyle: "bullet"
+            // });
 
             $(window).scroll(function() {
                 var sticky = $('.skicky-buttons'),

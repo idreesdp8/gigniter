@@ -294,6 +294,31 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_gig_chat($gig_id)
+	{
+		// $query = $this->db->query("SELECT chat.*, users. AS NUMS FROM gigs WHERE id='" . $sl_gig_id . "' AND FIND_IN_SET('" . $sl_venue . "',venues)");
+		// $total_physical_gigs = $query->row()->NUMS;
+
+		// if ($total_physical_gigs > 0) {
+		// 	return '1';
+		// } else {
+		// 	return '0';
+		// }
+		$this->db->select('chat.*, CONCAT(users.fname, ' . ', users.lname) AS name');
+		$this->db->from('chat');
+		$this->db->join('users', 'users.id = chat.user_id');
+		$this->db->where('chat.gig_id', $gig_id);
+		// $query = $this->db->get_where('chat', array('gig_id' => $gig_id));
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function insert_chat_data($data)
+	{
+		$ress = $this->db->insert('chat', $data) ? $this->db->insert_id() : false;
+		return $ress;
+	}
+
 	function insert_gig_data($data)
 	{
 		$ress = $this->db->insert('gigs', $data) ? $this->db->insert_id() : false;

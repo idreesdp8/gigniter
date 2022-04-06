@@ -1937,6 +1937,36 @@ class Gigs extends CI_Controller
 		redirect("gigs/detail?gig=" . $gig_id);
 	}
 
+	function get_gig_chat($gig_id)
+	{
+		$chat = $this->gigs_model->get_gig_chat($gig_id);
+		echo json_encode(['messages' => $chat]);
+	}
+
+	function send_message()
+	{
+		$user_id = $this->dbs_user_id ?? 0;
+		$gig_id = $this->input->post('gig_id');
+		$message = $this->input->post('msg');
+		$data = [
+			'user_id' => $user_id,
+			'gig_id' => $gig_id,
+			'message' => $message,
+			'created_on' => date('Y-m-d H:i:s', strtotime('now'))
+		];
+		$res = $this->gigs_model->insert_chat_data($data);
+		if ($res) {
+			$resp = [
+				'status' => 1
+			];
+		} else {
+			$resp = [
+				'status' => 0
+			];
+		}
+		echo json_encode($resp);
+	}
+
 	function test()
 	{
 		// echo $this->general_model->safe_ci_decoder('cUpGWGVN');
