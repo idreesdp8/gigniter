@@ -630,7 +630,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.js"></script> -->
     <script>
         setInterval(function() {
-        getChat()
+            getChat()
         }, 1000);
 
         function getChat() {
@@ -641,8 +641,11 @@
                 success: function(response) {
                     var html_txt = ''
                     for (var i = 0; i < response.messages.length; i++) {
-                        var time = new Date(response.messages[i].created_on);
-                        time = time.toDateString();
+                        // var time = new Date(response.messages[i].created_on);
+                        var time = response.messages[i].created_on
+                        time = new Date(Date.UTC(time.slice(0, 4), time.slice(5, 7) - 1, time.slice(8, 10), time.slice(11, 13), time.slice(14, 16), time.slice(17, 19)));
+                        // time = time.getHours()+':'+time.getMinutes()+':'+time.getSeconds();
+                        time = time.toTimeString();
                         // console.log(time);
                         html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
                     }
@@ -726,7 +729,7 @@
             $('#send').click(function(e) {
                 e.preventDefault();
                 var message = $('#chat_message').val();
-                if(message.length > 0) {
+                if (message.length > 0) {
                     var gig_id = <?php echo $gig->id ?>;
                     var data = {
                         // userId: user_id,
