@@ -492,8 +492,8 @@ class Users extends CI_Controller
 
 	function email_log()
 	{
-		$data['log'] = $this->email_log_model->get_all_email_logs();
-		echo json_encode($data);
+		$data['logs'] = $this->email_log_model->get_all_email_logs();
+		// echo json_encode($data);
 		$this->load->view('admin/email_log/index', $data);
 	}
 	/* users functions ends */
