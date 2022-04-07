@@ -638,6 +638,12 @@ class Gigs_model extends CI_Model
 		return $query->num_rows();
 	}
 
+	function get_count_approved_gigs($user_id)
+	{
+		$query = $this->db->get_where('gigs', array('status' => 1, 'user_id' => $user_id));
+		return $query->num_rows();
+	}
+
 	function current_time_stamp()
 	{
 		$sql = 'SELECT CURRENT_TIMESTAMP';

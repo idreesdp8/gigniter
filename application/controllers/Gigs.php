@@ -1974,31 +1974,35 @@ class Gigs extends CI_Controller
 		// echo $send;
 		// $res = $this->gigs_model->test_query();
 		// echo json_encode($res);
-		$to = 'hamza0952454@gmail.com';
-		$subject = 'Verification Code';
-		$from_email = $this->configurations_model->get_configuration_by_key('info_email');
-		$this->load->helper('string');
-		$code = random_string('alnum', 6);
-		$data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder('hamza0952454@gmail.com') . '&code=' . $this->general_model->safe_ci_encoder($code);
-		// $msg = $this->load->view('email/verification_code', $data, TRUE);
-		$template = 'email/verification_code';
+		// $to = 'hamza0952454@gmail.com';
+		// $subject = 'Verification Code';
+		// $from_email = $this->configurations_model->get_configuration_by_key('info_email');
+		// $this->load->helper('string');
+		// $code = random_string('alnum', 6);
+		// $data['link'] = user_base_url() . 'account/verify_email?email=' . $this->general_model->safe_ci_encoder('hamza0952454@gmail.com') . '&code=' . $this->general_model->safe_ci_encoder($code);
+		// // $msg = $this->load->view('email/verification_code', $data, TRUE);
+		// $template = 'email/verification_code';
 
-		$message = $this->load->view($template, $data, TRUE);
+		// $message = $this->load->view($template, $data, TRUE);
 
-		// Always set content-type when sending HTML email
-		$headers = "MIME-Version: 1.0" . "\r\n";
-		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		// // Always set content-type when sending HTML email
+		// $headers = "MIME-Version: 1.0" . "\r\n";
+		// $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-		// More headers
-		$headers .= 'From: <' . $from_email->value . '>' . "\r\n";
-		// $headers .= 'Cc: myboss@example.com' . "\r\n";
-		//Send mail
-		// echo $headers;
-		if (mail($to, $subject, $message, $headers)) {
-			echo '1';
-		} else {
-			echo '0';
-		}
+		// // More headers
+		// $headers .= 'From: <' . $from_email->value . '>' . "\r\n";
+		// // $headers .= 'Cc: myboss@example.com' . "\r\n";
+		// //Send mail
+		// // echo $headers;
+		// if (mail($to, $subject, $message, $headers)) {
+		// 	echo '1';
+		// } else {
+		// 	echo '0';
+		// }
+		$user_id = $this->dbs_user_id;
+		$count = $this->gigs_model->get_count_approved_gigs($user_id);
+		echo $user_id;
+		echo $count;
 	}
 
 

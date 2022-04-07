@@ -725,6 +725,8 @@ class Account extends CI_Controller
 					$data['link'] = [];
 				} */
 				$data['user'] = $user;
+				$count = $this->gigs_model->get_count_approved_gigs($user_id);
+				$data['count'] = $count;
 				// echo json_encode($user);
 				// die();
 				$this->load->view('frontend/account/profile', $data);

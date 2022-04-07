@@ -156,10 +156,12 @@
                                     <span id="twitter1" class="text-danger"><?php echo form_error('twitter'); ?></span>
                                 </div>
                             </div>
+                            <?php if($count) : ?>
                             <div class="col-xl-9"></div>
                             <div class="col-xl-3">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i> Update</button>
                             </div>
+                            <?php endif; ?>
 						</div> 
 						
                     </form> 
