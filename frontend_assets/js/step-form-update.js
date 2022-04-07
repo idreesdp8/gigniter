@@ -243,11 +243,11 @@ $(document).ready(function () {
             })
             alert('Complete these fields\n' + error)
         } else {
-            console.log('else')
             if ($('#is_draft').val() == '2') {
                 e.preventDefault();
             }
             // $('#basic_info_form').submit();
+            console.log('else')
         }
     })
     //When fields are changed, validation will be checked
