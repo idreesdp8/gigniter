@@ -226,13 +226,13 @@ $(document).ready(function () {
         runValidationOn(formStep);
     })
     $('.step-form-buttons > button').click(function (e) {
+        var error = '';
+        $('.setup-content').each(function () {
+            runValidationOn($(this).attr('id'));
+        })
+        console.log(errorElems)
         if (!validForm) {
             e.preventDefault();
-            var error = '';
-            $('.setup-content').each(function () {
-                runValidationOn($(this).attr('id'));
-            })
-            console.log(errorElems)
             $.each(errorElems, function (index, value) {
 
                 // console.log(value)
