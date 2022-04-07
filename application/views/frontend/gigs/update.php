@@ -591,11 +591,11 @@
                       <?php
                       else :
                       ?>
-                        <button type="button" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Preview</button>
+                        <button type="submit" class="btn-theme-primary btn ml-3" onClick="submit_form(1)">Preview</button>
                         <?php
                         if (!$prev_submitted) :
                         ?>
-                          <button type="button" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
+                          <button type="submit" class="btn btn-success ml-3" onClick="submit_form(0)">Submit for Approval</button>
                       <?php
                         endif;
                       endif;

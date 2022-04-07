@@ -209,6 +209,7 @@ function runValidationOn(formStep) {
             $(window).scrollTop(scrollPos);
         }
         $(errorElems[0]).focus();
+        validForm = false;
     } else {
         var nextStepWizard = $('div.setup-panel div a[href="#' + formStep + '"]').parent().next().children("a");
         // console.log(nextStepWizard);
@@ -230,8 +231,8 @@ $(document).ready(function () {
         $('.setup-content').each(function () {
             runValidationOn($(this).attr('id'));
         })
-        console.log(errorElems)
-        console.log(validForm)
+        // console.log(errorElems)
+        // console.log(validForm)
         if (!validForm) {
             console.log('if')
             e.preventDefault();
@@ -243,11 +244,11 @@ $(document).ready(function () {
             })
             alert('Complete these fields\n' + error)
         } else {
+            console.log('else')
             if ($('#is_draft').val() == '2') {
                 e.preventDefault();
             }
-            // $('#basic_info_form').submit();
-            console.log('else')
+            $('#basic_info_form').submit();
         }
     })
     //When fields are changed, validation will be checked
