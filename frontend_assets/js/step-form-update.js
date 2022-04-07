@@ -233,19 +233,21 @@ $(document).ready(function () {
         console.log(errorElems)
         console.log(validForm)
         if (!validForm) {
+            console.log('if')
             e.preventDefault();
             $.each(errorElems, function (index, value) {
-
+                
                 // console.log(value)
                 value = value.slice(1, value.length)
                 error += value + ', ';
             })
             alert('Complete these fields\n' + error)
         } else {
+            console.log('else')
             if ($('#is_draft').val() == '2') {
                 e.preventDefault();
             }
-            $('#basic_info_form').submit();
+            // $('#basic_info_form').submit();
         }
     })
     //When fields are changed, validation will be checked
