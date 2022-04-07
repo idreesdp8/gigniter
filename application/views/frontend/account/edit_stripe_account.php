@@ -83,12 +83,14 @@
                             </div>
 
                         </div>
-                        <div class="row">
-                            <div class="col-xl-3">
-                                <button type="submit" class="btn btn-theme-primary">Update</button>
+                        <?php if (!$count) : ?>
+                            <div class="row">
+                                <div class="col-xl-3">
+                                    <button type="submit" class="btn btn-theme-primary">Update</button>
+                                </div>
+                                <div class="col-xl-9"> </div>
                             </div>
-                            <div class="col-xl-9"> </div>
-                        </div>
+                        <?php endif; ?>
                     </form>
                 </div>
             </div>

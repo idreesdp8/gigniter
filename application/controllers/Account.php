@@ -576,6 +576,8 @@ class Account extends CI_Controller
 				//$this->load->view('frontend/account/edit_stripe_account', $data);
 			}
 		} else {
+			$count = $this->gigs_model->get_count_approved_gigs($usrid);
+			$data['count'] = $count;
 			$this->load->view('frontend/account/edit_stripe_account', $data);
 		}
 	}
@@ -700,30 +702,13 @@ class Account extends CI_Controller
 			if ($user) {
 				$data['countries'] = $this->countries_model->get_all_countries();
 				$links = $this->users_model->get_social_links($this->dbs_user_id);
-				// $stripe_details = $this->users_model->get_user_stripe_details($this->dbs_user_id);
-				// $detail_submitted_flag = 'NA';
-				// if ($stripe_details) {
-				// 	$detail_submitted_flag = 'restricted';
-				// 	if ($stripe_details) {
-				// 		$stripe_account = $this->check_user_account_details($stripe_details->stripe_account_id);
-				// 		// echo json_encode($stripe_account);
-				// 		// die();
-				// 		if ($stripe_account->charges_enabled) {
-				// 			$detail_submitted_flag = 'enabled';
-				// 		}
-				// 	}
-				// }
-				// $user->stripe_id = $stripe_details ? $stripe_details->stripe_id : null;
-				// $user->detail_submitted_flag = $detail_submitted_flag;
 				if (isset($links) && !empty($links)) {
 					foreach ($links as $link) {
 						$platform = $link->platform;
 						$user->$platform = $link->url;
 					}
 					// $data['link'] = $temp;
-				} /* else {
-					$data['link'] = [];
-				} */
+				}
 				$data['user'] = $user;
 				$count = $this->gigs_model->get_count_approved_gigs($user_id);
 				$data['count'] = $count;
