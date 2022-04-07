@@ -1011,6 +1011,8 @@ class Gigs extends CI_Controller
 					}
 					// echo json_encode($data);
 					// die();
+					$count = $this->gigs_model->get_count_approved_gigs($user->id);
+					$data['count'] = $count;
 					$this->load->view('frontend/gigs/update', $data);
 				}
 			} else {

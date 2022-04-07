@@ -91,7 +91,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Enter Gig Title <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Title"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="title" name="title" required="required" value="<?php echo $gig->title; ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="text" id="title" name="title" required="required" value="<?php echo $gig->title; ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="title1" class="text-danger"><?php echo form_error('title'); ?></span>
                     </label>
                   </div>
@@ -105,7 +105,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Category <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Category"><i class="fas fa-question-circle"></i></span>
-                      <select id="category" name="category" class="select" required="required" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <select id="category" name="category" class="select" required="required" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                         <option value="">Select Category</option>
                         <?php
                         if (isset($categories)) {
@@ -121,7 +121,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     <label>
                       Enter Gig Genre <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Genre"><i class="fas fa-question-circle"></i></span>
-                      <select id="genre" name="genre" class="select" required="required" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <select id="genre" name="genre" class="select" required="required" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                         <option value="">Select Genre</option>
                         <?php
                         if (isset($genres)) {
@@ -139,14 +139,14 @@
                       <div class="d-flex">
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox" <?php echo (in_array('Live stream', $gig->venues)) ? 'checked="checked"' : ''; ?> <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                            <input id="myCheckbox-live_stream" name="venues[]" value="Live stream" type="checkbox" <?php echo (in_array('Live stream', $gig->venues)) ? 'checked="checked"' : ''; ?> <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                             <label for="myCheckbox-live_stream">Live stream</label>
                             <span></span>
                           </div>
                         </div>
                         <div class="mycheckbox-contain">
                           <div class="allow-overshoot">
-                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox" <?php echo (in_array('Physical', $gig->venues)) ? 'checked="checked"' : ''; ?> <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                            <input id="myCheckbox-physical" name="venues[]" value="Physical" type="checkbox" <?php echo (in_array('Physical', $gig->venues)) ? 'checked="checked"' : ''; ?> <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                             <label for="myCheckbox-physical">Physical</label>
                             <span></span>
                           </div>
@@ -186,7 +186,7 @@
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12" id="gig_address" style="display: none">
                     <label> Enter Address <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Address"><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="address" name="address" value="<?php echo $gig->address; ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="text" id="address" name="address" value="<?php echo $gig->address; ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="address1" class="text-danger"><?php echo form_error('address'); ?></span>
                     </label>
                   </div>
@@ -199,14 +199,14 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Target Number of Tickets <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Target Number of Tickets"><i class="fas fa-question-circle"></i></span>
-                      <input type="number" id="goal" name="goal" min="1" required="required" value="<?php echo $gig->ticket_limit ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="number" id="goal" name="goal" min="1" required="required" value="<?php echo $gig->ticket_limit ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="goal1" class="text-danger"><?php echo form_error('goal'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Ticket Threshold <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Ticket Threshold. It must be less than Target number of tickets."><i class="fas fa-question-circle"></i></span>
-                      <input type="text" id="threshold" name="threshold" readonly required="required" value="<?php echo $gig->threshold ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="text" id="threshold" name="threshold" readonly required="required" value="<?php echo $gig->threshold ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="threshold1" class="text-danger"><?php echo form_error('threshold'); ?></span>
                     </label>
                   </div>
@@ -233,14 +233,14 @@
                     <label>
                       <?php $curr_date = date('Y-m-d'); ?>
                       Campaign Launch Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Campaign Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : '' ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="date" id="campaign_date" class="date" name="campaign_date" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required" value="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : '' ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="campaign_date1" class="text-danger"><?php echo form_error('campaign_date'); ?></span>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Gig Date <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig Date"><i class="fas fa-question-circle"></i></span>
-                      <input type="date" id="gig_date" class="date" name="gig_date" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required" value="<?php echo $gig->gig_date ? date('Y-m-d', strtotime($gig->gig_date)) : '' ?>" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="date" id="gig_date" class="date" name="gig_date" onFocus="(this.type='date')" onBlur="if(!this.value)this.type='text'" required="required" value="<?php echo $gig->gig_date ? date('Y-m-d', strtotime($gig->gig_date)) : '' ?>" min="<?php echo $gig->campaign_date ? date('Y-m-d', strtotime($gig->campaign_date)) : date('Y-m-d', strtotime('now')) ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="gig_date1" class="text-danger"><?php echo form_error('gig_date'); ?></span>
                     </label>
                   </div>
@@ -254,7 +254,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       End Time <span class="float-right" data-toggle="tooltip" data-placement="top" title="This is Gig End Time"><i class="fas fa-question-circle"></i></span>
-                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'" required="required" min="<?php echo date('Y-m-d', strtotime($gig->gig_date)) . 'T' . date('H:i:s', strtotime($gig->start_time)) ?>" value="<?php echo $gig->end_time ? date('Y-m-d\TH:i:s', strtotime($gig->end_time)) : '' ?>" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="datetime-local" id="end_time" class="time" name="end_time" onFocus="(this.type='datetime-local')" onBlur="if(!this.value)this.type='text'" required="required" min="<?php echo date('Y-m-d', strtotime($gig->gig_date)) . 'T' . date('H:i:s', strtotime($gig->start_time)) ?>" value="<?php echo $gig->end_time ? date('Y-m-d\TH:i:s', strtotime($gig->end_time)) : '' ?>" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                       <span id="end_time1" class="text-danger"><?php echo form_error('end_time'); ?></span>
                     </label>
                   </div>
@@ -449,13 +449,13 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       First Name
-                      <input type="text" id="fname" name="fname" value="<?php echo isset($user->fname) ? $user->fname : ''; ?>" required="required" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="text" id="fname" name="fname" value="<?php echo isset($user->fname) ? $user->fname : ''; ?>" required="required" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Last Name
-                      <input type="text" id="lname" name="lname" value="<?php echo isset($user->lname) ? $user->lname : ''; ?>" required="required" <?php echo $gig->is_approved ? 'disabled' : '' ?>>
+                      <input type="text" id="lname" name="lname" value="<?php echo isset($user->lname) ? $user->lname : ''; ?>" required="required" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?>>
                     </label>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
@@ -555,7 +555,7 @@
                   <div class="col-lg-6 col-md-6 col-sm-12 col-12">
                     <label>
                       Stripe integration
-                      <input type="text" id="stripe" name="stripe" value="<?php echo (isset($user->stripe) && $user->stripe != '') ? $user->stripe : ''; ?>" required="required" <?php echo $gig->is_approved ? 'disabled' : '' ?>/>
+                      <input type="text" id="stripe" name="stripe" value="<?php echo (isset($user->stripe) && $user->stripe != '') ? $user->stripe : ''; ?>" required="required" <?php echo $gig->is_approved || !$count ? 'disabled' : '' ?> />
                     </label>
                   </div>
                   <div class=" col-lg-6 col-md-6 col-sm-12 col-12">
