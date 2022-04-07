@@ -231,6 +231,7 @@ $(document).ready(function () {
             runValidationOn($(this).attr('id'));
         })
         console.log(errorElems)
+        console.log(validForm)
         if (!validForm) {
             e.preventDefault();
             $.each(errorElems, function (index, value) {
