@@ -847,8 +847,8 @@ class Gigs extends CI_Controller
 				// get form input
 				$data = $_POST;
 				// echo json_encode($_FILES);
-				// echo json_encode($data);
-				// die();
+				echo json_encode($data);
+				die();
 
 
 				// // form validation
