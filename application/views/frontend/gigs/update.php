@@ -288,22 +288,22 @@
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <input type="hidden" name="ticket_id[]" value="<?php echo $ticket->id; ?>">
                               <label> Tier Name
-                                <input type="text" name="ticket_name[]" value="<?php echo $ticket->name; ?>" placeholder="">
+                                <input type="text" name="ticket_name[]" value="<?php echo $ticket->name; ?>" placeholder="" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                               </label>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <label> Tier Price
-                                <input type="text" name="ticket_price[]" value="<?php echo $ticket->price; ?>" placeholder="USD $">
+                                <input type="text" name="ticket_price[]" value="<?php echo $ticket->price; ?>" placeholder="USD $" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                               </label>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <label> Number of tickets in Tier
-                                <input type="text" name="ticket_quantity[]" value="<?php echo $ticket->quantity; ?>" placeholder="">
+                                <input type="text" name="ticket_quantity[]" value="<?php echo $ticket->quantity; ?>" placeholder="" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                               </label>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                               <label> Description
-                                <textarea name="ticket_description[]" cols="30" rows="2"><?php echo $ticket->description; ?></textarea>
+                                <textarea name="ticket_description[]" cols="30" rows="2" <?php echo $ticket->in_cart ? 'disabled' : '' ?>><?php echo $ticket->description; ?></textarea>
                               </label>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 tier_bundles">
@@ -320,13 +320,13 @@
                                       <div class="col-md-4">
                                         <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>
                                         <div class="form-group">
-                                          <input type="text" name="bundle_title_tier<?php echo $tier; ?>[]" placeholder="Bundle Title" value="<?php echo $bundle->title; ?>">
+                                          <input type="text" name="bundle_title_tier<?php echo $tier; ?>[]" placeholder="Bundle Title" value="<?php echo $bundle->title; ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                         </div>
                                         <!-- <input type="hidden" class="old_image" value="<?php //echo bundle_url() . $bundle->image 
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier; ?>[]" value="<?php echo $bundle->image; ?>">
                                         <div class="add-product-border image_div mb-0"> <img class="icon_upload2" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : ''; ?>" alt="your image" /> </div>
-                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" />
+                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" <?php echo $ticket->in_cart ? 'disabled' : '' ?>/>
                                         <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>

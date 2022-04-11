@@ -986,8 +986,8 @@ class Gigs extends CI_Controller
 						$ticket->bundles = $bundles;
 						$ticket->in_cart = $in_cart;
 					}
-					echo json_encode($tickets);
-					die();
+					// echo json_encode($tickets);
+					// die();
 					$data['tickets'] = $tickets;
 					$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 					$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
