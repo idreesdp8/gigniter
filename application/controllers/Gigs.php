@@ -989,7 +989,7 @@ class Gigs extends CI_Controller
 						'text' => 'Gig Updated'
 					];
 					$this->gigs_model->insert_gig_history($gig_history);
-					$this->remove_tickets($data['id']);
+					$this->remove_unbought_tickets($data['id']);
 					$this->add_tickets($data, $data['id']);
 					// $this->update_tickets($data);
 					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
@@ -1110,6 +1110,29 @@ class Gigs extends CI_Controller
 					}
 				}
 				$this->gigs_model->remove_ticket_tiers_by_id($ticket->id);
+			}
+		}
+	}
+
+	function remove_unbought_tickets($gig_id, $delete_bundle_img = '')
+	{
+		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+		if (isset($tickets) && !empty($tickets)) {
+			foreach ($tickets as $ticket) {
+				$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
+				if(!$in_cart) {
+					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+					if (isset($bundles) && !empty($bundles)) {
+						foreach ($bundles as $bundle) {
+							if ($delete_bundle_img) {
+								@unlink("downloads/bundles/thumb/$bundle->image");
+								@unlink("downloads/bundles/$bundle->image");
+							}
+							$this->gigs_model->remove_bundle_by_id($bundle->id);
+						}
+					}
+					$this->gigs_model->remove_ticket_tiers_by_id($ticket->id);
+				}
 			}
 		}
 	}
