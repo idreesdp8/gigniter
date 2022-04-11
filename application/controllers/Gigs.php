@@ -838,21 +838,21 @@ class Gigs extends CI_Controller
 					// get form input
 					$data = $_POST;
 					// echo json_encode($_FILES);
-					// echo json_encode($data);
-					// die();
+					echo json_encode($data);
+					die();
 
 
-					// form validation
-					$this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
-					$this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
-					$this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
-					$this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
-					$this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
+					// // form validation
+					// $this->form_validation->set_rules("category", "Category", "trim|required|xss_clean");
+					// $this->form_validation->set_rules("genre", "Genre", "trim|required|xss_clean");
+					// $this->form_validation->set_rules("threshold", "Threshold", "trim|required|xss_clean");
+					// $this->form_validation->set_rules("campaign_date", "Campaign Date", "trim|required|xss_clean");
+					// $this->form_validation->set_rules("gig_date", "Gig date", "trim|required|xss_clean");
 
-					if ($this->form_validation->run() == FALSE) {
-						// validation fail
-						redirect('gigs/update/' . $data['id']);
-					} else {
+					// if ($this->form_validation->run() == FALSE) {
+					// 	// validation fail
+					// 	redirect('gigs/update/' . $data['id']);
+					// } else {
 
 						$datas = array(
 							'subtitle' => $data['subtitle'] ?? null,
@@ -969,7 +969,7 @@ class Gigs extends CI_Controller
 
 						redirect("gigs/detail?gig=" . $args1);
 						// redirect("my_gigs");
-					}
+					// }
 				} else {
 					$gig = $this->gigs_model->get_gig_by_id($args1);
 					$venues = explode(',', $gig->venues);
