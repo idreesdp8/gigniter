@@ -778,9 +778,9 @@ class Gigs extends CI_Controller
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
-			echo $length;
-			echo $count;
-			die();
+			// echo $length;
+			// echo $count;
+			// die();
 			for ($i = 0; $i < $length; $i++) {
 				$j = $i + $count;
 				$res = false;
@@ -798,8 +798,8 @@ class Gigs extends CI_Controller
 					$res = $this->gigs_model->add_ticket_tier($tier);
 				}
 				if ($res) {
-					// echo $j;
-					// die();
+					echo $j;
+					die();
 					$this->add_ticket_bundles($data, $res, $j);
 					// die();
 				}
