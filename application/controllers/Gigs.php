@@ -856,22 +856,43 @@ class Gigs extends CI_Controller
 
 						$datas = array(
 							'subtitle' => $data['subtitle'] ?? null,
-							'category' => $data['category'],
-							'genre' => $data['genre'],
-							'address' => $data['address'] ?? null,
-							// 'goal_amount' => $data['goal_amount'],
-							'threshold' => $data['threshold'],
-							'meeting_platform' => $data['meeting_platform'] ?? null,
-							'meeting_url' => $data['meeting_url'] ?? null,
 							'is_overshoot' => $data['is_overshoot'] ?? 0,
 							'is_complete' => 1,
 							'is_draft' => $data['is_draft'] ?? 1,
-							'campaign_date' => date('Y-m-d H:i:s', strtotime($data['campaign_date'])),
-							'gig_date' => date('Y-m-d H:i:s', strtotime($data['gig_date'])),
-							'start_time' => date('H:i:s', strtotime($data['start_time'])),
-							'end_time' => date('Y-m-d H:i:s', strtotime($data['end_time'])),
-							'venues' => array_key_exists('venues', $data) ? implode(',', $data['venues']) : '',
 						);
+						if ($data['venues']) {
+							$datas['venues'] = array_key_exists('venues', $data) ? implode(',', $data['venues']) : '';
+						}
+						if ($data['end_time']) {
+							$datas['end_time'] = date('Y-m-d H:i:s', strtotime($data['end_time']));
+						}
+						if ($data['start_time']) {
+							$datas['start_time'] = date('H:i:s', strtotime($data['start_time']));
+						}
+						if ($data['gig_date']) {
+							$datas['gig_date'] = date('Y-m-d H:i:s', strtotime($data['gig_date']));
+						}
+						if ($data['campaign_date']) {
+							$datas['campaign_date'] = date('Y-m-d H:i:s', strtotime($data['campaign_date']));
+						}
+						if ($data['meeting_url']) {
+							$datas['meeting_url'] = $data['meeting_url'];
+						}
+						if ($data['meeting_platform']) {
+							$datas['meeting_platform'] = $data['meeting_platform'];
+						}
+						if ($data['threshold']) {
+							$datas['threshold'] = $data['threshold'];
+						}
+						if ($data['address']) {
+							$datas['address'] = $data['address'];
+						}
+						if ($data['genre']) {
+							$datas['genre'] = $data['genre'];
+						}
+						if ($data['category']) {
+							$datas['category'] = $data['category'];
+						}
 						if ($data['goal']) {
 							$datas['ticket_limit'] = $data['goal'];
 						}
