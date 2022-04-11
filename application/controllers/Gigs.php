@@ -846,7 +846,7 @@ class Gigs extends CI_Controller
 			if (isset($_POST) && !empty($_POST)) {
 				// get form input
 				$data = $_POST;
-				// echo json_encode($_FILES);
+				echo json_encode($_FILES);
 				echo json_encode($data);
 				die();
 
