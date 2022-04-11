@@ -363,6 +363,12 @@ class Gigs_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_ticket_tier_count_by_gig_id($gig_id)
+	{
+		$query = $this->db->get_where('ticket_tiers', array('gig_id' => $gig_id));
+		return $query->num_rows();
+	}
+
 	function get_ticket_tier_by_id($tier_id)
 	{
 		$query = $this->db->get_where('ticket_tiers', array('id' => $tier_id));
