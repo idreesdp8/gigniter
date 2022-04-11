@@ -279,7 +279,6 @@
                 <div class="row" id="ticket_tiers">
                   <?php
                   $tier = 1;
-                  $bundle_tier = 1;
                   if (isset($tickets) && !empty($tickets)) {
                     foreach ($tickets as $ticket) { ?>
                       <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
@@ -327,7 +326,7 @@
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier; ?>[]" value="<?php echo $bundle->image; ?>">
                                         <div class="add-product-border image_div mb-0"> <img class="icon_upload2" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : ''; ?>" alt="your image" /> </div>
-                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $bundle_tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" <?php echo $ticket->in_cart ? 'disabled' : '' ?>/>
+                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" <?php echo $ticket->in_cart ? 'disabled' : '' ?>/>
                                         <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>
@@ -362,10 +361,7 @@
                       </div>
 
                     <?php
-                    if(!$ticket->in_cart) {
-                      $bundle_tier++;
-                    }
-                    $tier++;
+                      $tier++;
                     }
                   } else { ?>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">

@@ -765,13 +765,21 @@ class Gigs extends CI_Controller
 
 	function add_tickets($data, $gig_id)
 	{
+		$in_cart = [];
+		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+		if($tickets) {
+			foreach($tickets as $ticket) {
+				$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
+			}
+		}
+		$count = count($in_cart);
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
 			// echo $length;
 			// die();
 			for ($i = 0; $i < $length; $i++) {
-				$j = $i + 1;
+				$j = $i + $count;
 				$res = false;
 				if ($data['ticket_name'][$i] != '') {
 					$tier = [
@@ -788,6 +796,7 @@ class Gigs extends CI_Controller
 				}
 				if ($res) {
 					// echo $j;
+					// die();
 					$this->add_ticket_bundles($data, $res, $j);
 					// die();
 				}
@@ -799,7 +808,7 @@ class Gigs extends CI_Controller
 
 	function add_ticket_bundles($data, $res, $tier)
 	{
-		// echo json_encode($data);
+		echo json_encode($data["bundle_title_tier$tier"]);
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["bundle_title_tier$tier"])) {
 			$length = count($data["bundle_title_tier$tier"]);
@@ -846,9 +855,9 @@ class Gigs extends CI_Controller
 			if (isset($_POST) && !empty($_POST)) {
 				// get form input
 				$data = $_POST;
-				echo json_encode($_FILES);
-				echo json_encode($data);
-				die();
+				// echo json_encode($_FILES);
+				// echo json_encode($data);
+				// die();
 
 
 				// // form validation
