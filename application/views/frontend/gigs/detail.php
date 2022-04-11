@@ -269,7 +269,7 @@
                             else :
                                 ?>
                                 <div class="custom-item3">
-                                    <a type="button" class="btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
+                                    <a type="button" class="skicky-buttons btn btn-warning btn-booking" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
                                     <?php
                                     if ($stream_details) :
                                     ?>
