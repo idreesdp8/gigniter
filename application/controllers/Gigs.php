@@ -765,14 +765,16 @@ class Gigs extends CI_Controller
 
 	function add_tickets($data, $gig_id)
 	{
-		$in_cart = [];
+		$count = 0;
 		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
 		if($tickets) {
 			foreach($tickets as $ticket) {
 				$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
+				if($in_cart) {
+					$count += 1;
+				}
 			}
 		}
-		$count = count($in_cart);
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
