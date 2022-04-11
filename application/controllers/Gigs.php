@@ -776,8 +776,9 @@ class Gigs extends CI_Controller
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
-			// echo $length;
-			// die();
+			echo $length;
+			echo $count;
+			die();
 			for ($i = 0; $i < $length; $i++) {
 				$j = $i + $count;
 				$res = false;
