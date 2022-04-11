@@ -838,8 +838,8 @@ class Gigs extends CI_Controller
 					// get form input
 					$data = $_POST;
 					// echo json_encode($_FILES);
-					// echo json_encode($data);
-					// die();
+					echo json_encode($data);
+					die();
 
 
 					// // form validation
@@ -860,43 +860,43 @@ class Gigs extends CI_Controller
 							'is_complete' => 1,
 							'is_draft' => $data['is_draft'] ?? 1,
 						);
-						if ($data['venues']) {
+						if (isset($data['venues'])) {
 							$datas['venues'] = array_key_exists('venues', $data) ? implode(',', $data['venues']) : '';
 						}
-						if ($data['end_time']) {
+						if (isset($data['end_time'])) {
 							$datas['end_time'] = date('Y-m-d H:i:s', strtotime($data['end_time']));
 						}
-						if ($data['start_time']) {
+						if (isset($data['start_time'])) {
 							$datas['start_time'] = date('H:i:s', strtotime($data['start_time']));
 						}
-						if ($data['gig_date']) {
+						if (isset($data['gig_date'])) {
 							$datas['gig_date'] = date('Y-m-d H:i:s', strtotime($data['gig_date']));
 						}
-						if ($data['campaign_date']) {
+						if (isset($data['campaign_date'])) {
 							$datas['campaign_date'] = date('Y-m-d H:i:s', strtotime($data['campaign_date']));
 						}
-						if ($data['meeting_url']) {
+						if (isset($data['meeting_url'])) {
 							$datas['meeting_url'] = $data['meeting_url'];
 						}
-						if ($data['meeting_platform']) {
+						if (isset($data['meeting_platform'])) {
 							$datas['meeting_platform'] = $data['meeting_platform'];
 						}
-						if ($data['threshold']) {
+						if (isset($data['threshold'])) {
 							$datas['threshold'] = $data['threshold'];
 						}
-						if ($data['address']) {
+						if (isset($data['address'])) {
 							$datas['address'] = $data['address'];
 						}
-						if ($data['genre']) {
+						if (isset($data['genre'])) {
 							$datas['genre'] = $data['genre'];
 						}
-						if ($data['category']) {
+						if (isset($data['category'])) {
 							$datas['category'] = $data['category'];
 						}
-						if ($data['goal']) {
+						if (isset($data['goal'])) {
 							$datas['ticket_limit'] = $data['goal'];
 						}
-						if ($data['title']) {
+						if (isset($data['title'])) {
 							$datas['title'] = $data['title'];
 						}
 						// echo json_encode($datas);
