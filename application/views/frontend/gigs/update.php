@@ -318,7 +318,7 @@
                                     foreach ($ticket->bundles as $bundle) {
                                     ?>
                                       <div class="col-md-4">
-                                        <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>
+                                        <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle <?php echo $ticket->in_cart ? 'd-none' : '' ?>"><i style="font-size: 18px;border: 1px solid;padding: 3px;" class="fas fa-times"></i></div>
                                         <div class="form-group">
                                           <input type="text" name="bundle_title_tier<?php echo $tier; ?>[]" placeholder="Bundle Title" value="<?php echo $bundle->title; ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                         </div>
@@ -344,12 +344,12 @@
                               <?php } ?>
                             </div>
                             <div class="col-lg-12 col-md-4 col-sm-12 col-12">
-                              <button id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25 " data-bundle="<?php echo $i; ?>" data-tier="<?php echo $tier; ?>">Add Product</button>
+                              <button id="add-product-btn" type="button" class="btn btn-secondary add_tier_bundle mob-width w-25  <?php echo $ticket->in_cart ? 'd-none' : '' ?>" data-bundle="<?php echo $i; ?>" data-tier="<?php echo $tier; ?>">Add Product</button>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <div class="mycheckbox-contain">
                                 <div class="allow-overshoot">
-                                  <input id="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>" type="checkbox" name="ticket_is_unlimited_<?php echo $tier; ?>" value="1" <?php echo $ticket->is_unlimited ? 'checked' : ''; ?>>
+                                  <input id="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>" type="checkbox" name="ticket_is_unlimited_<?php echo $tier; ?>" value="1" <?php echo $ticket->is_unlimited ? 'checked' : ''; ?>  <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                   <label for="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>">No Limit</label>
                                   <span></span>
                                 </div>
