@@ -61,9 +61,11 @@
                             <button type="button" class="btn btn-warning btn-view mb-4" onclick="approval_submit(<?php echo $gig->id ?>)">Submit for Approval</button>
                         <?php
                         endif;
-                        // if (!$gig->is_approved) :
                         ?>
-                            <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4"><?php echo $gig->is_complete ? 'edit' : 'complete gig' ?></a>
+                        <a href="<?php echo user_base_url() ?>gigs/update/<?php echo $gig->id ?>" class="btn btn-warning btn-view mb-4"><?php echo $gig->is_complete ? 'edit' : 'complete gig' ?></a>
+                        <?php
+                        if (!$gig->is_approved) :
+                        ?>
                             <?php
                             if ($gig->is_rejected) :
                             ?>
@@ -75,7 +77,7 @@
                                 <button type="submit" class="btn btn-warning btn-watch delete_btn" onclick="delete_gig()">Delete</button>
                             </form>
                         <?php
-                        // endif;
+                        endif;
                         if ($gig->is_approved) :
                         ?>
                             <a href="<?php echo user_base_url() . 'transactions/tickets/' . $gig->id ?>" class="btn btn-warning btn-view mb-4" target="_blank">tickets</a>
