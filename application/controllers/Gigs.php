@@ -982,8 +982,12 @@ class Gigs extends CI_Controller
 					$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
 					foreach ($tickets as $ticket) {
 						$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+						$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
 						$ticket->bundles = $bundles;
+						$ticket->in_cart = $in_cart;
 					}
+					echo json_encode($tickets);
+					die();
 					$data['tickets'] = $tickets;
 					$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 					$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');

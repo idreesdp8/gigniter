@@ -380,6 +380,14 @@ class Gigs_model extends CI_Model
 		$query = $this->db->get_where('ticket_bundles', array('ticket_tier_id' => $id));
 		return $query->result();
 	}
+	
+	function get_ticket_is_bought($id)
+	{
+		$this->db->where('ticket_tier_id', $id);
+		$this->db->from('cart');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 
 	function remove_bundle_by_id($args2)
 	{
