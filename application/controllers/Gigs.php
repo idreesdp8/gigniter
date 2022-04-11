@@ -832,7 +832,7 @@ class Gigs extends CI_Controller
 		}
 		$gig = $this->gigs_model->get_gig_by_id($args1);
 		if ($gig->user_id == $this->dbs_user_id) {
-			if (!$gig->is_approved) {
+			// if (!$gig->is_approved) {
 
 				if (isset($_POST) && !empty($_POST)) {
 					// get form input
@@ -1015,10 +1015,10 @@ class Gigs extends CI_Controller
 					$data['count'] = $count;
 					$this->load->view('frontend/gigs/update', $data);
 				}
-			} else {
-				$this->session->set_flashdata('warning_msg', 'Gig is approved! Contact admin to edit your Gig.');
-				redirect('my_gigs');
-			}
+			// } else {
+			// 	$this->session->set_flashdata('warning_msg', 'Gig is approved! Contact admin to edit your Gig.');
+			// 	redirect('my_gigs');
+			// }
 		} else {
 			$this->session->set_flashdata('warning_msg', 'This gig does not belong to you!');
 			redirect('my_gigs');
