@@ -264,12 +264,12 @@
                                     <form action="<?php echo user_base_url() ?>gigs/trash/<?php echo $gig->id ?>">
                                         <button type="submit" class="btn btn-warning btn-booking" onclick="delete_gig()">Delete</button>
                                     </form>
-                                    <a type="button" class="btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
                                 </div>
-                            <?php
+                                <?php
                             else :
-                            ?>
+                                ?>
                                 <div class="custom-item3">
+                                    <a type="button" class="btn btn-warning btn-booking ml-2 d-flex align-items-center" href="<?php echo user_base_url() . 'gigs/update/' . $gig->id ?>">edit gig</a>
                                     <?php
                                     if ($stream_details) :
                                     ?>
