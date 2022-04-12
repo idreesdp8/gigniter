@@ -765,24 +765,12 @@ class Gigs extends CI_Controller
 
 	function add_tickets($data, $gig_id)
 	{
-		// $count = 0;
-		$count = $this->gigs_model->get_ticket_tier_count_by_gig_id($gig_id);
-		// if($tickets) {
-		// 	foreach($tickets as $ticket) {
-		// 		$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
-		// 		if($in_cart) {
-		// 			$count += 1;
-		// 		}
-		// 	}
-		// }
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
 			$length = count($data['ticket_name']);
 			// echo $length;
-			echo $count;
-			die();
 			for ($i = 0; $i < $length; $i++) {
-				$j = $i + $count;
+				$j = $i + 1;
 				$res = false;
 				if ($data['ticket_name'][$i] != '') {
 					$tier = [
@@ -798,10 +786,9 @@ class Gigs extends CI_Controller
 					$res = $this->gigs_model->add_ticket_tier($tier);
 				}
 				if ($res) {
-					echo $j;
-					die();
+					// echo $j;
 					$this->add_ticket_bundles($data, $res, $j);
-					// die();
+					die();
 				}
 			}
 			return true;
@@ -1001,7 +988,7 @@ class Gigs extends CI_Controller
 					];
 					$this->gigs_model->insert_gig_history($gig_history);
 					$this->remove_unbought_tickets($data['id']);
-					$this->add_tickets($data, $data['id']);
+					$this->add_new_tickets($data, $data['id']);
 					// $this->update_tickets($data);
 					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
 				} else {
@@ -1068,6 +1055,39 @@ class Gigs extends CI_Controller
 			$this->session->set_flashdata('warning_msg', 'This gig does not belong to you!');
 			redirect('my_gigs');
 		}
+	}
+	function add_new_tickets($data, $gig_id)
+	{
+		$created_on = date('Y-m-d H:i:s');
+		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
+			$length = count($data['ticket_name']);
+			// echo $length;
+			$count = $this->gigs_model->get_ticket_tier_count_by_gig_id($gig_id);
+			for ($i = 0; $i < $length; $i++) {
+				$j = $i + 1 + $count;
+				$res = false;
+				if ($data['ticket_name'][$i] != '') {
+					$tier = [
+						'user_id' => $data['user_id'] ?? $this->dbs_user_id,
+						'gig_id' => $gig_id,
+						'name' => $data['ticket_name'][$i],
+						'price' => $data['ticket_price'][$i],
+						'quantity' => $data['ticket_quantity'][$i],
+						'description' => $data['ticket_description'][$i],
+						'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
+						'created_on' => $created_on,
+					];
+					$res = $this->gigs_model->add_ticket_tier($tier);
+				}
+				if ($res) {
+					// echo $j;
+					$this->add_ticket_bundles($data, $res, $j);
+					// die();
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	function update_tickets($data)
