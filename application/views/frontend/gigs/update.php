@@ -412,8 +412,6 @@
                             </div>
                           </div>
                           <div class="col-lg-8 col-md-8 col-sm-12 col-12"></div>
-                          <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-							  </div> -->
                         </div>
                       </div>
                     </div>
@@ -422,7 +420,7 @@
 
                 <div class="row">
                   <div class="col-lg-9 col-md-9 col-sm-12 col-12">
-                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="2">Add Tier</button>
+                    <button type="button" class="teir-button btn btn-primary" id="add_tier_button" data-tier="<?php echo $tier ?>">Add Tier</button>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                     <button type="button" class="btn btn-primary btn-step-continue nextBtn">Save & Continue</button>
