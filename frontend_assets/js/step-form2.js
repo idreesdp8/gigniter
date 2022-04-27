@@ -308,7 +308,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status === 1) {
-                    window.location.href = '/' + res.return_url
+                    window.location.href = base_url + '/' + res.return_url
                 } else {
                     alert(res.message)
                 }

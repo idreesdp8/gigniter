@@ -788,7 +788,7 @@ class Gigs extends CI_Controller
 				if ($res) {
 					// echo $j;
 					$this->add_ticket_bundles($data, $res, $j);
-					die();
+					// die();
 				}
 			}
 			return true;
@@ -798,7 +798,7 @@ class Gigs extends CI_Controller
 
 	function add_ticket_bundles($data, $res, $tier)
 	{
-		echo json_encode($data["bundle_title_tier$tier"]);
+		// echo json_encode($data["bundle_title_tier$tier"]);
 		$created_on = date('Y-m-d H:i:s');
 		if (isset($data["bundle_title_tier$tier"])) {
 			$length = count($data["bundle_title_tier$tier"]);
@@ -1965,7 +1965,7 @@ class Gigs extends CI_Controller
 			$this->gigs_model->insert_gig_history($gig_history);
 			$response = [
 				'status' => 1,
-				'return_url' => 'staging/index.php/gigs/detail?gig=' . $_POST['gig_id'],
+				'return_url' => 'gigs/detail?gig=' . $_POST['gig_id'],
 			];
 		} else {
 			$response = [
