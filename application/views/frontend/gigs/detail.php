@@ -565,7 +565,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                 </div> -->
                 <?php
-                // if ($this->session->userdata('us_id')) :
+                if ($this->session->userdata('us_id')) :
                 ?>
                     <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                         <div class="card" style="background-color: #5560ff;border: 0px;">
@@ -577,15 +577,14 @@
                                 </div>
                             </div>
                             <div class="card-body" id="messages_area">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                <!-- <div class="d-flex align-items-center justify-content-between mb-2">
                                     <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img me-3">
                                     <div class="message-blue">
                                         <span class="time_mesg">2:58 PM</span>
                                         <span class="name_mesg">Nelson Mandella</span>
                                         <span class="w-100 d-block">Hi</span>
                                     </div>
-                                    
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <form method="post" id="chat_form">
@@ -598,7 +597,7 @@
                         </form>
                     </div>
                 <?php
-                // endif;
+                endif;
                 ?>
             </div>
         </div>
@@ -674,7 +673,8 @@
                         time = time.toTimeString();
                         time = time.slice(0, 8)
                         // console.log(time);
-                        html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
+                        // html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
+                        html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img me-3"><div class="message-blue"><span class="time_mesg">' + time + '</span><span class="name_mesg">' + response.messages[i].name + '</span><span class="w-100 d-block">' + response.messages[i].message + '</span></div></div>'
                     }
                     $('#messages_area').empty().html(html_txt)
                 }
