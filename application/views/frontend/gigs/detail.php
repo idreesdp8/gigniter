@@ -6,6 +6,29 @@
     <title>Gigniter - Online Ticket Booking Service</title>
     <script src="https://player.live-video.net/1.4.0/amazon-ivs-player.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emojionearea@3.4.2/dist/emojionearea.min.css"> -->
+
+    <style>
+        .message-blue {
+    position: relative;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #A8DDFD;
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    text-align: left;
+    font: 400 .9em 'Open Sans', sans-serif;
+    border: 1px solid #97C6E3;
+    border-radius: 10px;
+    color: #000;
+}
+
+.message-blue .name_mesg, .message-blue .time_mesg {
+    font-size: 9px;
+
+}
+    </style>    
     <style>
         .detail_image_holder {
             overflow: hidden;
@@ -542,7 +565,7 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 col-12">
                 </div> -->
                 <?php
-                if ($this->session->userdata('us_id')) :
+                // if ($this->session->userdata('us_id')) :
                 ?>
                     <div class="col-lg-3 col-md-3 col-sm-12 col-12">
                         <div class="card" style="background-color: #5560ff;border: 0px;">
@@ -554,12 +577,15 @@
                                 </div>
                             </div>
                             <div class="card-body" id="messages_area">
-                                <!-- <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img">
-                                    <span>2:58 PM</span>
-                                    <span>Nelson Mandella</span>
-                                    <span>Hi</span>
-                                </div> -->
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <img src="<?php echo downloads_url() ?>gig8.jpg" alt="user_image" class="chat-img me-3">
+                                    <div class="message-blue">
+                                        <span class="time_mesg">2:58 PM</span>
+                                        <span class="name_mesg">Nelson Mandella</span>
+                                        <span class="w-100 d-block">Hi</span>
+                                    </div>
+                                    
+                                </div>
                             </div>
                         </div>
                         <form method="post" id="chat_form">
@@ -572,7 +598,7 @@
                         </form>
                     </div>
                 <?php
-                endif;
+                // endif;
                 ?>
             </div>
         </div>
