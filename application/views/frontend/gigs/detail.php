@@ -442,7 +442,6 @@
                                     <div class="overlay-video"></div>
                                     <?php
                                 endif;
-                                // echo json_encode(in_array($this->dbs_user_id, $gig->buyers));
                                 if ($gig->status == 2 && in_array($this->dbs_user_id, $gig->buyers)) {
                                     header('Access-Control-Allow-Origin: *');
                                     header("Access-Control-Allow-Methods: GET, OPTIONS");
@@ -458,6 +457,7 @@
                                     endif;
                                 }
                                 if ($gig->status == 2 && (!$this->dbs_user_id || $this->dbs_user_id && !in_array($this->dbs_user_id, $gig->buyers) && !($gig->user_id == $this->dbs_user_id))) : ?>
+
                                     <div class=" container h-100 particlesContainer">
                                         <div class="d-flex h-100 text-center align-items-center">
                                             <div class="w-100 text-white">
@@ -467,6 +467,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 <?php endif; ?>
                                 <div class="reactions-onfeed"></div>
                             </div>
@@ -673,7 +674,7 @@
                         time = time.slice(0, 8)
                         // console.log(time);
                         // html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img"><span>' + time + '</span><span>' + response.messages[i].name + '</span><span>' + response.messages[i].message + '</span></div>'
-                        html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img me-3"><div class="message-blue"><span class="time_mesg">' + time + '</span><span class="name_mesg ml-2">' + response.messages[i].name + '</span><span class="w-100 d-block">' + response.messages[i].message + '</span></div></div>'
+                        html_txt += '<div class="d-flex align-items-center justify-content-between mb-2"><img src="' + download_url + 'downloads/gig8.jpg" alt="user_image" class="chat-img me-3"><div class="message-blue"><span class="time_mesg">' + time + '</span><span class="name_mesg">' + response.messages[i].name + '</span><span class="w-100 d-block">' + response.messages[i].message + '</span></div></div>'
                     }
                     $('#messages_area').empty().html(html_txt)
                 }

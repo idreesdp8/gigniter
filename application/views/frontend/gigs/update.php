@@ -326,7 +326,7 @@
                                                                                             ?>"> -->
                                         <input type="hidden" name="old_bundle_image_tier<?php echo $tier; ?>[]" value="<?php echo $bundle->image; ?>">
                                         <div class="add-product-border image_div mb-0"> <img class="icon_upload2" src="<?php echo $bundle->image ? bundle_url() . $bundle->image : ''; ?>" alt="your image" /> </div>
-                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" <?php echo $ticket->in_cart ? 'disabled' : '' ?> />
+                                        <input class="file-upload2" type='file' name="bundle_image_tier<?php echo $tier ?>[]" accept="image/*" onChange="read_bundle_image(this);" <?php echo $ticket->in_cart ? 'disabled' : '' ?>/>
                                         <!-- <input type="file" name="bundle_image_tier<?php //echo $tier
                                                                                         ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc> -->
                                       </div>
@@ -349,7 +349,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                               <div class="mycheckbox-contain">
                                 <div class="allow-overshoot">
-                                  <input id="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>" type="checkbox" name="ticket_is_unlimited_<?php echo $tier; ?>" value="1" <?php echo $ticket->is_unlimited ? 'checked' : ''; ?> <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
+                                  <input id="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>" type="checkbox" name="ticket_is_unlimited_<?php echo $tier; ?>" value="1" <?php echo $ticket->is_unlimited ? 'checked' : ''; ?>  <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                   <label for="myCheckbox-ticket_is_unlimited_<?php echo $tier; ?>">No Limit</label>
                                   <span></span>
                                 </div>
@@ -363,9 +363,7 @@
                     <?php
                       $tier++;
                     }
-                  } else {
-                    $tier = 2;
-                    ?>
+                  } else { ?>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                       <div id="tier1">
                         <h5 class="theme-primary-color">Tier 1</h5>
@@ -740,15 +738,10 @@
 
       $('#add_tier_button').click(function() {
         var tier = $(this).data('tier');
-        console.log(tier)
         var div = $('#ticket_tiers');
-        div.append(
-          '<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 ticket_tier">' +
+        div.append('<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">' +
           '<div id="tier' + tier + '">' +
-          '<div class="d-flex justify-content-between">' +
           '<h5>Tier ' + tier + '</h5>' +
-          '<div class="text-danger cursor-pointer remove_tier"><i class="fas fa-times"></i></div>' +
-          '</div>' +
           '<div class="row">' +
           '<div class="col-lg-4 col-md-4 col-sm-12 col-12">' +
           '<label>Tier Name<input type="text" name="ticket_name[]" placeholder=""></label>' +
