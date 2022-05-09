@@ -129,6 +129,13 @@ class Bookings_model extends CI_Model
 		return $query->result();
 	}
 
+	function get_unpaid_bookings()
+	{
+		$sql = "SELECT * FROM bookings WHERE is_paid = 0";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
 	function get_all_bookings_by_gig_id($gig_id)
 	{
 		$sql = "SELECT * FROM bookings WHERE gig_id = ?";
