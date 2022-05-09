@@ -47,4 +47,26 @@ class Welcome extends CI_Controller {
 		// Output the generated PDF to Browser
 		$dompdf->stream();
 	}
+
+	public function test()
+	{
+		$this->load->model('admin/gigs_model', 'gigs_model');
+		$data = [
+			'is_approved' => 1,
+			'is_rejected' => 0,
+			'is_draft' => 0,
+			'status' => 1,
+			'is_highlighted' => 1,
+		];
+		$this->gigs_model->update_gig_data(222, $data);
+		// $this->load->library('email');
+		// $from_email = $this->config->item('info_email');
+		// $from_name = $this->config->item('from_name');
+		// $data['link'] = user_base_url() . 'account/reset_password/' . $this->general_model->safe_ci_encoder('hamza0952454@gmail.com');
+		// $msg = $this->load->view('email/forgot_password', $data, TRUE);
+		// $this->email->from($from_email, $from_name);
+		// $this->email->to('hamza0952454@gmail.com');
+		// $this->email->subject('verification');
+		// $this->email->message($msg);
+	}
 }
