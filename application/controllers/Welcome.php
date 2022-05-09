@@ -59,6 +59,7 @@ class Welcome extends CI_Controller {
 			'is_highlighted' => 1,
 		];
 		$this->gigs_model->update_gig_data(222, $data);
+		return 'Done';
 		// $this->load->library('email');
 		// $from_email = $this->config->item('info_email');
 		// $from_name = $this->config->item('from_name');
