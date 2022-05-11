@@ -992,4 +992,65 @@ class Gigs extends CI_Controller
 		$data['gig_history'] = $this->gigs_model->get_gig_history($gig_id);
 		echo json_encode($data);
 	}
+
+	function releasePayment($args2 = '')
+	{	
+		require_once('application/libraries/stripe-php/init.php');
+		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
+		\Stripe\Stripe::setApiKey($stripe_config->value);
+		
+		$currency = $this->config->item('stripe_currency');
+		
+		$gig = $this->gigs_model->get_gig_by_id($args2);
+		$bookings = $this->bookings_model->get_bookings_by_gig_id($args2);
+		// echo json_encode($bookings);
+		if($bookings) {
+			foreach($bookings as $booking) {
+				$cart_items = $this->bookings_model->get_booking_items($booking->id);
+				// $gig_date = strtotime($gig->gig_date);
+				// $now = strtotime('now');
+				// $interval = $gig_date - $now;
+				// $hours = round($interval / 3600, 0);
+				// echo json_encode($cart_items);
+				// die();
+				foreach ($cart_items as $item) {
+					$user_stripe_detail = $this->users_model->get_user_stripe_details($gig->user_id);
+					//if user has stripe added and connected and only 48 hours are remaining before gig date
+					// echo json_encode($user_stripe_detail && !$user_stripe_detail->is_restricted);
+					// die();
+					if ($user_stripe_detail && !$user_stripe_detail->is_restricted/*  && $hours < 48 */) {
+						$admin_fee = $this->configurations_model->get_configuration_by_key('admin-commission');
+						$amount = $item->price - ($item->price * $admin_fee->value / 100);
+						$transfer = \Stripe\Transfer::create([
+							'amount' => $amount * 100,
+							'currency' => $currency,
+							'destination' => $user_stripe_detail->stripe_account_id,
+						]);
+						$transferJson = $transfer->jsonSerialize();
+						if ($transferJson['amount_reversed'] == 0 && !$transferJson['reversed']) {
+							$transfer_param = [
+								'booking_id' => $booking->id,
+								'transfer_id' => $transferJson['id'],
+								'transaction_id' => $transferJson['balance_transaction'],
+								'amount' => $transferJson['amount'] / 100,
+								'type' => $transferJson['object'],
+								'destination_id' => $transferJson['destination'],
+								'user_received' => $gig->user_id,
+								'admin_fee' => $item->price * $admin_fee->value / 100,
+								'created_on' => date('Y-m-d H:i:s', $transferJson['created']),
+							];
+							$this->bookings_model->insert_transaction_data($transfer_param);
+						}
+					} else {
+						echo json_encode(['status' => false, 'message' => 'Gig owner stripe information not valid!']);
+						die();
+					}
+				}
+			}
+		} else {
+			echo json_encode(['status' => false, 'message' => 'No Unpaid booking found for this Gig!']);
+			die();
+		}
+		echo json_encode(['status' => true]);
+	}
 }

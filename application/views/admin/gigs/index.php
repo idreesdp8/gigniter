@@ -296,6 +296,34 @@
                     }
                 });
             });
+            $('.releasePayment').on('click', function(e) {
+                e.preventDefault();
+                var gig_id = $(this).attr('data-id')
+                // var form = e.target.form
+                console.log(gig_id)
+                $.ajax({
+                    url: base_url + "gigs/releasePayment/" + gig_id,
+                    method: "get",
+                    dataType: "json",
+                    success: function(result) {
+                        console.log(result.status);
+                        if (result.status) {
+                            swalInit.fire(
+                                'Success',
+                                'Payment has been successfully transferred to Gig owner',
+                                'success'
+                            );
+                        } else {
+                            swalInit.fire(
+                                'Error',
+                                result.message,
+                                'error'
+                            );
+                        }
+                        // location.reload();
+                    }
+                })
+            });
         });
     </script>
 </body>

@@ -73,6 +73,12 @@ class Configurations_model extends CI_Model
 		$ress = $this->db->insert_batch('configurations', $data);
 		return $ress;
 	}
+	
+	function get_configuration_by_key_label($key, $label)
+	{
+		$query = $this->db->get_where('configurations',array('key'=>$key,'label'=>$label));
+		return $query->row();
+	}
 
 	function update_configuration_data($args1, $data)
 	{

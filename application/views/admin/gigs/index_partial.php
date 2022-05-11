@@ -58,16 +58,31 @@
                     </td>
                     <td><?php echo round($record->booked, 0) ?>%</td>
                     <td><?php echo date('M d, Y', strtotime($record->created_on)) ?></td>
-                    <td>
-                        <div class="d-flex">
+                    <td class="text-center">
+                        <div class="list-icons">
+                            <div class="dropdown">
+                                <a href="#" class="list-icons-item" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-menu9"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(22px, 19px, 0px);">
+                                    <a data-target="#showModal" href="javascript:void(0);" class="dropdown-item showModal" data-value=<?php echo $record->id ?>><i class="icon-list"></i> See gig history</a>
+                                    <a href="<?php echo admin_base_url() ?>bookings?gig_id=<?php echo $record->id ?>" class="dropdown-item"><i class="icon-cart5"></i> See Bookings</a>
+                                    <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" class="dropdown-item"><i class="icon-pencil7"></i> Edit</a>
+                                    <a href="javascript:void(0);" data-id="<?php echo $record->id ?>" class="dropdown-item deleteBtn"><i class="icon-trash"></i> Delete</a>
+                                    <a href="<?php echo admin_base_url() ?>gigs/streaming_details/<?php echo $record->id ?>" class="dropdown-item"><i class="icon-search4"></i> See Streaming Details</a>
+                                    <?php if ($record->status == 3) : ?>
+                                    <a href="javascript:void(0);" data-id="<?php echo $record->id ?>" class="dropdown-item releasePayment"><i class="icon-cash3"></i> Release Payment</a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="d-flex">
                             <button type="button" data-target="#showModal" class="btn btn-info btn-icon showModal" data-value=<?php echo $record->id ?>><span data-popup="tooltip" data-original-title="See gig history"><i class="icon-list"></i></span></button>
                             <a href="<?php echo admin_base_url() ?>bookings?gig_id=<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Bookings" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-cart5"></i></a>
                             <a href="<?php echo admin_base_url() ?>gigs/update/<?php echo $record->id ?>" type="button" class="btn btn-primary btn-icon ml-2"><i class="icon-pencil7"></i></a>
-                            <!-- <form action="<?php echo admin_base_url() ?>gigs/trash/<?php echo $record->id ?>"> -->
-                                <button type="button" data-id="<?php echo $record->id ?>" class="deleteBtn btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
-                            <!-- </form> -->
+                            <button type="button" data-id="<?php echo $record->id ?>" class="deleteBtn btn btn-danger btn-icon ml-2"><i class="icon-trash"></i></button>
                             <a href="<?php echo admin_base_url() ?>gigs/streaming_details/<?php echo $record->id ?>" data-popup="tooltip" data-original-title="See Streaming Details" type="button" class="btn btn-secondary btn-icon ml-2"><i class="icon-search4"></i></a>
-                        </div>
+                        </div> -->
                     </td>
                 </tr>
             <?php
