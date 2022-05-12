@@ -59,14 +59,14 @@
 
                         <div class="card-body">
                             <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
-                                <li class="nav-item"><a href="#justified-right-icon-tab1" class="nav-link active" data-toggle="tab">Basic Info <i class="icon-mic2 ml-2"></i></a></li>
-                                <li class="nav-item"><a href="#justified-right-icon-tab2" class="nav-link" data-toggle="tab">Ticket Tiers <i class="icon-ticket ml-2"></i></a></li>
+                                <li class="nav-item"><a href="#justified-right-icon-tab1" class="nav-link" data-toggle="tab">Basic Info <i class="icon-mic2 ml-2"></i></a></li>
+                                <li class="nav-item"><a href="#justified-right-icon-tab2" class="nav-link active" data-toggle="tab">Ticket Tiers <i class="icon-ticket ml-2"></i></a></li>
                                 <li class="nav-item"><a href="#justified-right-icon-tab3" class="nav-link" data-toggle="tab">About Artist <i class="icon-user ml-2"></i></a></li>
                                 <!-- <li class="nav-item"><a href="#justified-right-icon-tab4" class="nav-link" data-toggle="tab">Inactive <i class="icon-mention ml-2"></i></a></li> -->
                             </ul>
 
                             <div class="tab-content">
-                                <div class="tab-pane fade show active" id="justified-right-icon-tab1">
+                                <div class="tab-pane fade" id="justified-right-icon-tab1">
                                     <div class="row">
                                         <input type="hidden" id="gig_id" name="id" value="<?php echo $gig->id ?>">
                                         <div class="col-md-6">
@@ -305,19 +305,22 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="justified-right-icon-tab2">
-                                    <div id="ticker_tiers">
+                                <div class="tab-pane fade show active" id="justified-right-icon-tab2">
+                                    <div id="ticket_tiers">
                                         <?php
                                         if (isset($tickets) && !empty($tickets)) :
                                             $tier = 1;
                                             foreach ($tickets as $ticket) :
                                         ?>
-                                                <div class="card" id="card<?php echo $tier ?>">
+                                                <div class="card tier" id="card<?php echo $tier ?>">
                                                     <div class="card-header header-elements-inline">
                                                         <h5 class="card-title">Ticket Tier <?php echo $tier ?></h5>
                                                         <div class="header-elements">
                                                             <div class="list-icons">
                                                                 <a class="list-icons-item" data-action="collapse"></a>
+                                                                <?php if (!$ticket->in_cart) : ?>
+                                                                    <a class="list-icons-item remove_tier" data-action="remove"></a>
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -327,19 +330,19 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Name</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter ticket tier name" name="ticket_name[]" value="<?php echo $ticket->name ?>">
+                                                                    <input type="text" class="form-control" placeholder="Enter ticket tier name" name="ticket_name[]" value="<?php echo $ticket->name ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>Price</label>
-                                                                    <input type="number" class="form-control" placeholder="Enter ticket price" name="ticket_price[]" min="0" value="<?php echo $ticket->price ?>">
+                                                                    <input type="number" class="form-control" placeholder="Enter ticket price" name="ticket_price[]" min="0" value="<?php echo $ticket->price ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>No. of Ticket</label>
-                                                                    <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0" value="<?php echo $ticket->quantity ?>">
+                                                                    <input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0" value="<?php echo $ticket->quantity ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
@@ -347,7 +350,7 @@
                                                                     <label>Unlimited</label>
                                                                     <div class="form-check form-check-switchery">
                                                                         <label class="form-check-label">
-                                                                            <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_<?php echo $tier ?>" value="1" data-fouc <?php echo $ticket->is_unlimited ? 'checked' : '' ?>>
+                                                                            <input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_<?php echo $tier ?>" value="1" data-fouc <?php echo $ticket->is_unlimited ? 'checked' : '' ?> <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -355,7 +358,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label>Description</label>
-                                                                    <textarea name="ticket_description[]" cols="30" rows="2" class="form-control" placeholder="Enter ticket description"><?php echo $ticket->description ?></textarea>
+                                                                    <textarea name="ticket_description[]" cols="30" rows="2" class="form-control" placeholder="Enter ticket description" <?php echo $ticket->in_cart ? 'disabled' : '' ?>><?php echo $ticket->description ?></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -372,11 +375,11 @@
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <div class="cursor-pointer text-right mb-2 text-danger remove_tier_bundle"><i class="icon-cross"></i></div>
-                                                                                <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>">
+                                                                                <input type="text" name="bundle_title_tier<?php echo $tier ?>[]" class="form-control" placeholder="Bundle Title" value="<?php echo $bundle->title ?>" <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                             </div>
                                                                             <input type="hidden" class="old_image" value="<?php echo bundle_url() . $bundle->image ?>">
                                                                             <input type="hidden" name="old_bundle_image_tier<?php echo $tier ?>[]" value="<?php echo $bundle->image ?>">
-                                                                            <input type="file" name="bundle_image_tier<?php echo $tier ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc>
+                                                                            <input type="file" name="bundle_image_tier<?php echo $tier ?>[]" class="file-input-preview" accept=".jpg,.png,.jpeg,.gif" data-browse-class="btn btn-primary btn-block" data-show-remove="false" data-show-caption="false" data-show-upload="false" data-fouc <?php echo $ticket->in_cart ? 'disabled' : '' ?>>
                                                                         </div>
                                                                     <?php
                                                                         $i++;
@@ -404,7 +407,7 @@
                                             endforeach;
                                         else :
                                             ?>
-                                            <div class="card" id="card1">
+                                            <div class="card tier" id="card1">
                                                 <div class="card-header header-elements-inline">
                                                     <h5 class="card-title">Ticket Tier 1</h5>
                                                     <div class="header-elements">
@@ -462,7 +465,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card" id="card2">
+                                            <div class="card tier" id="card2">
                                                 <div class="card-header header-elements-inline">
                                                     <h5 class="card-title">Ticket Tier 2</h5>
                                                     <div class="header-elements">
@@ -520,7 +523,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card" id="card3">
+                                            <div class="card tier" id="card3">
                                                 <div class="card-header header-elements-inline">
                                                     <h5 class="card-title">Ticket Tier 3</h5>
                                                     <div class="header-elements">
@@ -581,6 +584,9 @@
                                         <?php
                                         endif;
                                         ?>
+                                    </div>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary add_tier_button">Add Tier <i class="icon-plus3 ml-2"></i></button>
                                     </div>
                                 </div>
 
@@ -694,67 +700,7 @@
 
         </div>
     </div>
-
-    <!-- <script async src="https://maps.googleapis.com/maps/api/js?key=<?php echo $google_api_key->value ?>&libraries=places&callback=initAutocomplete"></script> -->
     <script>
-        // let autocomplete;
-        // let address1Field;
-
-        // function initAutocomplete() {
-        //     address1Field = document.querySelector("#address");
-        //     autocomplete = new google.maps.places.Autocomplete(address1Field/* , {
-        //         fields: ["address_components", "geometry"],
-        //         types: ["address"],
-        //     } */);
-        //     autocomplete.addListener("place_changed", fillInAddress);
-        // }
-
-        // function fillInAddress() {
-        //     // Get the place details from the autocomplete object.
-        //     const place = autocomplete.getPlace();
-        //     console.log(place)
-
-        //     // Get each component of the address from the place details,
-        //     // and then fill-in the corresponding field on the form.
-        //     // place.address_components are google.maps.GeocoderAddressComponent objects
-        //     // which are documented at http://goo.gle/3l5i5Mr
-
-        //     // for (const component of place.address_components) {
-        //     //     const componentType = component.types[0];
-
-        //     //     switch (componentType) {
-        //     //         case "street_number": {
-        //     //             address1 = `${component.long_name} ${address1}`;
-        //     //             break;
-        //     //         }
-
-        //     //         case "route": {
-        //     //             address1 += component.short_name;
-        //     //             break;
-        //     //         }
-
-        //     //         case "postal_code": {
-        //     //             postcode = `${component.long_name}${postcode}`;
-        //     //             break;
-        //     //         }
-
-        //     //         case "postal_code_suffix": {
-        //     //             postcode = `${postcode}-${component.long_name}`;
-        //     //             break;
-        //     //         }
-        //     //         case "locality":
-        //     //             document.querySelector("#locality").value = component.long_name;
-        //     //             break;
-        //     //         case "administrative_area_level_1": {
-        //     //             document.querySelector("#state").value = component.short_name;
-        //     //             break;
-        //     //         }
-        //     //         case "country":
-        //     //             document.querySelector("#country").value = component.long_name;
-        //     //             break;
-        //     //     }
-        //     // }
-        // }
         $(document).ready(function() {
             $('#sidebar_gig').addClass('nav-item-open');
             $('#sidebar_gig ul').first().css('display', 'block');
@@ -783,7 +729,7 @@
                 $('#gig_date').attr('max', gig_max_date);
             });
 
-            $('.add_tier_bundle').click(function() {
+            $(document).on('click', '.add_tier_bundle', function() {
                 var i = $(this).attr('data-bundle');
                 var tier = $(this).data('tier');
                 var card = '#card' + tier;
@@ -809,6 +755,10 @@
             });
             $(document).on('click', '.remove_tier_bundle', function() {
                 var div = $(this).parents('.col-md-4');
+                div.remove();
+            });
+            $(document).on('click', '.remove_tier', function() {
+                var div = $(this).parents('.card.tier');
                 div.remove();
             });
 
@@ -912,29 +862,79 @@
                 }
             });
 
-            // $('input').change(function() {
-            //     console.log(this)
-            //     update_gig_data(this);
-            // })
 
-            // function update_gig_data(elem) {
-            //     $.ajax({
-            //         url: base_url + 'gigs/update_gig_data',
-            //         data: {
-            //             id: $('#gig_id').val(),
-            //             field: elem
-            //         },
-            //         dataType: 'json',
-            //         method: 'POST',
-            //         success: function(resp) {
-
-            //         }
-            //     })
-            // }
+            $('.add_tier_button').click(function() {
+                var tier = $('.card.tier').length + 1;
+                // console.log(tier);
+                var div = $('#ticket_tiers');
+                div.append('<div class="card tier" id="card' + tier + '">' +
+                    '<div class="card-header header-elements-inline">' +
+                    '<h5 class="card-title">Ticket Tier ' + tier + '</h5>' +
+                    '<div class="header-elements">' +
+                    '<div class="list-icons">' +
+                    '<a class="list-icons-item" data-action="collapse"></a>' +
+                    '<a class="list-icons-item remove_tier" data-action="remove"></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="card-body">' +
+                    '<div class="row">' +
+                    '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<label>Name</label>' +
+                    '<input type="text" class="form-control" placeholder="Enter ticket tier name" name="ticket_name[]">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<label>Price</label>' +
+                    '<input type="number" class="form-control" placeholder="Enter ticket price" name="ticket_price[]" min="0">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-3">' +
+                    '<div class="form-group">' +
+                    '<label>No. of Ticket</label>' +
+                    '<input type="number" class="form-control" placeholder="Enter ticket tier name" name="ticket_quantity[]" min="0">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group">' +
+                    '<label>Unlimited</label>' +
+                    '<div class="form-check form-check-switchery">' +
+                    '<label class="form-check-label">' +
+                    '<input type="checkbox" class="form-check-input-switchery-primary" name="ticket_is_unlimited_' + tier + '" value="1" data-fouc>' +
+                    '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-12">' +
+                    '<div class="form-group">' +
+                    '<label>Description</label>' +
+                    '<textarea name="ticket_description[]" cols="30" rows="2" class="form-control" placeholder="Enter ticket description"></textarea>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="tier_bundles">' +
+                    '<label class="d-none">Ticket Bundles</label>' +
+                    '<div class="row mb-2">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="text-right mt-3">' +
+                    '<button type="button" class="btn btn-primary add_tier_bundle" data-bundle="1" data-tier="' + tier + '"><i class="icon-plus3"></i> Add Bundle</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                );
+                var elems1 = Array.prototype.slice.call(document.querySelectorAll('.form-check-input-switchery-primary'));
+                elems1.forEach(function(html) {
+                    var switchery = new Switchery(html, {
+                        color: '#2196F3'
+                    });
+                });
+            });
 
         });
     </script>
-    <!-- <script src="<?php echo admin_asset_url(); ?>/js/address-api.js"></script> -->
 
 </body>
 

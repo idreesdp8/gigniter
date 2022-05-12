@@ -21,6 +21,14 @@ class Gigs_model extends CI_Model
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
+	
+	function get_ticket_is_bought($id)
+	{
+		$this->db->where('ticket_tier_id', $id);
+		$this->db->from('cart');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 
 	function get_all_filter_gigs($params = array())
 	{
@@ -222,6 +230,12 @@ class Gigs_model extends CI_Model
 		return $ress;
 	}
 
+
+	function get_ticket_tier_count_by_gig_id($gig_id)
+	{
+		$query = $this->db->get_where('ticket_tiers', array('gig_id' => $gig_id));
+		return $query->num_rows();
+	}
 	function get_ticket_bundles_by_ticket_tier_id($id)
 	{
 		$query = $this->db->get_where('ticket_bundles', array('ticket_tier_id' => $id));

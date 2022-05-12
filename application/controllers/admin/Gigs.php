@@ -840,7 +840,9 @@ class Gigs extends CI_Controller
 				$res = $this->gigs_model->update_gig_data($data['id'], $datas);
 				if (isset($res)) {
 					// $this->remove_tickets($data['id']);
+					$this->remove_unbought_tickets($data['id']);
 					// $this->add_tickets($data, $data['id']);
+					$this->add_new_tickets($data, $data['id']);
 					$this->session->set_flashdata('success_msg', 'Gig updated successfully!');
 				} else {
 					$this->session->set_flashdata('error_msg', 'Error: while updating gig!');
@@ -860,8 +862,12 @@ class Gigs extends CI_Controller
 			$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($args1);
 			foreach ($tickets as $ticket) {
 				$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+				$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
 				$ticket->bundles = $bundles;
+				$ticket->in_cart = $in_cart;
 			}
+			// echo json_encode($tickets);
+			// die();
 			$data['tickets'] = $tickets;
 			$data['categories'] = $this->configurations_model->get_all_configurations_by_key('category');
 			$data['genres'] = $this->configurations_model->get_all_configurations_by_key('genre');
@@ -885,6 +891,66 @@ class Gigs extends CI_Controller
 		// } else {
 		// 	$this->load->view('admin/no_permission_access');
 		// }
+	}
+	function add_new_tickets($data, $gig_id)
+	{
+		$created_on = date('Y-m-d H:i:s');
+		if (isset($data["ticket_name"]) && $data['ticket_name'] != '') {
+			$length = count($data['ticket_name']);
+			// echo $length;
+			$count = $this->gigs_model->get_ticket_tier_count_by_gig_id($gig_id);
+			for ($i = 0; $i < $length; $i++) {
+				$j = $i + 1 + $count;
+				$res = false;
+				if ($data['ticket_name'][$i] != '') {
+					$tier = [
+						'user_id' => $data['user_id'] ?? $this->dbs_user_id,
+						'gig_id' => $gig_id,
+						'name' => $data['ticket_name'][$i],
+						'price' => $data['ticket_price'][$i],
+						'quantity' => $data['ticket_quantity'][$i],
+						'description' => $data['ticket_description'][$i],
+						'is_unlimited' => isset($data["ticket_is_unlimited_$j"]) ? $data["ticket_is_unlimited_$j"] : 0,
+						'created_on' => $created_on,
+					];
+					$res = $this->gigs_model->add_ticket_tier($tier);
+				}
+				if ($res) {
+					// echo $j;
+					$this->add_ticket_bundles($data, $res, $j);
+					// die();
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+
+	function remove_unbought_tickets($gig_id, $delete_bundle_img = '')
+	{
+		$tickets = $this->gigs_model->get_ticket_tiers_by_gig_id($gig_id);
+		if (isset($tickets) && !empty($tickets)) {
+			foreach ($tickets as $ticket) {
+				$in_cart = $this->gigs_model->get_ticket_is_bought($ticket->id);
+				// echo $in_cart;
+				if(!$in_cart) {
+					$bundles = $this->gigs_model->get_ticket_bundles_by_ticket_tier_id($ticket->id);
+					if (isset($bundles) && !empty($bundles)) {
+						foreach ($bundles as $bundle) {
+							if ($delete_bundle_img) {
+								@unlink("downloads/bundles/thumb/$bundle->image");
+								@unlink("downloads/bundles/$bundle->image");
+							}
+							$this->gigs_model->remove_bundle_by_id($bundle->id);
+						}
+					}
+					$this->gigs_model->remove_ticket_tiers_by_id($ticket->id);
+				}
+			}
+			// die();
+		}
 	}
 
 	function change_status($status = '')
@@ -994,18 +1060,18 @@ class Gigs extends CI_Controller
 	}
 
 	function releasePayment($args2 = '')
-	{	
+	{
 		require_once('application/libraries/stripe-php/init.php');
 		$stripe_config = $this->configurations_model->get_configuration_by_key_label('stripe', 'stripe_secret');
 		\Stripe\Stripe::setApiKey($stripe_config->value);
-		
+
 		$currency = $this->config->item('stripe_currency');
-		
+
 		$gig = $this->gigs_model->get_gig_by_id($args2);
 		$bookings = $this->bookings_model->get_bookings_by_gig_id($args2);
 		// echo json_encode($bookings);
-		if($bookings) {
-			foreach($bookings as $booking) {
+		if ($bookings) {
+			foreach ($bookings as $booking) {
 				$cart_items = $this->bookings_model->get_booking_items($booking->id);
 				// $gig_date = strtotime($gig->gig_date);
 				// $now = strtotime('now');

@@ -30,9 +30,6 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/uniform.min.js"></script>
 	<!-- for switching checkboxes -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switchery.min.js"></script>
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/forms/styling/switch.min.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/ui/moment/moment.min.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/pickers/daterangepicker.js"></script> -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<!-- for profile image upload -->
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
@@ -61,10 +58,6 @@
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/loaders/progressbar.min.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/components_progress.js"></script>
 	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_pages/datatables_basic.js"></script>
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/plugins/visualization/echarts/echarts.min.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/echarts/light/lines/lines_stacked.js"></script> -->
-	<!-- <script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
-	<script src="<?php echo admin_asset_url(); ?>global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script> -->
 	<!-- /theme JS files -->
 
 	<script>
